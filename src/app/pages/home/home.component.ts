@@ -3,7 +3,7 @@ import {
   OnInit
 } from '@angular/core';
 
-import { AppState } from '../../app.service';
+import { AppState } from '../../services/app.service';
 
 @Component({
   /**

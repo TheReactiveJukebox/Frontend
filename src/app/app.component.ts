@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
-import { AppState } from './app.service';
+import { AppState } from './services/app.service';
 import {TranslateService} from "@ngx-translate/core";
 
 /**

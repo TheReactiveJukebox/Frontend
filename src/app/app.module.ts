@@ -22,11 +22,9 @@ import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
+import { AppState, InternalStateType } from './services/app.service';
 import { HomeComponent } from './pages/home';
 import { AboutComponent } from './pages/about';
-import { NoContentComponent } from './no-content';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -35,12 +33,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdCheckboxModule } from '@angular/material';
-
-// Application wide providers
-const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState
-];
 
 type StoreType = {
   state: InternalStateType,
@@ -56,8 +48,7 @@ type StoreType = {
   declarations: [
     AppComponent,
     AboutComponent,
-    HomeComponent,
-    NoContentComponent
+    HomeComponent
   ],
   /**
    * Import Angular's modules.
@@ -68,7 +59,7 @@ type StoreType = {
     HttpModule,
     BrowserAnimationsModule,
     MdButtonModule, MdCheckboxModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -82,7 +73,7 @@ type StoreType = {
    */
   providers: [
     ENV_PROVIDERS,
-    APP_PROVIDERS,
+    AppState,
   ]
 })
 export class AppModule {
