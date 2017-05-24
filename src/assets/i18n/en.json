@@ -1,4 +1,10 @@
 {
-  "HALLO": "Hallo",
-  "content": "Your Content Here trans"
+  "GENERAL": {
+    "SUBMIT": "Submit"
+  },
+  "HOME": {
+    "HEADER":  "This is a headline!",
+    "STATE": "Local State",
+    "PLACEHOLDER": "Submit Local State to App State"
+  }
 }
