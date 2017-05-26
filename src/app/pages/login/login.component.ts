@@ -15,17 +15,18 @@ export class LoginComponent implements OnInit {
 
     public ngOnInit() {
         this.route.data.subscribe((data: any) => {
-            /**
-             * Your resolved data from route.
-             */
             this.localState = data.yourData;
         });
 
-        console.log('hello `About` component');
+        console.log('hello `Login` component');
     }
 
     login(): void {
         console.log('Login pressed!');
+    }
+
+    register(): void {
+        console.log('Register pressed!');
     }
 
 }

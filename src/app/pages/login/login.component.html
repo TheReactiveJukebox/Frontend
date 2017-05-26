@@ -10,7 +10,7 @@
                 <input mdInput placeholder="Password" type="password" class="login-input">
             </md-input-container>
             <br>
-            <button md-raised-button class="login-button" (click)="login()">Login</button>
+            <button md-raised-button class="login-button" (click)="login()" [routerLink]=" ['../player'] ">Login</button>
         </md-tab>
         <md-tab label="Register">
             <h1>Register</h1>
@@ -22,7 +22,7 @@
                 <input mdInput placeholder="Password" type="password" class="login-input">
             </md-input-container>
             <br>
-            <button md-raised-button class="login-button" (click)="login()">Register</button>
+            <button md-raised-button class="login-button" (click)="register()">Register</button>
         </md-tab>
     </md-tab-group>
 </md-card>

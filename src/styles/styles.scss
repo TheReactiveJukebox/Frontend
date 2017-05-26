@@ -18,3 +18,9 @@ nav a {
     text-decoration: none;
     border-radius: 4px;
 }
+
+/* This sets a global font for every text item on the page.
+However, this can be overwritten. */
+html * {
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
