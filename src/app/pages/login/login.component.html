@@ -1,30 +1,28 @@
-<body>
 <md-card class="login-card">
     <md-tab-group>
-        <md-tab label="Login">
-            <h1>Login</h1>
+        <md-tab [label]="'LOGIN_PAGE.LOGIN' | translate">
+            <h1>{{'LOGIN_PAGE.LOGIN' | translate}}</h1>
             <md-input-container>
-                <input mdInput placeholder="Username" type="text" class="login-input">
+                <input mdInput [placeholder]="'GENERAL.USERNAME' | translate" type="text" class="login-input">
             </md-input-container>
             <br>
             <md-input-container>
-                <input mdInput placeholder="Password" type="password" class="login-input">
+                <input mdInput [placeholder]="'GENERAL.PASSWORD' | translate" type="password" class="login-input">
             </md-input-container>
             <br>
-            <button md-raised-button class="login-button" (click)="login()" [routerLink]=" ['../player'] ">Login</button>
+            <button md-raised-button class="login-button" (click)="login()" [routerLink]=" ['../player'] ">{{'LOGIN_PAGE.LOGIN' | translate}}</button>
         </md-tab>
-        <md-tab label="Register">
-            <h1>Register</h1>
+        <md-tab [label]="'LOGIN_PAGE.REGISTER' | translate">
+            <h1>{{'LOGIN_PAGE.REGISTER' | translate}}</h1>
             <md-input-container>
-                <input mdInput placeholder="Username" type="text" class="login-input">
+                <input mdInput [placeholder]="'GENERAL.USERNAME' | translate" type="text" class="login-input">
             </md-input-container>
             <br>
             <md-input-container>
-                <input mdInput placeholder="Password" type="password" class="login-input">
+                <input mdInput [placeholder]="'GENERAL.PASSWORD' | translate" type="password" class="login-input">
             </md-input-container>
             <br>
-            <button md-raised-button class="login-button" (click)="register()">Register</button>
+            <button md-raised-button class="login-button" (click)="register()">{{'LOGIN_PAGE.REGISTER' | translate}}</button>
         </md-tab>
     </md-tab-group>
 </md-card>
-</body>
