@@ -1,10 +1,10 @@
 {
     "GENERAL": {
-        "SUBMIT": "Submit"
+        "PASSWORD": "Password",
+        "USERNAME": "Username"
     },
-    "HOME": {
-        "HEADER":  "This is a headline!",
-        "STATE": "Local State",
-        "PLACEHOLDER": "Submit Local State to App State"
+    "LOGIN_PAGE": {
+        "LOGIN": "Login",
+        "REGISTER": "Register"
     }
 }

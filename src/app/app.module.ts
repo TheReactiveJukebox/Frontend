@@ -29,8 +29,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdCheckboxModule } from '@angular/material';
-import { AboutComponent } from './pages/about/about.component';
-import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
+import { PlayerComponent } from './pages/player/player.component';
+import { MdInputModule } from '@angular/material';
+import { MdCardModule } from '@angular/material';
+import { MdTabsModule } from '@angular/material';
 
 type StoreType = {
     state: InternalStateType,
@@ -45,8 +48,8 @@ type StoreType = {
     bootstrap: [ AppComponent ],
     declarations: [
         AppComponent,
-        AboutComponent,
-        HomeComponent
+        LoginComponent,
+        PlayerComponent
     ],
     /**
      * Import Angular's modules.
@@ -56,7 +59,7 @@ type StoreType = {
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
-        MdButtonModule, MdCheckboxModule,
+        MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule,
         RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules }),
         TranslateModule.forRoot({
             loader: {

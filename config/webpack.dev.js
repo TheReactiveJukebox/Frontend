@@ -177,7 +177,7 @@ module.exports = function (options) {
       /**
        * Plugin: AddAssetHtmlPlugin
        * Description: Adds the given JS or CSS file to the files
-       * Webpack knows about, and put it into the list of assets
+       * Webpack knows login, and put it into the list of assets
        * html-webpack-plugin injects into the generated html.
        *
        * See: https://github.com/SimenB/add-asset-html-webpack-plugin
@@ -212,7 +212,7 @@ module.exports = function (options) {
     /**
      * Webpack Development Server configuration
      * Description: The webpack-dev-server is a little node.js Express server.
-     * The server emits information about the compilation state to the client,
+     * The server emits information login the compilation state to the client,
      * which reacts to those events.
      *
      * See: https://webpack.github.io/docs/webpack-dev-server.html

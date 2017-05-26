@@ -1,10 +1,10 @@
 {
     "GENERAL": {
-        "SUBMIT": "Speichern"
+        "PASSWORD": "Passwort",
+        "USERNAME": "Benutzername"
     },
-    "HOME": {
-        "HEADER":  "Das ist ein Titel!",
-        "STATE": "Lokaler Zustand",
-        "PLACEHOLDER": "Lokalen Zustand in 'App State' speichern"
+    "LOGIN_PAGE": {
+        "LOGIN": "Login",
+        "REGISTER": "Registrieren"
     }
 }

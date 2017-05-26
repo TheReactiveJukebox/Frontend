@@ -1,9 +1,19 @@
 import { Routes } from '@angular/router';
-import { AboutComponent } from './pages/about/about.component';
-import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
+import { PlayerComponent } from './pages/player/player.component';
 
 export const ROUTES: Routes = [
-    { path: '',      component: HomeComponent },
-    { path: 'home',  component: HomeComponent },
-    { path: 'about', component: AboutComponent },
+    {
+        path: '',
+        redirectTo: '/login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'player',
+        component: PlayerComponent
+    },
 ];
