@@ -1,0 +1,28 @@
+<md-card class="login-card">
+    <md-tab-group>
+        <md-tab label="Login">
+            <h1>Login</h1>
+            <md-input-container>
+                <input mdInput placeholder="Username" type="text" class="login-input">
+            </md-input-container>
+            <br>
+            <md-input-container>
+                <input mdInput placeholder="Password" type="password" class="login-input">
+            </md-input-container>
+            <br>
+            <button md-raised-button class="login-button" (click)="login()">Login</button>
+        </md-tab>
+        <md-tab label="Register">
+            <h1>Register</h1>
+            <md-input-container>
+                <input mdInput placeholder="Username" type="text" class="login-input">
+            </md-input-container>
+            <br>
+            <md-input-container>
+                <input mdInput placeholder="Password" type="password" class="login-input">
+            </md-input-container>
+            <br>
+            <button md-raised-button class="login-button" (click)="login()">Register</button>
+        </md-tab>
+    </md-tab-group>
+</md-card>

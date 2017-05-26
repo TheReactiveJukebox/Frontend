@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'about',
-    templateUrl: './about.component.html'
+    templateUrl: './login.component.html',
+    styleUrls: [ './login.component.scss' ]
 })
-export class AboutComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
     public localState: any;
     constructor(
@@ -21,6 +22,10 @@ export class AboutComponent implements OnInit {
         });
 
         console.log('hello `About` component');
+    }
+
+    login(): void {
+        console.log('Login pressed!');
     }
 
 }
