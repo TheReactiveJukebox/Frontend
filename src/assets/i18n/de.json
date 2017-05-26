@@ -1,10 +1,10 @@
 {
-  "GENERAL": {
-    "SUBMIT": "Speichern"
-  },
-  "HOME": {
-    "HEADER":  "Das ist ein Titel!",
-    "STATE": "Lokaler Zustand",
-    "PLACEHOLDER": "Lokalen Zustand in 'App State' speichern"
-  }
+    "GENERAL": {
+        "SUBMIT": "Speichern"
+    },
+    "HOME": {
+        "HEADER":  "Das ist ein Titel!",
+        "STATE": "Lokaler Zustand",
+        "PLACEHOLDER": "Lokalen Zustand in 'App State' speichern"
+    }
 }

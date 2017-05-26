@@ -1,10 +1,10 @@
 {
-  "GENERAL": {
-    "SUBMIT": "Submit"
-  },
-  "HOME": {
-    "HEADER":  "This is a headline!",
-    "STATE": "Local State",
-    "PLACEHOLDER": "Submit Local State to App State"
-  }
+    "GENERAL": {
+        "SUBMIT": "Submit"
+    },
+    "HOME": {
+        "HEADER":  "This is a headline!",
+        "STATE": "Local State",
+        "PLACEHOLDER": "Submit Local State to App State"
+    }
 }
