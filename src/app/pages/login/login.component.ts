@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Host, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AppComponent } from '../../app.component';
 
 @Component({
     selector: 'about',
@@ -10,7 +11,8 @@ export class LoginComponent implements OnInit {
 
     public localState: any;
     constructor(
-        public route: ActivatedRoute
+        public route: ActivatedRoute,
+        public parent: AppComponent
     ) {}
 
     public ngOnInit() {
@@ -19,10 +21,13 @@ export class LoginComponent implements OnInit {
         });
 
         console.log('hello `Login` component');
+
+        this.parent.tintBackground('#4CAF50');
     }
 
     login(): void {
         console.log('Login pressed!');
+        this.parent.tintBackground('#FFFFFF');
     }
 
     register(): void {

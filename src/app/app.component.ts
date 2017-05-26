@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app',
     encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./app.component.css'],
+    styleUrls: ['./app.component.scss'],
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
@@ -40,6 +40,10 @@ export class AppComponent implements OnInit {
 
     public ngOnInit() {
         console.log('Initial App State', this.appState.state);
+    }
+
+    public tintBackground(color: string) {
+        document.body.style.backgroundColor = color;
     }
 
 }
