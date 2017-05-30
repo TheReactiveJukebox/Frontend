@@ -1,8 +1,17 @@
-<md-list>
-    <md-list-item *ngFor="let title of titles">
-        <p>{{title.id}}</p>
-        <p>{{title.title}}</p>
-        <p>{{title.artist}}</p>
-        <p>{{title.duration | mySecondsToDate | date:'mm:ss'}}</p>
+<md-nav-list>
+    <md-list-item>
+        <p style="width: 10%;">{{'TITLE_LIST.ID' | translate}}</p>
+        <p style="width: 30%;">{{'TITLE_LIST.TITLE' | translate}}</p>
+        <p style="width: 30%;">{{'TITLE_LIST.ARTIST' | translate}}</p>
+        <p style="width: 20%;">{{'TITLE_LIST.ALBUM' | translate}}</p>
+        <p style="width: 10%;">{{'TITLE_LIST.DURATION' | translate}}</p>
     </md-list-item>
-</md-list>
+    <md-divider></md-divider>
+    <md-list-item *ngFor="let title of titles">
+        <p style="width: 10%;">{{title.id}}</p>
+        <p style="width: 30%;">{{title.title}}</p>
+        <p style="width: 30%;">{{title.artist}}</p>
+        <p style="width: 20%;">{{title.album}}</p>
+        <p style="width: 10%;">{{title.duration | mySecondsToDate | date:'mm:ss'}}</p>
+    </md-list-item>
+</md-nav-list>

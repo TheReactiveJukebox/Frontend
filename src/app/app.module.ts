@@ -28,7 +28,7 @@ import 'hammerjs';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule } from '@angular/material';
+import { MdButtonModule, MdCheckboxModule, MdListModule } from '@angular/material';
 import { LoginComponent } from './pages/login/login.component';
 import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
@@ -64,7 +64,7 @@ type StoreType = {
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
-        MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule,
+        MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
         RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules }),
         TranslateModule.forRoot({
             loader: {

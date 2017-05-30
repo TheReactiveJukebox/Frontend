@@ -13,7 +13,7 @@ const MOCK_TITLES: Title[] = [
     { id: 9, title: 'Crocodile Rock', artist: 'Elton John', album: 'Don\'t Shooot Me I\'m Only The Piano Player', duration: 235 },
     { id: 10, title: 'I Was Made For Loving You', artist: 'KISS', album: 'Dynasty (Remastered Version)', duration: 217 },
     { id: 11, title: 'Come Out and Play', artist: 'The Offspring', album: 'Smash', duration: 197 },
-    { id: 11, title: 'Rock & Roll Queen', artist: 'The Subways', album: 'Young For Eternity', duration: 169 },
+    { id: 12, title: 'Rock & Roll Queen', artist: 'The Subways', album: 'Young For Eternity', duration: 169 },
 ];
 
 @Injectable()
