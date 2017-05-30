@@ -34,6 +34,9 @@ import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
 import { MdTabsModule } from '@angular/material';
+import { TitleListComponent } from './components/title-list/title-list.component';
+import { TitleService } from './services/title.service';
+import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
 
 type StoreType = {
     state: InternalStateType,
@@ -49,7 +52,9 @@ type StoreType = {
     declarations: [
         AppComponent,
         LoginComponent,
-        PlayerComponent
+        PlayerComponent,
+        TitleListComponent,
+        SecondsToDatePipe
     ],
     /**
      * Import Angular's modules.
@@ -75,6 +80,7 @@ type StoreType = {
     providers: [
         ENV_PROVIDERS,
         AppState,
+        TitleService,
     ]
 })
 export class AppModule {

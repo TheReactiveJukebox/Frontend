@@ -1,0 +1,8 @@
+<md-list>
+    <md-list-item *ngFor="let title of titles">
+        <p>{{title.id}}</p>
+        <p>{{title.title}}</p>
+        <p>{{title.artist}}</p>
+        <p>{{title.duration | mySecondsToDate | date:'mm:ss'}}</p>
+    </md-list-item>
+</md-list>
