@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Title } from '../models/title';
+import { Track } from '../models/track';
 
-const MOCK_TITLES: Title[] = [
+const MOCK_TITLES: Track[] = [
     { id: 1, title: 'Kryptonite', artist: '3 Doors Down', album: 'The Better Life - Deluxe Edition', cover: 'https://s3.amazonaws.com/images.sheetmusicdirect.com/Album/ca8a8ef7-f305-374a-833b-b8f621ede068/large.jpg', duration: 233 },
     { id: 2, title: 'Hells Bells', artist: 'AC/DC', album: 'Back in Black', cover: 'https://upload.wikimedia.org/wikipedia/en/2/23/HellsBells.jpg', duration: 312 },
     { id: 3, title: 'Paint it Black', artist: 'The Rolling Stones', album: 'Singles 1965-1967', cover: 'http://www.covermesongs.com/wp-content/uploads/2010/09/PaintItBlack-400x400.jpg', duration: 224 },
@@ -17,8 +17,8 @@ const MOCK_TITLES: Title[] = [
 ];
 
 @Injectable()
-export class TitleService {
-    getTitles(): Promise<Title[]> {
+export class TrackService {
+    getTracks(): Promise<Track[]> {
         return Promise.resolve(MOCK_TITLES);
     }
 }

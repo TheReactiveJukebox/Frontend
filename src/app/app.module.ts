@@ -34,8 +34,8 @@ import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
 import { MdTabsModule } from '@angular/material';
-import { TitleListComponent } from './components/title-list/title-list.component';
-import { TitleService } from './services/title.service';
+import { TrackListComponent } from './components/track-list/track-list.component';
+import { TrackService } from './services/track.service';
 import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
 
 type StoreType = {
@@ -53,7 +53,7 @@ type StoreType = {
         AppComponent,
         LoginComponent,
         PlayerComponent,
-        TitleListComponent,
+        TrackListComponent,
         SecondsToDatePipe
     ],
     /**
@@ -80,7 +80,7 @@ type StoreType = {
     providers: [
         ENV_PROVIDERS,
         AppState,
-        TitleService,
+        TrackService,
     ]
 })
 export class AppModule {

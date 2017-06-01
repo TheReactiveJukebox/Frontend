@@ -1,0 +1,19 @@
+<md-nav-list>
+    <md-list-item>
+        <p style="width: 5%;">{{'TRACK_LIST.ID' | translate}}</p>
+        <p style="width: 30%;">{{'TRACK_LIST.TITLE' | translate}}</p>
+        <p style="width: 30%;">{{'TRACK_LIST.ARTIST' | translate}}</p>
+        <p style="width: 20%;">{{'TRACK_LIST.ALBUM' | translate}}</p>
+        <p style="width: 10%;">{{'TRACK_LIST.DURATION' | translate}}</p>
+        <p style="width: 5%;"></p>
+    </md-list-item>
+    <md-divider></md-divider>
+    <md-list-item *ngFor="let track of tracks">
+        <p style="width: 5%;">{{track.id}}</p>
+        <p style="width: 30%;">{{track.title}}</p>
+        <p style="width: 30%;">{{track.artist}}</p>
+        <p style="width: 20%;">{{track.album}}</p>
+        <p style="width: 10%;">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
+        <p style="width: 5%;"><i class="material-icons">delete</i></p>
+    </md-list-item>
+</md-nav-list>
