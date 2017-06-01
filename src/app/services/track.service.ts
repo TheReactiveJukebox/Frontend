@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Track } from '../models/track';
-import { Title } from '../models/title';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
@@ -21,12 +20,12 @@ const MOCK_TITLES: Track[] = [
 ];
 
 @Injectable()
-export class TitleService {
+export class TrackService {
     private trackListUrl = 'http://localhost:8080/api/track/list';  // URL to web api
 
     constructor(private http: Http) { }
 
-    getTitles(): Promise<Track[]> {
+    getTracks(): Promise<Track[]> {
         const url = `${this.trackListUrl}/6`;
 
         return this.http.get(url)
