@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Track } from '../models/track';
+import { Title } from '../models/title';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 
+//MOCK_TITLES used for frontend testing without backend
 const MOCK_TITLES: Track[] = [
     { id: 1, title: 'Kryptonite', artist: '3 Doors Down', album: 'The Better Life - Deluxe Edition', cover: 'https://s3.amazonaws.com/images.sheetmusicdirect.com/Album/ca8a8ef7-f305-374a-833b-b8f621ede068/large.jpg', duration: 233 },
     { id: 2, title: 'Hells Bells', artist: 'AC/DC', album: 'Back in Black', cover: 'https://upload.wikimedia.org/wikipedia/en/2/23/HellsBells.jpg', duration: 312 },
@@ -17,8 +21,18 @@ const MOCK_TITLES: Track[] = [
 ];
 
 @Injectable()
-export class TrackService {
-    getTracks(): Promise<Track[]> {
-        return Promise.resolve(MOCK_TITLES);
+export class TitleService {
+    private trackListUrl = 'http://localhost:8080/api/track/list';  // URL to web api
+
+    constructor(private http: Http) { }
+
+    getTitles(): Promise<Track[]> {
+        const url = `${this.trackListUrl}/6`;
+
+        return this.http.get(url)
+            .toPromise()
+            .then(response => response.json() as Track[]);
+
+        //return Promise.resolve(MOCK_TITLES); //use for testing UI without backend
     }
 }
