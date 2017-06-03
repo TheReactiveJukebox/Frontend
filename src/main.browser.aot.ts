@@ -8,6 +8,7 @@ import { decorateModuleRef } from './app/environment';
  * our top level module that holds all of our components.
  */
 import { AppModuleNgFactory } from '../compiled/src/app/app.module.ngfactory';
+import { Config } from './app/config';
 /**
  * Bootstrap our Angular app with a top level NgModule.
  */
@@ -17,6 +18,12 @@ export function main(): Promise<any> {
         .then(decorateModuleRef)
         .catch((err) => console.error(err));
 }
+
+/**
+ * Define which config will be loaded
+ */
+new Config();
+// new Config('production');
 
 export function bootstrapDomReady() {
     document.addEventListener('DOMContentLoaded', main);

@@ -34,6 +34,9 @@ import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
 import { MdTabsModule } from '@angular/material';
+import { CookieModule } from 'ngx-cookie';
+import { AuthService } from './services/auth/auth.service';
+import { AuthHttp } from './services/auth/auth-http';
 
 type StoreType = {
     state: InternalStateType,
@@ -67,7 +70,8 @@ type StoreType = {
                 useFactory: (createTranslateLoader),
                 deps: [Http]
             }
-        })
+        }),
+        CookieModule.forRoot()
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
@@ -75,6 +79,8 @@ type StoreType = {
     providers: [
         ENV_PROVIDERS,
         AppState,
+        AuthService,
+        AuthHttp
     ]
 })
 export class AppModule {
