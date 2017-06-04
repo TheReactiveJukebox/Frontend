@@ -21,17 +21,32 @@ const MOCK_TITLES: Track[] = [
 
 @Injectable()
 export class TrackService {
+    currentTrack: Track;
+    nextTracks: Track[];
+
     private trackListUrl = 'http://localhost:8080/api/track/list';  // URL to web api
 
     constructor(private http: Http) { }
 
-    getTracks(): Promise<Track[]> {
+    refreshTracks(): void {
         const url = `${this.trackListUrl}/6`;
 
-        return this.http.get(url)
+        this.http.get(url)
             .toPromise()
-            .then(response => response.json() as Track[]);
+            .then(response => {
+                let tracks = response.json() as Track[];
+                if (tracks.length > 0) {
+                    this.currentTrack = tracks[0];
+                    this.nextTracks = tracks.slice(1);
+                }
+            });
 
-        //return Promise.resolve(MOCK_TITLES); //use for testing UI without backend
+        //use the following for testing UI without backend
+        // Promise.resolve(MOCK_TITLES).then(tracks => {
+        //     if (tracks.length > 0) {
+        //         this.currentTrack = tracks[0];
+        //         this.nextTracks = tracks.slice(1);
+        //     }
+        // });
     }
 }

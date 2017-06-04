@@ -8,7 +8,7 @@
         <p style="width: 5%;"></p>
     </md-list-item>
     <md-divider></md-divider>
-    <md-list-item *ngFor="let track of tracks">
+    <md-list-item *ngFor="let track of this.trackService.nextTracks">
         <p style="width: 5%;">{{track.id}}</p>
         <p style="width: 30%;">{{track.title}}</p>
         <p style="width: 30%;">{{track.artist}}</p>
