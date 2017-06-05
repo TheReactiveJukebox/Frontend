@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Track } from '../models/track';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { Http, Response } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 //MOCK_TITLES used for frontend testing without backend
 const MOCK_TITLES: Track[] = [
@@ -21,25 +21,26 @@ const MOCK_TITLES: Track[] = [
 
 @Injectable()
 export class TrackService {
-    currentTrack: Track;
-    nextTracks: Track[];
+    currentTrack: BehaviorSubject<Track>;
+    nextTracks: BehaviorSubject<Track[]>;
 
     private trackListUrl = 'http://localhost:8080/api/track/list';  // URL to web api
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+        this.currentTrack = new BehaviorSubject<Track>(null);
+        this.nextTracks = new BehaviorSubject<Track[]>([]);
+    }
 
     refreshTracks(): void {
         const url = `${this.trackListUrl}/6`;
 
-        this.http.get(url)
-            .toPromise()
-            .then(response => {
-                let tracks = response.json() as Track[];
-                if (tracks.length > 0) {
-                    this.currentTrack = tracks[0];
-                    this.nextTracks = tracks.slice(1);
-                }
-            });
+        this.http.get(url).subscribe((response: Response) => {
+            let tracks = response.json() as Track[];
+            if (tracks.length > 0) {
+                this.currentTrack.next(tracks[0]);
+                this.nextTracks.next(tracks.slice(1));
+            }
+        });
 
         //use the following for testing UI without backend
         // Promise.resolve(MOCK_TITLES).then(tracks => {
@@ -48,5 +49,14 @@ export class TrackService {
         //         this.nextTracks = tracks.slice(1);
         //     }
         // });
+    }
+
+    // unused, but maybe useful. at the moment just a example for setting observables
+    // call this to set the next song as 'current'
+    nextSong(): void {
+        let tempTracks: Track[] = this.nextTracks.getValue();
+        this.currentTrack.next(tempTracks[0]);
+        tempTracks.slice(1);
+        this.nextTracks.next(tempTracks);
     }
 }

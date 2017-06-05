@@ -1,0 +1,13 @@
+<div *ngIf="currentTrack" style="width: 100%;">
+    <div style="float: left; width: 20%">
+        <img src="{{currentTrack.cover}}" alt="Cover" style="width:100px;height:100px;">
+    </div>
+    <div style="float: left; width: 60%">
+        <h1>{{currentTrack.artist}} - {{currentTrack.title}}</h1>
+        <p>{{currentTrack.album}}</p>
+    </div>
+    <div style="float: left; width:10%">
+        <h1>00:00/{{currentTrack.duration | mySecondsToDate | date:'mm:ss'}}</h1>
+    </div>
+</div>
+<div style="clear:both"></div>

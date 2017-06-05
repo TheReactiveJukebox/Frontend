@@ -37,7 +37,7 @@ import { MdTabsModule } from '@angular/material';
 import { TrackListComponent } from './components/track-list/track-list.component';
 import { TrackService } from './services/track.service';
 import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
-import { CurrentTrackComponent } from './components/current-song/current-track.component';
+import { CurrentTrackComponent } from './components/current-track/current-track.component';
 
 type StoreType = {
     state: InternalStateType,
