@@ -83,7 +83,7 @@ export class AuthService {
             method: RequestMethod.Post,
             search: null,
             headers: new Headers(),
-            body: {userData}
+            body: userData
         };
 
         let reqOptions = new RequestOptions(basicOptions);
@@ -126,7 +126,7 @@ export class AuthService {
             method: RequestMethod.Post,
             search: null,
             headers: new Headers(),
-            body: {userData}
+            body: userData
         };
 
         let reqOptions = new RequestOptions(basicOptions);

@@ -5,7 +5,7 @@ export class Config {
     public static config: any = {
 
         development: {
-            serverUrl: 'http://localhost:3000', // fill in your local server ip and port
+            serverUrl: 'http://localhost:8080', // fill in your local server ip and port
             dev: true
         },
 
