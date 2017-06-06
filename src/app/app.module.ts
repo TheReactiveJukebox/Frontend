@@ -34,7 +34,7 @@ import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
 import { MdTabsModule } from '@angular/material';
-import { CookieModule } from 'ngx-cookie';
+import { CookieModule, CookieService } from 'ngx-cookie';
 import { AuthService } from './services/auth/auth.service';
 import { AuthHttp } from './services/auth/auth-http';
 
@@ -59,6 +59,7 @@ type StoreType = {
      */
     imports: [
         BrowserModule,
+        CookieModule.forRoot(),
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
@@ -70,14 +71,14 @@ type StoreType = {
                 useFactory: (createTranslateLoader),
                 deps: [Http]
             }
-        }),
-        CookieModule.forRoot()
+        })
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
      */
     providers: [
         ENV_PROVIDERS,
+        CookieService,
         AppState,
         AuthService,
         AuthHttp

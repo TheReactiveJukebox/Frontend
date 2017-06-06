@@ -21,7 +21,8 @@ export class AuthService {
     // contains true, if user is logged in, otherwise it contains false
     private loggedIn: BehaviorSubject<any>;
 
-    constructor(private http: Http, private cookieService: CookieService) {
+    // constructor(private http: Http, private cookieService: CookieService) {
+    constructor(private http: Http) {
         this.loggedIn = new BehaviorSubject(false);
     }
 
@@ -38,7 +39,7 @@ export class AuthService {
     //performs an autologin with stored session-cookie.
     public performAutoLogin(): Observable<any> {
         return new Observable(observer => {
-            this.token = this.cookieService.get('rjb-sessionToken');
+            // this.token = this.cookieService.get('rjb-sessionToken');
             if (this.token) { // check if there is any token to send to the server, otherwise abort the autologin
                 this.loginWithToken(this.token).subscribe(result => {
                     observer.next(result);
@@ -57,7 +58,7 @@ export class AuthService {
     // Send the token to the server to check, if it is valid
     private loginWithToken (token: String): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
-            url: Config.serverUrl + '/api/auth/auto',
+            url: Config.serverUrl + '/api/user/autologin',
             method: RequestMethod.Post,
             search: null,
             headers: new Headers(),
@@ -78,11 +79,11 @@ export class AuthService {
     // login with username and password
     public login (userData: any): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
-            url: Config.serverUrl + '/api/auth/login',
+            url: Config.serverUrl + '/api/user/login',
             method: RequestMethod.Post,
             search: null,
             headers: new Headers(),
-            body: {'userData': userData}
+            body: {userData}
         };
 
         let reqOptions = new RequestOptions(basicOptions);
@@ -90,26 +91,27 @@ export class AuthService {
 
         return this.http.request(req, reqOptions).
             map((res: Response) => res.json()).
-            map((user: any) => {
-                this.authorize(user);
-                return user;
+            map((token: any) => {
+                this.authorize(token);
+                return token;
         });
     }
 
     // logout. Notify the server and remove the cookie.
     public logout(): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
-            url: Config.serverUrl + '/api/auth/logout',
+            url: Config.serverUrl + '/api/user/logout',
             method: RequestMethod.Post,
             search: null,
             headers: new Headers(),
-            body: null
+            body: {token: this.token}
         };
 
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
         this.loggedIn.next(false);
-        this.cookieService.remove('sessionToken');
+        this.token = null;
+        // this.cookieService.remove('rjb-sessionToken');
 
         return this.http.request(req, reqOptions).
             map((res: Response) => {
@@ -120,11 +122,11 @@ export class AuthService {
     // Register a new user
     public registerUser(userData: any): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
-            url: Config.serverUrl + '/api/auth/register',
+            url: Config.serverUrl + '/api/user/register',
             method: RequestMethod.Post,
             search: null,
             headers: new Headers(),
-            body: {'user': JSON.stringify(userData)}
+            body: {userData}
         };
 
         let reqOptions = new RequestOptions(basicOptions);
@@ -132,17 +134,17 @@ export class AuthService {
 
         return this.http.request(req, reqOptions).
         map((res: Response) =>  res.json()).
-        map((user: any) => {
-          this.authorize(user);
-          return user;
+        map((token: any) => {
+          this.authorize(token);
+          return token;
         });
     }
 
     // store the token in app and store it as cookie
-    public authorize(result: any): void {
-        this.token = result.token;
+    public authorize(tokenObject: any): void {
+        this.token = tokenObject.token;
         this.loggedIn.next(true);
-        this.cookieService.put('rjb-sessionToken', this.token);
+        // this.cookieService.put('rjb-sessionToken', this.token);
     }
 
     // returns user's current session token.

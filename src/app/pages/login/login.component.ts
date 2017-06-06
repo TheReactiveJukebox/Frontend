@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
     login(): void {
         console.log('Login pressed!');
-        this.authService.login(this.loginData).subscribe(data => {
+        this.authService.login(this.loginData).subscribe(() => {
             this.parent.tintBackground('#FFFFFF');
             this.router.navigate(['/player']);
         }, error => {
