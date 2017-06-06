@@ -21,8 +21,7 @@ export class AuthService {
     // contains true, if user is logged in, otherwise it contains false
     private loggedIn: BehaviorSubject<any>;
 
-    // constructor(private http: Http, private cookieService: CookieService) {
-    constructor(private http: Http) {
+    constructor(private http: Http, private cookieService: CookieService) {
         this.loggedIn = new BehaviorSubject(false);
     }
 
@@ -39,7 +38,7 @@ export class AuthService {
     //performs an autologin with stored session-cookie.
     public performAutoLogin(): Observable<any> {
         return new Observable(observer => {
-            // this.token = this.cookieService.get('rjb-sessionToken');
+            this.token = this.cookieService.get('rjb-sessionToken');
             if (this.token) { // check if there is any token to send to the server, otherwise abort the autologin
                 this.loginWithToken(this.token).subscribe(result => {
                     observer.next(result);
@@ -111,7 +110,7 @@ export class AuthService {
         let req = new Request(reqOptions);
         this.loggedIn.next(false);
         this.token = null;
-        // this.cookieService.remove('rjb-sessionToken');
+        this.cookieService.remove('rjb-sessionToken');
 
         return this.http.request(req, reqOptions).
             map((res: Response) => {
@@ -144,7 +143,7 @@ export class AuthService {
     public authorize(tokenObject: any): void {
         this.token = tokenObject.token;
         this.loggedIn.next(true);
-        // this.cookieService.put('rjb-sessionToken', this.token);
+        this.cookieService.put('rjb-sessionToken', this.token);
     }
 
     // returns user's current session token.
