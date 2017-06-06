@@ -1,0 +1,42 @@
+@import "../../../styles/styles";
+
+.tl{
+}
+
+.tl-header{
+  background-color: $primary-color-light;
+}
+
+.tl-row{
+}
+
+.tl-id-col{
+  width: 5%;
+  text-align: center;
+
+}
+
+.tl-title-col{
+  width: 30%;
+  text-align: center;
+}
+
+.tl-artist-col{
+  width: 30%;
+  text-align: center;
+}
+
+.tl-album-col{
+  width: 20%;
+  text-align: center;
+}
+
+.tl-duration-col{
+  width: 10%;
+  text-align: center;
+}
+
+.tl-icon-col{
+  width: 5%;
+  text-align: center;
+}
