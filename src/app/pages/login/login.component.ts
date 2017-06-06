@@ -1,6 +1,7 @@
 import { Component, Host, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AppComponent } from '../../app.component';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
     selector: 'about',
@@ -9,29 +10,34 @@ import { AppComponent } from '../../app.component';
 })
 export class LoginComponent implements OnInit {
 
-    public localState: any;
-    constructor(
-        public route: ActivatedRoute,
-        public parent: AppComponent
-    ) {}
+    loginData: {username?: string, password?: string} = {};
+
+    constructor(public parent: AppComponent,
+                private authService: AuthService,
+                private router: Router) {}
 
     public ngOnInit() {
-        this.route.data.subscribe((data: any) => {
-            this.localState = data.yourData;
-        });
-
-        console.log('hello `Login` component');
-
         this.parent.tintBackground('#4CAF50');
     }
 
     login(): void {
         console.log('Login pressed!');
-        this.parent.tintBackground('#FFFFFF');
+        this.authService.login(this.loginData).subscribe(data => {
+            this.parent.tintBackground('#FFFFFF');
+            this.router.navigate(['/player']);
+        }, error => {
+            console.log('Login failed!');
+        });
     }
 
     register(): void {
         console.log('Register pressed!');
+        this.authService.registerUser(this.loginData).subscribe(data => {
+            this.parent.tintBackground('#FFFFFF');
+            this.router.navigate(['/player']);
+        }, error => {
+            console.log('Login failed!');
+        });
     }
 
 }
