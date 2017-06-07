@@ -10,7 +10,7 @@ import { Config } from '../../config';
 })
 export class PlayerComponent implements OnInit {
 
-    message: string;
+    message: any;
 
     constructor(private authHttp: AuthHttp) {
 
@@ -21,10 +21,8 @@ export class PlayerComponent implements OnInit {
     }
 
     public test(): void {
-        this.authHttp.get(Config.serverUrl + '/api/hello/Hi').subscribe((res: Response) => {
-            res.json().then(data => {
-               this.message = data;
-            });
+        this.authHttp.get(Config.serverUrl + '/api/hello/test/Hi').subscribe((data) => {
+            this.message = data.message;
         });
     }
 
