@@ -5,12 +5,12 @@ export class Config {
     public static config: any = {
 
         development: {
-            serverUrl: 'http://localhost:8080', // fill in your local server ip and port
+            serverUrl: 'https://localhost',
             dev: true
         },
 
         production: {
-            serverUrl: '129.217.62.109', // add correct port to live server
+            serverUrl: 'https://129.217.62.109:4799',
             dev: false
         }
     };

@@ -19,12 +19,6 @@ export function main(): Promise<any> {
         .catch((err) => console.error(err));
 }
 
-/**
- * Define which config will be loaded
- */
-new Config();
-// new Config('production');
-
 export function bootstrapDomReady() {
     document.addEventListener('DOMContentLoaded', main);
 }

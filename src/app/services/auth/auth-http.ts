@@ -1,6 +1,4 @@
 /**
- * @author Florian Scholz
- *
  * This class is an extension of Angular's Http-module to perform authorized requests to our REST-Api.
  */
 

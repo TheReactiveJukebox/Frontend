@@ -22,12 +22,6 @@ export function main(): Promise<any> {
 }
 
 /**
- * Define which config will be loaded
- */
-new Config();
-// new Config('production');
-
-/**
  * Needed for hmr
  * in prod this is replace for document ready
  */

@@ -1,6 +1,4 @@
 /**
- * @author Florian Scholz
- *
  * This Service handles user authentication and holds the session token.
  */
 
