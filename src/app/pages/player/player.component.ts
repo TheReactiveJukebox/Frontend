@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../services/app.service';
 import { AuthHttp } from '../../services/auth/auth-http';
 import { Config } from '../../config';
+import { TrackService } from '../../services/track.service';
 
 @Component({
     selector: 'player',
@@ -12,12 +13,11 @@ export class PlayerComponent implements OnInit {
 
     message: any;
 
-    constructor(private authHttp: AuthHttp) {
+    constructor(public trackService: TrackService,
+				private authHttp: AuthHttp) {}
 
-    }
-
-    public ngOnInit() {
-        console.log('hello `Player` component');
+    ngOnInit(): void {
+        this.trackService.refreshTracks();
     }
 
     public test(): void {

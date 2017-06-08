@@ -28,7 +28,7 @@ import 'hammerjs';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule } from '@angular/material';
+import { MdButtonModule, MdCheckboxModule, MdListModule } from '@angular/material';
 import { LoginComponent } from './pages/login/login.component';
 import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
@@ -37,6 +37,10 @@ import { MdTabsModule } from '@angular/material';
 import { CookieModule, CookieService } from 'ngx-cookie';
 import { AuthService } from './services/auth/auth.service';
 import { AuthHttp } from './services/auth/auth-http';
+import { TrackListComponent } from './components/track-list/track-list.component';
+import { TrackService } from './services/track.service';
+import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
+import { CurrentTrackComponent } from './components/current-track/current-track.component';
 
 type StoreType = {
     state: InternalStateType,
@@ -52,7 +56,10 @@ type StoreType = {
     declarations: [
         AppComponent,
         LoginComponent,
-        PlayerComponent
+        PlayerComponent,
+        TrackListComponent,
+        CurrentTrackComponent,
+        SecondsToDatePipe
     ],
     /**
      * Import Angular's modules.
@@ -63,8 +70,8 @@ type StoreType = {
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
-        MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule,
-        RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules }),
+        MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
+        RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -82,6 +89,7 @@ type StoreType = {
         AppState,
         AuthService,
         AuthHttp
+        TrackService,
     ]
 })
 export class AppModule {

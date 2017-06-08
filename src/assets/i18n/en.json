@@ -6,5 +6,12 @@
     "LOGIN_PAGE": {
         "LOGIN": "Login",
         "REGISTER": "Register"
+    },
+    "TRACK_LIST": {
+        "ID": "ID",
+        "TITLE": "Title",
+        "ARTIST": "Artist",
+        "ALBUM": "Album",
+        "DURATION": "Duration"
     }
 }
