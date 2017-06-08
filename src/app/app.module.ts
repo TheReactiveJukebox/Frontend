@@ -88,7 +88,7 @@ type StoreType = {
         CookieService,
         AppState,
         AuthService,
-        AuthHttp
+        AuthHttp,
         TrackService,
     ]
 })
