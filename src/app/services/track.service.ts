@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Track } from '../models/track';
 import { Http, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Config } from '../config';
 
 //MOCK_TITLES used for frontend testing without backend
 const MOCK_TITLES: Track[] = [
@@ -24,7 +25,7 @@ export class TrackService {
     currentTrack: BehaviorSubject<Track>;
     nextTracks: BehaviorSubject<Track[]>;
 
-    private trackListUrl = 'http://localhost:8080/api/track/list';  // URL to web api
+    private trackListUrl = Config.serverUrl + '/api/track/list';  // URL to web api
 
     constructor(private http: Http) {
         this.currentTrack = new BehaviorSubject<Track>(null);
