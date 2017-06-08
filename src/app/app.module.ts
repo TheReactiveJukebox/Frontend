@@ -67,7 +67,7 @@ type StoreType = {
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
-        RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules }),
+        RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
