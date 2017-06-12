@@ -30,6 +30,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdCheckboxModule, MdListModule } from '@angular/material';
 import { LoginComponent } from './pages/login/login.component';
+import { CreateRadiostationComponent } from './pages/create-radiostation/create-radiostation.component';
 import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
@@ -53,6 +54,7 @@ type StoreType = {
     declarations: [
         AppComponent,
         LoginComponent,
+        CreateRadiostationComponent,
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
