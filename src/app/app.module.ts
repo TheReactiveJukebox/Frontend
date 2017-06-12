@@ -41,6 +41,7 @@ import { TrackListComponent } from './components/track-list/track-list.component
 import { TrackService } from './services/track.service';
 import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
 import { CurrentTrackComponent } from './components/current-track/current-track.component';
+import { AuthGuard } from './guards/AuthGuard';
 
 type StoreType = {
     state: InternalStateType,
@@ -80,6 +81,9 @@ type StoreType = {
             }
         })
     ],
+    entryComponents: [
+        // maybe used later. when angular requests to declare a component here, just do it.
+    ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
      */
@@ -89,7 +93,8 @@ type StoreType = {
         AppState,
         AuthService,
         AuthHttp,
-        TrackService,
+        AuthGuard,
+        TrackService
     ]
 })
 export class AppModule {

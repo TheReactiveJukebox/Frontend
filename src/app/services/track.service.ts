@@ -3,6 +3,7 @@ import { Track } from '../models/track';
 import { Http, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Config } from '../config';
+import {AuthHttp} from './auth/auth-http';
 
 //MOCK_TITLES used for frontend testing without backend
 const MOCK_TITLES: Track[] = [
@@ -27,7 +28,7 @@ export class TrackService {
 
     private trackListUrl = Config.serverUrl + '/api/track/list';  // URL to web api
 
-    constructor(private http: Http) {
+    constructor(private authHttp: AuthHttp) {
         this.currentTrack = new BehaviorSubject<Track>(null);
         this.nextTracks = new BehaviorSubject<Track[]>([]);
     }
@@ -35,8 +36,7 @@ export class TrackService {
     refreshTracks(): void {
         const url = `${this.trackListUrl}/6`;
 
-        this.http.get(url).subscribe((response: Response) => {
-            let tracks = response.json() as Track[];
+        this.authHttp.get(url).subscribe((tracks: Track[]) => {
             if (tracks.length > 0) {
                 this.currentTrack.next(tracks[0]);
                 this.nextTracks.next(tracks.slice(1));

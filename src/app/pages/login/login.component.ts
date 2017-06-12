@@ -1,7 +1,7 @@
-import { Component, Host, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppComponent } from '../../app.component';
-import {AuthService} from '../../services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
     selector: 'about',
@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit {
             this.parent.tintBackground('#FFFFFF');
             this.router.navigate(['/player']);
         }, error => {
-            console.log('Login failed!');
+            alert('Login failed. Please try again!');
+            console.log('Register failed!');
         });
     }
 

@@ -11,19 +11,10 @@ import { TrackService } from '../../services/track.service';
 })
 export class PlayerComponent implements OnInit {
 
-    message: any;
-
-    constructor(public trackService: TrackService,
-				private authHttp: AuthHttp) {}
+    constructor(public trackService: TrackService) {}
 
     ngOnInit(): void {
         this.trackService.refreshTracks();
-    }
-
-    public test(): void {
-        this.authHttp.get(Config.serverUrl + '/api/hello/test/Hi').subscribe((data) => {
-            this.message = data.message;
-        });
     }
 
 }
