@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-    loginData: {username?: string, password?: string} = {};
+    loginData: {username?: string, password?: string, inviteKey?: string} = {};
 
     constructor(public parent: AppComponent,
                 private authService: AuthService,

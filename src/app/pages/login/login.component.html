@@ -22,6 +22,10 @@
                 <input mdInput [(ngModel)]="loginData.password" [placeholder]="'GENERAL.PASSWORD' | translate" type="password" class="login-input">
             </md-input-container>
             <br>
+            <md-input-container>
+                <input mdInput [(ngModel)]="loginData.inviteKey" [placeholder]="'GENERAL.INVITE_KEY' | translate" type="password" class="login-input">
+            </md-input-container>
+            <br>
             <button md-raised-button class="login-button" (click)="register()">{{'LOGIN_PAGE.REGISTER' | translate}}</button>
         </md-tab>
     </md-tab-group>
