@@ -1,53 +1,39 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
+import {Http, HttpModule} from '@angular/http';
 import {
     NgModule,
-    ApplicationRef
 } from '@angular/core';
 import {
-    removeNgStyles,
-    createNewHosts,
-    createInputTransfer
-} from '@angularclass/hmr';
-import {
     RouterModule,
-    PreloadAllModules
 } from '@angular/router';
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
+import {ENV_PROVIDERS} from './environment';
+import {ROUTES} from './app.routes';
 // App is our top level component
-import { AppComponent } from './app.component';
-import { AppState, InternalStateType } from './services/app.service';
+import {AppComponent} from './app.component';
 import '../styles/styles.scss';
 import 'hammerjs';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule, MdListModule } from '@angular/material';
-import { LoginComponent } from './pages/login/login.component';
-import { PlayerComponent } from './pages/player/player.component';
-import { MdInputModule } from '@angular/material';
-import { MdCardModule } from '@angular/material';
-import { MdTabsModule } from '@angular/material';
-import { CookieModule, CookieService } from 'ngx-cookie';
-import { AuthService } from './services/auth/auth.service';
-import { AuthHttp } from './services/auth/auth-http';
-import { TrackListComponent } from './components/track-list/track-list.component';
-import { TrackService } from './services/track.service';
-import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
-import { CurrentTrackComponent } from './components/current-track/current-track.component';
-import { AuthGuard } from './guards/AuthGuard';
-
-type StoreType = {
-    state: InternalStateType,
-    restoreInputValues: () => void,
-    disposeOldHosts: () => void
-};
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MdButtonModule, MdCheckboxModule, MdListModule} from '@angular/material';
+import {LoginComponent} from './pages/login/login.component';
+import {PlayerComponent} from './pages/player/player.component';
+import {MdInputModule} from '@angular/material';
+import {MdCardModule} from '@angular/material';
+import {MdTabsModule} from '@angular/material';
+import {CookieModule, CookieService} from 'ngx-cookie';
+import {AuthService} from './services/auth/auth.service';
+import {AuthHttp} from './services/auth/auth-http';
+import {TrackListComponent} from './components/track-list/track-list.component';
+import {TrackService} from './services/track.service';
+import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
+import {CurrentTrackComponent} from './components/current-track/current-track.component';
+import {AuthGuard} from './guards/AuthGuard';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -90,7 +76,6 @@ type StoreType = {
     providers: [
         ENV_PROVIDERS,
         CookieService,
-        AppState,
         AuthService,
         AuthHttp,
         AuthGuard,
@@ -98,62 +83,6 @@ type StoreType = {
     ]
 })
 export class AppModule {
-
-    constructor(
-        public appRef: ApplicationRef,
-        public appState: AppState
-    ) {}
-
-    public hmrOnInit(store: StoreType) {
-        if (!store || !store.state) {
-            return;
-        }
-        console.log('HMR store', JSON.stringify(store, null, 2));
-        /**
-         * Set state
-         */
-        this.appState._state = store.state;
-        /**
-         * Set input values
-         */
-        if ('restoreInputValues' in store) {
-            let restoreInputValues = store.restoreInputValues;
-            setTimeout(restoreInputValues);
-        }
-
-        this.appRef.tick();
-        delete store.state;
-        delete store.restoreInputValues;
-    }
-
-    public hmrOnDestroy(store: StoreType) {
-        const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
-        /**
-         * Save state
-         */
-        const state = this.appState._state;
-        store.state = state;
-        /**
-         * Recreate root elements
-         */
-        store.disposeOldHosts = createNewHosts(cmpLocation);
-        /**
-         * Save input values
-         */
-        store.restoreInputValues  = createInputTransfer();
-        /**
-         * Remove styles
-         */
-        removeNgStyles();
-    }
-
-    public hmrAfterDestroy(store: StoreType) {
-        /**
-         * Display new elements
-         */
-        store.disposeOldHosts();
-        delete store.disposeOldHosts;
-    }
 
 }
 

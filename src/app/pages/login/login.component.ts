@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppComponent } from '../../app.component';
-import { AuthService } from '../../services/auth/auth.service';
-import { TranslateService } from '@ngx-translate/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AppComponent} from '../../app.component';
+import {AuthService} from '../../services/auth/auth.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'about',
