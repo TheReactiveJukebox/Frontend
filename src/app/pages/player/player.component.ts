@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppState } from '../../services/app.service';
-import { AuthHttp } from '../../services/auth/auth-http';
-import { Config } from '../../config';
 import { TrackService } from '../../services/track.service';
 
 @Component({
