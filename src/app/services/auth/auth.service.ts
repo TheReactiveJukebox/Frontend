@@ -2,13 +2,13 @@
  * This Service handles user authentication and holds the session token.
  */
 
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { Http, Response, Headers, Request, RequestOptions, RequestOptionsArgs, RequestMethod } from '@angular/http';
-import { BehaviorSubject } from 'rxjs/Rx';
-import { CookieService } from 'ngx-cookie';
-import { Config } from '../../config';
+import {Observable} from 'rxjs/Observable';
+import {Http, Response, Headers, Request, RequestOptions, RequestOptionsArgs, RequestMethod} from '@angular/http';
+import {BehaviorSubject} from 'rxjs/Rx';
+import {CookieService} from 'ngx-cookie';
+import {Config} from '../../config';
 
 @Injectable()
 export class AuthService {

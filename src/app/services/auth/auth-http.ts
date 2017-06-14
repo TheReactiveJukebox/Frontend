@@ -2,10 +2,10 @@
  * This class is an extension of Angular's Http-module to perform authorized requests to our REST-Api.
  */
 
-import { Injectable } from '@angular/core';
-import { Headers, Http, Request, RequestMethod, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { AuthService } from './auth.service';
+import {Injectable} from '@angular/core';
+import {Headers, Http, Request, RequestMethod, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import {AuthService} from './auth.service';
 
 @Injectable()
 export class AuthHttp {
