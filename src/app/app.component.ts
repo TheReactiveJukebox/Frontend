@@ -1,11 +1,11 @@
 /**
  * Angular 2 decorators and services
  */
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AppState } from './services/app.service';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from './services/auth/auth.service';
-import { Router } from '@angular/router';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AppState} from './services/app.service';
+import {TranslateService} from '@ngx-translate/core';
+import {AuthService} from './services/auth/auth.service';
+import {Router} from '@angular/router';
 
 /**
  * App Component

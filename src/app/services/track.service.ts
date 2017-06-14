@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Track } from '../models/track';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Config } from '../config';
-import { AuthHttp } from './auth/auth-http';
+import {Injectable} from '@angular/core';
+import {Track} from '../models/track';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Config} from '../config';
+import {AuthHttp} from './auth/auth-http';
 
 @Injectable()
 export class TrackService {

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TrackService } from '../../services/track.service';
+import {Component, OnInit} from '@angular/core';
+import {TrackService} from '../../services/track.service';
 
 @Component({
     selector: 'player',
