@@ -3,16 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import {
     NgModule,
-    ApplicationRef
 } from '@angular/core';
 import {
-    removeNgStyles,
-    createNewHosts,
-    createInputTransfer
-} from '@angularclass/hmr';
-import {
     RouterModule,
-    PreloadAllModules
 } from '@angular/router';
 
 /*

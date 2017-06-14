@@ -21,8 +21,7 @@ export class AppComponent implements OnInit {
 
     private availableLangs: string[] = ['en', 'de'];
 
-    constructor(public appState: AppState,
-                private authService: AuthService,
+    constructor(private authService: AuthService,
                 private router: Router,
                 private translateService: TranslateService) {
 
@@ -47,7 +46,6 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit() {
-        console.log('Initial App State', this.appState.state);
     }
 
     public tintBackground(color: string) {

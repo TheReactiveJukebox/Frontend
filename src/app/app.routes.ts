@@ -19,8 +19,4 @@ export const ROUTES: Routes = [
         component: PlayerComponent,
         canActivate: [AuthGuard]
     },
-    {
-        path: 'speech',
-        component: SpeechComponent,
-    },
 ];
