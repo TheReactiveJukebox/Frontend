@@ -9,6 +9,7 @@ import {
     ApplicationRef,
     enableProdMode
 } from '@angular/core';
+import {Config} from './config';
 /**
  * Environment Providers
  */
@@ -26,7 +27,7 @@ let _decorateModuleRef = <T>(value: T): T => { return value; };
 
 if ('production' === ENV) {
     enableProdMode();
-
+    new Config('production');
     /**
      * Production
      */
@@ -44,7 +45,7 @@ if ('production' === ENV) {
     ];
 
 } else {
-
+    new Config();
     _decorateModuleRef = (modRef: any) => {
         const appRef = modRef.injector.get(ApplicationRef);
         const cmpRef = appRef.components[0];

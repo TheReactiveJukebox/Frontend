@@ -34,10 +34,14 @@ import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
 import { MdTabsModule } from '@angular/material';
+import { CookieModule, CookieService } from 'ngx-cookie';
+import { AuthService } from './services/auth/auth.service';
+import { AuthHttp } from './services/auth/auth-http';
 import { TrackListComponent } from './components/track-list/track-list.component';
 import { TrackService } from './services/track.service';
 import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
 import { CurrentTrackComponent } from './components/current-track/current-track.component';
+import { AuthGuard } from './guards/AuthGuard';
 
 type StoreType = {
     state: InternalStateType,
@@ -63,6 +67,7 @@ type StoreType = {
      */
     imports: [
         BrowserModule,
+        CookieModule.forRoot(),
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
@@ -76,13 +81,20 @@ type StoreType = {
             }
         })
     ],
+    entryComponents: [
+        // maybe used later. when angular requests to declare a component here, just do it.
+    ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
      */
     providers: [
         ENV_PROVIDERS,
+        CookieService,
         AppState,
-        TrackService,
+        AuthService,
+        AuthHttp,
+        AuthGuard,
+        TrackService
     ]
 })
 export class AppModule {

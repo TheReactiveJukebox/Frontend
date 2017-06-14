@@ -1,5 +1,6 @@
 {
     "GENERAL": {
+        "INVITE_KEY": "Invite Key",
         "PASSWORD": "Password",
         "USERNAME": "Username"
     },
