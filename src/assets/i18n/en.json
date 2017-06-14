@@ -6,7 +6,13 @@
     },
     "LOGIN_PAGE": {
         "LOGIN": "Login",
-        "REGISTER": "Register"
+        "REGISTER": "Register",
+        "ERROR": {
+            "WRONG_KEY": "Register failed. Your invite key is incorrect!",
+            "USERNAME_IN_USE": "Register failed. Username already in use. Choose another one!",
+            "GENERAL": "Register failed. Please try again!",
+            "WRONG_PW_OR_USER": "Login failed! Username or password are incorrect!"
+        }
     },
     "TRACK_LIST": {
         "ID": "ID",
