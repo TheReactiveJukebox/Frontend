@@ -6,7 +6,14 @@
     },
     "LOGIN_PAGE": {
         "LOGIN": "Login",
-        "REGISTER": "Registrieren"
+        "REGISTER": "Registrieren",
+        "ERROR": {
+            "WRONG_KEY": "Registrierung fehlgeschlagen. Dein Einladungsschlüssel ist falsch!",
+            "USERNAME_IN_USE": "Registrierung fehlgeschlagen. Der Benutzername wird schon verwendet! Nimm einen anderen!",
+            "GENERAL_REGISTER": "Registrierung fehlgeschlagen. Versuche es erneut!",
+            "GENERAL_LOGIN": "Login fehlgeschlagen. Versuche es erneut!",
+            "WRONG_PW_OR_USER": "Login fehlgeschlagen! Benutzername oder Passwort ist falsch!"
+        }
     },
     "TRACK_LIST": {
         "ID": "ID",
