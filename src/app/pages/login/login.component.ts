@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {AppComponent} from '../../app.component';
 import {AuthService} from '../../services/auth/auth.service';
@@ -9,7 +9,7 @@ import {TranslateService} from '@ngx-translate/core';
     templateUrl: './login.component.html',
     styleUrls: [ './login.component.scss' ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
     loginData: {username?: string, password?: string} = {};
     registerData: {username?: string, password?: string, inviteKey?: string} = {};
@@ -19,14 +19,17 @@ export class LoginComponent implements OnInit {
                 private translateService: TranslateService,
                 private router: Router) {}
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.parent.tintBackground('#4CAF50');
+    }
+
+    public ngOnDestroy(): void {
+        this.parent.tintBackground('#FFFFFF');
     }
 
     login(): void {
         console.log('Login pressed!');
         this.authService.login(this.loginData).subscribe(() => {
-            this.parent.tintBackground('#FFFFFF');
             this.router.navigate(['/player']);
         }, (error: Response) => {
             if(error.status == 442) {
@@ -38,7 +41,6 @@ export class LoginComponent implements OnInit {
 
     register(): void {
         this.authService.registerUser(this.registerData).subscribe(data => {
-            this.parent.tintBackground('#FFFFFF');
             this.router.navigate(['/player']);
         }, (error: Response) => {
             if (error.status == 440) {
