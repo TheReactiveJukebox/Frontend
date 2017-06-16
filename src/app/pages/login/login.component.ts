@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {Router} from '@angular/router';
 import {AppComponent} from '../../app.component';
 import {AuthService} from '../../services/auth/auth.service';
 import {TranslateService} from '@ngx-translate/core';
+import { MdTabGroup } from '@angular/material';
 
 @Component({
     selector: 'about',
@@ -10,6 +11,19 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: [ './login.component.scss' ]
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
+    @HostListener('window:keydown', ['$event'])
+    keyboardInput(event: KeyboardEvent) {
+        if (event.key == 'Enter') {
+            if (this.tabGroup.selectedIndex == 0) {
+                this.login();
+            } else {
+                this.register();
+            }
+        }
+    }
+
+    @ViewChild('tabGroup') tabGroup: MdTabGroup;
 
     loginData: {username?: string, password?: string} = {};
     registerData: {username?: string, password?: string, inviteKey?: string} = {};
@@ -35,6 +49,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             if(error.status == 442) {
                 console.log('Login failed!');
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.WRONG_PW_OR_USER'));
+            } else {
+                alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_LOGIN'));
             }
         });
     }
@@ -48,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             } else if (error.status == 441) {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.WRONG_KEY'));
             } else {
-                alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL'));
+                alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_REGISTER'));
             }
             console.log('Register failed!', error);
         });
