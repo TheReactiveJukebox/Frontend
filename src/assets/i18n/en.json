@@ -14,5 +14,8 @@
         "ARTIST": "Artist",
         "ALBUM": "Album",
         "DURATION": "Duration"
+    },
+    "SPEECH": {
+        "COMMAND_INPUT": "Search or type command..."
     }
 }

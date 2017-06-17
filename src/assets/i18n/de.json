@@ -14,5 +14,8 @@
         "ARTIST": "Interpret",
         "ALBUM": "Album",
         "DURATION": "Dauer"
+    },
+    "SPEECH": {
+        "COMMAND_INPUT": "Suchen oder Befehl eingeben..."
     }
 }

@@ -1,4 +1,7 @@
-<div>Speech Test!</div>
-<div class="listening-label" *ngIf="listening">Browser is listening!</div>
-<button (click)="start()">Start</button>
-<div>Your Text: {{detectedText}}</div>
+<md-input-container>
+    <input mdInput [(ngModel)]="detectedText" [placeholder]="'SPEECH.COMMAND_INPUT' | translate" class="search-input">
+</md-input-container>
+<button md-icon-button (click)="start()">
+    <i *ngIf="listening" class="material-icons md-48">mic</i>
+    <i *ngIf="!listening" class="material-icons md-48">mic_none</i>
+</button>
