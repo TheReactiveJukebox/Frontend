@@ -15,6 +15,7 @@ export class SpeechComponent implements OnInit, OnDestroy {
 
     constructor(public speechService: SpeechService) {
         this.detectedText = '';
+        this.ngUnsubscribe = new Subject<void>();
     }
 
     ngOnInit(): void {
