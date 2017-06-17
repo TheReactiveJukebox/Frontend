@@ -30,6 +30,19 @@ export class SpeechComponent implements OnInit, OnDestroy {
         this.ngUnsubscribe.complete();
     }
 
+    // toggles speech recognition listening state
+    public toggleListening(): void {
+        if (this.listening)
+            this.stop();
+        else
+            this.start();
+    }
+
+    // cancel speech recognition
+    public stop(): void {
+        this.speechService.stopListening();
+    }
+
     // starts speech recognition and set it's result to detectedText
     public start(): void {
         this.speechService.recordSpeech().takeUntil(this.ngUnsubscribe).subscribe((text: string) => {

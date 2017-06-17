@@ -1,7 +1,7 @@
 <md-input-container>
     <input mdInput [(ngModel)]="detectedText" [placeholder]="'SPEECH.COMMAND_INPUT' | translate" class="search-input">
 </md-input-container>
-<button md-icon-button (click)="start()">
+<button md-icon-button (click)="toggleListening()">
     <i *ngIf="listening" class="material-icons md-48">mic</i>
     <i *ngIf="!listening" class="material-icons md-48">mic_none</i>
 </button>

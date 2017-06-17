@@ -94,6 +94,13 @@ export class SpeechService {
         });
     }
 
+    /**
+     * Cancels browser's speech recognition.
+     */
+    public stopListening(): void {
+        this.recognition.stop();
+    }
+
     public isListening(): Observable<boolean> {
         return this.listening.asObservable();
     }
