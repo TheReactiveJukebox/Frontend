@@ -1,0 +1,20 @@
+.button-reset {
+    position:absolute;
+    left:0;
+    bottom:0;
+    margin: 10px;
+}
+.button-start {
+    position:absolute;
+    right:0;
+    bottom:0;
+    margin: 10px;
+}
+.title {
+    positon:absolute;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: large;
+    margin-top:20px;
+}

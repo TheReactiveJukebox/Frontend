@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AppState } from '../../services/app.service';
-import { CreateRadiostationService } from '../../services/create-radiostation.service';
+import { AppState } from '../../../services/app.service';
+import { CreateRadiostationService } from '../../../services/create-radiostation.service';
 
 @Component({
     selector: 'create-radiostation',
@@ -14,5 +14,10 @@ export class CreateRadiostationComponent implements OnInit {
         console.log('Fooba');
 
         //this.createRadiostationService.refreshTracks();
+    }
+
+    reset(event) {
+    }
+    start(event) {
     }
 }

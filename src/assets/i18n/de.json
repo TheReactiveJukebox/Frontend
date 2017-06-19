@@ -13,5 +13,12 @@
         "ARTIST": "Interpret",
         "ALBUM": "Album",
         "DURATION": "Dauer"
+    },
+    "RADIOSTATION_CREATE": {
+        "RESET": "Zurücksetzen",
+        "START": "Start",
+        "BY_FEATURE": "Nach Merkmalen",
+        "BY_SONG": "Nach Startsong",
+        "TITLE": "Beginne die Wiedergabe mit folgendem Song"
     }
 }

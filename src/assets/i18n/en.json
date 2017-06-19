@@ -13,5 +13,12 @@
         "ARTIST": "Artist",
         "ALBUM": "Album",
         "DURATION": "Duration"
+    },
+    "RADIOSTATION_CREATE": {
+        "RESET": "Reset",
+        "START": "Start",
+        "BY_FEATURE": "By Features",
+        "BY_SONG": "By Song",
+        "TITLE": "Start playback with the following song"
     }
 }
