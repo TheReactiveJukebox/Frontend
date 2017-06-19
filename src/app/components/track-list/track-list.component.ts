@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TrackService } from '../../services/track.service';
-import { Track } from '../../models/track';
-import { Subscription } from 'rxjs/Subscription';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {TrackService} from '../../services/track.service';
+import {Track} from '../../models/track';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'track-list',

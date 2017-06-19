@@ -1,11 +1,19 @@
 {
     "GENERAL": {
+        "INVITE_KEY": "Einladungsschlüssel",
         "PASSWORD": "Passwort",
         "USERNAME": "Benutzername"
     },
     "LOGIN_PAGE": {
         "LOGIN": "Login",
-        "REGISTER": "Registrieren"
+        "REGISTER": "Registrieren",
+        "ERROR": {
+            "WRONG_KEY": "Registrierung fehlgeschlagen. Dein Einladungsschlüssel ist falsch!",
+            "USERNAME_IN_USE": "Registrierung fehlgeschlagen. Der Benutzername wird schon verwendet! Nimm einen anderen!",
+            "GENERAL_REGISTER": "Registrierung fehlgeschlagen. Versuche es erneut!",
+            "GENERAL_LOGIN": "Login fehlgeschlagen. Versuche es erneut!",
+            "WRONG_PW_OR_USER": "Login fehlgeschlagen! Benutzername oder Passwort ist falsch!"
+        }
     },
     "TRACK_LIST": {
         "ID": "ID",
@@ -20,5 +28,13 @@
         "BY_FEATURE": "Nach Merkmalen",
         "BY_SONG": "Nach Startsong",
         "TITLE": "Beginne die Wiedergabe mit folgendem Song"
+    },
+    "SPEECH": {
+        "COMMAND_INPUT": "Suchen oder Befehl eingeben...",
+        "ERROR": {
+            "GENERAL_ERROR": "Entschuldigung, irgendetwas ist schief gelaufen!",
+            "INDISTINGUISHABLE_SPEECH": "Entschuldigung, ich habe dich nicht verstanden!",
+            "NOT_AVAILABLE":"Entschuldigung, die Sprachsteuerung ist nicht verfügbar!"
+        }
     }
 }
