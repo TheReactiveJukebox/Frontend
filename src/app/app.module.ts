@@ -17,6 +17,7 @@ import {ROUTES} from './app.routes';
 import {AppComponent} from './app.component';
 import '../styles/styles.scss';
 import 'hammerjs';
+
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -34,6 +35,8 @@ import {TrackService} from './services/track.service';
 import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
 import {AuthGuard} from './guards/AuthGuard';
+import {SpeechService} from './services/speech.service';
+import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -46,6 +49,7 @@ import {AuthGuard} from './guards/AuthGuard';
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
+        SpeechComponent,
         SecondsToDatePipe
     ],
     /**
@@ -79,7 +83,8 @@ import {AuthGuard} from './guards/AuthGuard';
         AuthService,
         AuthHttp,
         AuthGuard,
-        TrackService
+        TrackService,
+        SpeechService,
     ]
 })
 export class AppModule {
