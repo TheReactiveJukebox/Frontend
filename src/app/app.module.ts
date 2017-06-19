@@ -39,7 +39,7 @@ import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechService} from './services/speech.service';
-import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
+import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -54,7 +54,7 @@ import {SpeechComponent} from './components/speech-search-field/speech-search-fi
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
-        SpeechComponent,
+        SpeechSearchFieldComponent,
         SecondsToDatePipe
     ],
     /**

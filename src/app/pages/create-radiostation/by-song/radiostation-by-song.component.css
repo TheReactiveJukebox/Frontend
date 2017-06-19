@@ -18,3 +18,11 @@
     font-size: large;
     margin-top:20px;
 }
+.center-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.search-field {
+    width: 50%;
+}
