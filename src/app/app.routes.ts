@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {LoginComponent} from './pages/login/login.component';
 import {PlayerComponent} from './pages/player/player.component';
 import {AuthGuard} from './guards/AuthGuard';
-import {SpeechComponent} from './pages/speech/speech.component';
+import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
 
 export const ROUTES: Routes = [
     {

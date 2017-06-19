@@ -1,19 +1,23 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Output} from '@angular/core';
 import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-    selector: 'speech',
-    styleUrls: [ './speech.component.scss' ],
-    templateUrl: './speech.component.html'
+    selector: 'speech-search-field',
+    styleUrls: [ './speech-search-field.component.scss' ],
+    templateUrl: './speech-search-field.component.html'
 })
 export class SpeechComponent implements OnInit, OnDestroy {
 
+    @Output()
     public detectedText: string;
+
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
 
-    constructor(public speechService: SpeechService) {
+    constructor(public speechService: SpeechService,
+                private translateService: TranslateService) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
     }
@@ -30,7 +34,7 @@ export class SpeechComponent implements OnInit, OnDestroy {
         this.ngUnsubscribe.complete();
     }
 
-    // toggles speech recognition listening state
+    // toggles speech-search-field recognition listening state
     public toggleListening(): void {
         if (this.listening)
             this.stop();
@@ -38,17 +42,23 @@ export class SpeechComponent implements OnInit, OnDestroy {
             this.start();
     }
 
-    // cancel speech recognition
+    // cancel speech-search-field recognition
     public stop(): void {
         this.speechService.stopListening();
     }
 
-    // starts speech recognition and set it's result to detectedText
+    // starts speech-search-field recognition and set it's result to detectedText
     public start(): void {
         this.speechService.recordSpeech().takeUntil(this.ngUnsubscribe).subscribe((text: string) => {
            this.detectedText = text;
         }, error => {
-            console.log('Error: ', error);
+            if (error == 'Indistinguishable speech!') {
+                this.detectedText = this.translateService.instant('SPEECH.ERROR.INDISTINGUISHABLE_SPEECH');
+            } else if (error == 'Service not initialized!') {
+                this.detectedText = this.translateService.instant('SPEECH.ERROR.NOT_AVAILABLE');
+            } else {
+                this.detectedText = this.translateService.instant('SPEECH.ERROR.GENERAL_ERROR');
+            }
         });
     }
 

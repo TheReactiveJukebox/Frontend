@@ -16,6 +16,11 @@
         "DURATION": "Duration"
     },
     "SPEECH": {
-        "COMMAND_INPUT": "Search or type command..."
+        "COMMAND_INPUT": "Search or type command...",
+        "ERROR": {
+            "GENERAL_ERROR": "Sorry, something went wrong!",
+            "INDISTINGUISHABLE_SPEECH": "Sorry, i didn't understand you!",
+            "NOT_AVAILABLE":"Sorry, voice control is not available!"
+        }
     }
 }

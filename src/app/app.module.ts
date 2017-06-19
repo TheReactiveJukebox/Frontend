@@ -36,7 +36,7 @@ import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechService} from './services/speech.service';
-import {SpeechComponent} from './pages/speech/speech.component';
+import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process

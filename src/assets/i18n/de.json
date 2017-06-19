@@ -16,6 +16,11 @@
         "DURATION": "Dauer"
     },
     "SPEECH": {
-        "COMMAND_INPUT": "Suchen oder Befehl eingeben..."
+        "COMMAND_INPUT": "Suchen oder Befehl eingeben...",
+        "ERROR": {
+            "GENERAL_ERROR": "Entschuldigung, irgendetwas ist schief gelaufen!",
+            "INDISTINGUISHABLE_SPEECH": "Entschuldigung, ich habe dich nicht verstanden!",
+            "NOT_AVAILABLE":"Entschuldigung, die Sprachsteuerung ist nicht verfügbar!"
+        }
     }
 }
