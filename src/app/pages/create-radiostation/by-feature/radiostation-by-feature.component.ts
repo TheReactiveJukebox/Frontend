@@ -3,11 +3,11 @@ import { AppState } from '../../../services/app.service';
 import { CreateRadiostationService } from '../../../services/create-radiostation.service';
 
 @Component({
-    selector: 'create-radiostation',
-    styleUrls: [ './create-radiostation.component.css' ],
-    templateUrl: './create-radiostation.component.html'
+    selector: 'radiostation-by-feature',
+    styleUrls: [ './radiostation-by-feature.component.css' ],
+    templateUrl: './radiostation-by-feature.component.html'
 })
-export class CreateRadiostationComponent implements OnInit {
+export class RadiostationByFeatureComponent implements OnInit {
     constructor(public createRadiostationService: CreateRadiostationService) {}
 
     ngOnInit(): void {

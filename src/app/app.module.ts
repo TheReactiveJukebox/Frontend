@@ -23,9 +23,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdListModule} from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
-import { CreateRadiostationComponent } from './pages/create-radiostation/by-feature/create-radiostation.component';
-import { CreateRadiostationService } from './services/create-radiostation.service';
-import { RadiostationBySongComponent }   from './pages/create-radiostation/by-song/radiostation-by-song.component';
+import {RadiostationByFeatureComponent} from './pages/create-radiostation/by-feature/radiostation-by-feature.component';
+import {CreateRadiostationService} from './services/create-radiostation.service';
+import {RadiostationBySongComponent}   from './pages/create-radiostation/by-song/radiostation-by-song.component';
 import {PlayerComponent} from './pages/player/player.component';
 import {MdInputModule} from '@angular/material';
 import {MdCardModule} from '@angular/material';
@@ -49,7 +49,7 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
     declarations: [
         AppComponent,
         LoginComponent,
-        CreateRadiostationComponent,
+        RadiostationByFeatureComponent,
         RadiostationBySongComponent,
         PlayerComponent,
         TrackListComponent,
