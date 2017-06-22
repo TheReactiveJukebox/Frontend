@@ -45,7 +45,6 @@ export class TrackListComponent implements OnInit, OnDestroy{
 
     btn_Tendency(event){
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = this.currentTrack;
         this.dialogRef.afterClosed().subscribe(result => {
             this.dialogRef = null;
         });

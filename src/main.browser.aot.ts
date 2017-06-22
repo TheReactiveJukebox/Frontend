@@ -8,6 +8,7 @@ import { decorateModuleRef } from './app/environment';
  * our top level module that holds all of our components.
  */
 import { AppModuleNgFactory } from '../compiled/src/app/app.module.ngfactory';
+import { Config } from './app/config';
 /**
  * Bootstrap our Angular app with a top level NgModule.
  */

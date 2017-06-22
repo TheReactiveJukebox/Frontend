@@ -1,0 +1,15 @@
+FROM node:8-alpine
+MAINTAINER Danny Textores <textores.danny@gmail.com>
+
+ENV APP_ROOT=/app
+WORKDIR /app
+
+# install dependencies one level above app
+COPY package.json .
+RUN npm install
+
+# declare volumes to mount app sources and config
+VOLUME ["/app/src", "/app/config"]
+
+CMD ["/app/startdebug.sh"]
+EXPOSE 80

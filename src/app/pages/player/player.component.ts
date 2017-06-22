@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AppState } from '../../services/app.service';
-import { TrackService } from '../../services/track.service';
+import {Component, OnInit} from '@angular/core';
+import {TrackService} from '../../services/track.service';
 
 @Component({
     selector: 'player',
@@ -8,9 +7,11 @@ import { TrackService } from '../../services/track.service';
     templateUrl: './player.component.html'
 })
 export class PlayerComponent implements OnInit {
+
     constructor(public trackService: TrackService) {}
 
     ngOnInit(): void {
         this.trackService.refreshTracks();
     }
+
 }
