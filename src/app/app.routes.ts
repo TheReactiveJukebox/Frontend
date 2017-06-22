@@ -18,13 +18,11 @@ export const ROUTES: Routes = [
     },
     {
         path: 'radiostation-by-feature',
-        component: RadiostationByFeatureComponent,
-        canActivate: [AuthGuard]
+        component: RadiostationByFeatureComponent
     },
     {
         path: 'radiostation-by-song',
-        component: RadiostationBySongComponent,
-        canActivate: [AuthGuard]
+        component: RadiostationBySongComponent
     },
     {
         path: 'player',
