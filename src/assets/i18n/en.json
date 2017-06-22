@@ -12,6 +12,21 @@
         "TITLE": "Title",
         "ARTIST": "Artist",
         "ALBUM": "Album",
+        "DURATION": "Duration",
+        "TENDISC": "Give Tendency Feedback"
+    },
+    "CURRENT_TRACK": {
+        "SPECIALFEEDBACK": "explain your feedback"
+    },
+    "FEEDBACK_DIALOG": {
+        "LIKE": "I like",
+        "REASON": "beacause",
+        "CLOSE": "Close",
+        "CONFIRM": "Confirm",
+        "CONFIRMAPPLY": "Confirm and aplly",
+        "TITLE": "Title",
+        "ARTIST": "Artist",
+        "ALBUM": "Album",
         "DURATION": "Duration"
     }
 }

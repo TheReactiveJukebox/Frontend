@@ -2,18 +2,23 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TrackService } from '../../services/track.service';
 import { Track } from '../../models/track';
 import { Subscription } from 'rxjs/Subscription';
+import { MdDialog, MdDialogRef} from '@angular/material';
+import { SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
 
 @Component({
     selector: 'current-track',
     templateUrl: './current-track.component.html',
-    styleUrls: ['./current-track.component.css']
+    styleUrls: ['./current-track.component.scss']
 })
 export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     currentTrack: Track;
+    btnVisible: boolean = false;
+    dialogRef: MdDialogRef<any>;
+    selectedOption: string;
     private subscriptions: Subscription[];
 
-    constructor(public trackService: TrackService) {
+    constructor(public trackService: TrackService, public dialog: MdDialog) {
         this.subscriptions = [];
     }
 
@@ -38,4 +43,35 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
             subscription.unsubscribe();
         }
     }
+
+    btn_like(event){
+        this.btnVisible = true;
+        //wait 3 seconds and hide
+        setTimeout(function() {
+            this.btnVisible = false;
+        }.bind(this), 3000);
+    }
+
+    btn_dislike(event){
+        this.btnVisible = true;
+        //wait 3 seconds and hide
+        setTimeout(function() {
+            this.btnVisible = false;
+        }.bind(this), 3000);
+    }
+
+    //opens a dialog to speciy the feedback
+    dialog_special_feedback(event) {
+        this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
+        this.dialogRef.componentInstance.cTrack = this.currentTrack;
+        this.dialogRef.afterClosed().subscribe(result => {
+            this.dialogRef = null;
+        });
+    }
+
 }
+
+
+
+
+

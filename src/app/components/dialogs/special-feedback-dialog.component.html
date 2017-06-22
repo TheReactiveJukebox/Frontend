@@ -1,0 +1,120 @@
+
+<h2 md-dialog-title>{{'FEEDBACK_DIALOG.LIKE' | translate}} "{{cTrack.title}}" {{'FEEDBACK_DIALOG.REASON' |
+    translate}} </h2>
+<md-dialog-content class ="dialog">
+    <md-nav-list class="tl">
+    <md-list-item>
+        <p class="l-title">{{'TRACK_LIST.TITLE' | translate}}</p>
+        <p class="l-value"> {{cTrack.title}}</p>
+        <table class="l-icons" class="feedback_button_table">
+            <tr>
+                <td>
+                    <button
+                            md-icon-button
+                            md-mini-fab class="feedback_button_wrapper"
+                            class="like_button_wrapper"
+                            (click)="btnLike()">
+                        <md-icon>thumb_up</md-icon>
+                    </button>
+                    <button
+                            md-icon-button
+                            md-mini-fab class="feedback_button_wrapper"
+                            class="dislike_button_wrapper"
+                            (click)="btnDislike()">
+                        <md-icon>thumb_down</md-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </md-list-item>
+    <md-list-item>
+        <p class="l-artist">{{'TRACK_LIST.ARTIST' | translate}}</p>
+        <p> {{cTrack.artist}}</p>
+        <table class="l-icons" class="feedback_button_table">
+        <tr>
+            <td>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback_button_wrapper"
+                        class="like_button_wrapper"
+                        (click)="btnLike()">
+                    <md-icon>thumb_up</md-icon>
+                </button>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback_button_wrapper"
+                        class="dislike_button_wrapper"
+                        (click)="btnDislike()">
+                    <md-icon>thumb_down</md-icon>
+                </button>
+            </td>
+        </tr>
+    </table>
+    </md-list-item>
+    <md-list-item>
+        <p class="l-album">{{'TRACK_LIST.ALBUM' | translate}}</p>
+        <p> {{cTrack.album}}</p>
+        <table class="l-icons" class="feedback_button_table">
+            <tr>
+                <td>
+                    <button
+                            md-icon-button
+                            md-mini-fab class="feedback_button_wrapper"
+                            class="like_button_wrapper"
+                            (click)="btnLike()">
+                        <md-icon>thumb_up</md-icon>
+                    </button>
+                    <button
+                            md-icon-button
+                            md-mini-fab class="feedback_button_wrapper"
+                            class="dislike_button_wrapper"
+                            (click)="btnDislike()">
+                        <md-icon>thumb_down</md-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </md-list-item>
+    <md-list-item>
+        <p class="tl-duration">{{'TRACK_LIST.DURATION' | translate}}</p>
+        <p> {{cTrack.duration | mySecondsToDate | date:'mm:ss'}}</p>
+        <table class="l-icons" class="feedback_button_table">
+            <tr>
+                <td>
+                    <button
+                            md-icon-button
+                            md-mini-fab class="feedback_button_wrapper"
+                            class="like_button_wrapper"
+                            (click)="btnLike()">
+                        <md-icon>thumb_up</md-icon>
+                    </button>
+                    <button
+                            md-icon-button
+                            md-mini-fab class="feedback_button_wrapper"
+                            class="dislike_button_wrapper"
+                            (click)="btnDislike()">
+                        <md-icon>thumb_down</md-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </md-list-item>
+        </md-nav-list>
+</md-dialog-content>
+<md-dialog-actions>
+    <button
+            id="dialog_close_btn"
+            md-raised-button
+            md-dialog-close>{{'FEEDBACK_DIALOG.CLOSE' | translate}}
+    </button>
+    <button
+            id="dialog_confirm_btn"
+            md-button
+            (click)="confirmDialog()">{{'FEEDBACK_DIALOG.CONFIRM' | translate}}
+    </button>
+    <button
+            id="dialog_confirm_apply_btn"
+            md-raised-button
+            (click)="confirmAndApplyDialog()">{{'FEEDBACK_DIALOG.CONFIRMAPPLY' | translate}}
+    </button>
+</md-dialog-actions>

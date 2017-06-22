@@ -34,10 +34,15 @@ import { PlayerComponent } from './pages/player/player.component';
 import { MdInputModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
 import { MdTabsModule } from '@angular/material';
+import { MdDialogModule} from '@angular/material';
+import {MdIconModule} from '@angular/material';
 import { TrackListComponent } from './components/track-list/track-list.component';
 import { TrackService } from './services/track.service';
 import { SecondsToDatePipe } from './pipes/seconds-to-date.pipe';
-import { CurrentTrackComponent } from './components/current-track/current-track.component';
+import {CurrentTrackComponent} from './components/current-track/current-track.component';
+import {SpecialFeedbackDialogComponent} from "./components/dialogs/special-feedback-dialog.component";
+import {TendencyFeedbackDialogComponent} from "./components/dialogs/tendency_feedback-dialog.component";
+
 
 type StoreType = {
     state: InternalStateType,
@@ -56,7 +61,9 @@ type StoreType = {
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
-        SecondsToDatePipe
+        SecondsToDatePipe,
+        SpecialFeedbackDialogComponent,
+        TendencyFeedbackDialogComponent
     ],
     /**
      * Import Angular's modules.
@@ -67,6 +74,7 @@ type StoreType = {
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
+        MdDialogModule, MdIconModule,
         RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules }),
         TranslateModule.forRoot({
             loader: {
@@ -83,6 +91,10 @@ type StoreType = {
         ENV_PROVIDERS,
         AppState,
         TrackService,
+    ],
+    entryComponents: [
+        SpecialFeedbackDialogComponent,
+        TendencyFeedbackDialogComponent
     ]
 })
 export class AppModule {
