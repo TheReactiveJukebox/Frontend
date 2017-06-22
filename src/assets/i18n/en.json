@@ -28,10 +28,10 @@
     },
     "FEEDBACK_DIALOG": {
         "LIKE": "I like",
-        "REASON": "beacause",
+        "REASON": "because",
         "CLOSE": "Close",
         "CONFIRM": "Confirm",
-        "CONFIRMAPPLY": "Confirm and aplly",
+        "CONFIRMAPPLY": "Confirm and Aplly",
         "TITLE": "Title",
         "ARTIST": "Artist",
         "ALBUM": "Album",

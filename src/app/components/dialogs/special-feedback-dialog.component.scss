@@ -7,7 +7,7 @@
 
 .dialog{
   height: 40%;
-  width: 60%;
+  width: 100%;
   background-color: $primary-color;
   color: $primary-text-color
 }
@@ -29,6 +29,8 @@
 }
 
 .feedback_button_wrapper{
+  position: absolute;
+  right: 0px;
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -65,4 +67,8 @@
 #dialog_confirm_apply_btn{
   background-color: $primary;
   color: $primary-text-color;
+}
+
+.innerProp {
+  margin-right: 10px;
 }
