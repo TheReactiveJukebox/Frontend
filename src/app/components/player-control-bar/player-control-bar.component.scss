@@ -1,0 +1,48 @@
+#player_bar_wrapper{
+  //background: $primay;
+  height: 70px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+#progress_bar {
+  background: lighten($accent, 50%);
+}
+
+#progress_time_played{
+  width: 61%;
+  height: 6px;
+  background: $accent;
+}
+
+#player_bar_table {
+  cellspacing: 0;
+  cellpadding: 0;
+  opacity: .75;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 12px;
+}
+
+.player_bar_left_spacer, .player_bar_right_spacer{
+  width: 40px;
+}
+
+.player_icon{
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.player_bar_middle_spacer {
+  width: 50%;
+}
+
+#player_current_song_desc {
+  width: 270px;
+}
+
+
