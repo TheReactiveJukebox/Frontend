@@ -28,7 +28,7 @@
     },
     "FEEDBACK_DIALOG": {
         "LIKE": "Mir gefällt",
-        "REASON": "aufgrund dieser Eigenschaften:",
+        "REASON": "weil:",
         "CLOSE": "Abbrechen",
         "CONFIRM": "Ok",
         "CONFIRMAPPLY": "Ok und Übernehmen",

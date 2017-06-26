@@ -1,15 +1,4 @@
 <md-nav-list class="tl">
-    <!--
-    <md-list-item class="tl-header" >
-        <p class="tl-cover-col > </p>
-        <p class="tl-id-col" >{{'TRACK_LIST.ID' | translate}}</p>
-        <p class="tl-title-col">{{'TRACK_LIST.TITLE' | translate}}</p>
-        <p class="tl-artist-col">{{'TRACK_LIST.ARTIST' | translate}}</p>
-        <p class="tl-album-col">{{'TRACK_LIST.ALBUM' | translate}}</p>
-        <p class="tl-duration-col">{{'TRACK_LIST.DURATION' | translate}}</p>
-        <p class="tl-icon-col"></p>
-    </md-list-item>
-    -->
     <md-divider></md-divider>
     <md-list-item class="tl-row" *ngFor="let track of this.nextTracks">
         <p call ="tl-cover-col">
@@ -28,7 +17,7 @@
             <button
                     md-icon-button
                     (click)="btn_Tendency()">
-                <md-icon id="tendency_button_wrapper">queue_music</md-icon>
+                <md-icon id="tendency_button_wrapper">feedback</md-icon>
             </button>
 
         </p>
