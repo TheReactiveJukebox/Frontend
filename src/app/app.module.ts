@@ -23,6 +23,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdListModule} from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
+import {RadiostationByFeatureComponent} from './pages/create-radiostation/by-feature/radiostation-by-feature.component';
+import {CreateRadiostationService} from './services/create-radiostation.service';
+import {RadiostationBySongComponent}   from './pages/create-radiostation/by-song/radiostation-by-song.component';
 import {PlayerComponent} from './pages/player/player.component';
 import {MdInputModule} from '@angular/material';
 import {MdCardModule} from '@angular/material';
@@ -36,7 +39,7 @@ import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechService} from './services/speech.service';
-import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
+import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -46,10 +49,12 @@ import {SpeechComponent} from './components/speech-search-field/speech-search-fi
     declarations: [
         AppComponent,
         LoginComponent,
+        RadiostationByFeatureComponent,
+        RadiostationBySongComponent,
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
-        SpeechComponent,
+        SpeechSearchFieldComponent,
         SecondsToDatePipe
     ],
     /**
@@ -84,6 +89,7 @@ import {SpeechComponent} from './components/speech-search-field/speech-search-fi
         AuthHttp,
         AuthGuard,
         TrackService,
+        CreateRadiostationService,
         SpeechService,
     ]
 })
