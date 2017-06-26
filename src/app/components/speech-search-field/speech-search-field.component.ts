@@ -8,7 +8,7 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: [ './speech-search-field.component.scss' ],
     templateUrl: './speech-search-field.component.html'
 })
-export class SpeechComponent implements OnInit, OnDestroy {
+export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
     @Output()
     public detectedText: string;
