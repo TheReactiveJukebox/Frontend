@@ -30,13 +30,17 @@ import {PlayerComponent} from './pages/player/player.component';
 import {MdInputModule} from '@angular/material';
 import {MdCardModule} from '@angular/material';
 import {MdTabsModule} from '@angular/material';
-import {CookieModule, CookieService} from 'ngx-cookie';
-import {AuthService} from './services/auth/auth.service';
-import {AuthHttp} from './services/auth/auth-http';
+import {MdDialogModule} from '@angular/material';
+import {MdIconModule} from '@angular/material';
 import {TrackListComponent} from './components/track-list/track-list.component';
 import {TrackService} from './services/track.service';
 import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
+import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback-dialog.component';
+import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency_feedback-dialog.component';
+import {CookieModule, CookieService} from 'ngx-cookie';
+import {AuthService} from './services/auth/auth.service';
+import {AuthHttp} from './services/auth/auth-http';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechService} from './services/speech.service';
 import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
@@ -45,7 +49,7 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-    bootstrap: [ AppComponent ],
+    bootstrap: [AppComponent],
     declarations: [
         AppComponent,
         LoginComponent,
@@ -54,7 +58,10 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
-        SpeechSearchFieldComponent,
+        SecondsToDatePipe,
+        SpecialFeedbackDialogComponent,
+        TendencyFeedbackDialogComponent,
+        SpeechComponent,
         SecondsToDatePipe
     ],
     /**
@@ -67,6 +74,7 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
+        MdDialogModule, MdIconModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {
@@ -77,7 +85,8 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
         })
     ],
     entryComponents: [
-        // maybe used later. when angular requests to declare a component here, just do it.
+        SpecialFeedbackDialogComponent,
+        TendencyFeedbackDialogComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
