@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs/Subscription';
 @Component({
     selector: 'player-control-bar',
     templateUrl: './player-control-bar.component.html',
-    styleUrls: ['./player-control-bar.component.css'],
+    styleUrls: ['./player-control-bar.component.scss'],
 })
 export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
@@ -22,6 +22,10 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     constructor(public trackService: TrackService) {
         this.subscriptions = [];
         this.audioPlayer = new Audio();
+        this.show = true;
+        this.audioPlayer.type = 'audio/mpeg';
+        this.audioPlayer.src = 'https://p.scdn.co/mp3-preview/fd3279ef9df976c127f1cf9ddaddaa6d067b77f6';
+        this.audioPlayer.load();
     }
 
     ngOnInit(): void {

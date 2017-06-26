@@ -1,48 +1,78 @@
-#player_bar_wrapper{
-  //background: $primay;
-  height: 70px;
-  position: absolute;
+#player_bar_wrapper {
+  height: 65px;
+  position: fixed;
   bottom: 0;
   width: 100%;
+  background: black;
 }
 
 #progress_bar {
-  background: lighten($accent, 50%);
+  position: absolute;
+  top: 0;
+  height: 4px;
+  width: 100%;
+  border: 0px;
+  background-color: lighten(#d50000, 50%);
+  background-color: #d50000 !important;
 }
 
-#progress_time_played{
-  width: 61%;
-  height: 6px;
-  background: $accent;
+#controls_wrapper {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  width: 10%;
 }
 
-#player_bar_table {
-  cellspacing: 0;
-  cellpadding: 0;
-  opacity: .75;
-  text-align: center;
-  margin: 0 auto;
-  margin-top: 12px;
-}
-
-.player_bar_left_spacer, .player_bar_right_spacer{
-  width: 40px;
-}
-
-.player_icon{
-  width: 40px;
-  height: 40px;
+.controlls {
   cursor: pointer;
   background: transparent;
+  color: white;
   border: none;
 }
 
-.player_bar_middle_spacer {
-  width: 50%;
-}
-
 #player_current_song_desc {
-  width: 270px;
+  position: absolute;
+  left: 10%;
+  bottom: 10px;
+  height: 45px;
+  width: 40%;
+  color: white;
+  line-height: 45px;
+  text-align: center;
 }
 
+#feedback_wrapper {
+  position: fixed;
+  bottom: 10px;
+  width: 15%;
+  right: 25%;
+  margin-right: 0px; /*negative half of width*/
+  color: white;
+  float: left;
+  flex-flow: row;
+}
 
+#sound_wrapper {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: 30%;
+  float: right;
+  margin-right: -10%;
+}
+
+.player_icon {
+  cursor: pointer;
+  background: transparent;
+  color: white;
+  border: none;
+  align-items: center;
+}
+
+.material-icons {
+  font-size: 38px;
+}
+
+#volume_range {
+  height: 34px;
+}
