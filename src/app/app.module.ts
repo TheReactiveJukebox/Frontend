@@ -23,32 +23,44 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdListModule} from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
+import {RadiostationByFeatureComponent} from './pages/create-radiostation/by-feature/radiostation-by-feature.component';
+import {CreateRadiostationService} from './services/create-radiostation.service';
+import {RadiostationBySongComponent}   from './pages/create-radiostation/by-song/radiostation-by-song.component';
 import {PlayerComponent} from './pages/player/player.component';
 import {MdInputModule} from '@angular/material';
 import {MdCardModule} from '@angular/material';
 import {MdTabsModule} from '@angular/material';
-import {CookieModule, CookieService} from 'ngx-cookie';
-import {AuthService} from './services/auth/auth.service';
-import {AuthHttp} from './services/auth/auth-http';
+import {MdDialogModule} from '@angular/material';
+import {MdIconModule} from '@angular/material';
 import {TrackListComponent} from './components/track-list/track-list.component';
 import {TrackService} from './services/track.service';
 import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
+import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback-dialog.component';
+import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency_feedback-dialog.component';
+import {CookieModule, CookieService} from 'ngx-cookie';
+import {AuthService} from './services/auth/auth.service';
+import {AuthHttp} from './services/auth/auth-http';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechService} from './services/speech.service';
-import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
+import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-    bootstrap: [ AppComponent ],
+    bootstrap: [AppComponent],
     declarations: [
         AppComponent,
         LoginComponent,
+        RadiostationByFeatureComponent,
+        RadiostationBySongComponent,
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
+        SecondsToDatePipe,
+        SpecialFeedbackDialogComponent,
+        TendencyFeedbackDialogComponent,
         SpeechComponent,
         SecondsToDatePipe
     ],
@@ -62,6 +74,7 @@ import {SpeechComponent} from './components/speech-search-field/speech-search-fi
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
+        MdDialogModule, MdIconModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {
@@ -72,7 +85,8 @@ import {SpeechComponent} from './components/speech-search-field/speech-search-fi
         })
     ],
     entryComponents: [
-        // maybe used later. when angular requests to declare a component here, just do it.
+        SpecialFeedbackDialogComponent,
+        TendencyFeedbackDialogComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
@@ -84,6 +98,7 @@ import {SpeechComponent} from './components/speech-search-field/speech-search-fi
         AuthHttp,
         AuthGuard,
         TrackService,
+        CreateRadiostationService,
         SpeechService,
     ]
 })

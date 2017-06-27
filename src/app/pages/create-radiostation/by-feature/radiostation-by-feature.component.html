@@ -1,0 +1,14 @@
+
+<nav>
+    <a routerLink="/radiostation-by-feature">{{'RADIOSTATION_CREATE.BY_FEATURE' | translate}}</a>
+    <a routerLink="/radiostation-by-song">{{'RADIOSTATION_CREATE.BY_SONG' | translate}}</a>
+</nav>
+<h3>Blafoo</h3>
+
+<div>
+<button md-raised-button class="button-reset" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' | translate}}</button>
+
+<button md-raised-button class="button-start" (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}</button>
+</div>
+
+<router-outlet></router-outlet>

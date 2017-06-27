@@ -1,13 +1,39 @@
-<div *ngIf="currentTrack" style="width: 100%;">
-    <div style="float: left; width: 20%">
-        <img src="{{currentTrack.cover}}" alt="Cover" style="width:100px;height:100px;">
+<td class="content_wrapper">
+    <div id="now_playing_wrapper" *ngIf="currentTrack" class="ct-container">
+        <table id="now_playing_details_table">
+            <tr>
+                <td id="cover_img_table_wrapper">
+                    <div id="cover_img_wrapper">
+                        <a> <img src="{{currentTrack.cover}}" alt="Cover" class="cover_img"></a>
+                    </div>
+                </td>
+                <td id="now_playing_details_table_wrapper">
+                    <div id="now_playing_details_wrapper">
+                        <h2>{{currentTrack.artist}} - {{currentTrack.title}}</h2>
+                        <a>{{currentTrack.album}}</a><br>
+                        <table id="feedback_button_table">
+                            <tr>
+                                <td>
+                                    <button
+                                            md-icon-button
+                                            md-fab class="feedback_button_wrapper"
+                                            id="like_button_wrapper"
+                                            (click)="btn_like()">
+                                    </button>
+                                    <button
+                                            md-icon-button
+                                            md-fab class="feedback_button_wrapper"
+                                            id="dislike_button_wrapper"
+                                            (click)="btn_dislike()">
+                                    </button>
+                                </td>
+                                <button md-raised-button *ngIf="btnVisible" id="special_feedback_btn" (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
-    <div style="float: left; width: 60%">
-        <h1>{{currentTrack.artist}} - {{currentTrack.title}}</h1>
-        <p>{{currentTrack.album}}</p>
-    </div>
-    <div style="float: left; width:10%">
-        <h1>00:00/{{currentTrack.duration | mySecondsToDate | date:'mm:ss'}}</h1>
-    </div>
-</div>
+</td>
 <div style="clear:both"></div>
