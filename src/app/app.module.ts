@@ -61,7 +61,7 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
         SecondsToDatePipe,
         SpecialFeedbackDialogComponent,
         TendencyFeedbackDialogComponent,
-        SpeechComponent,
+        SpeechSearchFieldComponent,
         SecondsToDatePipe
     ],
     /**
