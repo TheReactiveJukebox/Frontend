@@ -12,9 +12,16 @@
   height: 4px;
   width: 100%;
   border: 0px;
-  background-color: lighten(#d50000, 50%);
-  background-color: #d50000 !important;
+  background: lighten(#d50000, 25%);
+  //color: #d50000;
 }
+
+progress[value] {color:#d50000} /* IE10 */
+progress::-webkit-progress-bar-value {background:#d50000}
+progress::-webkit-progress-value {background:#d50000}
+progress::-moz-progress-bar {background:#d50000}
+
+
 
 #controls_wrapper {
   position: fixed;

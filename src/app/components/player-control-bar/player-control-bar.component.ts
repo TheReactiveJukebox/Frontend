@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
+import {Component, Output, EventEmitter, Input, OnDestroy, OnInit} from '@angular/core';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
@@ -11,21 +11,25 @@ import {Subscription} from 'rxjs/Subscription';
 export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
 
-    // Controls
-    @Output() detailedFeedback = new EventEmitter();
-
     public currentTrack: Track;
-    public show: boolean;
-    public audioPlayer: any;
+    public show: boolean = true;
+    public audioPlayer: any = new Audio();
+    public volume: number = 0.5;
+    public progress: number = 0;
     private subscriptions: Subscription[];
 
     constructor(public trackService: TrackService) {
         this.subscriptions = [];
-        this.audioPlayer = new Audio();
-        this.show = true;
         this.audioPlayer.type = 'audio/mpeg';
         this.audioPlayer.src = 'https://p.scdn.co/mp3-preview/fd3279ef9df976c127f1cf9ddaddaa6d067b77f6';
         this.audioPlayer.load();
+        this.audioPlayer.ontimeupdate = () => {
+            this.progressUpdate()
+        };
+        this.audioPlayer.onended = () => {
+            this.songEnded()
+        };
+        this.audioPlayer.volume = this.volume;
     }
 
     ngOnInit(): void {
@@ -50,12 +54,18 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         }
     }
 
-    public skipBackward(): void {
-        //TODO: set the last track as current track as soon there is a real list at the server
-    }
 
     public skipForward(): void {
-        this.trackService.nextSong()
+        this.trackService.nextSong();
+        this.progress = 0;
+        //var inPause = this.audioPlayer.paused;
+        this.audioPlayer.pause();
+        //this.audioPlayer.src = this.currentTrack.url;
+        this.audioPlayer.load();
+        //if(inPause) {
+        //   this.audioPlayer.play();
+        //}
+
     }
 
     public like(): void {
@@ -68,5 +78,25 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
     public detailFeedback(): void {
         //TODO: call procedure for detailed feedback
+    }
+
+    public volumeDown(): void {
+        if (this.volume > 0) {
+            this.volume = this.volume - 0.1;
+        }
+    }
+
+    public volumeUp(): void {
+        if (this.volume < 1) {
+            this.volume = this.volume + 0.1;
+        }
+    }
+
+    public progressUpdate(): void {
+        this.progress = this.audioPlayer.currentTime;
+    }
+
+    public songEnded(): void {
+        this.skipForward()
     }
 }
