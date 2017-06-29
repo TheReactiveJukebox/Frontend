@@ -21,6 +21,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     constructor(public trackService: TrackService) {
         this.subscriptions = [];
         this.audioPlayer.type = 'audio/mpeg';
+        //TODO: replace with server url for current song
         this.audioPlayer.src = 'https://p.scdn.co/mp3-preview/fd3279ef9df976c127f1cf9ddaddaa6d067b77f6';
         this.audioPlayer.load();
         this.audioPlayer.ontimeupdate = () => {
@@ -81,14 +82,14 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     public volumeDown(): void {
-        if (this.volume > 0) {
-            this.volume = this.volume - 0.1;
+        if (this.audioPlayer.volume > 0) {
+            this.audioPlayer.volume = this.audioPlayer.volume - 0.1;
         }
     }
 
     public volumeUp(): void {
-        if (this.volume < 1) {
-            this.volume = this.volume + 0.1;
+        if (this.audioPlayer.volume < 1) {
+            this.audioPlayer.volume = this.audioPlayer.volume + 0.1;
         }
     }
 

@@ -1,6 +1,6 @@
 <div id="player_bar_wrapper" *ngIf="show">
 
-    <progress id="progress_bar" value="{{progress}}" max="{{currentTrack.duration}}" contenteditable="true"></progress>
+    <progress id="progress_bar" value="{{progress}}" max="{{currentTrack.duration}}"></progress>
     <div id="controls_wrapper">
         <button class="controlls" id="play_button" *ngIf="audioPlayer.paused" (click)="audioPlayer.play()">
             <i class="material-icons">play_circle_outline</i>
@@ -27,7 +27,7 @@
 
     <div id="sound_wrapper">
         <button class="player_icon" (click)="volumeDown()"><i class="material-icons">volume_down</i></button>
-        <input type="range" step="0.1" id="volume_range" max="1" value="{{volume}}">
+        <input type="range" step="0.1" id="volume_range" max="1" value="{{this.audioPlayer.volume}}">
         <button class="player_icon" (click)="volumeUp()"><i class="material-icons">volume_up</i></button>
         <div class="player_bar_right_spacer"></div>
     </div>
