@@ -20,7 +20,29 @@
         "TITLE": "Titel",
         "ARTIST": "Interpret",
         "ALBUM": "Album",
+        "DURATION": "Dauer",
+        "TENDISC": "Feedback zur Tendenz angeben"
+    },
+    "CURRENT_TRACK": {
+        "SPECIALFEEDBACK": "Grund angeben"
+    },
+    "FEEDBACK_DIALOG": {
+        "LIKE": "Mir gefällt",
+        "REASON": "weil:",
+        "CLOSE": "Abbrechen",
+        "CONFIRM": "Ok",
+        "CONFIRMAPPLY": "Ok und Übernehmen",
+        "TITLE": "Titel",
+        "ARTIST": "Interpret",
+        "ALBUM": "Album",
         "DURATION": "Dauer"
+    },
+    "RADIOSTATION_CREATE": {
+        "RESET": "Zurücksetzen",
+        "START": "Start",
+        "BY_FEATURE": "Nach Merkmalen",
+        "BY_SONG": "Nach Startsong",
+        "TITLE": "Beginne die Wiedergabe mit folgendem Song"
     },
     "SPEECH": {
         "COMMAND_INPUT": "Suchen oder Befehl eingeben...",
