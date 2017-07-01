@@ -32,7 +32,7 @@ export const ROUTES: Routes = [
     },
     {
         path: 'speech',
-        component: SpeechSearchFieldComponent,
+        component: SpeechComponent,
     },
     {
         path: 'search',
