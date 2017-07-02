@@ -21,17 +21,33 @@ export class SearchService {
 
     constructor(private http: Http,private authHttp: AuthHttp) { }
 
-    titleSearch(terms: Observable<string>) {
+
+    //Doesn't use our API. DELETE BEFORE MERGE
+    thirdPartySearch(terms: Observable<string>) {
         return terms.debounceTime(400)
             .distinctUntilChanged()
             .switchMap(term => this.searchEntries(term));
     }
+
+    trackSearch(terms: Observable<string>) {
+        return terms.debounceTime(400)
+            .distinctUntilChanged()
+            .switchMap(term => this.apiCall(term, '/api/track'));
+    }
+
     artistSearch(terms: Observable<string>) {
         return terms.debounceTime(400)
             .distinctUntilChanged()
             .switchMap(term => this.apiCall(term, '/api/artist'));
     }
 
+    albumSearch(terms: Observable<string>) {
+        return terms.debounceTime(400)
+            .distinctUntilChanged()
+            .switchMap(term => this.apiCall(term, '/api/album'));
+    }
+
+    //DELETE WITH thirdPartySearch()
     searchEntries(term) {
         return this.http
             .get(this.baseUrl + this.queryUrl + term)

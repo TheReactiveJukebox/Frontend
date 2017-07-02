@@ -12,26 +12,33 @@ import { Subject } from 'rxjs/Subject';
     providers: [SearchService]
 })
 export class SimpleSearchComponent {
-    results1: Object;
-    results2: Object;
-    searchTerm$ = new Subject<string>();
-    searchTerm2$= new Subject<string>();
+    trackResult: Object;
+    artistResult: Object;
+    albumResult: Object;
+
+    searchTrack$ = new Subject<string>();
+    searchArtist$= new Subject<string>();
+    searchAlbum$ = new Subject<string>();
 
     constructor(private searchService: SearchService) {
-        this.searchService.titleSearch(this.searchTerm$)
+        this.searchService.thirdPartySearch(this.searchTrack$)
             .subscribe(results => {
-                this.results1 = results.results;
+                this.trackResult = results.results;
             });
 
-        this.searchService.titleSearch(this.searchTerm2$)
+        this.searchService.thirdPartySearch(this.searchArtist$)
             .subscribe(results => {
-                this.results2 = results.results;
+                this.artistResult = results.results;
+            });
+        this.searchService.thirdPartySearch(this.searchAlbum$)
+            .subscribe(results => {
+                this.albumResult = results.results;
             });
     }
 
     public searches(value):void {
-        this.searchTerm$.next(value);
-        console.log('Did Search Term');
-        this.searchTerm2$.next(value+'e');
+        this.searchTrack$.next(value);
+        this.searchArtist$.next(value+'e');
+        this.searchAlbum$.next(value+'a');
     }
 }

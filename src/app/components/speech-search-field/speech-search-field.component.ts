@@ -4,12 +4,15 @@ import {Subject} from 'rxjs/Subject';
 import {TranslateService} from '@ngx-translate/core';
 
 
+
+
 @Component({
     selector: 'speech-search-field',
     styleUrls: [ './speech-search-field.component.scss' ],
     templateUrl: './speech-search-field.component.html'
 })
 export class SpeechComponent implements OnInit, OnDestroy {
+
 
     @Output()
     public detectedText: string;
@@ -19,7 +22,8 @@ export class SpeechComponent implements OnInit, OnDestroy {
 
 
     constructor(public speechService: SpeechService,
-                private translateService: TranslateService) {
+                private translateService: TranslateService
+    ) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
     }
@@ -28,7 +32,8 @@ export class SpeechComponent implements OnInit, OnDestroy {
         // subscribe to Listening Observable. When ever the browser starts or stops listening, this will be called
         this.speechService.isListening().takeUntil(this.ngUnsubscribe).subscribe((listening: boolean) => {
             this.listening = listening;
-            this.test2();
+
+
         });
     }
 

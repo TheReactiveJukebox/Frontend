@@ -1,9 +1,10 @@
-<input (keyup)="searches($event.target.value)">
-
+<speech-search-field (keyup)="searches($event.target.value)"></speech-search-field>
+<div *ngIf="trackResult">
 <md-nav-list class="tl">
     <h1 md-subheader>3rd Party API results Category 1:</h1>
-    <md-list-item class="tl-row" *ngFor="let result of results1 | slice:0:5">
+    <md-list-item class="tl-row" *ngFor="let result of trackResult | slice:0:5">
         <p class="tl-name-col">{{result.name}}</p>
     </md-list-item>
     <md-divider></md-divider>
 </md-nav-list>
+</div>
