@@ -3,32 +3,36 @@
     <progress id="progress_bar" value="{{progress}}" max="{{currentTrack.duration}}"></progress>
     <div id="controls_wrapper">
         <button class="controlls" id="play_button" *ngIf="audioPlayer.paused" (click)="audioPlayer.play()">
-            <i class="material-icons">play_circle_outline</i>
+            <i class="material-icons controlls-icons">play_circle_outline</i>
         </button>
         <button class="controlls" id="pause_button" *ngIf="!audioPlayer.paused" (click)="audioPlayer.pause()">
-            <i class="material-icons">pause_circle_outline</i>
+            <i class="material-icons controlls-icons">pause_circle_outline</i>
         </button>
-        <button class="controlls" id="skip_button" (click)="skipForward()"><i class="material-icons">skip_next</i>
+        <button class="controlls" id="skip_button" (click)="skipForward()"><i class="material-icons controlls-icons">skip_next</i>
         </button>
     </div>
 
 
-        <div id="player_current_song_desc"> {{currentTrack.artist}} - {{currentTrack.title}}  ({{progress | mySecondsToDate |
-            date:'mm:ss'}}/{{currentTrack.duration | mySecondsToDate | date:'mm:ss'}})
+    <div id="player_current_song_desc"> {{currentTrack.artist}} - {{currentTrack.title}} ({{progress | mySecondsToDate |
+        date:'mm:ss'}}/{{currentTrack.duration | mySecondsToDate | date:'mm:ss'}})
+    </div>
+        <div id="feedback_wrapper">
+            <button class="player_icon" id="player_bar_like_button" (click)="like()"><i
+                    class="material-icons feedback-icons">thumb_up</i>
+            </button>
+            <button class="player_icon" id="player_bar_dislike_button" (click)="dislike()"><i
+                    class="material-icons feedback-icons">thumb_down</i></button>
+            <button class="player_icon" id="player_bar_tendency_button" (click)="detailFeedback()"><i
+                    class="material-icons feedback-icons">feedback</i></button>
         </div>
-    <div id="feedback_wrapper">
-    <button class="player_icon" id="player_bar_like_button" (click)="like()"><i class="material-icons">thumb_up</i>
-        </button>
-        <button class="player_icon" id="player_bar_dislike_button" (click)="dislike()"><i
-                class="material-icons">thumb_down</i></button>
-        <button class="player_icon" id="player_bar_tendency_button" (click)="detailFeedback()"><i
-                class="material-icons">feedback</i></button>
-    </div>
+
+
 
     <div id="sound_wrapper">
-        <button class="player_icon" (click)="volumeDown()"><i class="material-icons">volume_down</i></button>
+        <button class="player_icon" *ngIf="this.audioPlayer.volume != 0" (click)="volumeOff()"><i
+                class="material-icons volume-icons">volume_up</i></button>
+        <button class="player_icon" *ngIf="this.audioPlayer.volume == 0" (click)="volumeOn()"><i
+                class="material-icons volume-icons">volume_mute</i></button>
         <input type="range" step="0.1" id="volume_range" max="1" value="{{this.audioPlayer.volume}}">
-        <button class="player_icon" (click)="volumeUp()"><i class="material-icons">volume_up</i></button>
-        <div class="player_bar_right_spacer"></div>
     </div>
 </div>

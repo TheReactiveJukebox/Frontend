@@ -12,14 +12,13 @@
   height: 4px;
   width: 100%;
   border: 0px;
-  background: lighten(#d50000, 25%);
-  //color: #d50000;
+  background: #ff5131;
 }
 
-progress[value] {color:#d50000} /* IE10 */
-progress::-webkit-progress-bar-value {background:#d50000}
-progress::-webkit-progress-value {background:#d50000}
-progress::-moz-progress-bar {background:#d50000}
+progress[value] {color:#9b0000} /* IE10 */
+progress::-webkit-progress-bar-value {background:#9b0000}
+progress::-webkit-progress-value {background:#9b0000}
+progress::-moz-progress-bar {background:#9b0000}
 
 
 
@@ -27,7 +26,8 @@ progress::-moz-progress-bar {background:#d50000}
   position: fixed;
   left: 10px;
   bottom: 10px;
-  width: 10%;
+  width: 120px;
+  flex-flow: row
 }
 
 .controlls {
@@ -37,9 +37,13 @@ progress::-moz-progress-bar {background:#d50000}
   border: none;
 }
 
+.controlls-icons {
+  font-size: 38px;
+}
+
 #player_current_song_desc {
   position: absolute;
-  left: 10%;
+  left: 130px;
   bottom: 10px;
   height: 45px;
   width: 40%;
@@ -51,21 +55,32 @@ progress::-moz-progress-bar {background:#d50000}
 #feedback_wrapper {
   position: fixed;
   bottom: 10px;
-  width: 15%;
-  right: 25%;
-  margin-right: 0px; /*negative half of width*/
+  width: 140px;
+  left: 40%;
+  margin-left: 130px;
   color: white;
   float: left;
   flex-flow: row;
+}
+
+.feedback-icons {
+  font-size: 28px;
 }
 
 #sound_wrapper {
   position: fixed;
   right: 10px;
   bottom: 10px;
-  width: 30%;
+  width: 210px;
   float: right;
-  margin-right: -10%;
+}
+
+#volume_range {
+  height: 34px;
+}
+
+.volume-icons {
+  font-size: 38px;
 }
 
 .player_icon {
@@ -74,12 +89,4 @@ progress::-moz-progress-bar {background:#d50000}
   color: white;
   border: none;
   align-items: center;
-}
-
-.material-icons {
-  font-size: 38px;
-}
-
-#volume_range {
-  height: 34px;
 }

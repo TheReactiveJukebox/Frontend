@@ -81,16 +81,12 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         //TODO: call procedure for detailed feedback
     }
 
-    public volumeDown(): void {
-        if (this.audioPlayer.volume > 0) {
-            this.audioPlayer.volume = this.audioPlayer.volume - 0.1;
-        }
+    public volumeOn(): void {
+        this.audioPlayer.volume = 0.5;
     }
 
-    public volumeUp(): void {
-        if (this.audioPlayer.volume < 1) {
-            this.audioPlayer.volume = this.audioPlayer.volume + 0.1;
-        }
+    public volumeOff(): void {
+        this.audioPlayer.volume = 0;
     }
 
     public progressUpdate(): void {
