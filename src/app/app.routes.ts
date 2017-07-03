@@ -10,7 +10,7 @@ import {SimpleSearchComponent} from './components/simple-search/simple-search.co
 export const ROUTES: Routes = [
     {
         path: '',
-        redirectTo: '/login',
+        redirectTo: '/player',
         pathMatch: 'full'
     },
     {
@@ -19,11 +19,13 @@ export const ROUTES: Routes = [
     },
     {
         path: 'radiostation-by-feature',
-        component: RadiostationByFeatureComponent
+        component: RadiostationByFeatureComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'radiostation-by-song',
-        component: RadiostationBySongComponent
+        component: RadiostationBySongComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'player',
@@ -33,9 +35,11 @@ export const ROUTES: Routes = [
     {
         path: 'speech',
         component: SpeechComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'search',
         component: SimpleSearchComponent,
+        canActivate: [AuthGuard]
     },
 ];
