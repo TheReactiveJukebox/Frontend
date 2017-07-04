@@ -2,6 +2,7 @@ import {Component, Output, EventEmitter, Input, OnDestroy, OnInit} from '@angula
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
+import {current} from 'codelyzer/util/syntaxKind';
 
 @Component({
     selector: 'player-control-bar',
@@ -67,6 +68,11 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         //   this.audioPlayer.play();
         //}
 
+    }
+
+    public onProgressBarClick(event: MouseEvent): void {
+        this.progress = event.offsetX / window.innerWidth * this.currentTrack.duration;
+        this.audioPlayer.currentTime = event.offsetX / window.innerWidth * this.currentTrack.duration;
     }
 
     public like(): void {

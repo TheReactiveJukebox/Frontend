@@ -1,6 +1,6 @@
 <div id="player_bar_wrapper" *ngIf="show">
 
-    <progress id="progress_bar" value="{{progress}}" max="{{currentTrack.duration}}"></progress>
+    <progress id="progress_bar" value="{{progress}}" max="{{currentTrack.duration}}" (click)="onProgressBarClick($event)"></progress>
     <div id="controls_wrapper">
         <button class="controlls" id="play_button" *ngIf="audioPlayer.paused" (click)="audioPlayer.play()">
             <i class="material-icons controlls-icons">play_circle_outline</i>
