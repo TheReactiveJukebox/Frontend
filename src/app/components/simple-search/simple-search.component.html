@@ -1,10 +1,30 @@
 <speech-search-field (keyup)="searches($event.target.value)"></speech-search-field>
-<div *ngIf="trackResult">
-<md-nav-list class="tl">
-    <h1 md-subheader>3rd Party API results Category 1:</h1>
-    <md-list-item class="tl-row" *ngFor="let result of trackResult | slice:0:5">
-        <p class="tl-name-col">{{result.name}}</p>
-    </md-list-item>
+<div *ngIf="this.trackResultCount > 0">
+    <md-nav-list class="tl">
+        <h1 md-subheader>Tracks</h1>
+        <md-list-item class="tl-row" *ngFor="let result of this.trackResult | slice:0:9" (click)="this.selection(result)">
+            <p class="tl-title-col">{{result.title}}</p>
+            <p class="tl-artist-col">{{result.artist}}</p>
+            <p class="tl-album-col">{{result.album}}</p>
+        </md-list-item>
+    </md-nav-list>
+</div>
+<div *ngIf="this.artistResultCount > 0">
     <md-divider></md-divider>
-</md-nav-list>
+    <md-nav-list class="tl">
+        <h1 md-subheader>Artists</h1>
+        <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4" (click)="this.selection(result)">
+            <p class="tl-name-col">{{result.name}}</p>
+        </md-list-item>
+    </md-nav-list>
+</div>
+<div *ngIf="this.albumResultCount > 0">
+    <md-divider></md-divider>
+    <md-nav-list class="tl">
+        <h1 md-subheader>Album</h1>
+        <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:4" (click)="this.selection(result)">
+            <p class="tl-title-col">{{result.title}}</p>
+            <p class="tl-artist-col">{{result.artist}}</p>
+        </md-list-item>
+    </md-nav-list>
 </div>

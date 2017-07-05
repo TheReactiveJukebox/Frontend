@@ -16,8 +16,6 @@ export class SearchService {
     baseUrl: string = 'https://api.cdnjs.com/libraries';
     queryUrl: string = '?search=';
 
-    //Search parameters for our API call
-    queryParam: string = '?titlesubstr='
 
     constructor(private http: Http,private authHttp: AuthHttp) { }
 
@@ -32,19 +30,19 @@ export class SearchService {
     trackSearch(terms: Observable<string>) {
         return terms.debounceTime(400)
             .distinctUntilChanged()
-            .switchMap(term => this.apiCall(term, '/api/track'));
+            .switchMap(term => this.apiCall(term, '/api/track?titlesubstr='));
     }
 
     artistSearch(terms: Observable<string>) {
         return terms.debounceTime(400)
             .distinctUntilChanged()
-            .switchMap(term => this.apiCall(term, '/api/artist'));
+            .switchMap(term => this.apiCall(term, '/api/artist?namesubstr='));
     }
 
     albumSearch(terms: Observable<string>) {
         return terms.debounceTime(400)
             .distinctUntilChanged()
-            .switchMap(term => this.apiCall(term, '/api/album'));
+            .switchMap(term => this.apiCall(term, '/api/album?titlesubstr='));
     }
 
     //DELETE WITH thirdPartySearch()
@@ -56,8 +54,10 @@ export class SearchService {
 
     // Function should call our API correctly
     apiCall(term, endpoint) {
+        const url= Config.serverUrl + endpoint + term;
+        console.log('Get API call: ' + url);
         return this.authHttp
-            .get(Config.serverUrl + endpoint + this.queryParam + term)
-            .map(res => res.json());
+            .get(Config.serverUrl + endpoint + term)
+            ;
     }
 }
