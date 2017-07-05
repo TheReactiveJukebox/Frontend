@@ -11,6 +11,7 @@ export class PlayerComponent implements OnInit {
 
     constructor(public trackService: TrackService, public parent: AppComponent) {}
 
+
     ngOnInit(): void {
         this.trackService.refreshTracks();
         this.parent.tintBackground('#424242');

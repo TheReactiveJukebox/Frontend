@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit() {
+        document.body.style.margin = '0px';
     }
 
     public tintBackground(color: string) {
