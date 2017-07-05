@@ -1,14 +1,14 @@
 <div id="player_bar_wrapper" *ngIf="show">
 
-    <progress id="progress_bar" value="{{progress}}" max="{{currentTrack.duration}}" (click)="onProgressBarClick($event)"></progress>
+    <progress id="progress_bar" value="{{this.playerService.progress}}" max="{{currentTrack.duration}}" (click)="onProgressBarClick($event)"></progress>
     <div id="controls_wrapper">
-        <button class="controlls" id="play_button" *ngIf="audioPlayer.paused" (click)="audioPlayer.play()">
+        <button class="controlls" id="play_button" *ngIf="!this.playerService.isPlaying" (click)="this.playerService.play()">
             <i class="material-icons controlls-icons">play_circle_outline</i>
         </button>
-        <button class="controlls" id="pause_button" *ngIf="!audioPlayer.paused" (click)="audioPlayer.pause()">
+        <button class="controlls" id="pause_button" *ngIf="this.playerService.isPlaying" (click)="this.playerService.pause()">
             <i class="material-icons controlls-icons">pause_circle_outline</i>
         </button>
-        <button class="controlls" id="skip_button" (click)="skipForward()"><i class="material-icons controlls-icons">skip_next</i>
+        <button class="controlls" id="skip_button" (click)="this.playerService.skipForward(false)"><i class="material-icons controlls-icons">skip_next</i>
         </button>
     </div>
 
@@ -29,10 +29,10 @@
 
 
     <div id="sound_wrapper">
-        <button class="player_icon" *ngIf="this.audioPlayer.volume != 0" (click)="volumeOff()"><i
+        <button class="player_icon" *ngIf="this.audioPlayer.volume != 0" (click)="this.playerService.volumeOff()"><i
                 class="material-icons volume-icons">volume_up</i></button>
-        <button class="player_icon" *ngIf="this.audioPlayer.volume == 0" (click)="volumeOn()"><i
+        <button class="player_icon" *ngIf="this.audioPlayer.volume == 0" (click)="this.playerService.volumeOn()"><i
                 class="material-icons volume-icons">volume_mute</i></button>
-        <input type="range" step="0.1" id="volume_range" max="1" value="{{this.audioPlayer.volume}}">
+        <input type="range" step="0.1" id="volume_range" max="1" value="{{this.playerService.audioPlayer.volume}}">
     </div>
 </div>

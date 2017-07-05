@@ -3,6 +3,7 @@ import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {current} from 'codelyzer/util/syntaxKind';
+import {PlayerService} from '../../services/player.service';
 
 @Component({
     selector: 'player-control-bar',
@@ -13,25 +14,12 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
 
     public currentTrack: Track;
-    public show: boolean = true;
-    public audioPlayer: any = new Audio();
-    public volume: number = 0.5;
-    public progress: number = 0;
+    public show: boolean = false;
     private subscriptions: Subscription[];
 
-    constructor(public trackService: TrackService) {
+    constructor(public trackService: TrackService, public playerService: PlayerService) {
         this.subscriptions = [];
-        this.audioPlayer.type = 'audio/mpeg';
-        //TODO: replace with server url for current song
-        this.audioPlayer.src = 'https://p.scdn.co/mp3-preview/fd3279ef9df976c127f1cf9ddaddaa6d067b77f6';
-        this.audioPlayer.load();
-        this.audioPlayer.ontimeupdate = () => {
-            this.progressUpdate()
-        };
-        this.audioPlayer.onended = () => {
-            this.songEnded()
-        };
-        this.audioPlayer.volume = this.volume;
+
     }
 
     ngOnInit(): void {
@@ -43,6 +31,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.trackService.currentTrack.subscribe((currentTrack: Track) => {
                 this.currentTrack = currentTrack;
+                this.trackUpdated()
             })
         );
 
@@ -56,23 +45,14 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         }
     }
 
-
-    public skipForward(): void {
-        this.trackService.nextSong();
-        this.progress = 0;
-        //var inPause = this.audioPlayer.paused;
-        this.audioPlayer.pause();
-        //this.audioPlayer.src = this.currentTrack.url;
-        this.audioPlayer.load();
-        //if(inPause) {
-        //   this.audioPlayer.play();
-        //}
-
+    private trackUpdated(): void {
+        if(!this.currentTrack == null) {
+            this.show = true;
+        }
     }
 
     public onProgressBarClick(event: MouseEvent): void {
-        this.progress = event.offsetX / window.innerWidth * this.currentTrack.duration;
-        this.audioPlayer.currentTime = event.offsetX / window.innerWidth * this.currentTrack.duration;
+        this.playerService.setProgress(event.offsetX / window.innerWidth * this.currentTrack.duration);
     }
 
     public like(): void {
@@ -87,19 +67,4 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         //TODO: call procedure for detailed feedback
     }
 
-    public volumeOn(): void {
-        this.audioPlayer.volume = 0.5;
-    }
-
-    public volumeOff(): void {
-        this.audioPlayer.volume = 0;
-    }
-
-    public progressUpdate(): void {
-        this.progress = this.audioPlayer.currentTime;
-    }
-
-    public songEnded(): void {
-        this.skipForward()
-    }
 }

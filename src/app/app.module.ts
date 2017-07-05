@@ -20,7 +20,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdListModule} from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
 import {RadiostationByFeatureComponent} from './pages/create-radiostation/by-feature/radiostation-by-feature.component';
-import {CreateRadiostationService} from './services/create-radiostation.service';
+import {RadiostationService} from './services/adiostation.service';
 import {RadiostationBySongComponent}   from './pages/create-radiostation/by-song/radiostation-by-song.component';
 import {PlayerComponent} from './pages/player/player.component';
 import {MdInputModule} from '@angular/material';
@@ -42,6 +42,7 @@ import {SpeechService} from './services/speech.service';
 import {PlayerControlBarComponent} from './components/player-control-bar/player-control-bar.component';
 import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
+import {PlayerService} from './services/player.service';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -97,8 +98,10 @@ import {SimpleSearchComponent} from './components/simple-search/simple-search.co
         AuthHttp,
         AuthGuard,
         TrackService,
-        CreateRadiostationService,
+        RadiostationService,
         SpeechService,
+        PlayerService,
+
     ]
 })
 export class AppModule {

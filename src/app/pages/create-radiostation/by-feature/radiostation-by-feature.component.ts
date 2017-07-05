@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../../services/app.service';
-import { CreateRadiostationService } from '../../../services/create-radiostation.service';
+import { RadiostationService } from '../../../services/radiostation.service';
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -8,16 +8,26 @@ import { CreateRadiostationService } from '../../../services/create-radiostation
     templateUrl: './radiostation-by-feature.component.html'
 })
 export class RadiostationByFeatureComponent implements OnInit {
-    constructor(public createRadiostationService: CreateRadiostationService) {}
+
+    creationParameters:
+        {
+            id?: number,
+            genres?: string[],
+            mood?: string,
+            startyear?: number,
+            endyear?: number,
+            random?: boolean
+        } = {};
+
+    constructor(public radiostationService: RadiostationService) {}
 
     ngOnInit(): void {
-        console.log('Fooba');
-
-        //this.createRadiostationService.refreshTracks();
     }
 
     reset(event) {
     }
     start(event) {
+        this.creationParameters.random=true;
+        this.radiostationService.startNewRadiostation(this.creationParameters);
     }
 }
