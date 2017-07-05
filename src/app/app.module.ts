@@ -39,7 +39,7 @@ import {AuthService} from './services/auth/auth.service';
 import {AuthHttp} from './services/auth/auth-http';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechService} from './services/speech.service';
-import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
+import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
 
 /**
@@ -58,7 +58,7 @@ import {SimpleSearchComponent} from './components/simple-search/simple-search.co
         SecondsToDatePipe,
         SpecialFeedbackDialogComponent,
         TendencyFeedbackDialogComponent,
-        SpeechComponent,
+        SpeechSearchFieldComponent,
         SecondsToDatePipe,
         SimpleSearchComponent
     ],

@@ -4,7 +4,7 @@ import {RadiostationByFeatureComponent} from './pages/create-radiostation/by-fea
 import {RadiostationBySongComponent}   from './pages/create-radiostation/by-song/radiostation-by-song.component';
 import {PlayerComponent} from './pages/player/player.component';
 import {AuthGuard} from './guards/AuthGuard';
-import {SpeechComponent} from './components/speech-search-field/speech-search-field.component';
+import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component'
 
 export const ROUTES: Routes = [
@@ -34,7 +34,7 @@ export const ROUTES: Routes = [
     },
     {
         path: 'speech',
-        component: SpeechComponent,
+        component: SpeechSearchFieldComponent,
         canActivate: [AuthGuard]
     },
     {
