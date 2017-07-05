@@ -1,0 +1,34 @@
+@import "../../../styles/styles";
+
+.tl{
+}
+
+.tl-header{
+  background-color: $primary-color-light;
+}
+
+.tl-row{
+}
+
+.t1-row:nth-child(odd){
+  background: lightgrey;
+}
+
+.tl-title-col{
+  width: 40%;
+  text-align: left;
+}
+
+.tl-artist-col{
+  width: 30%;
+  text-align: left;
+}
+.tl-album-col{
+  width: 30%;
+  text-align: left;
+}
+
+.tl-name-col{
+  width: 100%;
+  text-align: left;
+}

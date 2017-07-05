@@ -12,7 +12,13 @@ export class AuthGuard implements CanActivate {
         if (this.authService.isLoggedIn()) {
             return true;
         } else { // user isn't logged in and has no rights to access. redirect to login page
-            this.router.navigate(['/login']);
+            console.log('[AuthGuard] Performing autologin!');
+            this.authService.performAutoLogin().subscribe(() => {
+                this.router.navigate([state.url]);
+            }, err => {
+                console.log(err);
+                this.router.navigate(['/login']);
+            });
             return false;
         }
     }
