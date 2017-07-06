@@ -14,6 +14,8 @@ import 'rxjs/add/operator/switchMap';
 @Injectable()
 export class SearchService {
 
+    private static MIN_QUERY_LENGTH = 1;
+
     constructor(private authHttp: AuthHttp) { }
 
     /*
@@ -42,8 +44,13 @@ export class SearchService {
     }
 
     // Function should call our API correctly
-    apiCall(term, endpoint) {
-        const url= Config.serverUrl + endpoint + term;
+    apiCall(term: string, endpoint) {
+        var count = '';
+        if(term.length < SearchService.MIN_QUERY_LENGTH)
+        {
+            count = '?count=0';
+        }
+        const url= Config.serverUrl + endpoint + term +count;
         console.log('Get API call: ' + url);
         return this.authHttp.get(url);
     }
