@@ -1,3 +1,44 @@
-<current-track></current-track>
-<track-list></track-list>
+<h1>Jukebox</h1>
+<div class="tab-wrap">
+    <input type="radio" name="tabs" id="tab1" checked>
+    <div class="tab-label-content" id="tab1-content">
+        <label for="tab1"><i class="material-icons">build</i></label>
+        <div class="tab-content">
+            <radiostation-by-feature></radiostation-by-feature>
+        </div>
+    </div>
+
+    <input type="radio" name="tabs" id="tab2">
+    <div class="tab-label-content" id="tab2-content">
+        <label for="tab2"><i class="material-icons">audiotrack</i></label>
+        <div class="tab-content">
+            <my-radiostation-by-song></my-radiostation-by-song>
+        </div>
+    </div>
+
+    <input type="radio" name="tabs" id="tab3">
+    <div class="tab-label-content" id="tab3-content">
+        <label for="tab3"><i class="material-icons">radio</i></label>
+        <div class="tab-content">
+            <current-track></current-track>
+            <track-list></track-list>
+        </div>
+    </div>
+
+    <input type="radio" name="tabs" id="tab4">
+    <div class="tab-label-content" id="tab4-content">
+        <label for="tab4"><i class="material-icons">account_circle</i></label>
+        <div class="tab-content">
+            <button>logout</button>
+        </div>
+    </div>
+
+    <div class="slide"></div>
+
+</div>
+
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+
 <player-control-bar></player-control-bar>

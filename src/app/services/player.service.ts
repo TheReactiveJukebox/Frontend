@@ -21,7 +21,7 @@ export class PlayerService implements OnDestroy {
 
 
     constructor(private trackService: TrackService,
-                private radiostationService: RadiostationService,
+               // private radiostationService: RadiostationService,
                 private authHttp: AuthHttp) {
 
         //set the default player settings
@@ -124,7 +124,7 @@ export class PlayerService implements OnDestroy {
 
     //sets the audio element to a specific second
     public setProgress(newTime: number): void {
-        if(newTime <= this.currentTrack.duration) {
+        if (newTime <= this.currentTrack.duration) {
             this.audioPlayer.currentTime = newTime;
         }
     }
@@ -143,7 +143,7 @@ export class PlayerService implements OnDestroy {
     private writeToHistory(track: Track): void {
         let reqBody = {
             trackId: track.id,
-            radioId: this.radiostationService.jukebox.id
+    //        radioId: this.radiostationService.jukebox.id
         };
 
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {

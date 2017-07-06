@@ -14,7 +14,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
 
     public currentTrack: Track;
-    public show: boolean = false;
+    public show: boolean = true;
     private subscriptions: Subscription[];
 
     constructor(public trackService: TrackService, public playerService: PlayerService) {
