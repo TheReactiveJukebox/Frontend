@@ -51,10 +51,11 @@ export class PlayerService implements OnDestroy {
 
     //exchange the track in the audio element
     private trackUpdated(): void {
-        //TODO: Something is wrong with setting this variable
         let wasPlaying = this.isPlaying;
-        this.stop();
-        console.log('updating track');
+
+        this.audioPlayer.pause();
+        this.audioPlayer.currentTime = 0;
+        this.progressUpdate();
         if (this.currentTrack != null) {
 
             //TODO: Access the right file
@@ -81,7 +82,7 @@ export class PlayerService implements OnDestroy {
     //pause playing
     public pause(): void {
         this.isPlaying = false;
-        console.log('paused');
+        console.log('Paused');
         this.audioPlayer.pause();
     }
 
