@@ -48,7 +48,7 @@ export class SearchService {
         var count = '';
         if(term.length < SearchService.MIN_QUERY_LENGTH)
         {
-            count = '?count=0';
+            count = 'xxtzt?count=0';
         }
         const url= Config.serverUrl + endpoint + term +count;
         console.log('Get API call: ' + url);
