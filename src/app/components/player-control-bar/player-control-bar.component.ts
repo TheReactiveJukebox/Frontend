@@ -1,9 +1,9 @@
-import {Component, Output, EventEmitter, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
-import {current} from 'codelyzer/util/syntaxKind';
 import {PlayerService} from '../../services/player.service';
+import {MdSliderChange} from '@angular/material';
 
 @Component({
     selector: 'player-control-bar',
@@ -15,11 +15,13 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
     public currentTrack: Track;
     public show: boolean = true;
+    public title: string = '???';
+    public artist: string = '???';
+    public duration: number = 213;
     private subscriptions: Subscription[];
 
     constructor(public trackService: TrackService, public playerService: PlayerService) {
         this.subscriptions = [];
-
     }
 
     ngOnInit(): void {
@@ -48,23 +50,35 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     private trackUpdated(): void {
         if(!this.currentTrack == null) {
             this.show = true;
+            this.artist = this.currentTrack.artist.name;
+            this.title = this.currentTrack.title;
+            this.duration = this.currentTrack.duration;
+        } else {
+            //this.show = false;
+            this.artist = '???';
+            this.title = '???';
+            this.duration = 213;
         }
     }
 
     public onProgressBarClick(event: MouseEvent): void {
-        this.playerService.setProgress(event.offsetX / window.innerWidth * this.currentTrack.duration);
+        this.playerService.setProgress(event.offsetX / window.innerWidth * this.duration);
+    }
+
+    public onSliderChange(event: MdSliderChange): void {
+        this.playerService.setVolume(event.value);
     }
 
     public like(): void {
-        //TODO: call like procedure
+        //TODO: call like service
     }
 
     public dislike(): void {
-        //TODO: call dislike procedure
+        //TODO: call dislike service
     }
 
     public detailFeedback(): void {
-        //TODO: call procedure for detailed feedback
+        //TODO: call service for detailed feedback
     }
 
 }
