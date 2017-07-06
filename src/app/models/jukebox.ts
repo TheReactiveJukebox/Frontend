@@ -4,5 +4,5 @@ export class Jukebox {
     mood: string;
     startyear: number;
     endyear: number;
-    isRandom: boolean;
+    random: boolean;
 }

@@ -4,16 +4,16 @@ import {AppComponent} from '../../app.component';
 
 @Component({
     selector: 'player',
-    styleUrls: [ './player.component.scss' ],
+    styleUrls: ['./player.component.scss'],
     templateUrl: './player.component.html'
 })
 export class PlayerComponent implements OnInit {
 
-    constructor(public trackService: TrackService, public parent: AppComponent) {}
+    constructor(public trackService: TrackService, public parent: AppComponent) {
+    }
 
 
     ngOnInit(): void {
-        this.trackService.refreshTracks();
         this.parent.tintBackground('#424242');
     }
 

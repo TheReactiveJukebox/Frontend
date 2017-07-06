@@ -1,12 +1,9 @@
-import {OnDestroy, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {TrackService} from './track.service';
 import {Track} from '../models/track';
-import {AuthHttp} from './auth/auth-http';
-import {Config} from '../config';
 import {RadiostationService} from './radiostation.service';
-
+import {Http, RequestMethod, RequestOptions, RequestOptionsArgs} from '@angular/http';
 
 @Injectable()
 export class PlayerService implements OnDestroy {
@@ -17,12 +14,9 @@ export class PlayerService implements OnDestroy {
     public progress: number = 0;
     public isPlaying: boolean = false;
     private subscriptions: Subscription[];
-    private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
-
 
     constructor(private trackService: TrackService,
-               // private radiostationService: RadiostationService,
-                private authHttp: AuthHttp) {
+                private radiostationService: RadiostationService) {
 
         //set the default player settings
         this.audioPlayer.type = 'audio/mpeg';
@@ -33,7 +27,6 @@ export class PlayerService implements OnDestroy {
         this.audioPlayer.onended = () => {
             this.songEnded()
         };
-
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
         // gets destroyed.
@@ -45,6 +38,7 @@ export class PlayerService implements OnDestroy {
             })
         );
         this.trackService.refreshTracks();
+        this.isPlaying = false;
     }
 
     ngOnDestroy(): void {
@@ -57,25 +51,37 @@ export class PlayerService implements OnDestroy {
 
     //exchange the track in the audio element
     private trackUpdated(): void {
-        this.progress = 0;
+        //TODO: Something is wrong with setting this variable
+        let wasPlaying = this.isPlaying;
+        this.stop();
+        console.log('updating track');
         if (this.currentTrack != null) {
-            this.audioPlayer.src = this.currentTrack.file;
+
+            //TODO: Access the right file
+            this.audioPlayer.src = 'https://p.scdn.co/mp3-preview/fd3279ef9df976c127f1cf9ddaddaa6d067b77f6.mp3';
+
+            //this.audioPlayer.src = this.currentTrack.file;
+
             this.audioPlayer.load();
-            if (this.isPlaying) {
-                this.audioPlayer.play();
-            }
+
+        }
+        if (wasPlaying) {
+            this.audioPlayer.play();
+            console.log('Now playing: ' + this.currentTrack.title);
         }
     }
 
     //start playing
     public play(): void {
         this.isPlaying = true;
+        console.log('Now playing: ' + this.currentTrack.title);
         this.audioPlayer.play();
     }
 
     //pause playing
     public pause(): void {
         this.isPlaying = false;
+        console.log('paused');
         this.audioPlayer.pause();
     }
 
@@ -93,7 +99,7 @@ export class PlayerService implements OnDestroy {
      */
     public skipForward(addToHistory: boolean): void {
         if (addToHistory || (this.progress / this.currentTrack.duration) > 0.9) {
-            this.writeToHistory(this.currentTrack);
+            this.radiostationService.writeToHistory(this.currentTrack);
         }
         this.trackService.nextSong();
     }
@@ -139,20 +145,4 @@ export class PlayerService implements OnDestroy {
         this.skipForward(true);
     }
 
-    //saves the song to the history by sending the corresponding api endpoint
-    private writeToHistory(track: Track): void {
-        let reqBody = {
-            trackId: track.id,
-    //        radioId: this.radiostationService.jukebox.id
-        };
-
-        this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
-        }, (error: Response) => {
-            if (error.status == 400) {
-                console.log('The provided history entry is malformed');
-            }
-            console.log('Writing "' + track.title + '" to history failed!', error);
-        });
-
-    }
 }

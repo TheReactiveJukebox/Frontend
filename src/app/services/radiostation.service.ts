@@ -1,30 +1,28 @@
-import { OnDestroy, Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Http, Response} from '@angular/http';
-import { Subscription } from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription';
 import {TrackService} from './track.service';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {Config} from '../config';
 import {Jukebox} from '../models/jukebox';
-import {PlayerService} from './player.service';
 
 
 @Injectable()
-export class RadiostationService implements OnDestroy{
+export class RadiostationService implements OnDestroy {
 
     public currentTrack: Track;
     private subscriptions: Subscription[];
     public jukebox: Jukebox;
 
     private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
+    private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
 
 
     constructor(private trackService: TrackService,
-                private playerService: PlayerService,
                 private authHttp: AuthHttp) {
         this.subscriptions = [];
 
-        this.trackService.refreshTracks();
 
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
@@ -44,11 +42,12 @@ export class RadiostationService implements OnDestroy{
         }
     }
 
+    //starts a new radiostation with given creation criteria
     public startNewRadiostation(creationParameters: any): void {
         console.log('Starting New Radiostation');
         this.deleteRadiostation();
 
-        this.authHttp.post(this.radiostationApiUrl,creationParameters).subscribe((data: Jukebox) => {
+        this.authHttp.post(this.radiostationApiUrl, creationParameters).subscribe((data: Jukebox) => {
             this.jukebox = data;
         }, (error: Response) => {
             if (error.status == 400) {
@@ -58,12 +57,28 @@ export class RadiostationService implements OnDestroy{
         });
 
         this.trackService.refreshTracks();
-
-        //TODO: Switch to radiostation view
     }
 
+    //deletes the current radiostation - currently not in use
     public deleteRadiostation(): void {
-        this.playerService.stop();
+        this.jukebox = null;
+    }
+
+    //saves the song to the history by sending its id to the corresponding api endpoint
+    public writeToHistory(track: Track): void {
+        let reqBody = {
+            trackId: track.id,
+            radioId: this.jukebox.id
+        };
+
+        this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
+        }, (error: Response) => {
+            if (error.status == 400) {
+                console.log('The provided history entry is malformed');
+            }
+            console.log('Writing "' + track.title + '" to history failed!', error);
+        });
+
     }
 
 }

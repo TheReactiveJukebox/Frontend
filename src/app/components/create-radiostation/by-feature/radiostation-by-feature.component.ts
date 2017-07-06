@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AppState } from '../../../services/app.service';
-import { RadiostationService } from '../../../services/radiostation.service';
+import {Component, OnInit} from '@angular/core';
+import {AppState} from '../../../services/app.service';
+import {RadiostationService} from '../../../services/radiostation.service';
 
 @Component({
     selector: 'radiostation-by-feature',
