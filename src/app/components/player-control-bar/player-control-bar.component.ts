@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
@@ -33,7 +33,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.trackService.currentTrack.subscribe((currentTrack: Track) => {
                 this.currentTrack = currentTrack;
-                this.trackUpdated()
+                this.trackUpdated();
             })
         );
 
@@ -48,7 +48,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     private trackUpdated(): void {
-        if (!this.currentTrack == null) {
+        if (this.currentTrack) {
             this.show = true;
             this.artist = this.currentTrack.artist.name;
             this.title = this.currentTrack.title;
@@ -65,8 +65,8 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.playerService.setProgress(event.offsetX / window.innerWidth * this.duration);
     }
 
-    public onSliderChange(event: MdSliderChange): void {
-        this.playerService.setVolume(event.value);
+    public onSliderChange(value): void {
+        this.playerService.setVolume(value);
     }
 
     public like(): void {
