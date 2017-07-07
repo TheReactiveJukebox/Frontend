@@ -1,17 +1,27 @@
 @import "../../../styles/styles";
 
 .login-card {
-    width: 320px;
-    margin: auto;
-    margin-top: 100px;
+  width: 320px;
+  position: absolute;
+  margin: 0px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .login-button {
-    left: 60px;
-    width: 200px;
-    margin-bottom: 15px;
+  left: 60px;
+  width: 200px;
+  margin-bottom: 15px;
 }
 
 .login-input {
-    width: 320px;
+  width: 320px;
+}
+
+#base-pane {
+  width: 100vw;
+  height: 100vh;
+  padding: 0px;
+  background: #4CAF50;
 }

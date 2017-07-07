@@ -1,7 +1,19 @@
 /* this file will be extracted to main dist folder and is imported in index.html */
 /* This file is for setting global styles  */
+@import '~@angular/material/theming';
 @import 'variables';
+
+//include only once per project
+@include mat-core();
+
 @import "../theme.scss";
+
+// specify theme class eg: <body class="default-theme"> ... </body>
+.default-theme {
+
+  // use our theme with angular-material-theme mixin
+  @include angular-material-theme($default-theme);
+}
 
 nav {
     margin-top: 16px;
@@ -24,16 +36,3 @@ However, this can be overwritten. */
 html * {
     font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
-
-/* color palette based on Material Design Color Tool */
-$primary-color-dark:   #102027;
-$primary-color:        #37474f;
-$primary-color-light:  #62727b;
-$primary-color-text:   #FFFFFF;
-$accent-color:         #d50000;
-$accent-color-dark:    #9b0000;
-$accent-color-light:   #ff5131;
-$primary-text-color:   #ffffff;
-$secondary-text-color: #ffffff;
-$divider-color:        #000000;
-

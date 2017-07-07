@@ -1,7 +1,27 @@
 @import "../../../styles/styles";
 
-.example-fill-remaining-space {
-  // This fills the remaining space, by using flexbox.
-  // Every toolbar row uses a flexbox row layout.
-  flex: 1 1 auto;
+#base-pane {
+  padding: 0px;
+  width: 100vw;
+  height: 100vh;
+}
+
+#title {
+  height: 40px;
+  line-height:40px;
+}
+
+#logout-btn {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+.my-content {
+  width: 100%;
+  height: 100%;
+}
+
+#play-list-view {
+  padding: 0px !important;
+  box-shadow: none;
 }

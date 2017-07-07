@@ -1,11 +1,10 @@
 @import "../../../styles/styles";
 
 #player_bar_wrapper {
-  height: 65px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #1b1b1b;
+  height: 44px;
+  width: 100vw;
+  padding: 0px;
+  //background: $default-theme-primary.darker;
 }
 
 #progress_bar {
@@ -35,11 +34,15 @@ progress::-moz-progress-bar {
 }
 
 #controls_wrapper {
-  position: fixed;
-  left: 10px;
-  bottom: 10px;
-  width: 180px;
-  flex-flow: row
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 90px;
+  flex-flow: row;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 .controlls {
@@ -51,40 +54,52 @@ progress::-moz-progress-bar {
 
 #player_current_song_desc {
   position: absolute;
-  left: 190px;
-  bottom: 10px;
-  height: 45px;
+  left: 100px;
+  bottom: 0px;
+  height: 40px;
   width: 40%;
   color: white;
-  line-height: 45px;
+  line-height: 40px;
   text-align: center;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 #feedback_wrapper {
-  position: fixed;
-  bottom: 10px;
-  width: 280px;
+  position: absolute;
+  bottom: 0px;
+  width: 135px;
   left: 40%;
-  margin-left: 190px;
+  margin-left: 100px;
   color: white;
   float: left;
   flex-flow: row;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 #sound_wrapper {
-  position: fixed;
+  position: absolute;
   right: 10px;
-  bottom: 10px;
-  width: 300px;
+  bottom: 0px;
+  width: 255px;
   float: right;
   color: white;
   float: left;
   flex-flow: row;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 md-slider {
-  //width: 200px;
-  //height: 50px;
+  width: 200px;
+  height: 40px;
   color: red;
 }
 

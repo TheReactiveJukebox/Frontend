@@ -6,6 +6,7 @@ import {AppState} from './services/app.service';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from './services/auth/auth.service';
 import {Router} from '@angular/router';
+import { OverlayContainer } from '@angular/material';
 
 /**
  * App Component
@@ -20,10 +21,14 @@ import {Router} from '@angular/router';
 export class AppComponent implements OnInit {
 
     private availableLangs: string[] = ['en', 'de'];
+    // use this to set correct theme class on app holder
+    // eg: <div [class]="themeClass">...</div>
+    themeClass: string;
 
     constructor(private authService: AuthService,
                 private router: Router,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private overlayContainer: OverlayContainer) {
 
         // set the default lang as fall-back and current device lang.
         this.translateService.setDefaultLang('en');
@@ -47,10 +52,9 @@ export class AppComponent implements OnInit {
 
     public ngOnInit() {
         document.body.style.margin = '0px';
-    }
-
-    public tintBackground(color: string) {
-        document.body.style.backgroundColor = color;
+        // subscribe to some source of theme change events, then...
+        this.themeClass = 'default-theme';
+        this.overlayContainer.themeClass = ' default-theme';
     }
 
 }
