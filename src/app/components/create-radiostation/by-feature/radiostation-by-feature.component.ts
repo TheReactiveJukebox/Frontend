@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AppState } from '../../../services/app.service';
-import { RadiostationService } from '../../../services/radiostation.service';
+import {Component, OnInit} from '@angular/core';
+import {AppState} from '../../../services/app.service';
+import {RadiostationService} from '../../../services/radiostation.service';
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -24,9 +24,9 @@ export class RadiostationByFeatureComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    reset(event) {
+    reset() {
     }
-    start(event) {
+    start() {
         this.creationParameters.random=true;
         this.radiostationService.startNewRadiostation(this.creationParameters);
     }

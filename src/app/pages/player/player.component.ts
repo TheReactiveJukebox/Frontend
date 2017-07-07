@@ -1,25 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {TrackService} from '../../services/track.service';
-import {AppComponent} from '../../app.component';
+import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
     selector: 'player',
-    styleUrls: [ './player.component.scss' ],
+    styleUrls: ['./player.component.scss'],
     templateUrl: './player.component.html'
 })
-export class PlayerComponent implements OnInit {
+export class PlayerComponent {
 
-    constructor(public trackService: TrackService, public authService: AuthService) {}
-
-
-    ngOnInit(): void {
-        this.trackService.refreshTracks();
+    constructor(public authService: AuthService) {
     }
-
-    logout(): void {
-
-        //TODO: trigger loading of login page
-    }
-
 }

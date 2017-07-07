@@ -25,7 +25,6 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.trackService.refreshTracks();
 
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
@@ -48,7 +47,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     private trackUpdated(): void {
-        if(!this.currentTrack == null) {
+        if (!this.currentTrack == null) {
             this.show = true;
             this.artist = this.currentTrack.artist.name;
             this.title = this.currentTrack.title;

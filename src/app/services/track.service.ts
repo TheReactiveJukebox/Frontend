@@ -21,8 +21,8 @@ export class TrackService {
 
         this.authHttp.get(url).subscribe((tracks: Track[]) => {
             if (tracks.length > 0) {
-                for(let i=0;i<tracks.length;i++){
-                    tracks[i].file = Config.serverUrl +'/music/'+tracks[i].file;
+                for (let i = 0; i < tracks.length; i++) {
+                    tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                 }
                 this.currentTrack.next(tracks[0]);
                 this.nextTracks.next(tracks.slice(1));
@@ -33,7 +33,7 @@ export class TrackService {
     nextSong(): void {
         let tempTracks: Track[] = this.nextTracks.getValue();
         this.currentTrack.next(tempTracks[0]);
-        tempTracks.slice(1);
+        tempTracks = tempTracks.slice(1);
 
         //get new Track
         const url = `${this.trackListUrl}?count=1`;
@@ -41,7 +41,7 @@ export class TrackService {
         this.authHttp.get(url).subscribe((tracks: Track[]) => {
             if (tracks.length > 0) {
                 let newTrack: Track = tracks[0];
-                newTrack.file = Config.serverUrl +'/music/'+newTrack.file;
+                newTrack.file = Config.serverUrl + '/music/' + newTrack.file;
                 tempTracks.push(newTrack);
             }
         });
