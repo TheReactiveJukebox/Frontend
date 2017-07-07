@@ -24,17 +24,17 @@
         date:'mm:ss'}}/{{duration | mySecondsToDate | date:'mm:ss'}})
     </md-card>
     <md-card id="feedback_wrapper">
-        <button md-icon-button class="player_icon" id="player_bar_like_button" (click)="like()">
+        <button md-icon-button class="player_icon" id="player_bar_like_button" (click)="feedbackService.like()">
             <md-icon
                     class="feedback-icons">thumb_up
             </md-icon>
         </button>
-        <button md-icon-button class="player_icon" id="player_bar_dislike_button" (click)="dislike()">
+        <button md-icon-button class="player_icon" id="player_bar_dislike_button" (click)="feedbackService.dislike()">
             <md-icon
                     class="feedback-icons">thumb_down
             </md-icon>
         </button>
-        <button md-icon-button class="player_icon" id="player_bar_tendency_button" (click)="detailFeedback()">
+        <button md-icon-button class="player_icon" id="player_bar_tendency_button" (click)="feedbackService.getSpecialFeedback()">
             <md-icon
                     class="feedback-icons">feedback
             </md-icon>

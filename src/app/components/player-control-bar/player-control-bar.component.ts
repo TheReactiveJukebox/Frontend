@@ -4,6 +4,7 @@ import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {PlayerService} from '../../services/player.service';
 import {MdSliderChange} from '@angular/material';
+import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
     selector: 'player-control-bar',
@@ -14,13 +15,13 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
 
     public currentTrack: Track;
-    public show: boolean = true;
+    public show: boolean = false;
     public title: string = '???';
     public artist: string = '???';
     public duration: number = 213;
     private subscriptions: Subscription[];
 
-    constructor(public trackService: TrackService, public playerService: PlayerService) {
+    constructor(public trackService: TrackService, public playerService: PlayerService, public feedbackService: FeedbackService) {
         this.subscriptions = [];
     }
 
