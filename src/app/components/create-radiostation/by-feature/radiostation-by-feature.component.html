@@ -1,5 +1,47 @@
 <md-card id="wrapper">
-    <button md-raised-button class="button-reset" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' | translate}}</button>
 
-    <button md-raised-button class="button-start" (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}</button>
+    <md-card-title>
+        Select the properties of your Radiostation!
+    </md-card-title>
+    <md-card-content>
+        <div style="background: pink" class="tile">
+            <input type="checkbox">
+            Create a random Radio?
+        </div>
+
+        <div style="background: deeppink" class="tile">Song ID <input type="text" name="firstname"></div>
+
+        <div style="background: hotpink" class="tile">Genre
+            <select>
+                <option value="Rock">Volvo</option>
+                <option value="Pop">Saab</option>
+                <option value="Elektro">Opel</option>
+                <option value="Klassik">Audi</option>
+            </select>
+        </div>
+
+        <div style="background: indianred" class="tile">What is your Mood?
+            <select>
+                <option value="Angry">Volvo</option>
+                <option value="Relax">Saab</option>
+                <option value="Happy">Opel</option>
+                <option value="Sad">Audi</option>
+            </select>
+        </div>
+
+        <div style="background: orangered" class="tile">Want to listen to songs of a specific decade? <input type="text"
+                                                                                                             name="firstname">
+            - <input type="text" name="firstname"></div>
+
+    </md-card-content>
+    <md-card-footer>
+        <md-card-actions>
+            <button md-raised-button class="button-start" (click)="start()">{{'RADIOSTATION_CREATE.START' |
+                translate}}
+            </button>
+            <button md-raised-button class="button-reset" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' |
+                translate}}
+            </button>
+        </md-card-actions>
+    </md-card-footer>
 </md-card>

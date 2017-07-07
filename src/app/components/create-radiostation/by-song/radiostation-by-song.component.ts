@@ -5,7 +5,7 @@ import {PlayerService} from '../../../services/player.service';
 @Component({
     selector: 'my-radiostation-by-song',
     templateUrl: './radiostation-by-song.component.html',
-    styleUrls: ['./radiostation-by-song.component.css']
+    styleUrls: ['./radiostation-by-song.component.scss']
 
 })
 export class RadiostationBySongComponent {

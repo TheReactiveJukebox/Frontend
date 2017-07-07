@@ -1,7 +1,7 @@
 @import "../../../styles/styles";
 
 #base-pane {
-  padding: 0px;
+  padding: 0px !important;
   width: 100vw;
   height: 100vh;
 }
@@ -18,12 +18,14 @@
 }
 .my-content {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 #play-list-view {
   padding: 0px !important;
   box-shadow: none;
+  height: 100%;
+  width: 100%;
 }
 
 .mat-tab-body-content {
