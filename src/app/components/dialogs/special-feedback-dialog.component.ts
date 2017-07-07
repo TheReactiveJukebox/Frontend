@@ -9,7 +9,7 @@ import {MdDialogRef} from '@angular/material';
 export class SpecialFeedbackDialogComponent {
     cTrack: Track;
 
-    constructor(public dialogRef: MdDialogRef<SpecialFeedbackDialogComponent>) {
+    constructor() {
     }
 
     btnLike() {

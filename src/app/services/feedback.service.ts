@@ -16,10 +16,12 @@ export class FeedbackService {
     }
 
     public like(): void {
+        console.log('CALL: Like');
         //TODO: push like to server with current song information
     }
 
     public dislike(): void {
+        console.log('CALL: Dislike');
         //TODO: push dislike to server with current song information
     }
 
@@ -33,6 +35,7 @@ export class FeedbackService {
     }
 
     public getTendencyFeedback(): void {
+        console.log('CALL tendency Feedback');
         //TODO: open tendency dialog and process information
     }
 }

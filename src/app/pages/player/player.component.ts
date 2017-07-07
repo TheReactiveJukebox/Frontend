@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
+import {MdTabGroup} from '@angular/material';
 
 @Component({
     selector: 'player',
@@ -8,6 +9,10 @@ import {AuthService} from '../../services/auth/auth.service';
 })
 export class PlayerComponent {
 
+    @ViewChild('tabs')
+    tabs: MdTabGroup;
+
     constructor(public authService: AuthService) {
+        //this.tabs.selectedIndex = 0;
     }
 }

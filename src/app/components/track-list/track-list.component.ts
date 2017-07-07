@@ -2,8 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
-import {MdDialog, MdDialogRef} from '@angular/material';
-import {TendencyFeedbackDialogComponent} from '../dialogs/tendency_feedback-dialog.component';
+import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
     selector: 'track-list',
@@ -14,9 +13,8 @@ export class TrackListComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[];
     nextTracks: Track[];
-    dialogRef: MdDialogRef<any>;
 
-    constructor(public trackService: TrackService, public dialog: MdDialog) {
+    constructor(public trackService: TrackService, public feedbackService: FeedbackService) {
         this.subscriptions = [];
         this.nextTracks = [];
     }
@@ -41,13 +39,6 @@ export class TrackListComponent implements OnInit, OnDestroy {
         for (let subscription of this.subscriptions) {
             subscription.unsubscribe();
         }
-    }
-
-    btn_Tendency() {
-        this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
-        this.dialogRef.afterClosed().subscribe(result => {
-            this.dialogRef = null;
-        });
     }
 
     btn_Renew() {

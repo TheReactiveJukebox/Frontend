@@ -24,18 +24,17 @@
         date:'mm:ss'}}/{{duration | mySecondsToDate | date:'mm:ss'}})
     </md-card>
     <md-card id="feedback_wrapper">
-        <button md-icon-button class="player_icon" id="player_bar_like_button" (click)="feedbackService.like()">
+        <button md-icon-button (click)="feedbackService.like()">
             <md-icon
                     class="feedback-icons">thumb_up
             </md-icon>
         </button>
-        <button md-icon-button class="player_icon" id="player_bar_dislike_button" (click)="feedbackService.dislike()">
+        <button md-icon-button (click)="feedbackService.dislike()">
             <md-icon
                     class="feedback-icons">thumb_down
             </md-icon>
         </button>
-        <button md-icon-button class="player_icon" id="player_bar_tendency_button"
-                (click)="feedbackService.getSpecialFeedback()">
+        <button md-icon-button (click)="feedbackService.getSpecialFeedback()">
             <md-icon
                     class="feedback-icons">feedback
             </md-icon>
@@ -44,13 +43,13 @@
 
 
     <md-card id="sound_wrapper">
-        <button md-icon-button class="player_icon" *ngIf="this.playerService.audioPlayer.volume != 0"
+        <button md-icon-button *ngIf="this.playerService.audioPlayer.volume != 0"
                 (click)="this.playerService.volumeOff()">
             <md-icon
                     class="volume-icons">volume_up
             </md-icon>
         </button>
-        <button md-icon-button class="player_icon" *ngIf="this.playerService.audioPlayer.volume == 0"
+        <button md-icon-button *ngIf="this.playerService.audioPlayer.volume == 0"
                 (click)="this.playerService.volumeOn()">
             <md-icon
                     class="volume-icons">volume_mute
