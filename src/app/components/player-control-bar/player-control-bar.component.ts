@@ -15,7 +15,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
 
     public currentTrack: Track;
-    public show: boolean = false;
+    public show: boolean = true;
     public title: string = '???';
     public artist: string = '???';
     public duration: number = 213;

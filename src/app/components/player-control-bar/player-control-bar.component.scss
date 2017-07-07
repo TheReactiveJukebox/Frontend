@@ -4,6 +4,7 @@
   height: 44px;
   width: 100vw;
   padding: 0px;
+  z-index: 10000;
   //background: $default-theme-primary.darker;
 }
 
@@ -86,10 +87,9 @@ progress::-moz-progress-bar {
   position: absolute;
   right: 10px;
   bottom: 0px;
-  width: 255px;
-  float: right;
+  width: 200px;
   color: white;
-  float: left;
+  float: right;
   flex-flow: row;
   padding: 0px !important;
   -webkit-box-shadow: none;
@@ -97,9 +97,11 @@ progress::-moz-progress-bar {
   box-shadow: none;
 }
 
-md-slider {
-  width: 200px;
+sound-slider {
+  width: 100px;
   height: 40px;
+  padding: 0px;
+  line-height: 40px;
   color: red;
 }
 

@@ -3,12 +3,15 @@
  */
 import {Injectable} from '@angular/core';
 import {TrackService} from './track.service';
+import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback-dialog.component';
+import {MdDialog, MdDialogRef} from '@angular/material';
 
 @Injectable()
 export class FeedbackService {
 
+    dialogRef: MdDialogRef<any>;
 
-    constructor(private trackService: TrackService) {
+    constructor(private trackService: TrackService, public dialog: MdDialog) {
 
     }
 
@@ -22,7 +25,14 @@ export class FeedbackService {
 
     public getSpecialFeedback(): void {
         //TODO show dialog and send result to server
+        this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
+        this.dialogRef.componentInstance.cTrack = this.trackService.currentTrack;
+        this.dialogRef.afterClosed().subscribe(result => {
+            this.dialogRef = null;
+        });
     }
 
-
+    public getTendencyFeedback(): void {
+        //TODO: open tendency dialog and process information
+    }
 }
