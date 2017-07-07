@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {TrackService} from './track.service';
 import {Track} from '../models/track';
 import {RadiostationService} from './radiostation.service';
-import {Headers, Http, Request, RequestMethod, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
+import {Headers, Request, RequestMethod, RequestOptions, RequestOptionsArgs} from '@angular/http';
 import {AuthHttp} from './auth/auth-http';
 
 @Injectable()
@@ -71,7 +71,7 @@ export class PlayerService implements OnDestroy {
             //TODO: Access the right file
             //this.audioPlayer.src = 'https://p.scdn.co/mp3-preview/fd3279ef9df976c127f1cf9ddaddaa6d067b77f6.mp3';
 
-            this.audioPlayer.src = this.getMusicFile(this.currentTrack.file);
+            //this.audioPlayer.src = this.getMusicFile(this.currentTrack.file);
 
             this.audioPlayer.load();
 
@@ -164,6 +164,16 @@ export class PlayerService implements OnDestroy {
         this.skipForward(true);
     }
 
+    public test2(): void {
+        this.authHttp.getTrack('https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3').subscribe(data => {
+            this.audioPlayer.src = data;
+            this.audioPlayer.play();
+        }, err => {
+            console.log('GET TRACK ERROR: ', err);
+        });
+    }
+
+
     private getMusicFile(url: string) {
 
         let basicOptions: RequestOptionsArgs = {
@@ -178,7 +188,7 @@ export class PlayerService implements OnDestroy {
 
         this.authHttp.request(req, reqOptions).subscribe((data: any) => {
             console.log('This is the File request');
-            console.log(data);
+            console.log(data._body);
         });
 
         return url;
