@@ -8,4 +8,5 @@ export class Track {
     cover: string;
     duration: number;
     file: string;
+    data?: any;
 }

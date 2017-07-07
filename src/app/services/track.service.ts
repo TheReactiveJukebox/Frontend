@@ -1,3 +1,6 @@
+/**
+ * This service takes care of the current track and the track preview
+ */
 import {Injectable} from '@angular/core';
 import {Track} from '../models/track';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -6,6 +9,7 @@ import {AuthHttp} from './auth/auth-http';
 
 @Injectable()
 export class TrackService {
+
     currentTrack: BehaviorSubject<Track>;
     nextTracks: BehaviorSubject<Track[]>;
 
@@ -16,6 +20,7 @@ export class TrackService {
         this.nextTracks = new BehaviorSubject<Track[]>([]);
     }
 
+    //Refreshes current track and track preview according to current radiostation
     refreshTracks(): void {
         const url = `${this.trackListUrl}?count=6`;
 
@@ -30,12 +35,13 @@ export class TrackService {
         });
     }
 
+    //Gets the next track from the preview and adds the next track to the preview list
     nextSong(): void {
         let tempTracks: Track[] = this.nextTracks.getValue();
         this.currentTrack.next(tempTracks[0]);
         tempTracks = tempTracks.slice(1);
 
-        //get new Track
+        //Get new Track
         const url = `${this.trackListUrl}?count=1`;
 
         this.authHttp.get(url).subscribe((tracks: Track[]) => {
@@ -45,10 +51,6 @@ export class TrackService {
                 tempTracks.push(newTrack);
             }
         });
-
-
         this.nextTracks.next(tempTracks);
-
-
     }
 }

@@ -1,9 +1,11 @@
+/**
+ * This service takes care of the playback control.
+ */
 import {Injectable, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {TrackService} from './track.service';
 import {Track} from '../models/track';
 import {RadiostationService} from './radiostation.service';
-import {Headers, Request, RequestMethod, RequestOptions, RequestOptionsArgs} from '@angular/http';
 import {AuthHttp} from './auth/auth-http';
 
 @Injectable()
@@ -38,8 +40,10 @@ export class PlayerService implements OnDestroy {
                 (currentTrack: Track) => {
                     this.currentTrack = currentTrack;
 
-                    this.currentTrack = new Track();
-                    this.currentTrack.file = 'https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';
+                    /* Use this for testing, if backend doesn't return tracks
+                     this.currentTrack = new Track();
+                     this.currentTrack.file = 'https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';
+                     */
 
                     this.trackUpdated();
                 }
@@ -59,38 +63,43 @@ export class PlayerService implements OnDestroy {
         }
     }
 
-//exchange the track in the audio element
+//exchange the songdata in the audio element to the current song
     private trackUpdated(): void {
-        let wasPlaying = this.isPlaying;
 
         this.audioPlayer.pause();
         this.audioPlayer.currentTime = 0;
         this.progressUpdate();
+
         if (this.currentTrack != null) {
+            console.log('refreshing');
+            //loading new track
+            this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
 
-            //TODO: Access the right file
-            //this.audioPlayer.src = 'https://p.scdn.co/mp3-preview/fd3279ef9df976c127f1cf9ddaddaa6d067b77f6.mp3';
+                this.currentTrack.data = data;
+                this.audioPlayer.src = this.currentTrack.data;
+                this.audioPlayer.load();
 
-            //this.audioPlayer.src = this.getMusicFile(this.currentTrack.file);
-
-            this.audioPlayer.load();
-
-        }
-        if (wasPlaying) {
-            this.audioPlayer.play();
-            console.log('Now playing: ' + this.currentTrack.title);
+                //was the player in playing state when the file file arrived?
+                if (this.isPlaying) {
+                    this.play();
+                }
+            }, err => {
+                console.log('GET TRACK ERROR: ', err);
+            });
+        } else {
+            this.isPlaying = false;
         }
     }
 
 //start playing
     public play(): void {
-        this.isPlaying = true;
-        console.log('Now playing: ' + this.currentTrack.title);
-
-        this.audioPlayer.src = 'https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';
-        this.audioPlayer.load();
-
-        this.audioPlayer.play();
+        if (this.currentTrack != null) {
+            this.isPlaying = true;
+            console.log('Now playing: ' + this.currentTrack.title);
+            this.audioPlayer.play();
+        } else {
+            console.error('Playerservice: There is no track to play');
+        }
     }
 
 //pause playing
@@ -109,12 +118,12 @@ export class PlayerService implements OnDestroy {
 
     /*
      * Skips to the next Track. If Player was playing before, playback will continue.
-     * If count flag ist set or more than 90% of the song are completed, the current
+     * If more than 90% of the song are completed, the current
      * Track will be written to the global History beforehand.
+     * @param addToHistory if true the current track will be written to history anyway.
      */
     public skipForward(addToHistory: boolean): void {
-        if (addToHistory || (this.progress / this.currentTrack.duration) > 0.9
-        ) {
+        if (this.currentTrack != null && (addToHistory || (this.progress / this.currentTrack.duration) > 0.9)) {
             this.radiostationService.writeToHistory(this.currentTrack);
         }
         this.trackService.nextSong();
@@ -162,36 +171,5 @@ export class PlayerService implements OnDestroy {
 //starts the new song and writes the old one to history
     public songEnded(): void {
         this.skipForward(true);
-    }
-
-    public test2(): void {
-        this.authHttp.getTrack('https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3').subscribe(data => {
-            this.audioPlayer.src = data;
-            this.audioPlayer.play();
-        }, err => {
-            console.log('GET TRACK ERROR: ', err);
-        });
-    }
-
-
-    private getMusicFile(url: string) {
-
-        let basicOptions: RequestOptionsArgs = {
-            url: url,
-            method: RequestMethod.Get,
-            headers: new Headers(),
-            search: null,
-            body: null
-        };
-        let reqOptions = new RequestOptions(basicOptions);
-        let req = new Request(reqOptions);
-
-        this.authHttp.request(req, reqOptions).subscribe((data: any) => {
-            console.log('This is the File request');
-            console.log(data._body);
-        });
-
-        return url;
-
     }
 }

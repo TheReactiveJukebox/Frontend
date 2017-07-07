@@ -29,8 +29,7 @@ export class RadiostationBySongComponent {
     start() {
         this.creationParameters.random = true;
         this.radiostationService.startNewRadiostation(this.creationParameters);
-        // this.playerService.play();
-        this.playerService.test2();
+        this.playerService.play();
         //TODO: Switch to radiostation view
     }
 }

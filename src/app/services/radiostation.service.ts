@@ -1,3 +1,6 @@
+/**
+ * This service takes care of actions related to radiostations.
+ */
 import {Injectable, OnDestroy} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Subscription} from 'rxjs/Subscription';
@@ -49,14 +52,13 @@ export class RadiostationService implements OnDestroy {
 
         this.authHttp.post(this.radiostationApiUrl, creationParameters).subscribe((data: Jukebox) => {
             this.jukebox = data;
+            this.trackService.refreshTracks();
         }, (error: Response) => {
             if (error.status == 400) {
                 console.log('The provided jukebox object is malformed');
             }
             console.log('Creating new Radiostation failed!', error);
         });
-
-        this.trackService.refreshTracks();
     }
 
     //deletes the current radiostation - currently not in use
