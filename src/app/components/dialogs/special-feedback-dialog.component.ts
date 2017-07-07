@@ -1,6 +1,6 @@
-import {Component, Inject} from '@angular/core';
-import { Track } from '../../models/track';
-import { MdDialog, MdDialogRef} from '@angular/material';
+import {Component} from '@angular/core';
+import {Track} from '../../models/track';
+import {MdDialogRef} from '@angular/material';
 
 @Component({
     selector: 'special-feedback-dialog',
@@ -12,19 +12,19 @@ export class SpecialFeedbackDialogComponent {
     constructor(public dialogRef: MdDialogRef<SpecialFeedbackDialogComponent>) {
     }
 
-    btnLike(event){
+    btnLike() {
 
     }
 
-    btnDislike(event){
+    btnDislike() {
 
     }
 
-    confirmDialog(event){
+    confirmDialog() {
         //TODO
     }
 
-    confirmAndApplyDialog(event){
+    confirmAndApplyDialog() {
         //TODO
     }
 }

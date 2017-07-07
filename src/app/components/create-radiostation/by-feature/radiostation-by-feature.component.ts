@@ -24,9 +24,9 @@ export class RadiostationByFeatureComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    reset(event) {
+    reset() {
     }
-    start(event) {
+    start() {
         this.creationParameters.random=true;
         this.radiostationService.startNewRadiostation(this.creationParameters);
     }

@@ -43,14 +43,14 @@ export class TrackListComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_Tendency(event) {
+    btn_Tendency() {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
         this.dialogRef.afterClosed().subscribe(result => {
             this.dialogRef = null;
         });
     }
 
-    btn_Renew(event) {
+    btn_Renew() {
 
     }
 }

@@ -23,10 +23,10 @@ export class RadiostationBySongComponent {
                 public playerService: PlayerService) {
     }
 
-    reset(event) {
+    reset() {
     }
 
-    start(event) {
+    start() {
         this.creationParameters.random = true;
         this.radiostationService.startNewRadiostation(this.creationParameters);
         this.playerService.play();
