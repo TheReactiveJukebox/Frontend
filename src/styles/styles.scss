@@ -6,7 +6,7 @@
 //include only once per project
 @include mat-core();
 
-@import "../theme.scss";
+@import '../theme.scss';
 
 // specify theme class eg: <body class="default-theme"> ... </body>
 .default-theme {
@@ -15,24 +15,28 @@
   @include angular-material-theme($default-theme);
 }
 
+body {
+  margin: 0px;
+}
+
 nav {
-    margin-top: 16px;
+  margin-top: 16px;
 }
 
 nav a {
-    background-color: $nav-button-color;
-    color: white;
-    padding: 8px 16px;
-    margin: 8px;
-    vertical-align: middle;
-    line-height: 1.25;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
+  background-color: $nav-button-color;
+  color: white;
+  padding: 8px 16px;
+  margin: 8px;
+  vertical-align: middle;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
 }
 
 /* This sets a global font for every text item on the page.
 However, this can be overwritten. */
 html * {
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }

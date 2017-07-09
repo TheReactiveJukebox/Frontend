@@ -1,19 +1,14 @@
-@import "../../../styles/styles";
-
-
-*{
-  background-color: $primary-color;
-  color: $primary-text-color
-}
 h2 {
   font-family: Quicksand-Regular, arial, sans-serif;
 
 }
-.content_wrapper{
+
+#content_wrapper {
   padding: 30px;
   width: 25%;
   vertical-align: top;
 }
+
 .cover_img {
   max-width: 400px;
   max-height: 400px;
@@ -22,7 +17,7 @@ h2 {
   min-width: 180px;
 }
 
-#cover_img_wrapper{
+#cover_img_wrapper {
   width: 70%;
 }
 
@@ -30,24 +25,29 @@ h2 {
   border-bottom: 1px solid var(--tc4);
   padding-bottom: 13px;
 }
-#now_playing_details_table{
+
+#now_playing_details_table {
   width: 100%;
 }
-#cover_img_table_wrapper{
+
+#cover_img_table_wrapper {
   width: 15%;
 }
-#now_playing_details_table_wrapper{
+
+#now_playing_details_table_wrapper {
   width: 55%;
   vertical-align: top;
 }
-#refresh_recommends_wrapper{
+
+#refresh_recommends_wrapper {
   width: 30%;
 }
+
 #now_playing_details_wrapper {
   padding-left: 28px;
 }
 
-.feedback-button-wrapper{
+.feedback-button-wrapper {
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -55,17 +55,18 @@ h2 {
   margin-right: 15px;
 }
 
-#like_button_wrapper{
+#like_button_wrapper {
   position: relative;
-  left:0;
-  bottom:0;
+  left: 0;
+  bottom: 0;
   margin: 10px;
   background: url("../../../assets/icon/like.png");
 }
-#dislike_button_wrapper{
+
+#dislike_button_wrapper {
   position: relative;
-  left:0;
-  bottom:0;
+  left: 0;
+  bottom: 0;
   margin: 10px;
   background: url("../../../assets/icon/dislike.png");
 }
@@ -73,17 +74,16 @@ h2 {
 #feedback_button_table {
   margin-top: 15px;
 }
-#duration_table{
+
+#duration_table {
   margin-top: 15px;
 }
 
 #special_feedback_btn {
   position: relative;
-  left:0;
-  bottom:0;
+  left: 0;
+  bottom: 0;
   margin: 10px;
-  //background-color: $secondary-red-dark;
-  //color: $primary-text-color;
 
 }
 

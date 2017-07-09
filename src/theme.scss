@@ -4,8 +4,8 @@
  * mat-palette accepts $palette-name, main, lighter and darker variants
  * see https://material.io/guidelines/style/color.html#color-color-palette
  */
-$default-theme-primary: mat-palette($mat-grey, 800, 600, 900);
-$default-theme-accent:  mat-palette($mat-red, 700, 500, 900);
+$default-theme-primary: mat-palette($mat-red, 700, 500, 900);
+$default-theme-accent:  mat-palette($mat-grey, 900);
 $default-theme-warn:    mat-palette($mat-deep-orange, A400);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)

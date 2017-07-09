@@ -1,11 +1,12 @@
-@import "../../../styles/styles";
+@import '~@angular/material/theming';
+@import '../../../theme.scss';
 
 #player_bar_wrapper {
   height: 44px;
   width: 100vw;
   padding: 0px;
   z-index: 10000;
-  //background: $default-theme-primary.darker;
+  background: mat-color($default-theme-accent);
 }
 
 #progress_bar {
@@ -18,20 +19,20 @@
 }
 
 progress[value] {
-  color: #9b0000
+  color: mat-color($default-theme-primary);
 }
 
 /* IE10 */
 progress::-webkit-progress-bar-value {
-  background: #9b0000
+  background: mat-color($default-theme-primary);
 }
 
 progress::-webkit-progress-value {
-  background: #9b0000
+  background: mat-color($default-theme-primary);
 }
 
 progress::-moz-progress-bar {
-  background: #9b0000
+  background: mat-color($default-theme-primary);
 }
 
 #controls_wrapper {
@@ -44,6 +45,7 @@ progress::-moz-progress-bar {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  background: mat-color($default-theme-accent);
 }
 
 .controlls {
@@ -66,6 +68,7 @@ progress::-moz-progress-bar {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  background: mat-color($default-theme-accent);
 }
 
 #feedback_wrapper {
@@ -81,6 +84,7 @@ progress::-moz-progress-bar {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  background: mat-color($default-theme-accent);
 }
 
 #sound_wrapper {
@@ -96,6 +100,7 @@ progress::-moz-progress-bar {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  background: mat-color($default-theme-accent);
 }
 
 #sound-slider {

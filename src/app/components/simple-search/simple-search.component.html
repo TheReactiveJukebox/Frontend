@@ -1,4 +1,4 @@
-<md-card id="search-pane">
+<div id="search-pane">
 <speech-search-field (keyup)="searches($event.target.value)"></speech-search-field>
 <div *ngIf="this.trackResultCount > 0">
     <md-nav-list class="tl">
@@ -29,4 +29,4 @@
         </md-list-item>
     </md-nav-list>
 </div>
-</md-card>
+</div>
