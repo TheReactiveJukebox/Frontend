@@ -1,4 +1,5 @@
 <td class="content_wrapper">
+    <md-card *ngIf="!currentTrack">please create a radio to listen to</md-card>
     <div id="now_playing_wrapper" *ngIf="currentTrack" class="ct-container">
         <table id="now_playing_details_table">
             <tr>

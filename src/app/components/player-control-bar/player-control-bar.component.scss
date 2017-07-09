@@ -87,9 +87,10 @@ progress::-moz-progress-bar {
   position: absolute;
   right: 10px;
   bottom: 0px;
-  width: 200px;
+  width: 180px;
   color: white;
   float: right;
+  vertical-align: middle;
   flex-flow: row;
   padding: 0px !important;
   -webkit-box-shadow: none;
@@ -97,12 +98,13 @@ progress::-moz-progress-bar {
   box-shadow: none;
 }
 
-sound-slider {
-  width: 100px;
-  height: 40px;
-  padding: 0px;
-  line-height: 40px;
+#sound-slider {
+  position: absolute;
   color: red;
+  padding: 0px;
+  margin: 0px;
+  height: 40px;
+  bottom: 0px;
 }
 
 button {

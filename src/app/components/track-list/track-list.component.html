@@ -1,7 +1,7 @@
 <md-nav-list class="tl">
     <md-divider></md-divider>
     <md-list-item class="tl-row" *ngFor="let track of this.nextTracks">
-        <p call ="tl-cover-col">
+        <p call="tl-cover-col">
             <a> <img src="{{track.cover}}" alt="Cover" class="cover_img"></a>
         </p>
         <p class="tl-id-col"></p>
@@ -12,7 +12,7 @@
         <p class="tl-icon-col"><i class="material-icons">delete</i></p>
     </md-list-item>
     <md-divider></md-divider>
-    <md-list-item class="tl-tendency" >
+    <md-list-item class="tl-tendency">
         <p class="tl-trend-ico-col">
             <button
                     md-icon-button
@@ -21,12 +21,9 @@
             </button>
 
         </p>
-        <p class="tl-trend-disciption-col" >{{'TRACK_LIST.TENDISC' | translate}}</p>
+        <p class="tl-trend-disciption-col">{{'TRACK_LIST.TENDISC' | translate}}</p>
         <p class="tl-refresh-ico-col">
-            <button
-                md-icon-button
-
-                (click)="btn_Renew()">
+            <button md-icon-button (click)="btn_Renew()">
                 <md-icon id="renew_button_wrapper">autorenew</md-icon>
             </button>
         </p>

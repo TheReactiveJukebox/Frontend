@@ -1,45 +1,45 @@
-<md-card id="wrapper">
+<md-card id="component-pane">
 
     <md-card-title>
         Select the properties of your Radiostation!
     </md-card-title>
     <md-card-content>
-        <div style="background: pink" class="tile">
+        <div id="random" class="tile">
             <input type="checkbox">
             Create a random Radio?
         </div>
 
-        <div style="background: deeppink" class="tile">Song ID <input type="text" name="firstname"></div>
+        <div id="song" class="tile">Song ID <input type="text" name="firstname"></div>
 
-        <div style="background: hotpink" class="tile">Genre
+        <div id="genre" class="tile">Genre
             <select>
-                <option value="Rock">Volvo</option>
-                <option value="Pop">Saab</option>
-                <option value="Elektro">Opel</option>
-                <option value="Klassik">Audi</option>
+                <option>Rock</option>
+                <option>Pop</option>
+                <option>Elektro</option>
+                <option>Klassik</option>
             </select>
         </div>
 
-        <div style="background: indianred" class="tile">What is your Mood?
+        <div id="mood" class="tile">What is your Mood?
             <select>
-                <option value="Angry">Volvo</option>
-                <option value="Relax">Saab</option>
-                <option value="Happy">Opel</option>
-                <option value="Sad">Audi</option>
+                <option>Angry</option>
+                <option>Relax</option>
+                <option>Happy</option>
+                <option>Sad</option>
             </select>
         </div>
 
-        <div style="background: orangered" class="tile">Want to listen to songs of a specific decade? <input type="text"
-                                                                                                             name="firstname">
+        <div id="decade" class="tile">Want to listen to songs of a specific decade? <input type="text"
+                                                                                           name="firstname">
             - <input type="text" name="firstname"></div>
 
     </md-card-content>
     <md-card-footer>
         <md-card-actions>
-            <button md-raised-button class="button-start" (click)="start()">{{'RADIOSTATION_CREATE.START' |
+            <button md-raised-button (click)="start()">{{'RADIOSTATION_CREATE.START' |
                 translate}}
             </button>
-            <button md-raised-button class="button-reset" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' |
+            <button md-raised-button (click)="reset()">{{'RADIOSTATION_CREATE.RESET' |
                 translate}}
             </button>
         </md-card-actions>

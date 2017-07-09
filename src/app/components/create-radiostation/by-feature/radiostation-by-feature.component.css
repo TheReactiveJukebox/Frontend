@@ -1,19 +1,39 @@
-#wrapper {
+#component-pane {
     width: 100vw;
+    height: 500px;
     padding: 10px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    box-shadow: none;
-    ;
+    box-shadow: none;;
 }
 
 .tile {
-    height: 200px;
+    height: 100px;
     width: 200px;
-    margin: 20px;
+    margin: 10px;
     display: block;
     float: left;
     padding: 15px;
     text-align: center;
     vertical-align: middle;
+}
+
+#random {
+    background: pink;
+}
+
+#song {
+    background: deeppink;
+}
+
+#genre {
+    background: hotpink;
+}
+
+#mood {
+    background: indianred;
+}
+
+#decade {
+    background: orangered;
 }

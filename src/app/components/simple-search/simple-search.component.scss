@@ -1,4 +1,12 @@
 @import "../../../styles/styles";
+#search-pane {
+  height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
 
 .tl{
 }
