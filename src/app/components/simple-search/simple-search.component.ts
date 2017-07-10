@@ -42,10 +42,14 @@ export class SimpleSearchComponent {
                 private authHttp: AuthHttp) {
         this.searchService.trackSearch(this.searchTrack$)
             .subscribe(results => {
-                this.trackService.fillData(results).subscribe((filledTracks: Track[]) => {
-                    this.trackResult = filledTracks;
-                    this.trackResultCount = Object.keys(filledTracks).length;
-                });
+                if (Object.keys(results).length > 0) {
+                    this.trackService.fillData(results).subscribe((filledTracks: Track[]) => {
+                        this.trackResult = filledTracks;
+                        this.trackResultCount = Object.keys(filledTracks).length;
+                    });
+                }else{
+                    this.trackResultCount = 0;
+                }
             });
 
         this.searchService.artistSearch(this.searchArtist$)
@@ -55,18 +59,22 @@ export class SimpleSearchComponent {
             });
         this.searchService.albumSearch(this.searchAlbum$)
             .subscribe(results => {
-                let artistUrl = Config.serverUrl + '/api/artist?';
-                let artistRequests = [];
-                for (let album of results) {
-                    artistRequests.push(this.authHttp.get(artistUrl+'id='+album.artist));
-                }
-                Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
-                    for (let i=0; i<results.length; i++) {
-                        results[i].artist = artistResults[i][0];
+                if (Object.keys(results).length > 0) {
+                    let artistUrl = Config.serverUrl + '/api/artist?';
+                    let artistRequests = [];
+                    for (let album of results) {
+                        artistRequests.push(this.authHttp.get(artistUrl + 'id=' + album.artist));
                     }
-                    this.albumResult = results;
-                    this.albumResultCount = Object.keys(results).length;
-                });
+                    Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
+                        for (let i = 0; i < results.length; i++) {
+                            results[i].artist = artistResults[i][0];
+                        }
+                        this.albumResult = results;
+                        this.albumResultCount = Object.keys(results).length;
+                    });
+                }else{
+                    this.trackResultCount = 0;
+                }
             });
     }
 
