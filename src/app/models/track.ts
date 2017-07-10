@@ -1,10 +1,11 @@
 import {Artist} from './artist';
+import {Album} from './album';
 
 export class Track {
     id: number;
     title: string;
     artist: Artist;
-    album: string;
+    album: Album;
     cover: string;
     duration: number;
     file: string;

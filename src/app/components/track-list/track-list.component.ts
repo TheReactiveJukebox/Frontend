@@ -28,6 +28,9 @@ export class TrackListComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.trackService.nextTracks.subscribe((nextTracks: Track[]) => {
                 this.nextTracks = nextTracks;
+                if(this.nextTracks != null) {
+                    console.log('NEXT TRACK_0: ', this.nextTracks[0]);
+                }
             })
         );
 
