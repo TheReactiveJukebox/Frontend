@@ -5,8 +5,8 @@
         <h1 md-subheader>Tracks</h1>
         <md-list-item class="tl-row" *ngFor="let result of this.trackResult | slice:0:9" (click)="this.selection(result)">
             <p class="tl-title-col">{{result.title}}</p>
-            <p class="tl-artist-col">{{result.artist}}</p>
-            <p class="tl-album-col">{{result.album}}</p>
+            <p class="tl-artist-col">{{result.artist.name}}</p>
+            <p class="tl-album-col">{{result.album.title}}</p>
         </md-list-item>
     </md-nav-list>
 </div>
@@ -25,7 +25,7 @@
         <h1 md-subheader>Album</h1>
         <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:4" (click)="this.selection(result)">
             <p class="tl-title-col">{{result.title}}</p>
-            <p class="tl-artist-col">{{result.artist}}</p>
+            <p class="tl-artist-col">{{result.artist.name}}</p>
         </md-list-item>
     </md-nav-list>
 </div>
