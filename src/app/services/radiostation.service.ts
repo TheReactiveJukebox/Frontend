@@ -14,7 +14,6 @@ import {Jukebox} from '../models/jukebox';
 @Injectable()
 export class RadiostationService implements OnDestroy {
 
-    public currentTrack: Track;
     private subscriptions: Subscription[];
     public jukebox: Jukebox;
 
@@ -25,16 +24,8 @@ export class RadiostationService implements OnDestroy {
     constructor(private trackService: TrackService,
                 private authHttp: AuthHttp) {
         this.subscriptions = [];
+        this.fetchRadiostation();
 
-
-        // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
-        // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
-        // gets destroyed.
-        this.subscriptions.push(
-            this.trackService.currentTrack.subscribe((currentTrack: Track) => {
-                this.currentTrack = currentTrack;
-            })
-        );
     }
 
     ngOnDestroy(): void {
@@ -81,6 +72,18 @@ export class RadiostationService implements OnDestroy {
             console.log('Writing "' + track.title + '" to history failed!', error);
         });
 
+    }
+
+    public fetchRadiostation(): void {
+        this.authHttp.get(this.radiostationApiUrl).subscribe((jukebox: Jukebox) => {
+            this.jukebox = jukebox;
+        }, error => {
+            console.log('Catched error: ', error);
+        });
+    }
+
+    public hasJukebox(): boolean {
+        return this.jukebox != null;
     }
 
 }

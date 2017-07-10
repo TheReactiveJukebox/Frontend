@@ -9,6 +9,7 @@ import {AuthHttp} from './auth/auth-http';
 import {Observable} from 'rxjs/Observable';
 import {Artist} from '../models/artist';
 import {Album} from '../models/album';
+import {RadiostationService} from './radiostation.service';
 
 @Injectable()
 export class TrackService {
@@ -20,7 +21,7 @@ export class TrackService {
 
     constructor(private authHttp: AuthHttp) {
         this.currentTrack = new BehaviorSubject<Track>(null);
-        this.nextTracks = new BehaviorSubject<Track[]>([]);
+        this.nextTracks = new BehaviorSubject<Track[]>(null);
     }
 
     //Refreshes current track and track preview according to current radiostation
@@ -28,16 +29,17 @@ export class TrackService {
         this.fetchNewSongs(6).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
+        }, error => {
+            console.log(error);
         });
     }
 
     fetchNewSongs(count?: number): Observable<Track[]> {
-        if (!count) {
-            count = 1;
-        }
-        const url = this.trackListUrl + '?count=' + count;
-
         return Observable.create(observer => {
+            if (!count) {
+                count = 1;
+            }
+            const url = this.trackListUrl + '?count=' + count;
             this.authHttp.get(url).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
                     for (let i = 0; i < tracks.length; i++) {
@@ -48,11 +50,14 @@ export class TrackService {
                         observer.complete();
                     });
                 }
+            }, error => {
+                observer.error(error);
+                observer.complete();
             });
         });
     }
 
-    fillData(rawTracks: Track[]): Observable<Track[]> {
+    /*fillData(rawTracks: Track[]): Observable<Track[]> {
         return Observable.create(observer => {
             let artistUrl = Config.serverUrl + '/api/artist?';
             let albumUrl = Config.serverUrl + '/api/album?';
@@ -73,6 +78,31 @@ export class TrackService {
                 });
             });
         });
+    }*/
+
+    fillData(rawTracks: Track[]): Observable<Track[]> {
+        return Observable.create(observer => {
+            let artistUrl = Config.serverUrl + '/api/artist?';
+            let albumUrl = Config.serverUrl + '/api/album?';
+            let artistRequests = [];
+            let albumRequests = [];
+            for (let rawTrack of rawTracks) {
+                artistRequests.push(this.authHttp.get(artistUrl+'id='+rawTrack.artist));
+            }
+            Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
+                for (let rawTrack of rawTracks) {
+                    albumRequests.push(this.authHttp.get(albumUrl+'id='+rawTrack.album));
+                }
+                Observable.forkJoin(albumRequests).subscribe((albumResults: any[]) => {
+                    for (let i=0; i<rawTracks.length; i++) {
+                        rawTracks[i].artist = artistResults[i][0];
+                        rawTracks[i].album = albumResults[i][0];
+                    }
+                    observer.next(rawTracks);
+                    observer.complete();
+                });
+            });
+        });
     }
 
     //Gets the next track from the preview and adds the next track to the preview list
@@ -85,6 +115,8 @@ export class TrackService {
         this.fetchNewSongs().subscribe((tracks: Track[]) => {
             tempTracks.push(tracks[0]);
             this.nextTracks.next(tempTracks);
+        }, error => {
+            console.log(error);
         });
     }
 
