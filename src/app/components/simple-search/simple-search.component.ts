@@ -54,14 +54,11 @@ export class SimpleSearchComponent {
     //Invoked on keyup in search field search API is called when a query with more than two characters is send
     public searches(value):void {
         this.searchTerm = value.replace(/\s+/g, ''); //Remove whitespaces
-        if(this.searchTerm.length>=2){
-            this.searchTrack$.next(this.searchTerm);
-            this.searchArtist$.next(this.searchTerm);
-            this.searchAlbum$.next(this.searchTerm);
-        }
-        else{
-            this.trackResultCount = this.artistResultCount = this.albumResultCount = 0;
-        }
+
+        this.searchTrack$.next(this.searchTerm);
+        this.searchArtist$.next(this.searchTerm);
+        this.searchAlbum$.next(this.searchTerm);
+
     }
 
 
