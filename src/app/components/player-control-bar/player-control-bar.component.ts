@@ -1,9 +1,8 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {PlayerService} from '../../services/player.service';
-import {MdSliderChange} from '@angular/material';
 import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
