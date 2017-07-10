@@ -1,6 +1,7 @@
-<div  class="speech-search-field-container">
+<div class="speech-search-field-container">
     <md-input-container class="search-input">
-        <input mdInput [(ngModel)]="detectedText" [placeholder]="'SPEECH.COMMAND_INPUT' | translate" class="search-input">
+        <input mdInput #searchInput [(ngModel)]="detectedText" [placeholder]="'SPEECH.COMMAND_INPUT' | translate"
+               class="search-input" (keyup)="test($event)">
     </md-input-container>
     <button class="mic-button" md-icon-button (click)="toggleListening()">
         <i *ngIf="listening" class="material-icons md-48">mic</i>

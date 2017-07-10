@@ -3,6 +3,9 @@ import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
 import {TranslateService} from '@ngx-translate/core';
 
+
+
+
 @Component({
     selector: 'speech-search-field',
     styleUrls: [ './speech-search-field.component.scss' ],
@@ -10,14 +13,17 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
+
     @Output()
     public detectedText: string;
 
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
 
+
     constructor(public speechService: SpeechService,
-                private translateService: TranslateService) {
+                private translateService: TranslateService
+    ) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
     }
@@ -26,6 +32,8 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         // subscribe to Listening Observable. When ever the browser starts or stops listening, this will be called
         this.speechService.isListening().takeUntil(this.ngUnsubscribe).subscribe((listening: boolean) => {
             this.listening = listening;
+
+
         });
     }
 
@@ -61,5 +69,10 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
             }
         });
     }
-
+    public test(event): void {
+      console.log(event.target.value);
+    }
+    public test2(): void {
+        console.log('test speech' +this.detectedText);
+    }
 }

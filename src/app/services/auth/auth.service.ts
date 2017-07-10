@@ -42,7 +42,7 @@ export class AuthService {
                     observer.next(result);
                     observer.complete();
                 }, error => {
-                    observer.error();
+                    observer.error(error);
                     observer.complete();
                 });
             } else {

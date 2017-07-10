@@ -5,11 +5,12 @@ import {RadiostationBySongComponent}   from './pages/create-radiostation/by-song
 import {PlayerComponent} from './pages/player/player.component';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
+import {SimpleSearchComponent} from './components/simple-search/simple-search.component'
 
 export const ROUTES: Routes = [
     {
         path: '',
-        redirectTo: '/login',
+        redirectTo: '/player',
         pathMatch: 'full'
     },
     {
@@ -18,11 +19,13 @@ export const ROUTES: Routes = [
     },
     {
         path: 'radiostation-by-feature',
-        component: RadiostationByFeatureComponent
+        component: RadiostationByFeatureComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'radiostation-by-song',
-        component: RadiostationBySongComponent
+        component: RadiostationBySongComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'player',
@@ -32,5 +35,11 @@ export const ROUTES: Routes = [
     {
         path: 'speech',
         component: SpeechSearchFieldComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'search',
+        component: SimpleSearchComponent,
+        canActivate: [AuthGuard]
     },
 ];

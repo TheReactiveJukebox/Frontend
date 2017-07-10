@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
 
         // try to perform autologin and navigate to player, if it was successful
         this.authService.performAutoLogin().subscribe(() => {
-            this.router.navigate(['/player']);
+            console.log('Autologin Success!');
         },error => {
             console.log('Autologin failed: ', error);
         });

@@ -1,12 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
-import {
-    NgModule,
-} from '@angular/core';
-import {
-    RouterModule,
-} from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -44,6 +40,7 @@ import {AuthHttp} from './services/auth/auth-http';
 import {AuthGuard} from './guards/AuthGuard';
 import {SpeechService} from './services/speech.service';
 import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
+import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -62,7 +59,8 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
         SpecialFeedbackDialogComponent,
         TendencyFeedbackDialogComponent,
         SpeechSearchFieldComponent,
-        SecondsToDatePipe
+        SecondsToDatePipe,
+        SimpleSearchComponent
     ],
     /**
      * Import Angular's modules.
