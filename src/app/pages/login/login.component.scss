@@ -1,4 +1,5 @@
-@import "../../../styles/styles";
+@import '~@angular/material/theming';
+@import '../../../theme.scss';
 
 .login-card {
   width: 320px;
@@ -23,5 +24,5 @@
   width: 100vw;
   height: 100vh;
   padding: 0px;
-  background: #4CAF50;
+  background: mat-color($default-theme-accent);;
 }
