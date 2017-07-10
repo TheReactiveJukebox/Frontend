@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {PlayerService} from '../../../services/player.service';
 
@@ -19,6 +19,9 @@ export class RadiostationBySongComponent {
         random?: boolean
     } = {};
 
+    @Output()
+    public onStart: EventEmitter<any> = new EventEmitter();
+
     constructor(public radiostationService: RadiostationService,
                 public playerService: PlayerService) {
     }
@@ -30,6 +33,7 @@ export class RadiostationBySongComponent {
         this.creationParameters.random = true;
         this.radiostationService.startNewRadiostation(this.creationParameters);
         this.playerService.play();
+        this.onStart.emit();
         //TODO: Switch to radiostation view
     }
 }

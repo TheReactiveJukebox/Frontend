@@ -1,34 +1,34 @@
-<td [class]="themeClass" id="content_wrapper">
+<td [class]="'themeClass'" id="content-wrapper">
     <md-card *ngIf="!currentTrack">please create a radio to listen to</md-card>
-    <div id="now_playing_wrapper" *ngIf="currentTrack" class="ct-container">
-        <table id="now_playing_details_table">
+    <div id="now-playing-wrapper" *ngIf="currentTrack" class="ct-container">
+        <table id="now-playing-details-table">
             <tr>
-                <td id="cover_img_table_wrapper">
-                    <div id="cover_img_wrapper">
-                        <a> <img src="{{currentTrack.cover}}" alt="Cover" class="cover_img"></a>
+                <td id="cover-img-table-wrapper">
+                    <div id="cover-img-wrapper">
+                        <a> <img src="{{currentTrack.cover}}" alt="Cover" class="cover-img"></a>
                     </div>
                 </td>
-                <td id="now_playing_details_table_wrapper">
-                    <div id="now_playing_details_wrapper">
+                <td id="now-playing-details-table-wrapper">
+                    <div id="now-playing-details-wrapper">
                         <h2>{{currentTrack.artist.name}} - {{currentTrack.title}}</h2>
                         <a>{{currentTrack.album.title}}</a><br>
-                        <table id="feedback_button_table">
+                        <table id="feedback-button-table">
                             <tr>
                                 <td>
                                     <button
                                             md-icon-button
                                             md-fab class="feedback-button-wrapper"
-                                            id="like_button_wrapper"
+                                            id="like-button-wrapper"
                                             (click)="btn_like()">
                                     </button>
                                     <button
                                             md-icon-button
                                             md-fab class="feedback-button-wrapper"
-                                            id="dislike_button_wrapper"
+                                            id="dislike-button-wrapper"
                                             (click)="btn_dislike()">
                                     </button>
                                 </td>
-                                <button md-raised-button *ngIf="btnVisible" id="special_feedback_btn" (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
+                                <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn" (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
                             </tr>
                         </table>
                     </div>

@@ -15,7 +15,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     currentTrack: Track;
     btnVisible: boolean = false;
     dialogRef: MdDialogRef<any>;
-    selectedOption: string;
     private subscriptions: Subscription[];
 
     constructor(public trackService: TrackService, public dialog: MdDialog) {

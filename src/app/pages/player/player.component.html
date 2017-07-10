@@ -17,7 +17,7 @@
             <ng-template md-tab-label>
                 <md-icon mdTooltip="Song">audiotrack</md-icon>
             </ng-template>
-            <my-radiostation-by-song class="my-content"></my-radiostation-by-song>
+            <my-radiostation-by-song class="my-content" (onStart)="switchToPlayer()"></my-radiostation-by-song>
         </md-tab>
 
         <md-tab>

@@ -53,4 +53,8 @@ export class TrackService {
         });
         this.nextTracks.next(tempTracks);
     }
+
+    hasNextTracks(): boolean {
+        return (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
+    }
 }
