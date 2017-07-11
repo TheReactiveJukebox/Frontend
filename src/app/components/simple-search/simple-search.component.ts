@@ -48,6 +48,7 @@ export class SimpleSearchComponent {
                         this.trackResultCount = Object.keys(filledTracks).length;
                     });
                 }else{
+                    this.trackResult = results;
                     this.trackResultCount = 0;
                 }
             });
@@ -73,7 +74,8 @@ export class SimpleSearchComponent {
                         this.albumResultCount = Object.keys(results).length;
                     });
                 }else{
-                    this.trackResultCount = 0;
+                    this.albumResult = results;
+                    this.albumResultCount = 0;
                 }
             });
     }
