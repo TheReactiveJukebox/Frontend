@@ -1,2 +1,36 @@
-<current-track></current-track>
-<track-list></track-list>
+<md-card id="base-pane">
+    <md-toolbar>
+        <span id="title">The Reactive Jukebox</span>
+        <a md-icon-button id="logout-btn" routerLink="/login" (click)="this.authService.logout()">
+            <md-icon>exit_to_app</md-icon>
+        </a>
+    </md-toolbar>
+    <md-tab-group #tabs [dynamicHeight]="true">
+        <md-tab>
+            <ng-template md-tab-label>
+                <md-icon mdTooltip="Konfiguration">build</md-icon>
+            </ng-template>
+            <radiostation-by-feature class="my-content" (onStart)="switchToPlayer()"></radiostation-by-feature>
+        </md-tab>
+
+        <md-tab>
+            <ng-template md-tab-label>
+                <md-icon mdTooltip="Song">audiotrack</md-icon>
+            </ng-template>
+            <my-radiostation-by-song class="my-content" (onStart)="switchToPlayer()"></my-radiostation-by-song>
+        </md-tab>
+
+        <md-tab>
+            <ng-template md-tab-label>
+                <md-icon mdTooltip="Player">radio</md-icon>
+            </ng-template>
+            <md-card id="play-list-view" class="my-content">
+                <current-track></current-track>
+                <track-list></track-list>
+            </md-card>
+        </md-tab>
+    </md-tab-group>
+    <md-card-footer>
+        <player-control-bar></player-control-bar>
+    </md-card-footer>
+</md-card>

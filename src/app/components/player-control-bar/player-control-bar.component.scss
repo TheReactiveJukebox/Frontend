@@ -1,0 +1,118 @@
+@import '~@angular/material/theming';
+@import '../../../theme.scss';
+
+#player_bar_wrapper {
+  height: 44px;
+  width: 100vw;
+  padding: 0px;
+  z-index: 10000;
+  background: mat-color($default-theme-accent);
+}
+
+#progress_bar {
+  position: absolute;
+  top: 0;
+  height: 4px;
+  width: 100%;
+  border: 0px;
+  background: #ff5131;
+}
+
+progress[value] {
+  color: mat-color($default-theme-primary);
+}
+
+/* IE10 */
+progress::-webkit-progress-bar-value {
+  background: mat-color($default-theme-primary);
+}
+
+progress::-webkit-progress-value {
+  background: mat-color($default-theme-primary);
+}
+
+progress::-moz-progress-bar {
+  background: mat-color($default-theme-primary);
+}
+
+#controls_wrapper {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 90px;
+  flex-flow: row;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: mat-color($default-theme-accent);
+}
+
+.controlls {
+  cursor: pointer;
+  background: transparent;
+  color: white;
+  border: none;
+}
+
+#player_current_song_desc {
+  position: absolute;
+  left: 100px;
+  bottom: 0px;
+  height: 40px;
+  width: 40%;
+  color: white;
+  line-height: 40px;
+  text-align: center;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: mat-color($default-theme-accent);
+}
+
+#feedback_wrapper {
+  position: absolute;
+  bottom: 0px;
+  width: 135px;
+  left: 40%;
+  margin-left: 100px;
+  color: white;
+  float: left;
+  flex-flow: row;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: mat-color($default-theme-accent);
+}
+
+#sound_wrapper {
+  position: absolute;
+  right: 10px;
+  bottom: 0px;
+  width: 180px;
+  color: white;
+  float: right;
+  vertical-align: middle;
+  flex-flow: row;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: mat-color($default-theme-accent);
+}
+
+#sound-slider {
+  position: absolute;
+  color: red;
+  padding: 0px;
+  margin: 0px;
+  height: 40px;
+  bottom: 0px;
+}
+
+button {
+  padding: 0px;
+  width: 40px;
+}

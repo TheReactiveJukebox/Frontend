@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TrackService } from '../../services/track.service';
-import { Track } from '../../models/track';
-import { Subscription } from 'rxjs/Subscription';
-import { MdDialog, MdDialogRef} from '@angular/material';
-import { SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {TrackService} from '../../services/track.service';
+import {Track} from '../../models/track';
+import {Subscription} from 'rxjs/Subscription';
+import {MdDialog, MdDialogRef} from '@angular/material';
+import {SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
 
 @Component({
     selector: 'current-track',
@@ -15,7 +15,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     currentTrack: Track;
     btnVisible: boolean = false;
     dialogRef: MdDialogRef<any>;
-    selectedOption: string;
     private subscriptions: Subscription[];
 
     constructor(public trackService: TrackService, public dialog: MdDialog) {
@@ -23,7 +22,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.trackService.refreshTracks();
 
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
@@ -44,18 +42,18 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_like(event){
+    btn_like(event) {
         this.btnVisible = true;
         //wait 3 seconds and hide
-        setTimeout(function() {
+        setTimeout(function () {
             this.btnVisible = false;
         }.bind(this), 3000);
     }
 
-    btn_dislike(event){
+    btn_dislike(event) {
         this.btnVisible = true;
         //wait 3 seconds and hide
-        setTimeout(function() {
+        setTimeout(function () {
             this.btnVisible = false;
         }.bind(this), 3000);
     }

@@ -28,17 +28,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     loginData: {username?: string, password?: string} = {};
     registerData: {username?: string, password?: string, inviteKey?: string} = {};
 
-    constructor(public parent: AppComponent,
-                private authService: AuthService,
+    constructor(private authService: AuthService,
                 private translateService: TranslateService,
                 private router: Router) {}
 
     public ngOnInit(): void {
-        this.parent.tintBackground('#4CAF50');
     }
 
     public ngOnDestroy(): void {
-        this.parent.tintBackground('#FFFFFF');
     }
 
     login(): void {
