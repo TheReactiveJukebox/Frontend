@@ -34,6 +34,5 @@ export class RadiostationBySongComponent {
         this.radiostationService.startNewRadiostation(this.creationParameters);
         this.playerService.play();
         this.onStart.emit();
-        //TODO: Switch to radiostation view
     }
 }

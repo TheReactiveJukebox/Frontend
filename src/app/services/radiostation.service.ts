@@ -65,6 +65,7 @@ export class RadiostationService implements OnDestroy {
         };
 
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
+            console.log('HISTORY RETURN DATA: ', data);
         }, (error: Response) => {
             if (error.status == 400) {
                 console.log('The provided history entry is malformed');

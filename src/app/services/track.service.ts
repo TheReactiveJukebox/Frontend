@@ -34,11 +34,8 @@ export class TrackService {
         });
     }
 
-    fetchNewSongs(count?: number): Observable<Track[]> {
+    fetchNewSongs(count: number): Observable<Track[]> {
         return Observable.create(observer => {
-            if (!count) {
-                count = 1;
-            }
             const url = this.trackListUrl + '?count=' + count;
             this.authHttp.get(url).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
@@ -112,7 +109,7 @@ export class TrackService {
         tempTracks = tempTracks.slice(1);
 
         //Get new Track
-        this.fetchNewSongs().subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(1).subscribe((tracks: Track[]) => {
             tempTracks.push(tracks[0]);
             this.nextTracks.next(tempTracks);
         }, error => {

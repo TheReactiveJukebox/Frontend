@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AppState} from '../../../services/app.service';
 import {RadiostationService} from '../../../services/radiostation.service';
+import {PlayerService} from '../../../services/player.service';
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -19,7 +20,11 @@ export class RadiostationByFeatureComponent implements OnInit {
             random?: boolean
         } = {};
 
-    constructor(public radiostationService: RadiostationService) {}
+    @Output()
+    public onStart: EventEmitter<any> = new EventEmitter();
+
+    constructor(public radiostationService: RadiostationService,
+                private playerService: PlayerService) {}
 
     ngOnInit(): void {
     }
@@ -29,5 +34,7 @@ export class RadiostationByFeatureComponent implements OnInit {
     start() {
         this.creationParameters.random=true;
         this.radiostationService.startNewRadiostation(this.creationParameters);
+        this.playerService.play();
+        this.onStart.emit();
     }
 }

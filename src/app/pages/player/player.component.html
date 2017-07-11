@@ -10,7 +10,7 @@
             <ng-template md-tab-label>
                 <md-icon mdTooltip="Konfiguration">build</md-icon>
             </ng-template>
-            <radiostation-by-feature class="my-content"></radiostation-by-feature>
+            <radiostation-by-feature class="my-content" (onStart)="switchToPlayer()"></radiostation-by-feature>
         </md-tab>
 
         <md-tab>
