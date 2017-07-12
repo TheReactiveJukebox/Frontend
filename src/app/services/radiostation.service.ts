@@ -60,7 +60,7 @@ export class RadiostationService implements OnDestroy {
         this.localHistory.clearLocalHistory();
     }
 
-    //saves the song to the visibleHistory by sending its id to the corresponding api endpoint
+    //saves the song to the history by sending its id to the corresponding api endpoint
     public writeToHistory(track: Track): void {
         this.localHistory.writeToLocalHistory(track);
         let reqBody = {
@@ -72,9 +72,9 @@ export class RadiostationService implements OnDestroy {
             console.log('HISTORY RETURN DATA: ', data);
         }, (error: Response) => {
             if (error.status == 400) {
-                console.log('The provided visibleHistory entry is malformed');
+                console.log('The provided history entry is malformed');
             }
-            console.log('Writing "' + track.title + '" to visibleHistory failed!', error);
+            console.log('Writing "' + track.title + '" to history failed!', error);
         });
 
     }

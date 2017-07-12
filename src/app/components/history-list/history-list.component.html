@@ -1,17 +1,37 @@
-<h2 *ngIf="this.historyService.historyVisible">{{'HISTORY_LIST.TITLE' | translate}}</h2>
-<p *ngIf="this.historyService.visibleHistory.length < 1 && this.historyService.historyVisible">{{'HISTORY_LIST.EMPTY' | translate}}</p>
-<md-nav-list class="tl" *ngIf="this.historyService.historyVisible">
+<div *ngIf="this.historyService.historyVisible">
+    <h2 id="heading">{{'HISTORY_LIST.TITLE' | translate}}</h2>
+    <button md-icon-button (click)="toggleExpansion()">
+        <md-icon *ngIf="this.isExpanded">keyboard_arrow_down</md-icon>
+        <md-icon *ngIf="!this.isExpanded">keyboard_arrow_up</md-icon>
+    </button>
+    <p *ngIf="this.historyService.history.length < 1">{{'HISTORY_LIST.EMPTY' | translate}}</p>
+    <md-nav-list class="tl">
+        <md-divider></md-divider>
+        <div *ngIf="this.isExpanded">
+            <md-list-item class="tl-row" *ngFor="let track of this.historyService.history.slice(0,this.historyService.history.length - this.visibilityLimit)">
+                <p class="tl-cover-col">
+                    <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
+                </p>
+                <p class="tl-id-col"></p>
+                <p class="tl-title-col">{{track.title}}</p>
+                <p class="tl-artist-col">{{track.artist.name}}</p>
+                <p class="tl-album-col">{{track.album.title}}</p>
+                <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
+                <p class="tl-icon-col"><i class="material-icons">delete</i></p>
+            </md-list-item>
+            <md-divider></md-divider>
+        </div>
+        <md-list-item class="tl-row" *ngFor="let track of this.historyService.history.slice(this.visibilityLimit * -1)">
+            <p class="tl-cover-col">
+                <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
+            </p>
+            <p class="tl-id-col"></p>
+            <p class="tl-title-col">{{track.title}}</p>
+            <p class="tl-artist-col">{{track.artist.name}}</p>
+            <p class="tl-album-col">{{track.album.title}}</p>
+            <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
+            <p class="tl-icon-col"><i class="material-icons">delete</i></p>
+        </md-list-item>
+    </md-nav-list>
     <md-divider></md-divider>
-    <md-list-item class="tl-row" *ngFor="let track of this.historyService.visibleHistory">
-        <p call="tl-cover-col">
-            <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
-        </p>
-        <p class="tl-id-col"></p>
-        <p class="tl-title-col">{{track.title}}</p>
-        <p class="tl-artist-col">{{track.artist.name}}</p>
-        <p class="tl-album-col">{{track.album.title}}</p>
-        <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
-        <p class="tl-icon-col"><i class="material-icons">delete</i></p>
-    </md-list-item>
-</md-nav-list>
-<md-divider></md-divider>
+</div>

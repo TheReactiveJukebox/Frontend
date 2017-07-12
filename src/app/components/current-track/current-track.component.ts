@@ -17,7 +17,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     btnVisible: boolean = false;
     dialogRef: MdDialogRef<any>;
     private subscriptions: Subscription[];
-    historyButtonClass: string = 'visibleHistory-button-toggle-off';
+    historyButtonClass: string = 'reducedHistory-button-toggle-off';
 
     constructor(public trackService: TrackService, 
                 public dialog: MdDialog,
@@ -65,10 +65,10 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     btn_history_toggle(event) {
         if (this.historyService.historyVisible) {
             this.historyService.historyVisible = false;
-            this.historyButtonClass = 'visibleHistory-button-toggle-off';
+            this.historyButtonClass = 'history-button-toggle-off';
         } else {
             this.historyService.historyVisible = true;
-            this.historyButtonClass = 'visibleHistory-button-toggle-on';
+            this.historyButtonClass = 'history-button-toggle-on';
         }
     }
 

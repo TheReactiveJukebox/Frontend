@@ -8,7 +8,13 @@ import {HistoryService} from '../../services/history.service';
 })
 export class HistoryListComponent {
 
-    constructor(public historyService: HistoryService) {
+    isExpanded: boolean = false;
+    visibilityLimit: number = 5;
+
+    constructor(public historyService: HistoryService) { }
+
+    public toggleExpansion(): void {
+        this.isExpanded = !this.isExpanded;
     }
 
 }
