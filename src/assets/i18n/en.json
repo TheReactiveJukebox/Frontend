@@ -24,7 +24,8 @@
         "TENDISC": "Give Tendency Feedback"
     },
     "CURRENT_TRACK": {
-        "SPECIALFEEDBACK": "explain your feedback"
+        "SPECIALFEEDBACK": "explain your feedback",
+        "NO_TRACK": "Please create a radiostation to listen to!"
     },
     "FEEDBACK_DIALOG": {
         "LIKE": "I like",
@@ -42,7 +43,8 @@
         "START": "Start",
         "BY_FEATURE": "By Features",
         "BY_SONG": "By Song",
-        "TITLE": "Start playback with the following song"
+        "TITLE": "Start playback with the following song",
+        "PROP_SELECT": "Select the properties of your Radiostation!"
     },
     "SPEECH": {
         "COMMAND_INPUT": "Search or type command...",

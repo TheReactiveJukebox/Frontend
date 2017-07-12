@@ -1,0 +1,60 @@
+<md-card id="player_bar_wrapper" *ngIf="show">
+
+    <progress id="progress_bar" value="{{this.playerService.progress}}" max="{{duration}}"
+              (click)="onProgressBarClick($event)"></progress>
+
+
+    <md-card id="controls_wrapper">
+        <button md-icon-button class="controlls" id="play_button" *ngIf="!this.playerService.isPlaying"
+                (click)="this.playerService.play()">
+            <md-icon class="controlls-icons">play_circle_outline</md-icon>
+        </button>
+        <button md-icon-button class="controlls" id="pause_button" *ngIf="this.playerService.isPlaying"
+                (click)="this.playerService.pause()">
+            <md-icon class="controlls-icons">pause_circle_outline</md-icon>
+        </button>
+        <button md-icon-button class="controlls" id="skip_button" (click)="this.playerService.skipForward(false)">
+            <md-icon class="controlls-icons">skip_next</md-icon>
+        </button>
+    </md-card>
+
+
+    <md-card id="player_current_song_desc"> {{artist}} - {{title}} ({{this.playerService.progress
+        | mySecondsToDate |
+        date:'mm:ss'}}/{{duration | mySecondsToDate | date:'mm:ss'}})
+    </md-card>
+    <md-card id="feedback_wrapper">
+        <button md-icon-button (click)="feedbackService.like()">
+            <md-icon
+                    class="feedback-icons">thumb_up
+            </md-icon>
+        </button>
+        <button md-icon-button (click)="feedbackService.dislike()">
+            <md-icon
+                    class="feedback-icons">thumb_down
+            </md-icon>
+        </button>
+        <button md-icon-button (click)="feedbackService.getSpecialFeedback()">
+            <md-icon
+                    class="feedback-icons">feedback
+            </md-icon>
+        </button>
+    </md-card>
+
+
+    <md-card id="sound_wrapper">
+        <button md-icon-button *ngIf="this.playerService.audioPlayer.volume != 0"
+                (click)="this.playerService.volumeOff()">
+            <md-icon
+                    class="volume-icons">volume_up
+            </md-icon>
+        </button>
+        <button md-icon-button *ngIf="this.playerService.audioPlayer.volume == 0"
+                (click)="this.playerService.volumeOn()">
+            <md-icon
+                    class="volume-icons">volume_mute
+            </md-icon>
+        </button>
+        <input #volume id="sound-slider" type="range" min="0" step="0.1" max="1" (click)="onSliderChange(volume.value)">
+    </md-card>
+</md-card>

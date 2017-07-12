@@ -1,20 +1,15 @@
-@import "../../../styles/styles";
-
-
-*{
-  background-color: $primary-color;
-  color: $primary-text-color
-}
 h2 {
   font-family: Quicksand-Regular, arial, sans-serif;
 
 }
-.content_wrapper{
+
+#content-wrapper {
   padding: 30px;
   width: 25%;
   vertical-align: top;
 }
-.cover_img {
+
+.cover-img {
   max-width: 400px;
   max-height: 400px;
   width: 100%;
@@ -22,32 +17,37 @@ h2 {
   min-width: 180px;
 }
 
-#cover_img_wrapper{
+#cover-img-wrapper {
   width: 70%;
 }
 
-#now_playing_wrapper {
+#now-playing-wrapper {
   border-bottom: 1px solid var(--tc4);
   padding-bottom: 13px;
 }
-#now_playing_details_table{
+
+#now-playing-details-table {
   width: 100%;
 }
-#cover_img_table_wrapper{
+
+#cover-img-table-wrapper {
   width: 15%;
 }
-#now_playing_details_table_wrapper{
+
+#now-playing-details-table-wrapper {
   width: 55%;
   vertical-align: top;
 }
-#refresh_recommends_wrapper{
+
+#refresh-recommends-wrapper {
   width: 30%;
 }
-#now_playing_details_wrapper {
+
+#now-playing-details-wrapper {
   padding-left: 28px;
 }
 
-.feedback_button_wrapper{
+.feedback-button-wrapper {
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -55,35 +55,35 @@ h2 {
   margin-right: 15px;
 }
 
-#like_button_wrapper{
+#like-button-wrapper {
   position: relative;
-  left:0;
-  bottom:0;
+  left: 0;
+  bottom: 0;
   margin: 10px;
   background: url("../../../assets/icon/like.png");
 }
-#dislike_button_wrapper{
+
+#dislike-button-wrapper {
   position: relative;
-  left:0;
-  bottom:0;
+  left: 0;
+  bottom: 0;
   margin: 10px;
   background: url("../../../assets/icon/dislike.png");
 }
 
-#feedback_button_table {
-  margin-top: 15px;
-}
-#duration_table{
+#feedback-button-table {
   margin-top: 15px;
 }
 
-#special_feedback_btn {
+#duration_table {
+  margin-top: 15px;
+}
+
+#special-feedback-btn {
   position: relative;
-  left:0;
-  bottom:0;
+  left: 0;
+  bottom: 0;
   margin: 10px;
-  background-color: $secondary-red-dark;
-  color: $primary-text-color;
 
 }
 

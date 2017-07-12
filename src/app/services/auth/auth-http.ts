@@ -24,6 +24,27 @@ export class AuthHttp {
     }
 
     /**
+     * This sends an authenticated xhr request to music-server and returns the track as urlObject.
+     * @param url The url to the music file.
+     * @returns an urlObject, that contains the music file. this can be set as src o audio element.
+     */
+    getTrack(url: string): Observable<any> {
+        return Observable.create(observer => {
+            let xhr: XMLHttpRequest = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    observer.next(window.URL.createObjectURL(this.response));
+                    observer.complete();
+                }
+            };
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.setRequestHeader('Authorization', 'Bearer ' + this.authService.getToken());
+            xhr.send();
+        });
+    }
+
+    /**
      * Performs a authenticated request with `get` http method.
      * @param url: The Url to the REST-Api
      */

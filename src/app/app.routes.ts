@@ -18,28 +18,9 @@ export const ROUTES: Routes = [
         component: LoginComponent
     },
     {
-        path: 'radiostation-by-feature',
-        component: RadiostationByFeatureComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'radiostation-by-song',
-        component: RadiostationBySongComponent,
-        canActivate: [AuthGuard]
-    },
-    {
         path: 'player',
         component: PlayerComponent,
         canActivate: [AuthGuard]
     },
-    {
-        path: 'speech',
-        component: SpeechSearchFieldComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'search',
-        component: SimpleSearchComponent,
-        canActivate: [AuthGuard]
-    },
+
 ];
