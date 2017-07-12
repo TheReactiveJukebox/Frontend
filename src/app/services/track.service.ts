@@ -10,6 +10,7 @@ import {Observable} from 'rxjs/Observable';
 import {Artist} from '../models/artist';
 import {Album} from '../models/album';
 import {RadiostationService} from './radiostation.service';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class TrackService {
@@ -119,5 +120,30 @@ export class TrackService {
 
     hasNextTracks(): boolean {
         return (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
+    }
+
+    /**
+     * removes the given track from the tracklist
+     * @param track to remove
+     */
+    removeTrack(track: Track): void {
+        let currentTracks: Track[] = this.nextTracks.getValue();
+        let newTracks: Track[] = [];
+        var removed = 0;
+        for (var i = 0; i<currentTracks.length; i++) {
+            if (currentTracks[i].id != track.id) {
+                newTracks[i-removed] = currentTracks[i];
+            } else {
+                removed = 1;
+            }
+        }
+
+        //Get new Track
+        this.fetchNewSongs(1).subscribe((tracks: Track[]) => {
+            newTracks.push(tracks[0]);
+            this.nextTracks.next(newTracks);
+        }, error => {
+            console.log(error);
+        });
     }
 }
