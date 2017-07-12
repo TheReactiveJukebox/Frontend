@@ -1,0 +1,17 @@
+<h2 *ngIf="this.historyService.historyVisible">{{'HISTORY_LIST.TITLE' | translate}}</h2>
+<p *ngIf="this.historyService.visibleHistory.length < 1 && this.historyService.historyVisible">{{'HISTORY_LIST.EMPTY' | translate}}</p>
+<md-nav-list class="tl" *ngIf="this.historyService.historyVisible">
+    <md-divider></md-divider>
+    <md-list-item class="tl-row" *ngFor="let track of this.historyService.visibleHistory">
+        <p call="tl-cover-col">
+            <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
+        </p>
+        <p class="tl-id-col"></p>
+        <p class="tl-title-col">{{track.title}}</p>
+        <p class="tl-artist-col">{{track.artist.name}}</p>
+        <p class="tl-album-col">{{track.album.title}}</p>
+        <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
+        <p class="tl-icon-col"><i class="material-icons">delete</i></p>
+    </md-list-item>
+</md-nav-list>
+<md-divider></md-divider>

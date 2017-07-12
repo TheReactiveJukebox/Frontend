@@ -1,6 +1,8 @@
+@import "~@angular/material/theming";
+@import "../../../styles/styles";
+
 h2 {
   font-family: Quicksand-Regular, arial, sans-serif;
-
 }
 
 #content-wrapper {
@@ -35,8 +37,12 @@ h2 {
 }
 
 #now-playing-details-table-wrapper {
-  width: 55%;
+  width: 75%;
   vertical-align: top;
+}
+
+#history-button-table-wrapper {
+  width:10%;
 }
 
 #refresh-recommends-wrapper {
@@ -84,8 +90,12 @@ h2 {
   left: 0;
   bottom: 0;
   margin: 10px;
-
 }
 
+#history-button-toggle-off {
+  background-color: mat-color($default-theme-accent);
+}
 
-
+#history-button-toggle-on {
+  background-color: mat-color($default-theme-primary);
+}

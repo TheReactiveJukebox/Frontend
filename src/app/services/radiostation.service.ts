@@ -9,6 +9,7 @@ import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {Config} from '../config';
 import {Jukebox} from '../models/jukebox';
+import {HistoryService} from "./history.service";
 
 
 @Injectable()
@@ -18,11 +19,12 @@ export class RadiostationService implements OnDestroy {
     public jukebox: Jukebox;
 
     private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
-    private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
+    private historyApiUrl = Config.serverUrl + '/api/visibleHistory';  // URL to web api
 
 
     constructor(private trackService: TrackService,
-                private authHttp: AuthHttp) {
+                private authHttp: AuthHttp,
+                private localHistory: HistoryService) {
         this.subscriptions = [];
         this.fetchRadiostation();
 
@@ -55,10 +57,12 @@ export class RadiostationService implements OnDestroy {
     //deletes the current radiostation - currently not in use
     public deleteRadiostation(): void {
         this.jukebox = null;
+        this.localHistory.clearLocalHistory();
     }
 
-    //saves the song to the history by sending its id to the corresponding api endpoint
+    //saves the song to the visibleHistory by sending its id to the corresponding api endpoint
     public writeToHistory(track: Track): void {
+        this.localHistory.writeToLocalHistory(track);
         let reqBody = {
             trackId: track.id,
             radioId: this.jukebox.id
@@ -68,9 +72,9 @@ export class RadiostationService implements OnDestroy {
             console.log('HISTORY RETURN DATA: ', data);
         }, (error: Response) => {
             if (error.status == 400) {
-                console.log('The provided history entry is malformed');
+                console.log('The provided visibleHistory entry is malformed');
             }
-            console.log('Writing "' + track.title + '" to history failed!', error);
+            console.log('Writing "' + track.title + '" to visibleHistory failed!', error);
         });
 
     }

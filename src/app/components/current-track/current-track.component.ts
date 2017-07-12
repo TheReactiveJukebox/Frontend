@@ -4,6 +4,7 @@ import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
+import {HistoryService} from '../../services/history.service';
 
 @Component({
     selector: 'current-track',
@@ -16,8 +17,11 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     btnVisible: boolean = false;
     dialogRef: MdDialogRef<any>;
     private subscriptions: Subscription[];
+    historyButtonClass: string = 'visibleHistory-button-toggle-off';
 
-    constructor(public trackService: TrackService, public dialog: MdDialog) {
+    constructor(public trackService: TrackService, 
+                public dialog: MdDialog,
+                public historyService: HistoryService) {
         this.subscriptions = [];
     }
 
@@ -58,6 +62,16 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
+    btn_history_toggle(event) {
+        if (this.historyService.historyVisible) {
+            this.historyService.historyVisible = false;
+            this.historyButtonClass = 'visibleHistory-button-toggle-off';
+        } else {
+            this.historyService.historyVisible = true;
+            this.historyButtonClass = 'visibleHistory-button-toggle-on';
+        }
+    }
+
     //opens a dialog to speciy the feedback
     dialog_special_feedback(event) {
         this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
@@ -68,8 +82,3 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
 }
-
-
-
-
-
