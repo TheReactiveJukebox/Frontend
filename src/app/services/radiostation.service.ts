@@ -46,9 +46,13 @@ export class RadiostationService implements OnDestroy {
         this.authHttp.post(this.radiostationApiUrl, creationParameters).subscribe((data: Jukebox) => {
             this.jukebox = data;
             this.trackService.refreshTracks();
-        }, (error: Response) => {
+        }, (error: any) => {
             if (error.status == 400) {
                 console.log('The provided jukebox object is malformed');
+            } else if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
+                this.jukebox = JSON.parse(error._body);
+                this.trackService.refreshTracks();
             }
             console.log('Creating new Radiostation failed!', error);
         });
@@ -69,10 +73,14 @@ export class RadiostationService implements OnDestroy {
         };
 
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
+            // TODO use this data for local history view
             console.log('HISTORY RETURN DATA: ', data);
-        }, (error: Response) => {
+        }, (error: any) => {
             if (error.status == 400) {
                 console.log('The provided history entry is malformed');
+            } else if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
+                console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
             }
             console.log('Writing "' + track.title + '" to history failed!', error);
         });
@@ -83,7 +91,10 @@ export class RadiostationService implements OnDestroy {
         this.authHttp.get(this.radiostationApiUrl).subscribe((jukebox: Jukebox) => {
             this.jukebox = jukebox;
         }, error => {
-            console.log('Catched error: ', error);
+            if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
+                this.jukebox = JSON.parse(error._body);
+            }
         });
     }
 
