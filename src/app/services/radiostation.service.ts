@@ -9,7 +9,7 @@ import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {Config} from '../config';
 import {Jukebox} from '../models/jukebox';
-import {HistoryService} from "./history.service";
+import {HistoryService} from './history.service';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class RadiostationService implements OnDestroy {
     public jukebox: Jukebox;
 
     private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
-    private historyApiUrl = Config.serverUrl + '/api/visibleHistory';  // URL to web api
+    private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
 
 
     constructor(private trackService: TrackService,
@@ -75,6 +75,7 @@ export class RadiostationService implements OnDestroy {
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
             // TODO use this data for local history view
             console.log('HISTORY RETURN DATA: ', data);
+            track.historyId = data.id;
         }, (error: any) => {
             if (error.status == 400) {
                 console.log('The provided history entry is malformed');

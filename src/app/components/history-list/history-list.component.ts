@@ -16,5 +16,4 @@ export class HistoryListComponent {
     public toggleExpansion(): void {
         this.isExpanded = !this.isExpanded;
     }
-
 }

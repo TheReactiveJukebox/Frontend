@@ -10,4 +10,5 @@ export class Track {
     duration: number;
     file: string;
     data?: any;
+    historyId: number;
 }
