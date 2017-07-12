@@ -48,8 +48,22 @@ export class TrackService {
                     });
                 }
             }, error => {
-                observer.error(error);
-                observer.complete();
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchNewSongs!!!');
+                    let tracks: any[] = JSON.parse(error._body);
+                    if (tracks.length > 0) {
+                        for (let i = 0; i < tracks.length; i++) {
+                            tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
+                        }
+                        this.fillData(tracks).subscribe((filledTracks: Track[]) => {
+                            observer.next(filledTracks);
+                            observer.complete();
+                        });
+                    }
+                } else {
+                    observer.error(error);
+                    observer.complete();
+                }
             });
         });
     }
