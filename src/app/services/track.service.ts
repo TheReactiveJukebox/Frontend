@@ -17,6 +17,8 @@ export class TrackService {
 
     currentTrack: BehaviorSubject<Track>;
     nextTracks: BehaviorSubject<Track[]>;
+    numberUpcomingSongs: number = 5;
+
 
     private trackListUrl = Config.serverUrl + '/api/jukebox/next';  // URL to web api
 
@@ -27,7 +29,7 @@ export class TrackService {
 
     //Refreshes current track and track preview according to current radiostation
     refreshTracks(): void {
-        this.fetchNewSongs(6).subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(this.numberUpcomingSongs + 1).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
         }, error => {
@@ -128,7 +130,7 @@ export class TrackService {
      */
     removeTrack(track: Track): void {
         let currentTracks: Track[] = this.nextTracks.getValue();
-        let newTracks: Track[] = [];
+        let newTracks: Track[] = new Array(currentTracks.length - 1);
         var removed = 0;
         for (var i = 0; i<currentTracks.length; i++) {
             if (currentTracks[i].id != track.id) {
@@ -139,7 +141,7 @@ export class TrackService {
         }
 
         //Get new Track
-        this.fetchNewSongs(1).subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(removed).subscribe((tracks: Track[]) => {
             newTracks.push(tracks[0]);
             this.nextTracks.next(newTracks);
         }, error => {
