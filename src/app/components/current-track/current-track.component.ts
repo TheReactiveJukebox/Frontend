@@ -4,6 +4,7 @@ import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
+import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
     selector: 'current-track',
@@ -17,7 +18,9 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     dialogRef: MdDialogRef<any>;
     private subscriptions: Subscription[];
 
-    constructor(public trackService: TrackService, public dialog: MdDialog) {
+    constructor(public trackService: TrackService,
+                private feedbackService: FeedbackService,
+                public dialog: MdDialog) {
         this.subscriptions = [];
     }
 
@@ -43,6 +46,8 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     btn_like(event) {
+        this.feedbackService.likeCurrentSong();
+        this.feedbackService.sendCurrentTrackFeedback();
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -51,6 +56,8 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     btn_dislike(event) {
+        this.feedbackService.dislikeCurrentSong();
+        this.feedbackService.sendCurrentTrackFeedback();
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {

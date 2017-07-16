@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Track} from '../../models/track';
 import {MdDialogRef} from '@angular/material';
+import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
     selector: 'special-feedback-dialog',
@@ -9,22 +10,78 @@ import {MdDialogRef} from '@angular/material';
 export class SpecialFeedbackDialogComponent {
     cTrack: Track;
 
-    constructor() {
+    constructor(public dialogRef: MdDialogRef<SpecialFeedbackDialogComponent>,
+                //TODO: How to do that?
+                //public feedbackService: FeedbackService
+    ) {
     }
 
-    btnLike() {
-
+    btnLikeArtist() {
+        this.feedbackService.likeCurrentArtist();
     }
 
-    btnDislike() {
+    btnDislikeArtist() {
+        this.feedbackService.dislikeCurrentArtist();
+    }
 
+    btnLikeGenre() {
+        this.feedbackService.likeCurrentGenre();
+    }
+
+    btnDislikeGenre() {
+        this.feedbackService.dislikeCurrentGenre();
+    }
+
+    btnLikeTitle() {
+        this.feedbackService.likeCurrentSong();
+    }
+
+    btnDislikeTitle() {
+        this.feedbackService.dislikeCurrentSong();
+    }
+
+    btnLikePeriod() {
+        this.feedbackService.likeCurrentPeriod();
+    }
+
+    btnDislikePeriod() {
+        this.feedbackService.dislikeCurrentPeriod();
+    }
+
+    btnLikeMood() {
+        this.feedbackService.likeCurrentMood();
+    }
+
+    btnDislikeMood() {
+        this.feedbackService.dislikeCurrentMood();
+    }
+
+    btnLikeDynamics() {
+        this.feedbackService.likeCurrentDynamics();
+    }
+
+    btnDislikeDynamics() {
+        this.feedbackService.dislikeCurrentDynamics();
+    }
+
+    btnLikeSpeed() {
+        this.feedbackService.likeCurrentSpeed();
+    }
+
+    btnDislikeSpeed() {
+        this.feedbackService.dislikeCurrentSpeed();
     }
 
     confirmDialog() {
-        //TODO
+        this.feedbackService.sendCurrentTrackFeedback();
     }
 
     confirmAndApplyDialog() {
-        //TODO
+        this.feedbackService.sendCurrentTrackFeedback();
+        //TODO Apply
+    }
+
+    closeDialog() {
+        this.feedbackService.undoFeedback();
     }
 }

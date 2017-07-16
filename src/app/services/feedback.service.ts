@@ -21,6 +21,7 @@ export class FeedbackService implements OnDestroy {
     private feedbackUrl = Config.serverUrl + '/api/track/feedback?id=';  // URL to web api
     public currentTrack: Track;
     private currentTrackFeedback;
+    private lastTrackFeedback;
     private subscriptions: Subscription[];
 
     constructor(private trackService: TrackService,
@@ -51,23 +52,6 @@ export class FeedbackService implements OnDestroy {
         }
     }
 
-    public like(): void {
-        console.log('CALL: Like');
-        this.currentTrackFeedback.songLiked = true;
-        if (this.currentTrackFeedback.songDisliked) {
-            //We don't know if the user dislikes the song
-            this.currentTrackFeedback.songDisliked = null;
-        }
-    }
-
-    public dislike(): void {
-        console.log('CALL: Dislike');
-        this.currentTrackFeedback.songDisliked = true;
-        if (this.currentTrackFeedback.songLiked) {
-            //We don't know if the user likes the song
-            this.currentTrackFeedback.songLiked = null;
-        }
-    }
 
     private createTrackFeedbackToCurrentTrack(): TrackFeedback {
         let feedback = new TrackFeedback();
@@ -81,18 +65,27 @@ export class FeedbackService implements OnDestroy {
     public getSpecialFeedback(): void {
         //TODO show dialog and send result to server
         this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = this.trackService.currentTrack;
+        this.dialogRef.componentInstance.cTrack = this.currentTrack;
         this.dialogRef.afterClosed().subscribe(result => {
             this.dialogRef = null;
         });
-        let tmpFeedback = this.currentTrackFeedback;
-
+        this.lastTrackFeedback = this.currentTrackFeedback;
+        this.currentTrackFeedback = this.createTrackFeedbackToCurrentTrack();
+        //TODO: If we want to show the last given feedback in the UI, we hav to assign it here to currentTrackFeedback
     }
 
+    /**
+     * sets the current Feedback back to lastTrackFeedback
+     */
+    public undoFeedback(){
+        this.currentTrackFeedback = this.lastTrackFeedback;
+    }
     public getTendencyFeedback(): void {
         console.log('CALL tendency Feedback');
         //TODO: open tendency dialog and process information
     }
+
+
 
     public dislikeCurrentSong(): void {
         this.currentTrackFeedback.songDisliked = true;
@@ -210,7 +203,6 @@ export class FeedbackService implements OnDestroy {
         if (this.isCurrentTrackFeedbackValid()) {
             console.log('Sending feedback for current track');
             this.authHttp.post(this.feedbackUrl + this.currentTrackFeedback.trackId, this.currentTrackFeedback).subscribe((data: any) => {
-                console.log('FEEDBACK RETURN DATA: ', data);
             }, (error: Response) => {
                 if (error.status == 400) {
                     console.log('The provided feedback entry is malformed');
@@ -218,11 +210,8 @@ export class FeedbackService implements OnDestroy {
                 console.log('Sending feedback failed: ', error);
             });
 
-        } else {
-            console.warn('Trying to send invalid feedback!')
         }
         this.currentTrackFeedback = new TrackFeedback;
-
     }
 
     private trackUpdated(): void {
