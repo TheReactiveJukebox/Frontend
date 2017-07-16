@@ -18,7 +18,7 @@ export class FeedbackService implements OnDestroy {
     dialogRef: MdDialogRef<any>;
 
 
-    private feedbackUrl = Config.serverUrl + '/api/track?id=';  // URL to web api
+    private feedbackUrl = Config.serverUrl + '/api/track/feedback?id=';  // URL to web api
     public currentTrack: Track;
     private currentTrackFeedback;
     private subscriptions: Subscription[];
@@ -85,6 +85,8 @@ export class FeedbackService implements OnDestroy {
         this.dialogRef.afterClosed().subscribe(result => {
             this.dialogRef = null;
         });
+        let tmpFeedback = this.currentTrackFeedback;
+
     }
 
     public getTendencyFeedback(): void {
@@ -92,20 +94,130 @@ export class FeedbackService implements OnDestroy {
         //TODO: open tendency dialog and process information
     }
 
+    public dislikeCurrentSong(): void {
+        this.currentTrackFeedback.songDisliked = true;
+        if (this.currentTrackFeedback.songLiked) {
+            //We don't know if the user likes the song
+            this.currentTrackFeedback.songLiked = null;
+        }
+    }
+
+    public likeCurrentSong(): void {
+        this.currentTrackFeedback.songLiked = true;
+        if (this.currentTrackFeedback.songDisliked) {
+            //We don't know if the user dislikes the song
+            this.currentTrackFeedback.songDisliked = null;
+        }
+    }
+
+    public dislikeCurrentArtist(): void {
+        this.currentTrackFeedback.artistDisliked = true;
+        if (this.currentTrackFeedback.artistLiked) {
+            //We don't know if the user likes the artist
+            this.currentTrackFeedback.artistLiked = null;
+        }
+    }
+
+    public likeCurrentArtist(): void {
+        this.currentTrackFeedback.artistLiked = true;
+        if (this.currentTrackFeedback.artistDisliked) {
+            //We don't know if the user dislikes the artist
+            this.currentTrackFeedback.artistDisliked = null;
+        }
+    }
+
+    public dislikeCurrentSpeed(): void {
+        this.currentTrackFeedback.speedDisliked = true;
+        if (this.currentTrackFeedback.speedLiked) {
+            //We don't know if the user likes the speed
+            this.currentTrackFeedback.speedLiked = null;
+        }
+    }
+
+    public likeCurrentSpeed(): void {
+        this.currentTrackFeedback.speedLiked = true;
+        if (this.currentTrackFeedback.speedDisliked) {
+            //We don't know if the user dislikes the speed
+            this.currentTrackFeedback.speedDisliked = null;
+        }
+    }
+
+    public dislikeCurrentGenre(): void {
+        this.currentTrackFeedback.genreDisliked = true;
+        if (this.currentTrackFeedback.genreLiked) {
+            //We don't know if the user likes the genre
+            this.currentTrackFeedback.genreLiked = null;
+        }
+    }
+
+    public likeCurrentGenre(): void {
+        this.currentTrackFeedback.genreLiked = true;
+        if (this.currentTrackFeedback.genreDisliked) {
+            //We don't know if the user dislikes the genre
+            this.currentTrackFeedback.genreDisliked = null;
+        }
+    }
+
+    public dislikeCurrentDynamics(): void {
+        this.currentTrackFeedback.dynamicsDisliked = true;
+        if (this.currentTrackFeedback.dynamicsLiked) {
+            //We don't know if the user likes the dynamics
+            this.currentTrackFeedback.dynamicsLiked = null;
+        }
+    }
+
+    public likeCurrentDynamics(): void {
+        this.currentTrackFeedback.dynamicsLiked = true;
+        if (this.currentTrackFeedback.dynamicsDisliked) {
+            //We don't know if the user dislikes the dynamics
+            this.currentTrackFeedback.dynamicsDisliked = null;
+        }
+    }
+
+    public dislikeCurrentPeriod(): void {
+        this.currentTrackFeedback.periodDisliked = true;
+        if (this.currentTrackFeedback.periodLiked) {
+            //We don't know if the user likes the period
+            this.currentTrackFeedback.periodLiked = null;
+        }
+    }
+
+    public likeCurrentPeriod(): void {
+        this.currentTrackFeedback.periodLiked = true;
+        if (this.currentTrackFeedback.periodDisliked) {
+            //We don't know if the user dislikes the period
+            this.currentTrackFeedback.periodDisliked = null;
+        }
+    }
+
+    public dislikeCurrentMood(): void {
+        this.currentTrackFeedback.moodDisliked = true;
+        if (this.currentTrackFeedback.moodLiked) {
+            //We don't know if the user likes the mood
+            this.currentTrackFeedback.moodLiked = null;
+        }
+    }
+
+    public likeCurrentMood(): void {
+        this.currentTrackFeedback.moodLiked = true;
+        if (this.currentTrackFeedback.moodDisliked) {
+            //We don't know if the user dislikes the mood
+            this.currentTrackFeedback.moodDisliked = null;
+        }
+    }
+
     public sendCurrentTrackFeedback(): void {
         if (this.isCurrentTrackFeedbackValid()) {
-            console.log('Sending current track feedback');
+            console.log('Sending feedback for current track');
+            this.authHttp.post(this.feedbackUrl + this.currentTrackFeedback.trackId, this.currentTrackFeedback).subscribe((data: any) => {
+                console.log('FEEDBACK RETURN DATA: ', data);
+            }, (error: Response) => {
+                if (error.status == 400) {
+                    console.log('The provided feedback entry is malformed');
+                }
+                console.log('Sending feedback failed: ', error);
+            });
 
-            /*
-             this.authHttp.post(this.feedbackUrl + this.currentTrackFeedback.trackId, this.currentTrackFeedback).subscribe((data: any) => {
-             console.log('FEEDBACK RETURN DATA: ', data);
-             }, (error: Response) => {
-             if (error.status == 400) {
-             console.log('The provided feedback entry is malformed');
-             }
-             console.log('Sending feedback failed: ', error);
-             });
-             */
         } else {
             console.warn('Trying to send invalid feedback!')
         }
@@ -118,7 +230,9 @@ export class FeedbackService implements OnDestroy {
             this.sendCurrentTrackFeedback();
         }
         this.currentTrackFeedback = this.createTrackFeedbackToCurrentTrack();
+
     }
+
 
     private isCurrentTrackFeedbackValid(): boolean {
         let a = this.currentTrackFeedback.radioId != null;
