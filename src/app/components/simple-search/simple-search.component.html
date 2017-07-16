@@ -1,5 +1,5 @@
 <div id="search-pane">
-<speech-search-field (keyup)="searches($event.target.value)"></speech-search-field>
+<speech-search-field (keyup)="searches($event.target.value)" (searchCall)="searches($event)"></speech-search-field>
 <div *ngIf="this.trackResultCount > 0">
     <md-nav-list class="tl">
         <h1 md-subheader>Tracks</h1>
