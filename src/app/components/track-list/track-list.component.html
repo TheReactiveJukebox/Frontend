@@ -1,14 +1,14 @@
 <md-nav-list class="tl">
     <md-divider></md-divider>
     <md-list-item class="tl-row" *ngFor="let track of this.nextTracks">
-        <p call="tl-cover-col">
+        <p call="tl-cover-col" (click)="trackService.jumpToTrack(track)">
             <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
         </p>
-        <p class="tl-id-col"></p>
-        <p class="tl-title-col">{{track.title}}</p>
-        <p class="tl-artist-col">{{track.artist.name}}</p>
-        <p class="tl-album-col">{{track.album.title}}</p>
-        <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
+        <p class="tl-id-col" (click)="trackService.jumpToTrack(track)"></p>
+        <p class="tl-title-col" (click)="trackService.jumpToTrack(track)">{{track.title}}</p>
+        <p class="tl-artist-col" (click)="trackService.jumpToTrack(track)">{{track.artist.name}}</p>
+        <p class="tl-album-col" (click)="trackService.jumpToTrack(track)">{{track.album.title}}</p>
+        <p class="tl-duration-col" (click)="trackService.jumpToTrack(track)">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
         <button md-icon-button class="tl-icon-col" (click)="trackService.removeTrack(track)"><md-icon>delete</md-icon></button>
     </md-list-item>
     <md-divider></md-divider>

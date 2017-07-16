@@ -11,6 +11,7 @@ import {Artist} from '../models/artist';
 import {Album} from '../models/album';
 import {RadiostationService} from './radiostation.service';
 import {forEach} from '@angular/router/src/utils/collection';
+import {current} from 'codelyzer/util/syntaxKind';
 
 @Injectable()
 export class TrackService {
@@ -147,5 +148,24 @@ export class TrackService {
         }, error => {
             console.log(error);
         });
+    }
+
+    /**
+     * jumps to given track
+     * skips all tracks between current and choosen track
+     * @param track to jump to
+     */
+    jumpToTrack(track: Track): void{
+        console.log(track.id);
+        for(var i = 0; i < 5; i++){
+            this.nextSong();
+            if (this.currentTrack.getValue().id == track.id){
+                break;
+            }
+            else {
+                console.log(this.currentTrack.getValue().id);
+            }
+        }
+        }
     }
 }
