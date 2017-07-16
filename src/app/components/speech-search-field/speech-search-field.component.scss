@@ -16,4 +16,10 @@ $mic-button-width: 40px;
     left: calc(100% - #{$mic-button-width});
     width: $mic-button-width;
   }
+
+  .mic-button-small{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }

@@ -1,9 +1,9 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, Input} from '@angular/core';
 import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
 import {TranslateService} from '@ngx-translate/core';
 import {PlayerService} from '../../services/player.service';
-import {MdSnackBar} from '@angular/material';
+
 
 
 
@@ -22,15 +22,17 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     @Output()
     searchCall = new EventEmitter();
 
+    @Input() minimal:boolean = false;
+
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
 
     private controlTerms: Map<string,number>;
 
+
     constructor(public speechService: SpeechService,
                 public playerService : PlayerService,
-                private translateService: TranslateService,
-                public snackBar: MdSnackBar
+                private translateService: TranslateService
     ) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
@@ -127,22 +129,23 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
         switch (action){
             case 1:{
-                this.snackBar.open('Play');
+
+                console.log('Speech play');
                 this.playerService.play();
                 break;
             }
             case 2:{
-                this.snackBar.open('Pause');
+
                 this.playerService.pause();
                 break;
             }
             case 3:{
-                this.snackBar.open('Stop');
+
                 this.playerService.stop();
                 break;
             }
             case 4:{
-                this.snackBar.open('Skip');
+
                 this.playerService.skipForward(false);
                 break;
             }
@@ -152,4 +155,5 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         }
         this.searchCall.emit(speech);
     }
+
 }
