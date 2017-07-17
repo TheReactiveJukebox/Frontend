@@ -6,7 +6,7 @@ export class Config {
 
         development: {
             // serverUrl: 'https://192.168.99.100',
-            serverUrl: 'https://localhost',
+            serverUrl: 'https://192.168.99.100',
             dev: true
         },
 
