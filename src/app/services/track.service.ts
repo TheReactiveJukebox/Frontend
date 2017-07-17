@@ -12,6 +12,7 @@ import {Album} from '../models/album';
 import {RadiostationService} from './radiostation.service';
 import {forEach} from '@angular/router/src/utils/collection';
 import {current} from 'codelyzer/util/syntaxKind';
+import {PlayerService} from './player.service';
 
 @Injectable()
 export class TrackService {
@@ -166,20 +167,40 @@ export class TrackService {
 
     /**
      * jumps to given track
-     * skips all tracks between current and choosen track
+     * skips/remove all tracks between current and choosen track
      * @param track to jump to
      */
     jumpToTrack(track: Track): void{
-        console.log(track.id);
-        for(var i = 0; i < 5; i++){
-            this.nextSong();
-            if (this.currentTrack.getValue().id == track.id){
+        let currentTracks: Track[] = this.nextTracks.getValue();
+        let removedTracks: Track[] = new Array();
+        var removed = 0;
+        //fill removedTracks array
+        for (var i = 0; i<currentTracks.length; i++) {
+            if (currentTracks[i].id != track.id) {
+                removedTracks[removed] = currentTracks[i];
+                removed ++;
+            } else {
                 break;
             }
-            else {
-                console.log(this.currentTrack.getValue().id);
-            }
         }
+
+        let newTracks: Track[] = this.nextTracks.getValue();
+        newTracks.splice(0,removedTracks.length);
+        this.currentTrack.next(newTracks[0]);
+        newTracks = newTracks.slice(1);
+        //Get number of removed new tracks
+        if(removed >= 0){
+            this.fetchNewSongs(removed+1).subscribe((tracks: Track[]) => {
+                tracks.forEach(function(track){
+                    newTracks.push(track)
+                });
+                this.nextTracks.next(newTracks);
+            }, error => {
+                console.log(error);
+            });
+        }
+
+
 
     }
 }
