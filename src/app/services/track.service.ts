@@ -166,6 +166,6 @@ export class TrackService {
                 console.log(this.currentTrack.getValue().id);
             }
         }
-        }
+
     }
 }
