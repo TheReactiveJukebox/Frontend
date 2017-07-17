@@ -1,87 +1,93 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Track} from '../../models/track';
 import {MdDialogRef} from '@angular/material';
+import {TrackFeedback} from '../../models/trackFeedback';
+import {Subscription} from 'rxjs/Subscription';
 import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
     selector: 'special-feedback-dialog',
-    templateUrl: 'special-feedback-dialog.component.html',
+    templateUrl: './special-feedback-dialog.component.html',
+    styleUrls: ['./special-feedback-dialog.component.scss']
 })
+
 export class SpecialFeedbackDialogComponent {
     cTrack: Track;
+    cFeedback: TrackFeedback;
 
-    constructor(public dialogRef: MdDialogRef<SpecialFeedbackDialogComponent>,
-                //TODO: How to do that?
-                //public feedbackService: FeedbackService
-    ) {
+    constructor(
+        //TODO: Why doesn't his work?! Why?!
+        //public feedbackService: FeedbackService
+        ) {
     }
 
+
     btnLikeArtist() {
-        this.feedbackService.likeCurrentArtist();
+        this.cFeedback = this.feedbackService.likeArtist(this.cFeedback);
     }
 
     btnDislikeArtist() {
-        this.feedbackService.dislikeCurrentArtist();
+        this.cFeedback = this.feedbackService.dislikeArtist(this.cFeedback);
     }
 
     btnLikeGenre() {
-        this.feedbackService.likeCurrentGenre();
+        this.cFeedback = this.feedbackService.likeGenre(this.cFeedback);
     }
 
     btnDislikeGenre() {
-        this.feedbackService.dislikeCurrentGenre();
+        this.cFeedback = this.feedbackService.dislikeGenre(this.cFeedback);
     }
 
     btnLikeTitle() {
-        this.feedbackService.likeCurrentSong();
+        this.cFeedback = this.feedbackService.likeSong(this.cFeedback);
     }
 
     btnDislikeTitle() {
-        this.feedbackService.dislikeCurrentSong();
+        this.cFeedback = this.feedbackService.dislikeSong(this.cFeedback);
     }
 
     btnLikePeriod() {
-        this.feedbackService.likeCurrentPeriod();
+        this.cFeedback = this.feedbackService.likePeriod(this.cFeedback);
     }
 
     btnDislikePeriod() {
-        this.feedbackService.dislikeCurrentPeriod();
+        this.cFeedback = this.feedbackService.dislikePeriod(this.cFeedback);
     }
 
     btnLikeMood() {
-        this.feedbackService.likeCurrentMood();
+        this.cFeedback = this.feedbackService.likeMood(this.cFeedback);
     }
 
     btnDislikeMood() {
-        this.feedbackService.dislikeCurrentMood();
+        this.cFeedback = this.feedbackService.dislikeMood(this.cFeedback);
     }
 
     btnLikeDynamics() {
-        this.feedbackService.likeCurrentDynamics();
+        this.cFeedback = this.feedbackService.likeDynamics(this.cFeedback);
     }
 
     btnDislikeDynamics() {
-        this.feedbackService.dislikeCurrentDynamics();
+        this.cFeedback = this.feedbackService.dislikeDynamics(this.cFeedback);
     }
 
     btnLikeSpeed() {
-        this.feedbackService.likeCurrentSpeed();
+        this.cFeedback = this.feedbackService.likeSpeed(this.cFeedback);
     }
 
     btnDislikeSpeed() {
-        this.feedbackService.dislikeCurrentSpeed();
+        this.cFeedback = this.feedbackService.dislikeSpeed(this.cFeedback);
     }
 
     confirmDialog() {
-        this.feedbackService.sendCurrentTrackFeedback();
+        this.feedbackService.postTrackFeedback(this.cFeedback);
     }
 
     confirmAndApplyDialog() {
-        this.feedbackService.sendCurrentTrackFeedback();
+        this.feedbackService.postTrackFeedback(this.cFeedback);
         //TODO Apply
     }
 
     closeDialog() {
-        this.feedbackService.undoFeedback();
+
     }
 }

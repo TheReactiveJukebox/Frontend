@@ -13,196 +13,161 @@ import {AuthHttp} from './auth/auth-http';
 import {Track} from '../models/track';
 
 @Injectable()
-export class FeedbackService implements OnDestroy {
+export class FeedbackService {
 
     dialogRef: MdDialogRef<any>;
 
 
     private feedbackUrl = Config.serverUrl + '/api/track/feedback?id=';  // URL to web api
-    public currentTrack: Track;
-    private currentTrackFeedback;
-    private lastTrackFeedback;
-    private subscriptions: Subscription[];
 
     constructor(private trackService: TrackService,
                 private radiostationService: RadiostationService,
                 private authHttp: AuthHttp,
                 public dialog: MdDialog) {
-        this.currentTrackFeedback = new TrackFeedback();
-        // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
-        // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
-        // gets destroyed.
-        this.subscriptions = [];
-        this.subscriptions.push(
-            this.trackService.currentTrack.subscribe(
-                (currentTrack: Track) => {
-                    this.currentTrack = currentTrack;
-                    this.trackUpdated();
-                }
-            )
-        )
-    }
-
-    ngOnDestroy(): void {
-        // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
-        // which can cause heavy laggs.
-        for (let subscription of this.subscriptions
-            ) {
-            subscription.unsubscribe();
-        }
     }
 
 
-    private createTrackFeedbackToCurrentTrack(): TrackFeedback {
+    public createTrackFeedbackToTrack(track: Track): TrackFeedback {
         let feedback = new TrackFeedback();
-        if (this.currentTrack != null) {
-            feedback.trackId = this.currentTrack.id;
-            feedback.radioId = this.radiostationService.jukebox.id;
+        if (track != null) {
+            feedback.trackId = track.id;
         }
+        feedback.radioId = this.radiostationService.jukebox.id;
         return feedback;
     }
 
-    public getSpecialFeedback(): void {
-        //TODO show dialog and send result to server
+    public getSpecialFeedback(track: Track): void {
+        console.log('opening dialog');
         this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = this.currentTrack;
+        this.dialogRef.componentInstance.cTrack = track;
+        this.dialogRef.componentInstance.cFeedback = this.createTrackFeedbackToTrack(track);
         this.dialogRef.afterClosed().subscribe(result => {
             this.dialogRef = null;
         });
-        this.lastTrackFeedback = this.currentTrackFeedback;
-        this.currentTrackFeedback = this.createTrackFeedbackToCurrentTrack();
-        //TODO: If we want to show the last given feedback in the UI, we hav to assign it here to currentTrackFeedback
     }
 
-    /**
-     * sets the current Feedback back to lastTrackFeedback
-     */
-    public undoFeedback(){
-        this.currentTrackFeedback = this.lastTrackFeedback;
-    }
     public getTendencyFeedback(): void {
         console.log('CALL tendency Feedback');
         //TODO: open tendency dialog and process information
     }
 
-
-
-    public dislikeCurrentSong(): void {
-        this.currentTrackFeedback.songDisliked = true;
-        if (this.currentTrackFeedback.songLiked) {
+    public dislikeSong(feedback: TrackFeedback): TrackFeedback {
+        feedback.songDisliked = true;
+        if (feedback.songLiked) {
             //We don't know if the user likes the song
-            this.currentTrackFeedback.songLiked = null;
-        }
+            feedback.songLiked = null;
+        } return feedback;
     }
 
-    public likeCurrentSong(): void {
-        this.currentTrackFeedback.songLiked = true;
-        if (this.currentTrackFeedback.songDisliked) {
+    public likeSong(feedback: TrackFeedback): TrackFeedback {
+        feedback.songLiked = true;
+        if (feedback.songDisliked) {
             //We don't know if the user dislikes the song
-            this.currentTrackFeedback.songDisliked = null;
-        }
+            feedback.songDisliked = null;
+        } return feedback;
     }
 
-    public dislikeCurrentArtist(): void {
-        this.currentTrackFeedback.artistDisliked = true;
-        if (this.currentTrackFeedback.artistLiked) {
+    public dislikeArtist(feedback: TrackFeedback): TrackFeedback {
+        feedback.artistDisliked = true;
+        if (feedback.artistLiked) {
             //We don't know if the user likes the artist
-            this.currentTrackFeedback.artistLiked = null;
-        }
+            feedback.artistLiked = null;
+        } return feedback;
     }
 
-    public likeCurrentArtist(): void {
-        this.currentTrackFeedback.artistLiked = true;
-        if (this.currentTrackFeedback.artistDisliked) {
+    public likeArtist(feedback: TrackFeedback): TrackFeedback {
+        feedback.artistLiked = true;
+        if (feedback.artistDisliked) {
             //We don't know if the user dislikes the artist
-            this.currentTrackFeedback.artistDisliked = null;
-        }
+            feedback.artistDisliked = null;
+        } return feedback;
     }
 
-    public dislikeCurrentSpeed(): void {
-        this.currentTrackFeedback.speedDisliked = true;
-        if (this.currentTrackFeedback.speedLiked) {
+    public dislikeSpeed(feedback: TrackFeedback): TrackFeedback {
+        feedback.speedDisliked = true;
+        if (feedback.speedLiked) {
             //We don't know if the user likes the speed
-            this.currentTrackFeedback.speedLiked = null;
-        }
+            feedback.speedLiked = null;
+        } return feedback;
     }
 
-    public likeCurrentSpeed(): void {
-        this.currentTrackFeedback.speedLiked = true;
-        if (this.currentTrackFeedback.speedDisliked) {
+    public likeSpeed(feedback: TrackFeedback): TrackFeedback {
+        feedback.speedLiked = true;
+        if (feedback.speedDisliked) {
             //We don't know if the user dislikes the speed
-            this.currentTrackFeedback.speedDisliked = null;
-        }
+            feedback.speedDisliked = null;
+        } return feedback;
     }
 
-    public dislikeCurrentGenre(): void {
-        this.currentTrackFeedback.genreDisliked = true;
-        if (this.currentTrackFeedback.genreLiked) {
+    public dislikeGenre(feedback: TrackFeedback): TrackFeedback {
+        feedback.genreDisliked = true;
+        if (feedback.genreLiked) {
             //We don't know if the user likes the genre
-            this.currentTrackFeedback.genreLiked = null;
-        }
+            feedback.genreLiked = null;
+        } return feedback;
     }
 
-    public likeCurrentGenre(): void {
-        this.currentTrackFeedback.genreLiked = true;
-        if (this.currentTrackFeedback.genreDisliked) {
+    public likeGenre(feedback: TrackFeedback): TrackFeedback {
+        feedback.genreLiked = true;
+        if (feedback.genreDisliked) {
             //We don't know if the user dislikes the genre
-            this.currentTrackFeedback.genreDisliked = null;
-        }
+            feedback.genreDisliked = null;
+        } return feedback;
     }
 
-    public dislikeCurrentDynamics(): void {
-        this.currentTrackFeedback.dynamicsDisliked = true;
-        if (this.currentTrackFeedback.dynamicsLiked) {
+    public dislikeDynamics(feedback: TrackFeedback): TrackFeedback {
+        feedback.dynamicsDisliked = true;
+        if (feedback.dynamicsLiked) {
             //We don't know if the user likes the dynamics
-            this.currentTrackFeedback.dynamicsLiked = null;
-        }
+            feedback.dynamicsLiked = null;
+        } return feedback;
     }
 
-    public likeCurrentDynamics(): void {
-        this.currentTrackFeedback.dynamicsLiked = true;
-        if (this.currentTrackFeedback.dynamicsDisliked) {
+    public likeDynamics(feedback: TrackFeedback): TrackFeedback {
+        feedback.dynamicsLiked = true;
+        if (feedback.dynamicsDisliked) {
             //We don't know if the user dislikes the dynamics
-            this.currentTrackFeedback.dynamicsDisliked = null;
-        }
+            feedback.dynamicsDisliked = null;
+        } return feedback;
     }
 
-    public dislikeCurrentPeriod(): void {
-        this.currentTrackFeedback.periodDisliked = true;
-        if (this.currentTrackFeedback.periodLiked) {
+    public dislikePeriod(feedback: TrackFeedback): TrackFeedback {
+        feedback.periodDisliked = true;
+        if (feedback.periodLiked) {
             //We don't know if the user likes the period
-            this.currentTrackFeedback.periodLiked = null;
-        }
+            feedback.periodLiked = null;
+        } return feedback;
     }
 
-    public likeCurrentPeriod(): void {
-        this.currentTrackFeedback.periodLiked = true;
-        if (this.currentTrackFeedback.periodDisliked) {
+    public likePeriod(feedback: TrackFeedback): TrackFeedback {
+        feedback.periodLiked = true;
+        if (feedback.periodDisliked) {
             //We don't know if the user dislikes the period
-            this.currentTrackFeedback.periodDisliked = null;
-        }
+            feedback.periodDisliked = null;
+        } return feedback;
     }
 
-    public dislikeCurrentMood(): void {
-        this.currentTrackFeedback.moodDisliked = true;
-        if (this.currentTrackFeedback.moodLiked) {
+    public dislikeMood(feedback: TrackFeedback): TrackFeedback {
+        feedback.moodDisliked = true;
+        if (feedback.moodLiked) {
             //We don't know if the user likes the mood
-            this.currentTrackFeedback.moodLiked = null;
-        }
+            feedback.moodLiked = null;
+        } return feedback;
     }
 
-    public likeCurrentMood(): void {
-        this.currentTrackFeedback.moodLiked = true;
-        if (this.currentTrackFeedback.moodDisliked) {
+    public likeMood(feedback: TrackFeedback): TrackFeedback {
+        feedback.moodLiked = true;
+        if (feedback.moodDisliked) {
             //We don't know if the user dislikes the mood
-            this.currentTrackFeedback.moodDisliked = null;
-        }
+            feedback.moodDisliked = null;
+        } return feedback;
     }
 
-    public sendCurrentTrackFeedback(): void {
-        if (this.isCurrentTrackFeedbackValid()) {
-            console.log('Sending feedback for current track');
-            this.authHttp.post(this.feedbackUrl + this.currentTrackFeedback.trackId, this.currentTrackFeedback).subscribe((data: any) => {
+    public postTrackFeedback(feedback: TrackFeedback): void{
+        if (this.isTrackFeedbackValid(feedback)) {
+            console.log('Sending feedback for TrackID: '+feedback.trackId);
+            this.authHttp.post(this.feedbackUrl + feedback.trackId, feedback).subscribe((data: any) => {
+                console.log(data);
             }, (error: Response) => {
                 if (error.status == 400) {
                     console.log('The provided feedback entry is malformed');
@@ -211,35 +176,25 @@ export class FeedbackService implements OnDestroy {
             });
 
         }
-        this.currentTrackFeedback = new TrackFeedback;
     }
 
-    private trackUpdated(): void {
-        if (this.currentTrackFeedback != null) {
-            this.sendCurrentTrackFeedback();
-        }
-        this.currentTrackFeedback = this.createTrackFeedbackToCurrentTrack();
-
-    }
-
-
-    private isCurrentTrackFeedbackValid(): boolean {
-        let a = this.currentTrackFeedback.radioId != null;
-        let b = this.currentTrackFeedback.trackId != null;
-        let c = this.currentTrackFeedback.songLiked;
-        let d = this.currentTrackFeedback.songDisliked;
-        let e = this.currentTrackFeedback.artistLiked;
-        let f = this.currentTrackFeedback.artistDisliked;
-        let g = this.currentTrackFeedback.speedLiked;
-        let h = this.currentTrackFeedback.speedDisliked;
-        let i = this.currentTrackFeedback.genreLiked;
-        let j = this.currentTrackFeedback.genreDisliked;
-        let k = this.currentTrackFeedback.dynamicsLiked;
-        let l = this.currentTrackFeedback.dynamicsDisliked;
-        let m = this.currentTrackFeedback.periodLiked;
-        let n = this.currentTrackFeedback.periodDisliked;
-        let o = this.currentTrackFeedback.moodLiked;
-        let p = this.currentTrackFeedback.moodDisliked;
+    private isTrackFeedbackValid(feedback:TrackFeedback): boolean {
+        let a = feedback.radioId != null;
+        let b = feedback.trackId != null;
+        let c = feedback.songLiked;
+        let d = feedback.songDisliked;
+        let e = feedback.artistLiked;
+        let f = feedback.artistDisliked;
+        let g = feedback.speedLiked;
+        let h = feedback.speedDisliked;
+        let i = feedback.genreLiked;
+        let j = feedback.genreDisliked;
+        let k = feedback.dynamicsLiked;
+        let l = feedback.dynamicsDisliked;
+        let m = feedback.periodLiked;
+        let n = feedback.periodDisliked;
+        let o = feedback.moodLiked;
+        let p = feedback.moodDisliked;
         return (a && b && (c || d || e || f || g || h || i || j || k || l || m || n || o || p));
     }
 }

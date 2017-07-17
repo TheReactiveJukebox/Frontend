@@ -28,7 +28,7 @@
                                             (click)="btn_dislike()">
                                     </button>
                                 </td>
-                                <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn" (click)="this.feedbackService.getSpecialFeedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
+                                <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn" (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
                             </tr>
                         </table>
                     </div>

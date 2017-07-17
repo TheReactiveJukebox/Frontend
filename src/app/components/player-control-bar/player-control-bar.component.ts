@@ -71,17 +71,19 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     public like(): void {
-        this.feedbackService.likeCurrentSong();
-        this.feedbackService.sendCurrentTrackFeedback();
+        let feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
+        feedback = this.feedbackService.likeSong(feedback);
+        this.feedbackService.postTrackFeedback(feedback);
     }
 
     public dislike(): void {
-        this.feedbackService.dislikeCurrentSong();
-        this.feedbackService.sendCurrentTrackFeedback();
+        let feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
+        feedback = this.feedbackService.dislikeSong(feedback);
+        this.feedbackService.postTrackFeedback(feedback);
     }
 
     public getSpecialFeedback(): void {
-        this.feedbackService.getSpecialFeedback();
+        this.feedbackService.getSpecialFeedback(this.currentTrack);
     }
 
 }

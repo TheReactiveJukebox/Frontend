@@ -101,8 +101,8 @@ import {FeedbackService} from './services/feedback.service';
         TrackService,
         RadiostationService,
         SpeechService,
-        PlayerService,
-        FeedbackService
+        FeedbackService,
+        PlayerService
     ]
 })
 export class AppModule {

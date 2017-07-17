@@ -15,12 +15,10 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     currentTrack: Track;
     btnVisible: boolean = false;
-    dialogRef: MdDialogRef<any>;
     private subscriptions: Subscription[];
 
     constructor(public trackService: TrackService,
-                private feedbackService: FeedbackService,
-                public dialog: MdDialog) {
+                public feedbackService: FeedbackService) {
         this.subscriptions = [];
     }
 
@@ -39,15 +37,16 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
-        // which can cause heavy laggs.
+        // which can cause heavy laggs. 
         for (let subscription of this.subscriptions) {
             subscription.unsubscribe();
         }
     }
 
-    btn_like(event) {
-        this.feedbackService.likeCurrentSong();
-        this.feedbackService.sendCurrentTrackFeedback();
+    btn_like() {
+        let feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
+        feedback = this.feedbackService.likeSong(feedback);
+        this.feedbackService.postTrackFeedback(feedback);
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -55,9 +54,10 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
-    btn_dislike(event) {
-        this.feedbackService.dislikeCurrentSong();
-        this.feedbackService.sendCurrentTrackFeedback();
+    btn_dislike() {
+        let feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
+        feedback = this.feedbackService.dislikeSong(feedback);
+        this.feedbackService.postTrackFeedback(feedback);
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -65,13 +65,9 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
-    //opens a dialog to speciy the feedback
-    dialog_special_feedback(event) {
-        this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = this.currentTrack;
-        this.dialogRef.afterClosed().subscribe(result => {
-            this.dialogRef = null;
-        });
+    //opens a dialog to special the feedback
+    dialog_special_feedback() {
+        this.feedbackService.getSpecialFeedback(this.currentTrack);
     }
 
 }
