@@ -35,6 +35,9 @@
     "FEEDBACK_DIALOG": {
         "LIKE": "Bewerte",
         "REASON": "",
+        "TENDENCY": "Tendenz",
+        "MORE_OF_GENRE": "Mehr von",
+        "CHOOSE_GENRE": "Genre auswählen",
         "CLOSE": "Abbrechen",
         "CONFIRM": "Ok",
         "CONFIRMAPPLY": "Ok und Übernehmen"

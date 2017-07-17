@@ -11,6 +11,7 @@ import {TrackFeedback} from '../models/trackFeedback';
 import {RadiostationService} from './radiostation.service';
 import {AuthHttp} from './auth/auth-http';
 import {Track} from '../models/track';
+import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency_feedback-dialog.component';
 
 @Injectable()
 export class FeedbackService {
@@ -48,6 +49,11 @@ export class FeedbackService {
 
     public getTendencyFeedback(): void {
         console.log('CALL tendency Feedback');
+        this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
+        this.dialogRef.componentInstance.cTrack = this.currentTrack;
+        this.dialogRef.afterClosed().subscribe(result => {
+            this.dialogRef = null;
+        });
         //TODO: open tendency dialog and process information
     }
 

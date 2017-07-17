@@ -86,4 +86,8 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.feedbackService.getSpecialFeedback(this.currentTrack);
     }
 
+    public getTendencyFeedback(): void {
+        this.feedbackService.getTendencyFeedback();
+    }
+
 }

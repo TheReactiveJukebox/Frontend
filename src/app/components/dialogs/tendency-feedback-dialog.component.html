@@ -1,1 +1,120 @@
-<h2>Test Dialog</h2>
+<h2 md-dialog-title>{{'FEEDBACK_DIALOG.TENDENCY' | translate}} </h2>
+<md-dialog-content class="dialog">
+    <table class="track-feedback-table">
+        <tr>
+            <td>
+                <p class="tl-dynamics">{{'TRACK_LIST.DYNAMICS' | translate}}: </p></td>
+            <td><p class="innerProp"></p>
+            </td>
+            <td>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
+                        (click)="btnLessDynamic()">
+                    <md-icon>remove</md-icon>
+                </button>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper more_button_wrapper"
+                        (click)="btnMoreDynamic()">
+                    <md-icon>add</md-icon>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="tl-speed">{{'TRACK_LIST.SPEED' | translate}}: </p></td>
+            <td><p class="innerProp">{{cTrack.speed}}</p>
+            </td>
+            <td>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
+                        (click)="btnLessSpeed()">
+                    <md-icon>remove</md-icon>
+                </button>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper more_button_wrapper"
+                        (click)="btnMoreSpeed()">
+                    <md-icon>add</md-icon>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="tl-mood">{{'TRACK_LIST.MOOD' | translate}}: </p></td>
+            <td><p class="innerProp"></p>
+            </td>
+            <td>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
+                        (click)="btnLikeMood()">
+                    <md-icon>remove</md-icon>
+                </button>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper more_button_wrapper"
+                        (click)="btnDislikeMood()">
+                    <md-icon>add</md-icon>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td><p class="l-genre">{{'FEEDBACK_DIALOG.MORE_OF_GENRE' | translate}}: </p></td>
+            <td><p class="innerProp">{{cTrack.genre}}</p></td>
+            <td style="margin-left: 15px">
+                <div id="genre" class="tile">
+                    <select>
+                        <option value="" disabled selected hidden>{{'FEEDBACK_DIALOG.CHOOSE_GENRE' | translate}}</option>
+                        <option>Rock</option>
+                        <option>Pop</option>
+                        <option>Elektro</option>
+                        <option>Klassik</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="tl-period">{{'TRACK_LIST.PERIOD' | translate}}: </p></td>
+            <td><p class="innerProp">{{cTrack.period}}</p>
+            </td>
+            <td>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
+                        (click)="btnLikePeriod()">
+                    <md-icon>remove</md-icon>
+                </button>
+                <button
+                        md-icon-button
+                        md-mini-fab class="feedback-button-wrapper more_button_wrapper"
+                        (click)="btnDislikePeriod()">
+                    <md-icon>add</md-icon>
+                </button>
+            </td>
+        </tr>
+    </table>
+</md-dialog-content>
+<md-dialog-actions>
+    <button
+            id="dialog_close_btn"
+            md-raised-button
+            md-dialog-close
+            (click)="closeDialog()">{{'FEEDBACK_DIALOG.CLOSE' | translate}}
+    </button>
+    <button
+            id="dialog_confirm_btn"
+            md-raised-button
+            md-dialog-close
+            (click)="confirmDialog()">{{'FEEDBACK_DIALOG.CONFIRM' | translate}}
+    </button>
+    <button
+            id="dialog_confirm_apply_btn"
+            md-raised-button
+            md-dialog-close
+            (click)="confirmAndApplyDialog()">{{'FEEDBACK_DIALOG.CONFIRMAPPLY' | translate}}
+    </button>
+</md-dialog-actions>

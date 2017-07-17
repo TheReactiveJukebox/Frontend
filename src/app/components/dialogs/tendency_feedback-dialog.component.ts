@@ -11,4 +11,49 @@ export class TendencyFeedbackDialogComponent {
 
     constructor(public dialogRef: MdDialogRef<TendencyFeedbackDialogComponent>) {
     }
+
+    btnLessDynamic() {
+    }
+
+    btnMoreDynamic() {
+    }
+
+    btnLessSpeed() {
+    }
+
+    btnMoreSpeed() {
+    }
+
+    //TODO: Rename methods (also in tendency-feedback-dialog.html)
+    btnLikeMood() {
+    }
+
+    btnDislikeMood() {
+    }
+
+    btnLikeGenre() {
+    }
+
+    btnDislikeGenre() {
+    }
+
+    btnLikePeriod() {
+    }
+
+    btnDislikePeriod() {
+    }
+
+
+    confirmDialog() {
+        this.feedbackService.sendCurrentTrackFeedback();
+    }
+
+    confirmAndApplyDialog() {
+        this.feedbackService.sendCurrentTrackFeedback();
+        //TODO Apply
+    }
+
+    closeDialog() {
+        this.feedbackService.undoFeedback();
+    }
 }
