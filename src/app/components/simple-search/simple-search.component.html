@@ -3,7 +3,7 @@
 <div *ngIf="this.trackResultCount > 0">
     <md-nav-list class="tl">
         <h1 md-subheader>Tracks</h1>
-        <md-list-item class="tl-row" *ngFor="let result of this.trackResult | slice:0:9" (click)="this.selection(result)">
+        <md-list-item class="tl-row" *ngFor="let result of this.trackResult | slice:0:9" (click)="this.selection(result, 'TRACK')">
             <p class="tl-title-col">{{result.title}}</p>
             <p class="tl-artist-col">{{result.artist.name}}</p>
             <p class="tl-album-col">{{result.album.title}}</p>
@@ -14,7 +14,7 @@
 <div *ngIf="this.artistResultCount > 0">
     <md-nav-list class="tl">
         <h1 md-subheader>Artists</h1>
-        <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4" (click)="this.selection(result)">
+        <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4" (click)="this.selection(result, 'ARTIST')">
             <p class="tl-name-col">{{result.name}}</p>
         </md-list-item>
     </md-nav-list>
@@ -23,7 +23,7 @@
 <div *ngIf="this.albumResultCount > 0">
     <md-nav-list class="tl">
         <h1 md-subheader>Album</h1>
-        <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:4" (click)="this.selection(result)">
+        <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:4" (click)="this.selection(result, 'ALBUM')">
             <p class="tl-title-col">{{result.title}}</p>
             <p class="tl-artist-col">{{result.artist.name}}</p>
         </md-list-item>

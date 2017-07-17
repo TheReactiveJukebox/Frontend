@@ -1,7 +1,7 @@
 /**
  * Created by David on 01.07.2017.
  */
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {SearchService} from '../../services/search.service';
 import { Subject } from 'rxjs/Subject';
 import {TrackService} from '../../services/track.service';
@@ -18,6 +18,23 @@ import {Config} from '../../config';
     providers: [SearchService]
 })
 export class SimpleSearchComponent {
+
+    // emits every clicked item
+    @Output()
+    selectedItem: EventEmitter<any> = new EventEmitter<any>();
+
+    // emits every clicked item
+    @Output()
+    selectedAlbum: EventEmitter<any> = new EventEmitter<any>();
+
+    // emits every clicked item
+    @Output()
+    selectedArtist: EventEmitter<any> = new EventEmitter<any>();
+
+    // emits every clicked item
+    @Output()
+    selectedTrack: EventEmitter<any> = new EventEmitter<any>();
+
     //The search result jsons and their length are stored here by category
     trackResult: Object;
     trackResultCount: number;
@@ -92,7 +109,16 @@ export class SimpleSearchComponent {
 
 
     //Invoked if user clicks on a search result
-    public selection(value):void{
+    public selection(value: any, type: string):void{
+        switch (type) {
+            case 'ARTIST': this.selectedArtist.emit(value);
+                break;
+            case 'ALBUM': this.selectedAlbum.emit(value);
+                break;
+            case 'TRACK': this.selectedTrack.emit(value);
+                break;
+        }
         console.log(JSON.stringify(value));
+        this.selectedItem.emit(value);
     }
 }

@@ -1,7 +1,7 @@
 <md-card id="component-pane">
     <md-card-title id="title">{{'RADIOSTATION_CREATE.TITLE' | translate}}</md-card-title>
 
-    <simple-search id="search-field"></simple-search>
+    <simple-search id="search-field" (selectedTrack)="addStartTrack($event)"></simple-search>
 
     <md-card-footer>
         <md-card-actions>

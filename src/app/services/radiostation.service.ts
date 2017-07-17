@@ -9,6 +9,8 @@ import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {Config} from '../config';
 import {Jukebox} from '../models/jukebox';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
 
 
 @Injectable()
@@ -16,15 +18,18 @@ export class RadiostationService implements OnDestroy {
 
     private subscriptions: Subscription[];
     public jukebox: Jukebox;
+    private algorithms: BehaviorSubject<string[]>;
 
     private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
     private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
-
+    private algorithmsApiUrl = '/api/jukebox/algorithms';
 
     constructor(private trackService: TrackService,
                 private authHttp: AuthHttp) {
+        this.algorithms = new BehaviorSubject<string[]>([]);
         this.subscriptions = [];
         this.fetchRadiostation();
+        this.fetchAlgorithms();
 
     }
 
@@ -83,8 +88,20 @@ export class RadiostationService implements OnDestroy {
         });
     }
 
+    public fetchAlgorithms(): void {
+        this.authHttp.get(this.algorithmsApiUrl).subscribe((algorithms: string[]) => {
+            this.algorithms.next(algorithms);
+        }, error => {
+            console.log('Error fetching algorithms: ', error);
+        });
+    }
+
     public hasJukebox(): boolean {
         return this.jukebox != null;
+    }
+
+    public getAlgorithms(): Observable<string[]> {
+        return this.algorithms.asObservable();
     }
 
 }

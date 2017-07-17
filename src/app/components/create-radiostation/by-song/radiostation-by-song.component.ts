@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {PlayerService} from '../../../services/player.service';
+import {Track} from '../../../models/track';
 
 @Component({
     selector: 'my-radiostation-by-song',
@@ -11,28 +12,33 @@ import {PlayerService} from '../../../services/player.service';
 export class RadiostationBySongComponent {
 
     creationParameters: {
-        id?: number,
-        genres?: string[],
-        mood?: string,
-        startyear?: number,
-        endyear?: number,
-        random?: boolean
+        startTracks?: number[],
+        algorithm?: string
     } = {};
+
+    algorithms: string[];
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
 
     constructor(public radiostationService: RadiostationService,
                 public playerService: PlayerService) {
+        this.radiostationService.getAlgorithms().subscribe((algorithms: string[]) => {
+           this.algorithms = algorithms;
+        });
     }
 
     reset() {
     }
 
     start() {
-        this.creationParameters.random = true;
         this.radiostationService.startNewRadiostation(this.creationParameters);
         this.playerService.play();
         this.onStart.emit();
+    }
+
+    public addStartTrack(track: Track): void {
+        console.log('Add start track', event);
+        this.creationParameters.startTracks.push(track.id);
     }
 }
