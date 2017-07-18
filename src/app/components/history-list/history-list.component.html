@@ -5,61 +5,13 @@
         <md-icon *ngIf="!this.isExpanded">keyboard_arrow_up</md-icon>
     </button>
     <p *ngIf="this.historyService.history.length < 1">{{'HISTORY_LIST.EMPTY' | translate}}</p>
-    <md-nav-list class="tl">
+    <md-nav-list>
         <md-divider></md-divider>
         <div *ngIf="this.isExpanded">
-            <md-list-item class="tl-row" *ngFor="let track of this.historyService.history.slice(0,this.historyService.history.length - this.visibilityLimit)">
-                <p class="tl-cover-col">
-                    <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
-                </p>
-                <p class="tl-id-col"></p>
-                <p class="tl-title-col">{{track.title}}</p>
-                <p class="tl-artist-col">{{track.artist.name}}</p>
-                <p class="tl-album-col">{{track.album.title}}</p>
-                <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
-                <button
-                        class="t1-like-col"
-                        md-icon-button
-                        md-fab class="feedback-button-wrapper"
-                        id="like-button-wrapper"
-                        (click)="btn_like(track)">
-                </button>
-                <button
-                        class="t1-dislike-col"
-                        md-icon-button
-                        md-fab class="feedback-button-wrapper"
-                        id="dislike-button-wrapper"
-                        (click)="btn_dislike(track)">
-                </button>
-                <p class="tl-icon-col"><i class="material-icons">delete</i></p>
-            </md-list-item>
+            <track-list-item [track]="track" *ngFor="let track of this.historyService.history.slice(0,this.historyService.history.length - this.visibilityLimit)"></track-list-item>
             <md-divider></md-divider>
         </div>
-        <md-list-item class="tl-row" *ngFor="let track of this.historyService.history.slice(this.visibilityLimit * -1)">
-            <p class="tl-cover-col">
-                <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
-            </p>
-            <p class="tl-id-col"></p>
-            <p class="tl-title-col">{{track.title}}</p>
-            <p class="tl-artist-col">{{track.artist.name}}</p>
-            <p class="tl-album-col">{{track.album.title}}</p>
-            <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
-            <button
-                    class="t1-like-col"
-                    md-icon-button
-                    md-fab class="feedback-button-wrapper"
-                    id="like-button-wrapper"
-                    (click)="btn_like(track)">
-            </button>
-            <button
-                    class="t1-dislike-col"
-                    md-icon-button
-                    md-fab class="feedback-button-wrapper"
-                    id="dislike-button-wrapper"
-                    (click)="btn_dislike(track)">
-            </button>
-            <p class="tl-icon-col" (click)="this.historyService.deleteFromPersistentHistory(track.historyId)"><i class="material-icons">delete</i></p>
-        </md-list-item>
+        <track-list-item [track]="track" *ngFor="let track of this.historyService.history.slice(this.visibilityLimit * -1)"></track-list-item>
     </md-nav-list>
     <md-divider></md-divider>
 </div>

@@ -46,6 +46,7 @@ import {PlayerService} from './services/player.service';
 import {FeedbackService} from './services/feedback.service';
 import {HistoryService} from "./services/history.service";
 import {HistoryListComponent} from "./components/history-list/history-list.component";
+import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -66,7 +67,8 @@ import {HistoryListComponent} from "./components/history-list/history-list.compo
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
         SimpleSearchComponent,
-        HistoryListComponent
+        HistoryListComponent,
+        TrackListItemComponent
     ],
     /**
      * Import Angular's modules.
