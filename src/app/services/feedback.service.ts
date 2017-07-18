@@ -159,8 +159,8 @@ export class FeedbackService {
     public postTrackFeedback(feedback: TrackFeedback): void {
         if (this.isTrackFeedbackValid(feedback)) {
             console.log('Sending feedback for TrackID: ' + feedback.trackId);
-            console.log(feedback);
             this.authHttp.post(this.feedbackUrl + feedback.trackId, feedback).subscribe((data: any) => {
+                console.log('This is what has been stored in the DB:')
                 console.log(data);
             }, (error: Response) => {
                 if (error.status == 400) {
