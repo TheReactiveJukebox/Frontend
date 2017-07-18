@@ -2,8 +2,6 @@
  * This service takes care of feedback
  */
 import {Injectable, OnDestroy} from '@angular/core';
-import {TrackService} from './track.service';
-// import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback-dialog.component';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {Config} from '../config';
 import {Subscription} from 'rxjs/Subscription';
@@ -11,20 +9,14 @@ import {TrackFeedback} from '../models/trackFeedback';
 import {RadiostationService} from './radiostation.service';
 import {AuthHttp} from './auth/auth-http';
 import {Track} from '../models/track';
-import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency_feedback-dialog.component';
 
 @Injectable()
 export class FeedbackService {
 
-    dialogRef: MdDialogRef<any>;
-
-
     private feedbackUrl = Config.serverUrl + '/api/track/feedback?id=';  // URL to web api
 
-    constructor(private trackService: TrackService,
-                private radiostationService: RadiostationService,
-                private authHttp: AuthHttp,
-                public dialog: MdDialog) {
+    constructor(private radiostationService: RadiostationService,
+                private authHttp: AuthHttp) {
     }
 
 
@@ -37,32 +29,14 @@ export class FeedbackService {
         return feedback;
     }
 
-    public getSpecialFeedback(track: Track): void {
-        console.log('opening dialog');
-        //this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = track;
-        this.dialogRef.componentInstance.cFeedback = this.createTrackFeedbackToTrack(track);
-        this.dialogRef.afterClosed().subscribe(result => {
-            this.dialogRef = null;
-        });
-    }
-
-    public getTendencyFeedback(): void {
-        console.log('CALL tendency Feedback');
-        //this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = this.trackService.getCurrentTrack();
-        this.dialogRef.afterClosed().subscribe(result => {
-            this.dialogRef = null;
-        });
-        //TODO: open tendency dialog and process information
-    }
 
     public dislikeSong(feedback: TrackFeedback): TrackFeedback {
         feedback.songDisliked = true;
         if (feedback.songLiked) {
             //We don't know if the user likes the song
             feedback.songLiked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public likeSong(feedback: TrackFeedback): TrackFeedback {
@@ -70,7 +44,8 @@ export class FeedbackService {
         if (feedback.songDisliked) {
             //We don't know if the user dislikes the song
             feedback.songDisliked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public dislikeArtist(feedback: TrackFeedback): TrackFeedback {
@@ -78,7 +53,8 @@ export class FeedbackService {
         if (feedback.artistLiked) {
             //We don't know if the user likes the artist
             feedback.artistLiked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public likeArtist(feedback: TrackFeedback): TrackFeedback {
@@ -86,7 +62,8 @@ export class FeedbackService {
         if (feedback.artistDisliked) {
             //We don't know if the user dislikes the artist
             feedback.artistDisliked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public dislikeSpeed(feedback: TrackFeedback): TrackFeedback {
@@ -94,7 +71,8 @@ export class FeedbackService {
         if (feedback.speedLiked) {
             //We don't know if the user likes the speed
             feedback.speedLiked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public likeSpeed(feedback: TrackFeedback): TrackFeedback {
@@ -102,7 +80,8 @@ export class FeedbackService {
         if (feedback.speedDisliked) {
             //We don't know if the user dislikes the speed
             feedback.speedDisliked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public dislikeGenre(feedback: TrackFeedback): TrackFeedback {
@@ -110,7 +89,8 @@ export class FeedbackService {
         if (feedback.genreLiked) {
             //We don't know if the user likes the genre
             feedback.genreLiked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public likeGenre(feedback: TrackFeedback): TrackFeedback {
@@ -118,7 +98,8 @@ export class FeedbackService {
         if (feedback.genreDisliked) {
             //We don't know if the user dislikes the genre
             feedback.genreDisliked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public dislikeDynamics(feedback: TrackFeedback): TrackFeedback {
@@ -126,7 +107,8 @@ export class FeedbackService {
         if (feedback.dynamicsLiked) {
             //We don't know if the user likes the dynamics
             feedback.dynamicsLiked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public likeDynamics(feedback: TrackFeedback): TrackFeedback {
@@ -134,7 +116,8 @@ export class FeedbackService {
         if (feedback.dynamicsDisliked) {
             //We don't know if the user dislikes the dynamics
             feedback.dynamicsDisliked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public dislikePeriod(feedback: TrackFeedback): TrackFeedback {
@@ -142,7 +125,8 @@ export class FeedbackService {
         if (feedback.periodLiked) {
             //We don't know if the user likes the period
             feedback.periodLiked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public likePeriod(feedback: TrackFeedback): TrackFeedback {
@@ -150,7 +134,8 @@ export class FeedbackService {
         if (feedback.periodDisliked) {
             //We don't know if the user dislikes the period
             feedback.periodDisliked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public dislikeMood(feedback: TrackFeedback): TrackFeedback {
@@ -158,7 +143,8 @@ export class FeedbackService {
         if (feedback.moodLiked) {
             //We don't know if the user likes the mood
             feedback.moodLiked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
     public likeMood(feedback: TrackFeedback): TrackFeedback {
@@ -166,12 +152,14 @@ export class FeedbackService {
         if (feedback.moodDisliked) {
             //We don't know if the user dislikes the mood
             feedback.moodDisliked = null;
-        } return feedback;
+        }
+        return feedback;
     }
 
-    public postTrackFeedback(feedback: TrackFeedback): void{
+    public postTrackFeedback(feedback: TrackFeedback): void {
         if (this.isTrackFeedbackValid(feedback)) {
-            console.log('Sending feedback for TrackID: '+feedback.trackId);
+            console.log('Sending feedback for TrackID: ' + feedback.trackId);
+            console.log(feedback);
             this.authHttp.post(this.feedbackUrl + feedback.trackId, feedback).subscribe((data: any) => {
                 console.log(data);
             }, (error: Response) => {
@@ -184,7 +172,7 @@ export class FeedbackService {
         }
     }
 
-    private isTrackFeedbackValid(feedback:TrackFeedback): boolean {
+    private isTrackFeedbackValid(feedback: TrackFeedback): boolean {
         let a = feedback.radioId != null;
         let b = feedback.trackId != null;
         let c = feedback.songLiked;

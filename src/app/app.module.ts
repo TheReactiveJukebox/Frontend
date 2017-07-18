@@ -44,6 +44,7 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
 import {PlayerService} from './services/player.service';
 import {FeedbackService} from './services/feedback.service';
+import {DialogService} from './services/dialog.service';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -102,7 +103,8 @@ import {FeedbackService} from './services/feedback.service';
         RadiostationService,
         SpeechService,
         FeedbackService,
-        PlayerService
+        PlayerService,
+        DialogService
     ]
 })
 export class AppModule {

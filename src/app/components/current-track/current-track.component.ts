@@ -3,8 +3,8 @@ import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
 import {FeedbackService} from '../../services/feedback.service';
+import {DialogService} from '../../services/dialog.service';
 
 @Component({
     selector: 'current-track',
@@ -18,7 +18,8 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[];
 
     constructor(public trackService: TrackService,
-                public feedbackService: FeedbackService) {
+                public feedbackService: FeedbackService,
+                public dialogService: DialogService) {
         this.subscriptions = [];
     }
 
@@ -67,7 +68,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     //opens a dialog to special the feedback
     dialog_special_feedback() {
-        this.feedbackService.getSpecialFeedback(this.currentTrack);
+        this.dialogService.openTrackFeedbackDialog(this.currentTrack);
     }
 
 }
