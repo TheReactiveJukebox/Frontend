@@ -184,13 +184,13 @@ export class TrackService {
             }
         }
 
-        let newTracks: Track[] = this.nextTracks.getValue();
-        newTracks.splice(0,removedTracks.length);
-        this.currentTrack.next(newTracks[0]);
-        newTracks = newTracks.slice(1);
-        //Get number of removed new tracks
+        //Get #removed + 1 new tracks, +1 because current track is skipped
         if(removed >= 0){
             this.fetchNewSongs(removed+1).subscribe((tracks: Track[]) => {
+                let newTracks: Track[] = this.nextTracks.getValue();
+                newTracks.splice(0,removed);
+                this.currentTrack.next(newTracks[0]);
+                newTracks = newTracks.slice(1);
                 tracks.forEach(function(track){
                     newTracks.push(track)
                 });
