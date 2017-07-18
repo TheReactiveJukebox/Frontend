@@ -66,6 +66,8 @@ export class RadiostationService implements OnDestroy {
 
     //saves the song to the history by sending its id to the corresponding api endpoint
     public writeToHistory(track: Track): void {
+        if (this.localHistory.history.length > 0 && this.localHistory.history.slice(-1)[0].id == track.id)
+            return;
         this.localHistory.writeToLocalHistory(track);
         let reqBody = {
             trackId: track.id,
