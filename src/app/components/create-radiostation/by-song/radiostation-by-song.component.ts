@@ -14,7 +14,12 @@ export class RadiostationBySongComponent {
     creationParameters: {
         startTracks?: number[],
         algorithm?: string
-    } = {};
+    } = {
+        algorithm: '',
+        startTracks: []
+    };
+
+    track: Track;
 
     algorithms: string[];
 
@@ -39,6 +44,7 @@ export class RadiostationBySongComponent {
 
     public addStartTrack(track: Track): void {
         console.log('Add start track', event);
-        this.creationParameters.startTracks.push(track.id);
+        this.track = track;
+        this.creationParameters.startTracks = [track.id];
     }
 }

@@ -1,4 +1,8 @@
 {
+    "ALGORITHMS": {
+        "RANDOM": "Zufällig",
+        "SAGH": "Größte Hits des gleichen Künstlers"
+    },
     "GENERAL": {
         "INVITE_KEY": "Einladungsschlüssel",
         "PASSWORD": "Passwort",
@@ -39,6 +43,7 @@
         "DURATION": "Dauer"
     },
     "RADIOSTATION_CREATE": {
+        "ALGORITHM": "Algorithmus",
         "RESET": "Zurücksetzen",
         "START": "Start",
         "BY_FEATURE": "Nach Merkmalen",

@@ -6,5 +6,4 @@ export class Jukebox {
     algorithm: string;
     startyear: number;
     endyear: number;
-    random: boolean;
 }

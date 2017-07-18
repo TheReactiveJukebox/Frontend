@@ -17,7 +17,7 @@ export class RadiostationByFeatureComponent implements OnInit {
             mood?: string,
             startyear?: number,
             endyear?: number,
-            random?: boolean
+            algorithm?: string
         } = {};
 
     @Output()
@@ -32,7 +32,7 @@ export class RadiostationByFeatureComponent implements OnInit {
     reset() {
     }
     start() {
-        this.creationParameters.random=true;
+        this.creationParameters.algorithm='RANDOM';
         this.radiostationService.startNewRadiostation(this.creationParameters);
         this.playerService.play();
         this.onStart.emit();

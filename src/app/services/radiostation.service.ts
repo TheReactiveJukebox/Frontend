@@ -91,6 +91,7 @@ export class RadiostationService implements OnDestroy {
     public fetchAlgorithms(): void {
         this.authHttp.get(this.algorithmsApiUrl).subscribe((algorithms: string[]) => {
             this.algorithms.next(algorithms);
+            console.log('ALGORITHMS: ', algorithms);
         }, error => {
             console.log('Error fetching algorithms: ', error);
         });
