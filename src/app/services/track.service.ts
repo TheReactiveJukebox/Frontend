@@ -10,12 +10,15 @@ import {Observable} from 'rxjs/Observable';
 import {Artist} from '../models/artist';
 import {Album} from '../models/album';
 import {RadiostationService} from './radiostation.service';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class TrackService {
 
     currentTrack: BehaviorSubject<Track>;
     nextTracks: BehaviorSubject<Track[]>;
+    numberUpcomingSongs: number = 5;
+
 
     private trackListUrl = Config.serverUrl + '/api/jukebox/next';  // URL to web api
 
@@ -26,7 +29,7 @@ export class TrackService {
 
     //Refreshes current track and track preview according to current radiostation
     refreshTracks(): void {
-        this.fetchNewSongs(6).subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(this.numberUpcomingSongs + 1).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
         }, error => {
@@ -133,5 +136,30 @@ export class TrackService {
 
     hasNextTracks(): boolean {
         return (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
+    }
+
+    /**
+     * removes the given track from the tracklist
+     * @param track to remove
+     */
+    removeTrack(track: Track): void {
+        let currentTracks: Track[] = this.nextTracks.getValue();
+        let newTracks: Track[] = new Array(currentTracks.length - 1);
+        var removed = 0;
+        for (var i = 0; i<currentTracks.length; i++) {
+            if (currentTracks[i].id != track.id) {
+                newTracks[i-removed] = currentTracks[i];
+            } else {
+                removed = 1;
+            }
+        }
+
+        //Get new Track
+        this.fetchNewSongs(removed).subscribe((tracks: Track[]) => {
+            newTracks.push(tracks[0]);
+            this.nextTracks.next(newTracks);
+        }, error => {
+            console.log(error);
+        });
     }
 }
