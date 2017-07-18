@@ -3,7 +3,7 @@
  */
 import {Injectable, OnDestroy} from '@angular/core';
 import {TrackService} from './track.service';
-import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback-dialog.component';
+// import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback-dialog.component';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {Config} from '../config';
 import {Subscription} from 'rxjs/Subscription';
@@ -39,7 +39,7 @@ export class FeedbackService {
 
     public getSpecialFeedback(track: Track): void {
         console.log('opening dialog');
-        this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
+        //this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
         this.dialogRef.componentInstance.cTrack = track;
         this.dialogRef.componentInstance.cFeedback = this.createTrackFeedbackToTrack(track);
         this.dialogRef.afterClosed().subscribe(result => {
@@ -49,8 +49,8 @@ export class FeedbackService {
 
     public getTendencyFeedback(): void {
         console.log('CALL tendency Feedback');
-        this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = this.currentTrack;
+        //this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
+        this.dialogRef.componentInstance.cTrack = this.trackService.getCurrentTrack();
         this.dialogRef.afterClosed().subscribe(result => {
             this.dialogRef = null;
         });

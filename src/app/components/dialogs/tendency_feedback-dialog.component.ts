@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import { Track } from '../../models/track';
 import { MdDialog, MdDialogRef} from '@angular/material';
+import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
     selector: 'tendency-feedback-dialog',
@@ -9,7 +10,8 @@ import { MdDialog, MdDialogRef} from '@angular/material';
 export class TendencyFeedbackDialogComponent {
     cTrack: Track;
 
-    constructor(public dialogRef: MdDialogRef<TendencyFeedbackDialogComponent>) {
+    constructor(public dialogRef: MdDialogRef<TendencyFeedbackDialogComponent>,
+                public feedbackService: FeedbackService) {
     }
 
     btnLessDynamic() {
@@ -45,15 +47,15 @@ export class TendencyFeedbackDialogComponent {
 
 
     confirmDialog() {
-        this.feedbackService.sendCurrentTrackFeedback();
+        // TODO this.feedbackService.sendCurrentTrackFeedback();
     }
 
     confirmAndApplyDialog() {
-        this.feedbackService.sendCurrentTrackFeedback();
+        // TODO this.feedbackService.sendCurrentTrackFeedback();
         //TODO Apply
     }
 
     closeDialog() {
-        this.feedbackService.undoFeedback();
+        //TODO this.feedbackService.undoFeedback();
     }
 }

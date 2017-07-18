@@ -1,8 +1,6 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Track} from '../../models/track';
-import {MdDialogRef} from '@angular/material';
 import {TrackFeedback} from '../../models/trackFeedback';
-import {Subscription} from 'rxjs/Subscription';
 import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
@@ -10,15 +8,11 @@ import {FeedbackService} from '../../services/feedback.service';
     templateUrl: './special-feedback-dialog.component.html',
     styleUrls: ['./special-feedback-dialog.component.scss']
 })
-
 export class SpecialFeedbackDialogComponent {
     cTrack: Track;
     cFeedback: TrackFeedback;
 
-    constructor(
-        //TODO: Why doesn't his work?! Why?!
-        //public feedbackService: FeedbackService
-        ) {
+    constructor(public feedbackService: FeedbackService) {
     }
 
 
