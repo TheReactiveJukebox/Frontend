@@ -3,10 +3,6 @@ import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
 import {TranslateService} from '@ngx-translate/core';
 import {PlayerService} from '../../services/player.service';
-import {MdSnackBar} from '@angular/material';
-
-
-
 
 
 @Component({
@@ -32,8 +28,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
     constructor(public speechService: SpeechService,
                 public playerService : PlayerService,
-                private translateService: TranslateService,
-                private snackBar :MdSnackBar,
+                private translateService: TranslateService
     ) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
@@ -79,11 +74,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 this.detectedText = this.translateService.instant('SPEECH.ERROR.NOT_AVAILABLE');
             } else {
                 this.detectedText = this.translateService.instant('SPEECH.ERROR.GENERAL_ERROR');
-            }
-            if (this.minimal){
-                this.snackBar.open(this.translateService.instant('SPEECH.ERROR.GENERAL_ERROR'), 'OK', {
-                    duration: 1000,
-                });
             }
         });
     }
@@ -167,16 +157,17 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 this.playerService.skipForward(false);
                 break;
             }
+
             case 5:{
                 let current:number = this.playerService.volume;
-                current += 0.2;
+                current = current + 0.2;
                 if(current > 1) current = 1;
                 this.playerService.setVolume(current);
                 break;
             }
             case 6:{
                 let current:number = this.playerService.volume;
-                current -= 0.2;
+                current = current - 0.2;
                 if(current < 0) current = 0;
                 this.playerService.setVolume(current);
                 break;
@@ -186,11 +177,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 break;
             }
             default:{
-                if(this.minimal){
-                    this.snackBar.open('You said ' + speech, 'OK', {
-                        duration: 2000,
-                    });
-                }
             }
         }
         this.searchCall.emit(speech);

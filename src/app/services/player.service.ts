@@ -14,6 +14,7 @@ export class PlayerService implements OnDestroy {
     public currentTrack: Track;
     public audioPlayer: any = new Audio();
     private _volume: number = 0.5;
+    public currentvol: number = 0.5;
     public progress: number = 0;
     public isPlaying: boolean = false;
     private subscriptions: Subscription[];
@@ -23,7 +24,7 @@ export class PlayerService implements OnDestroy {
                 private authHttp: AuthHttp) {
         //set the default player settings
         this.audioPlayer.type = 'audio/mpeg';
-        this.audioPlayer._volume = this._volume;
+        this.audioPlayer.volume = this._volume;
         this.audioPlayer.ontimeupdate = () => {
             this.progressUpdate()
         };
@@ -136,7 +137,7 @@ export class PlayerService implements OnDestroy {
 
 //turns off the volume and remembers the last volume value (if the audio was already muted volume is set to 0.5)
     public volumeOff(): void {
-        this._volume = this.audioPlayer._volume;
+        this._volume = this.audioPlayer.volume;
         if (this._volume == 0) {
             this._volume = 0.5;
         }
@@ -146,12 +147,14 @@ export class PlayerService implements OnDestroy {
 
 //set the volume if valid
     public setVolume(v: number): void {
+        console.log('Set volume to: ' +v);
         if (v < 0 || v > 1
         ) {
             throw new Error('Invalid volume format');
         }
         else {
-            this.audioPlayer._volume = v;
+            this.audioPlayer.volume = v;
+            this.currentvol = v;
         }
     }
 
@@ -174,6 +177,6 @@ export class PlayerService implements OnDestroy {
     }
 
     get volume(): number {
-        return this._volume;
+        return this.audioPlayer.volume;
     }
 }
