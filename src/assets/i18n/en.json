@@ -45,6 +45,7 @@
         "BY_SONG": "By Song",
         "TITLE": "Start playback with the following song",
         "PROP_SELECT": "Select the properties of your Radiostation!"
+        "GENRE": "Which genre you want to listen to?"
     },
     "SPEECH": {
         "COMMAND_INPUT": "Search or type command...",

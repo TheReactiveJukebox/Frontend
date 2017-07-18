@@ -16,24 +16,11 @@
     padding: 15px;
     text-align: center;
     vertical-align: middle;
+    background-color: darkred;
 }
 
-#random {
-    background: pink;
-}
-
-#song {
-    background: deeppink;
-}
-
-#genre {
-    background: hotpink;
-}
-
-#mood {
-    background: indianred;
-}
-
-#decade {
-    background: orangered;
+#add-icon {
+    font-size: 48px;
+    margin-top: -24px;
+    margin-left: -24px;
 }

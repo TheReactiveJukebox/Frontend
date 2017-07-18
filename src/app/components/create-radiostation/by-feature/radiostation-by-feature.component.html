@@ -4,34 +4,25 @@
         {{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}
     </md-card-title>
     <md-card-content>
-        <div id="random" class="tile">
-            <input type="checkbox">
-            Create a random Radio?
-        </div>
+        <button md-raised-button class="mat-accent tile" (click)="addConstraint()"><md-icon id="add-icon">add_circle</md-icon></button>
 
-        <div id="song" class="tile">Song ID <input type="text" name="firstname"></div>
 
-        <div id="genre" class="tile">Genre
-            <select>
-                <option>Rock</option>
-                <option>Pop</option>
-                <option>Elektro</option>
-                <option>Klassik</option>
-            </select>
-        </div>
 
-        <div id="mood" class="tile">What is your Mood?
-            <select>
-                <option>Angry</option>
-                <option>Relax</option>
-                <option>Happy</option>
-                <option>Sad</option>
-            </select>
-        </div>
+            <md-card class="tile" *ngFor="let tile of tiles">
+                {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
+                <br>
+                <select *ngIf="tile.type == 'genre'" value="tile.value">
+                    <option *ngFor="let option of genres" value="option.name">{{option.name}}</option>
+                </select>
+                <select *ngIf="tile.type == 'mood'" value="tile.value">
+                    <option *ngFor="let option of moods" value="option.name">{{option.name}}</option>
+                </select>
+                <input type="number" *ngIf="tile.type == 'year-start'" min="1900" max="2099" step="1" value="tile.value" />
+                <input type="number" *ngIf="tile.type == 'year-end'" min="1900" max="2099" step="1" value="tile.value" />
+            </md-card>
 
-        <div id="decade" class="tile">Want to listen to songs of a specific decade?
-            <input type="text"> - <input type="text">
-        </div>
+
+
 
     </md-card-content>
     <md-card-footer>
@@ -42,6 +33,14 @@
             <button md-raised-button (click)="reset()">{{'RADIOSTATION_CREATE.RESET' |
                 translate}}
             </button>
+            <md-autocomplete >
+                <md-option  value="bomm">
+                    boom
+                </md-option>
+                <md-option  value="bounty">
+                    bounty
+                </md-option>
+            </md-autocomplete>
         </md-card-actions>
     </md-card-footer>
 </md-card>
