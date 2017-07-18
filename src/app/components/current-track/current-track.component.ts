@@ -46,7 +46,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_like(event) {
+    btn_like() {
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -54,7 +54,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
-    btn_dislike(event) {
+    btn_dislike() {
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -62,7 +62,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
-    btn_history_toggle(event) {
+    btn_history_toggle() {
         if (this.historyService.historyVisible) {
             this.historyService.historyVisible = false;
             this.historyButtonClass = 'history-button-toggle-off';
@@ -73,7 +73,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     //opens a dialog to speciy the feedback
-    dialog_special_feedback(event) {
+    dialog_special_feedback() {
         this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
         this.dialogRef.componentInstance.cTrack = this.currentTrack;
         this.dialogRef.afterClosed().subscribe(result => {
