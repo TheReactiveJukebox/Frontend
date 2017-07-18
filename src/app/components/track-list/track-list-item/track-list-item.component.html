@@ -19,5 +19,5 @@
             md-fab class="feedback-button-wrapper dislike"
             (click)="btn_dislike()">
     </button>
-    <p class="tl-icon-col"><i class="material-icons">delete</i></p>
+    <p class="tl-icon-col"><i class="material-icons" (click)="onDelete.emit($event)">delete</i></p>
 </md-list-item>

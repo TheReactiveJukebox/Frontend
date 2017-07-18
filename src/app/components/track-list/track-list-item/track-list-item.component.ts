@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Track} from '../../../models/track';
 
 @Component({
@@ -14,8 +14,12 @@ export class TrackListItemComponent {
     @Input()
     showFeedback: boolean = true;
 
-    constructor() {
 
+    @Output()
+    onDelete: EventEmitter<any>;
+
+    constructor() {
+        this.onDelete = new EventEmitter<any>();
     }
 
     btn_like() {
