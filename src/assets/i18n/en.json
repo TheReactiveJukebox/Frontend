@@ -27,6 +27,10 @@
         "DURATION": "Duration",
         "TENDISC": "Give Tendency Feedback"
     },
+    "HISTORY_LIST": {
+        "TITLE": "History",
+        "EMPTY": "No titles played in this radio."
+    },
     "CURRENT_TRACK": {
         "SPECIALFEEDBACK": "explain your feedback",
         "NO_TRACK": "Please create a radiostation to listen to!"

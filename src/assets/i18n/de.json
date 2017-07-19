@@ -27,6 +27,10 @@
         "DURATION": "Dauer",
         "TENDISC": "Feedback zur Tendenz angeben"
     },
+    "HISTORY_LIST": {
+        "TITLE": "Wiedergabeverlauf",
+        "EMPTY": "Es wurden noch keine Titel der aktuellen Radiostation wiedergegeben."
+    },
     "CURRENT_TRACK": {
         "SPECIALFEEDBACK": "Grund angeben",
         "NO_TRACK": "Bitte erstelle eine Radiostation um musik zu hören"

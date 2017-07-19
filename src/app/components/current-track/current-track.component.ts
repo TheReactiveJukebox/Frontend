@@ -4,6 +4,7 @@ import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
+import {HistoryService} from '../../services/history.service';
 
 @Component({
     selector: 'current-track',
@@ -16,8 +17,11 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     btnVisible: boolean = false;
     dialogRef: MdDialogRef<any>;
     private subscriptions: Subscription[];
+    historyButtonClass: string = 'reducedHistory-button-toggle-off';
 
-    constructor(public trackService: TrackService, public dialog: MdDialog) {
+    constructor(public trackService: TrackService, 
+                public dialog: MdDialog,
+                public historyService: HistoryService) {
         this.subscriptions = [];
     }
 
@@ -42,7 +46,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_like(event) {
+    btn_like() {
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -50,16 +54,26 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
-    btn_dislike(event) {
+    btn_dislike() {
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
             this.btnVisible = false;
         }.bind(this), 3000);
+    }
+
+    btn_history_toggle() {
+        if (this.historyService.historyVisible) {
+            this.historyService.historyVisible = false;
+            this.historyButtonClass = 'history-button-toggle-off';
+        } else {
+            this.historyService.historyVisible = true;
+            this.historyButtonClass = 'history-button-toggle-on';
+        }
     }
 
     //opens a dialog to speciy the feedback
-    dialog_special_feedback(event) {
+    dialog_special_feedback() {
         this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
         this.dialogRef.componentInstance.cTrack = this.currentTrack;
         this.dialogRef.afterClosed().subscribe(result => {
@@ -68,8 +82,3 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
 }
-
-
-
-
-
