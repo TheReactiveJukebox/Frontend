@@ -43,7 +43,6 @@ export class RadiostationBySongComponent {
     }
 
     public addStartTrack(track: Track): void {
-        console.log('Add start track', event);
         this.track = track;
         this.creationParameters.startTracks = [track.id];
     }
