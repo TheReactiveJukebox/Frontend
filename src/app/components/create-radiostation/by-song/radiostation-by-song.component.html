@@ -5,16 +5,9 @@
         <simple-search id="search-field" (selectedTrack)="addStartTrack($event)"></simple-search>
 
         <md-divider></md-divider>
-        <div *ngIf="track" style="display: flex; justify-content: space-around">
-            <p call="tl-cover-col">
-                <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
-            </p>
-            <p class="tl-id-col"></p>
-            <p class="tl-title-col">{{track.title}}</p>
-            <p class="tl-artist-col">{{track.artist.name}}</p>
-            <p class="tl-album-col">{{track.album.title}}</p>
-            <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
-        </div>
+        <md-nav-list>
+            <track-list-item [track]="track" [showFeedback]="false"></track-list-item>
+        </md-nav-list>
         <md-divider></md-divider>
     </md-card-content>
 
