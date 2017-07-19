@@ -40,6 +40,9 @@ export class TrackService {
     fetchNewSongs(count: number): Observable<Track[]> {
         return Observable.create(observer => {
             let url = this.trackListUrl + '?count=' + count;
+            if (this.currentTrack.getValue()) {
+                url += '&upcoming'+this.currentTrack.getValue().id;
+            }
             for (let track of this.nextTracks.getValue()) {
                 url += '&upcoming='+track.id;
             }
