@@ -1,57 +1,68 @@
 {
-    "GENERAL": {
-        "INVITE_KEY": "Einladungsschlüssel",
-        "PASSWORD": "Passwort",
-        "USERNAME": "Benutzername"
-    },
-    "LOGIN_PAGE": {
-        "LOGIN": "Login",
-        "REGISTER": "Registrieren",
-        "ERROR": {
-            "WRONG_KEY": "Registrierung fehlgeschlagen. Dein Einladungsschlüssel ist falsch!",
-            "USERNAME_IN_USE": "Registrierung fehlgeschlagen. Der Benutzername wird schon verwendet! Nimm einen anderen!",
-            "GENERAL_REGISTER": "Registrierung fehlgeschlagen. Versuche es erneut!",
-            "GENERAL_LOGIN": "Login fehlgeschlagen. Versuche es erneut!",
-            "WRONG_PW_OR_USER": "Login fehlgeschlagen! Benutzername oder Passwort ist falsch!"
-        }
-    },
-    "TRACK_LIST": {
-        "ID": "ID",
-        "TITLE": "Titel",
-        "ARTIST": "Interpret",
-        "ALBUM": "Album",
-        "DURATION": "Dauer",
-        "TENDISC": "Feedback zur Tendenz angeben"
-    },
-    "CURRENT_TRACK": {
-        "SPECIALFEEDBACK": "Grund angeben",
-        "NO_TRACK": "Bitte erstelle eine Radiostation um musik zu hören"
-    },
-    "FEEDBACK_DIALOG": {
-        "LIKE": "Mir gefällt",
-        "REASON": "weil:",
-        "CLOSE": "Abbrechen",
-        "CONFIRM": "Ok",
-        "CONFIRMAPPLY": "Ok und Übernehmen",
-        "TITLE": "Titel",
-        "ARTIST": "Interpret",
-        "ALBUM": "Album",
-        "DURATION": "Dauer"
-    },
-    "RADIOSTATION_CREATE": {
-        "RESET": "Zurücksetzen",
-        "START": "Start",
-        "BY_FEATURE": "Nach Merkmalen",
-        "BY_SONG": "Nach Startsong",
-        "TITLE": "Beginne die Wiedergabe mit folgendem Song",
-        "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!"
-    },
-    "SPEECH": {
-        "COMMAND_INPUT": "Suchen oder Befehl eingeben...",
-        "ERROR": {
-            "GENERAL_ERROR": "Entschuldigung, irgendetwas ist schief gelaufen!",
-            "INDISTINGUISHABLE_SPEECH": "Entschuldigung, ich habe dich nicht verstanden!",
-            "NOT_AVAILABLE":"Entschuldigung, die Sprachsteuerung ist nicht verfügbar!"
-        }
+  "GENERAL": {
+    "INVITE_KEY": "Einladungsschlüssel",
+    "PASSWORD": "Passwort",
+    "USERNAME": "Benutzername"
+  },
+  "LOGIN_PAGE": {
+    "LOGIN": "Login",
+    "REGISTER": "Registrieren",
+    "ERROR": {
+      "WRONG_KEY": "Registrierung fehlgeschlagen. Dein Einladungsschlüssel ist falsch!",
+      "USERNAME_IN_USE": "Registrierung fehlgeschlagen. Der Benutzername wird schon verwendet! Nimm einen anderen!",
+      "GENERAL_REGISTER": "Registrierung fehlgeschlagen. Versuche es erneut!",
+      "GENERAL_LOGIN": "Login fehlgeschlagen. Versuche es erneut!",
+      "WRONG_PW_OR_USER": "Login fehlgeschlagen! Benutzername oder Passwort ist falsch!"
     }
+  },
+  "TRACK_LIST": {
+    "ID": "ID",
+    "TITLE": "Titel",
+    "ARTIST": "Interpret",
+    "ALBUM": "Album",
+    "DURATION": "Dauer",
+    "TENDISC": "Feedback zur Tendenz angeben"
+  },
+  "CURRENT_TRACK": {
+    "SPECIALFEEDBACK": "Grund angeben",
+    "NO_TRACK": "Bitte erstelle eine Radiostation um musik zu hören"
+  },
+  "FEEDBACK_DIALOG": {
+    "LIKE": "Mir gefällt",
+    "REASON": "weil:",
+    "CLOSE": "Abbrechen",
+    "CONFIRM": "Ok",
+    "CONFIRMAPPLY": "Ok und Übernehmen",
+    "TITLE": "Titel",
+    "ARTIST": "Interpret",
+    "ALBUM": "Album",
+    "DURATION": "Dauer"
+  },
+  "RADIOSTATION_CREATE": {
+    "RESET": "Zurücksetzen",
+    "START": "Start",
+    "BY_FEATURE": "Nach Merkmalen",
+    "BY_SONG": "Nach Startsong",
+    "TITLE": "Beginne die Wiedergabe mit folgendem Song",
+    "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!"
+    "GENRE": "Welches Genre willst du hören?",
+    "MOOD": "In welcher Stimmung bist du?",
+    "YEAR-START": "Wie alt sollen die Lieder höchtens sein?",
+    "YEAR-END": "Wie neu dürfen die Lieder sein?"
+  },
+  "ADD_CONSTRAINT": {
+    "TITLE": "Welche Eigenschaften willst du bestimmen?",
+    "GENRE": "Genre",
+    "MOOD": "Stimmung",
+    "YEAR-START": "Start-Jahr",
+    "YEAR-END": "End-Jahr"
+  },
+  "SPEECH": {
+    "COMMAND_INPUT": "Suchen oder Befehl eingeben...",
+    "ERROR": {
+      "GENERAL_ERROR": "Entschuldigung, irgendetwas ist schief gelaufen!",
+      "INDISTINGUISHABLE_SPEECH": "Entschuldigung, ich habe dich nicht verstanden!",
+      "NOT_AVAILABLE": "Entschuldigung, die Sprachsteuerung ist nicht verfügbar!"
+    }
+  }
 }

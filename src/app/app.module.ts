@@ -3,7 +3,6 @@ import {FormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -17,17 +16,21 @@ import 'hammerjs';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdButtonModule, MdCheckboxModule, MdListModule} from '@angular/material';
+import {
+    MdButtonModule,
+    MdCardModule,
+    MdCheckboxModule,
+    MdDialogModule,
+    MdIconModule,
+    MdInputModule,
+    MdListModule,
+    MdTabsModule
+} from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
 import {RadiostationService} from './services/radiostation.service';
-import {RadiostationBySongComponent}   from './components/create-radiostation/by-song/radiostation-by-song.component';
+import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {PlayerComponent} from './pages/player/player.component';
-import {MdInputModule} from '@angular/material';
-import {MdCardModule} from '@angular/material';
-import {MdTabsModule} from '@angular/material';
-import {MdDialogModule} from '@angular/material';
-import {MdIconModule} from '@angular/material';
 import {TrackListComponent} from './components/track-list/track-list.component';
 import {TrackService} from './services/track.service';
 import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
@@ -44,6 +47,7 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
 import {PlayerService} from './services/player.service';
 import {FeedbackService} from './services/feedback.service';
+import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -61,6 +65,7 @@ import {FeedbackService} from './services/feedback.service';
         PlayerControlBarComponent,
         SpecialFeedbackDialogComponent,
         TendencyFeedbackDialogComponent,
+        AddConstraintDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
         SimpleSearchComponent
@@ -87,7 +92,8 @@ import {FeedbackService} from './services/feedback.service';
     ],
     entryComponents: [
         SpecialFeedbackDialogComponent,
-        TendencyFeedbackDialogComponent
+        TendencyFeedbackDialogComponent,
+        AddConstraintDialogComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
