@@ -8,21 +8,21 @@
     <md-tab-group #tabs [dynamicHeight]="true">
         <md-tab>
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Konfiguration">build</md-icon>
+                <md-icon mdTooltip="Konfiguration" class="tab-icons">build</md-icon>
             </ng-template>
             <radiostation-by-feature class="my-content" (onStart)="switchToPlayer()"></radiostation-by-feature>
         </md-tab>
 
         <md-tab>
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Song">audiotrack</md-icon>
+                <md-icon mdTooltip="Song" class="tab-icons">audiotrack</md-icon>
             </ng-template>
             <my-radiostation-by-song class="my-content" (onStart)="switchToPlayer()"></my-radiostation-by-song>
         </md-tab>
 
         <md-tab>
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Player">radio</md-icon>
+                <md-icon mdTooltip="Player" class="tab-icons">radio</md-icon>
             </ng-template>
             <md-card id="play-list-view" class="my-content">
                 <current-track></current-track>
