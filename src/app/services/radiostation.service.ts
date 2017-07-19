@@ -9,6 +9,7 @@ import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {Config} from '../config';
 import {Jukebox} from '../models/jukebox';
+import {HistoryService} from './history.service';
 
 
 @Injectable()
@@ -22,7 +23,8 @@ export class RadiostationService implements OnDestroy {
 
 
     constructor(private trackService: TrackService,
-                private authHttp: AuthHttp) {
+                private authHttp: AuthHttp,
+                private localHistory: HistoryService) {
         this.subscriptions = [];
         this.fetchRadiostation();
 
@@ -59,10 +61,14 @@ export class RadiostationService implements OnDestroy {
     //deletes the current radiostation - currently not in use
     public deleteRadiostation(): void {
         this.jukebox = null;
+        this.localHistory.clearLocalHistory();
     }
 
     //saves the song to the history by sending its id to the corresponding api endpoint
     public writeToHistory(track: Track): void {
+        if (this.localHistory.history.length > 0 && this.localHistory.history.slice(-1)[0].id == track.id)
+            return;
+        this.localHistory.writeToLocalHistory(track);
         let reqBody = {
             trackId: track.id,
             radioId: this.jukebox.id
@@ -71,6 +77,7 @@ export class RadiostationService implements OnDestroy {
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
             // TODO use this data for local history view
             console.log('HISTORY RETURN DATA: ', data);
+            track.historyId = data.id;
         }, (error: any) => {
             if (error.status == 400) {
                 console.log('The provided history entry is malformed');
