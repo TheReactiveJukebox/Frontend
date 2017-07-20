@@ -12,14 +12,16 @@
     <button *ngIf="showFeedback"
             class="t1-like-col"
             md-icon-button
-            md-fab class="feedback-button-wrapper like"
+            md-fab class="feedback-button-wrapper"
             (click)="btn_like()">
+        <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_up</md-icon>
     </button>
     <button *ngIf="showFeedback"
             class="t1-dislike-col"
             md-icon-button
-            md-fab class="feedback-button-wrapper dislike"
+            md-fab class="feedback-button-wrapper"
             (click)="btn_dislike()">
+        <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_down</md-icon>
     </button>
     <p class="tl-icon-col"><i class="material-icons" (click)="onDelete.emit($event); $event.stopPropagation()">delete</i></p>
 </md-list-item>
