@@ -5,6 +5,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {FeedbackService} from '../../services/feedback.service';
 import {DialogService} from '../../services/dialog.service';
+import {HistoryService} from '../../services/history.service';
+
 
 @Component({
     selector: 'current-track',
@@ -16,10 +18,14 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     currentTrack: Track;
     btnVisible: boolean = false;
     private subscriptions: Subscription[];
+    historyButtonClass: string = 'reducedHistory-button-toggle-off';
+
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
-                public dialogService: DialogService) {
+                public dialogService: DialogService,
+                public historyService: HistoryService) {
+
         this.subscriptions = [];
     }
 
@@ -48,6 +54,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         let feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
         feedback = this.feedbackService.likeSong(feedback);
         this.feedbackService.postTrackFeedback(feedback);
+
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -56,9 +63,12 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     btn_dislike() {
-        let feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
+
+        let
+            feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
         feedback = this.feedbackService.dislikeSong(feedback);
         this.feedbackService.postTrackFeedback(feedback);
+
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -66,14 +76,20 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
+
     //opens a dialog to special the feedback
     dialog_special_feedback() {
         this.dialogService.openTrackFeedbackDialog(this.currentTrack);
     }
 
+    btn_history_toggle() {
+        if (this.historyService.historyVisible) {
+            this.historyService.historyVisible = false;
+            this.historyButtonClass = 'history-button-toggle-off';
+        } else {
+            this.historyService.historyVisible = true;
+            this.historyButtonClass = 'history-button-toggle-on';
+        }
+    }
+
 }
-
-
-
-
-

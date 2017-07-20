@@ -3,6 +3,8 @@ import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {FeedbackService} from '../../services/feedback.service';
+import {RadiostationService} from '../../services/radiostation.service';
+import {PlayerService} from '../../services/player.service';
 
 @Component({
     selector: 'track-list',
@@ -14,7 +16,10 @@ export class TrackListComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[];
     nextTracks: Track[];
 
-    constructor(public trackService: TrackService, public feedbackService: FeedbackService) {
+    constructor(public trackService: TrackService,
+                public feedbackService: FeedbackService,
+                public radiostationService: RadiostationService,
+                public playerService: PlayerService) {
         this.subscriptions = [];
         this.nextTracks = [];
     }
@@ -30,7 +35,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
                 if (nextTracks != null) {
                     this.nextTracks = nextTracks;
                 }
-                if(this.nextTracks != null) {
+                if (this.nextTracks != null) {
                     console.log('NEXT TRACKS: ', this.nextTracks);
                 }
             })
@@ -48,5 +53,13 @@ export class TrackListComponent implements OnInit, OnDestroy {
 
     btn_Renew() {
 
+    }
+
+    jumpToTrack(track: Track): void{
+        //if more than 90% of the song are completed, the current Track will be written to the global History
+        if(this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9){
+            this.radiostationService.writeToHistory(this.playerService.currentTrack);
+        }
+        this.trackService.jumpToTrack(track)
     }
 }

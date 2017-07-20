@@ -107,9 +107,10 @@ export class AuthHttp {
 
     /**
      * Performs a authenticated request with `delete` http method.
+     * Can not be named `delete` because that is a reserved name.
      * @param url: The Url to the REST-Api
      */
-    delete(url: string): Observable<any> {
+    http_delete(url: string): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
             url: url,
             method: RequestMethod.Delete,
@@ -120,8 +121,7 @@ export class AuthHttp {
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
 
-        return this.request(req, reqOptions).
-        map((res: Response) => res.json());
+        return this.request(req, reqOptions);
     }
 
 }
