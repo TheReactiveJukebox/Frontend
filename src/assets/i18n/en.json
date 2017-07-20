@@ -47,7 +47,7 @@
         "DURATION": "Duration"
     },
     "RADIOSTATION_CREATE": {
-        "ALGORITHM": "Algorithmus",
+        "ALGORITHM": "Algorithm",
         "RESET": "Reset",
         "START": "Start",
         "BY_FEATURE": "By Features",
