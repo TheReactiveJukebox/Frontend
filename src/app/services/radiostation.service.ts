@@ -84,6 +84,7 @@ export class RadiostationService implements OnDestroy {
             } else if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
                 console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
+                track.historyId = JSON.parse(error._body).id;
             }
             console.log('Writing "' + track.title + '" to history failed!', error);
         });
