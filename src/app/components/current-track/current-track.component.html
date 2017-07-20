@@ -5,7 +5,9 @@
             <tr>
                 <td id="cover-img-table-wrapper">
                     <div id="cover-img-wrapper">
-                        <a> <img src="{{currentTrack.cover}}" alt="Cover" class="cover-img"></a>
+                        <a> <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
+                            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
+                        </a>
                     </div>
                 </td>
                 <td id="now-playing-details-table-wrapper">
