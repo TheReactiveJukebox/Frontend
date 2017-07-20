@@ -21,14 +21,14 @@
                                     <button
                                             md-icon-button
                                             md-fab class="feedback-button-wrapper"
-                                            id="like-button-wrapper"
                                             (click)="btn_like()">
+                                        <md-icon class="feedback-icons feedback-md-button-wrapper">thumb_up</md-icon>
                                     </button>
                                     <button
                                             md-icon-button
                                             md-fab class="feedback-button-wrapper"
-                                            id="dislike-button-wrapper"
                                             (click)="btn_dislike()">
+                                        <md-icon class="feedback-icons feedback-md-button-wrapper">thumb_down</md-icon>
                                     </button>
                                 </td>
                                 <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn" (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
