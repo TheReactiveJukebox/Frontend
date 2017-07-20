@@ -20,7 +20,6 @@ export class RadiostationBySongComponent {
     };
 
     track: Track;
-
     algorithms: string[];
 
     @Output()
@@ -29,14 +28,14 @@ export class RadiostationBySongComponent {
     constructor(public radiostationService: RadiostationService,
                 public playerService: PlayerService) {
         this.radiostationService.getAlgorithms().subscribe((algorithms: string[]) => {
-           this.algorithms = algorithms;
+            this.algorithms = algorithms;
         });
     }
 
     reset() {
     }
 
-    start() {
+    public start(): void {
         this.radiostationService.startNewRadiostation(this.creationParameters);
         this.playerService.play();
         this.onStart.emit();
