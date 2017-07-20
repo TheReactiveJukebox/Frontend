@@ -9,14 +9,14 @@
             <md-card class="tile" *ngFor="let tile of tiles">
                 {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
                 <br>
-                <select *ngIf="tile.type == 'genre'" value="tile.value">
-                    <option *ngFor="let option of genres" value="option.name">{{option.name}}</option>
+                <select *ngIf="tile.type == 'genre'" [(ngModel)]="tile.value">
+                    <option *ngFor="let option of genres" value="{{option}}">{{option}}</option>
                 </select>
-                <select *ngIf="tile.type == 'mood'" value="tile.value">
-                    <option *ngFor="let option of moods" value="option.name">{{option.name}}</option>
+                <select *ngIf="tile.type == 'mood'" [(ngModel)]="tile.value">
+                    <option *ngFor="let option of moods" value="{{option.name}}">{{option.name}}</option>
                 </select>
-                <input type="number" *ngIf="tile.type == 'year-start'" min="1900" max="2099" step="1" value="tile.value" />
-                <input type="number" *ngIf="tile.type == 'year-end'" min="1900" max="2099" step="1" value="tile.value" />
+                <input type="number" *ngIf="tile.type == 'year-start'" min="1900" max="2099" step="1" [(ngModel)]="tile.value" />
+                <input type="number" *ngIf="tile.type == 'year-end'" min="1900" max="2099" step="1" [(ngModel)]="tile.value" />
             </md-card>
 
     </md-card-content>
