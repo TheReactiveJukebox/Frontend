@@ -11,10 +11,6 @@ export class TrackListItemComponent {
     @Input()
     track: Track;
 
-    @Input()
-    showFeedback: boolean = true;
-
-
     @Output()
     onDelete: EventEmitter<any>;
 
