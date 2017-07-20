@@ -1,0 +1,23 @@
+<md-list-item>
+    <p class="tl-cover-col">
+        <a> <img src="{{track.cover}}" alt="Cover" class="cover-img"></a>
+    </p>
+    <p class="tl-id-col"></p>
+    <p class="tl-title-col">{{track.title}}</p>
+    <p class="tl-artist-col">{{track.artist.name}}</p>
+    <p class="tl-album-col">{{track.album.title}}</p>
+    <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
+    <button *ngIf="showFeedback"
+            class="t1-like-col"
+            md-icon-button
+            md-fab class="feedback-button-wrapper like"
+            (click)="btn_like()">
+    </button>
+    <button *ngIf="showFeedback"
+            class="t1-dislike-col"
+            md-icon-button
+            md-fab class="feedback-button-wrapper dislike"
+            (click)="btn_dislike()">
+    </button>
+    <p class="tl-icon-col"><i class="material-icons" (click)="onDelete.emit($event); $event.stopPropagation()">delete</i></p>
+</md-list-item>
