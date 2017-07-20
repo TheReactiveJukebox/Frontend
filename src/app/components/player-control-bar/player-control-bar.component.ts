@@ -4,7 +4,6 @@ import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {PlayerService} from '../../services/player.service';
 import {FeedbackService} from '../../services/feedback.service';
-import {DialogService} from '../../services/dialog.service';
 
 @Component({
     selector: 'player-control-bar',
@@ -23,8 +22,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
     constructor(public trackService: TrackService,
                 public playerService: PlayerService,
-                public feedbackService: FeedbackService,
-                public dialogService: DialogService) {
+                public feedbackService: FeedbackService) {
         this.subscriptions = [];
     }
 
@@ -85,11 +83,11 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     public getSpecialFeedback(): void {
-        this.dialogService.openTrackFeedbackDialog(this.currentTrack);
+        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }
 
     public getTendencyFeedback(): void {
-        this.dialogService.openTendencyFeedbackDialog();
+        this.feedbackService.openTendencyFeedbackDialog();
     }
 
 }

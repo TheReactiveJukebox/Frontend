@@ -9,16 +9,19 @@ import {TrackFeedback} from '../models/trackFeedback';
 import {RadiostationService} from './radiostation.service';
 import {AuthHttp} from './auth/auth-http';
 import {Track} from '../models/track';
+import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
+import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency_feedback-dialog.component';
 
 @Injectable()
 export class FeedbackService {
 
     private feedbackUrl = Config.serverUrl + '/api/track/feedback?id=';  // URL to web api
+    private dialogRef: MdDialogRef<any>;
 
     constructor(private radiostationService: RadiostationService,
+                public dialog: MdDialog,
                 private authHttp: AuthHttp) {
     }
-
 
     public createTrackFeedbackToTrack(track: Track): TrackFeedback {
         let feedback = new TrackFeedback();
@@ -160,7 +163,7 @@ export class FeedbackService {
         if (this.isTrackFeedbackValid(feedback)) {
             console.log('Sending feedback for TrackID: ' + feedback.trackId);
             this.authHttp.post(this.feedbackUrl + feedback.trackId, feedback).subscribe((data: any) => {
-                console.log('This is what has been stored in the DB:')
+                console.log('This is what has been stored in the DB:');
                 console.log(data);
             }, (error: Response) => {
                 if (error.status == 400) {
@@ -190,5 +193,27 @@ export class FeedbackService {
         let o = feedback.moodLiked;
         let p = feedback.moodDisliked;
         return (a && b && (c || d || e || f || g || h || i || j || k || l || m || n || o || p));
+    }
+
+    public openTrackFeedbackDialog(track: Track): void {
+        this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
+        this.dialogRef.componentInstance.cTrack = track;
+        this.dialogRef.componentInstance.cFeedback = this.createTrackFeedbackToTrack(track);
+        this.dialogRef.afterClosed().subscribe((result: string) => {
+            if (result == '1' || result == '2') {
+                this.postTrackFeedback(this.dialogRef.componentInstance.cFeedback);
+            }
+            this.dialogRef = null;
+
+        });
+    }
+
+    public openTendencyFeedbackDialog(): void {
+        this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
+        this.dialogRef.afterClosed().subscribe((result: string) => {
+            if (result == '1' || result == '2') {
+            }
+            this.dialogRef = null;
+        });
     }
 }

@@ -23,7 +23,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
-                public dialogService: DialogService,
                 public historyService: HistoryService) {
 
         this.subscriptions = [];
@@ -79,7 +78,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     //opens a dialog to special the feedback
     dialog_special_feedback() {
-        this.dialogService.openTrackFeedbackDialog(this.currentTrack);
+        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }
 
     btn_history_toggle() {

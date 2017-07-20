@@ -32,8 +32,8 @@ import {TrackListComponent} from './components/track-list/track-list.component';
 import {TrackService} from './services/track.service';
 import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
-import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback-dialog.component';
-import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency_feedback-dialog.component';
+import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback/special-feedback-dialog.component';
+import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency-feedback/tendency_feedback-dialog.component';
 import {CookieModule, CookieService} from 'ngx-cookie';
 import {AuthService} from './services/auth/auth.service';
 import {AuthHttp} from './services/auth/auth-http';
@@ -110,7 +110,6 @@ import {DialogService} from './services/dialog.service';
         SpeechService,
         FeedbackService,
         PlayerService,
-        DialogService,
         HistoryService
 
     ]
