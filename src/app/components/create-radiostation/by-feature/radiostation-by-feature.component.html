@@ -6,7 +6,8 @@
     <md-card-content>
         <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()"><md-icon id="add-icon">add_circle</md-icon></button>
 
-            <md-card class="tile" *ngFor="let tile of tiles">
+            <md-card #leckMich class="tile" *ngFor="let tile of tiles">
+                <button md-icon-button id="close-tile-button" (click)="remove(tile.id)"><md-icon>close</md-icon></button>
                 {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
                 <br>
                 <select *ngIf="tile.type == 'genre'" [(ngModel)]="tile.value">

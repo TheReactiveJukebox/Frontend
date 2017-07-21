@@ -20,15 +20,16 @@ export class RadiostationByFeatureComponent implements OnInit {
         id?: number,
         genres?: string[],
         mood?: string,
-        startyear?: number,
-        endyear?: number,
+        startYear?: number,
+        endYear?: number,
         random?: boolean
     } = {};
 
     tiles = [];
-    //genres = [];
-    genres = ['rock', 'pop', 'classic', 'electronic', 'metal', '80s', 'hip hop','2000s','jazz','blues','folk' ];
-    moods = [{name: 'crazy', id: 1}, {name: 'happy', id: 2}, {name: 'sad', id: 3}]
+    genres = [];
+    //mocked moods
+    moods = [{name: 'crazy', id: 1}, {name: 'happy', id: 2}, {name: 'sad', id: 3}];
+    tile_id: number = 1;
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
@@ -36,13 +37,12 @@ export class RadiostationByFeatureComponent implements OnInit {
     constructor(public radiostationService: RadiostationService,
                 private playerService: PlayerService,
                 public dialog: MdDialog, private authHttp: AuthHttp) {
-        //TODO: load genres
-       /* this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
+        //fetch the available genres from server
+        this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
             this.genres = genreList;
-            console.log('genres: ', genreList);
         }, error => {
             //this shit should not happen
-        });*/
+        })
         //TODO: load available moods
     }
 
@@ -50,15 +50,17 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     }
 
+    //resets the gui
     reset() {
         this.tiles = [];
     }
 
 
     start() {
+        //remove the creationparameters from the last call
         this.resetCreationParameters();
+        //set the corresponding parameter
         for (let tile of this.tiles) {
-            console.log('tiles: ', tile)
             if (tile.type == 'genre') {
                 if (this.creationParameters.genres == null) {
                     this.creationParameters.genres = [tile.value];
@@ -70,14 +72,15 @@ export class RadiostationByFeatureComponent implements OnInit {
                 this.creationParameters.mood = tile.value;
             }
             if (tile.type == 'year-end') {
-                this.creationParameters.endyear = +tile.value;
+                this.creationParameters.endYear = +tile.value;
             }
             if (tile.type == 'year-start') {
-                this.creationParameters.startyear = +tile.value;
+                this.creationParameters.startYear = +tile.value;
             }
         }
-        console.log('Radio Parameters: ', this.creationParameters);
+        //call server for radio
         this.radiostationService.startNewRadiostation(this.creationParameters);
+        //start playing
         this.playerService.play();
         this.onStart.emit();
     }
@@ -89,36 +92,49 @@ export class RadiostationByFeatureComponent implements OnInit {
         });
     }
 
+    //adds an element to the gui for the keywords
     addConstraint(result: string): void {
+        //there can be unlimetd genre elements
         if (result == 'genre') {
-            this.tiles.push({type: 'genre', value: this.genres[0]})
+            this.tiles.push({type: 'genre', value: this.genres[0], id: this.tile_id++})
         }
+        //check if the other elements already contained
         var contained = false;
         for (let entry of this.tiles) {
             if (entry.type == result) {
                 contained = true;
             }
         }
-        if (contained) {
-            //TODO show pop up
-        } else {
+        //create the element
+        if (!contained) {
             if (result == 'mood') {
-                this.tiles.push({type: 'mood', value: this.moods[0].name})
+                this.tiles.push({type: 'mood', value: this.moods[0].name, id: this.tile_id++})
             }
             if (result == 'year-end') {
-                this.tiles.push({type: 'year-end', value: 2000})
+                this.tiles.push({type: 'year-end', value: 2000, id: this.tile_id++})
             }
             if (result == 'year-start') {
-                this.tiles.push({type: 'year-start', value: 2000})
+                this.tiles.push({type: 'year-start', value: 2000, id: this.tile_id++})
             }
         }
-
     }
 
+    remove(key: number): void {
+        let tmpTiles = [];
+        for (let tile of this.tiles) {
+            if (tile.id != key) {
+                tmpTiles.push(tile);
+            }
+        }
+        this.tiles = tmpTiles;
+    }
+
+    //resets the creation parameters to avoid, that old parameters will be used
     resetCreationParameters(): void {
         this.creationParameters.genres = null;
         this.creationParameters.mood = null;
-        this.creationParameters.startyear = 0;
-        this.creationParameters.endyear = 2099;
+        this.creationParameters.startYear = 0;
+        this.creationParameters.endYear = 2099;
+        this.creationParameters.random = false;
     }
 }
