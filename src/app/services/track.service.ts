@@ -11,6 +11,8 @@ import {Artist} from '../models/artist';
 import {Album} from '../models/album';
 import {RadiostationService} from './radiostation.service';
 import {forEach} from '@angular/router/src/utils/collection';
+import {current} from 'codelyzer/util/syntaxKind';
+import {PlayerService} from './player.service';
 
 @Injectable()
 export class TrackService {
@@ -161,5 +163,44 @@ export class TrackService {
         }, error => {
             console.log(error);
         });
+    }
+
+    /**
+     * jumps to given track
+     * skips/remove all tracks between current and choosen track
+     * @param track to jump to
+     */
+    jumpToTrack(track: Track): void{
+        let currentTracks: Track[] = this.nextTracks.getValue();
+        let removedTracks: Track[] = new Array();
+        var removed = 0;
+        //fill removedTracks array
+        for (var i = 0; i<currentTracks.length; i++) {
+            if (currentTracks[i].id != track.id) {
+                removedTracks[removed] = currentTracks[i];
+                removed ++;
+            } else {
+                break;
+            }
+        }
+
+        //Get #removed + 1 new tracks, +1 because current track is skipped
+        if(removed >= 0){
+            this.fetchNewSongs(removed+1).subscribe((tracks: Track[]) => {
+                let newTracks: Track[] = this.nextTracks.getValue();
+                newTracks.splice(0,removed);
+                this.currentTrack.next(newTracks[0]);
+                newTracks = newTracks.slice(1);
+                tracks.forEach(function(track){
+                    newTracks.push(track)
+                });
+                this.nextTracks.next(newTracks);
+            }, error => {
+                console.log(error);
+            });
+        }
+
+
+
     }
 }

@@ -23,7 +23,8 @@ import {
     MdDialogModule,
     MdIconModule,
     MdInputModule,
-    MdListModule, MdSelect, MdSelectModule,
+    MdListModule,
+    MdSelectModule,
     MdTabsModule
 } from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
@@ -48,6 +49,9 @@ import {SimpleSearchComponent} from './components/simple-search/simple-search.co
 import {PlayerService} from './services/player.service';
 import {FeedbackService} from './services/feedback.service';
 import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
+import {HistoryService} from './services/history.service';
+import {HistoryListComponent} from './components/history-list/history-list.component';
+import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -68,7 +72,9 @@ import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/
         AddConstraintDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
-        SimpleSearchComponent
+        SimpleSearchComponent,
+        HistoryListComponent,
+        TrackListItemComponent
     ],
     /**
      * Import Angular's modules.
@@ -108,7 +114,8 @@ import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/
         RadiostationService,
         SpeechService,
         PlayerService,
-        FeedbackService
+        FeedbackService,
+        HistoryService
     ]
 })
 export class AppModule {
