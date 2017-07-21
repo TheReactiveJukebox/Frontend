@@ -14,8 +14,6 @@ import {AuthHttp} from '../../../services/auth/auth-http';
 })
 export class RadiostationByFeatureComponent implements OnInit {
 
-    private genreApiUrl = Config.serverUrl + '/api/genre/list';  // URL to web api
-
     creationParameters: {
         id?: number,
         genres?: string[],
@@ -25,14 +23,23 @@ export class RadiostationByFeatureComponent implements OnInit {
         random?: boolean
     } = {};
 
+    //keys should hold all identifing strings for the feature tiles
+    keys = {genre: 'genre', mood: 'mood', endYear: 'year-end', startYear: 'year-start'};
+
+    /* tiles should be filled with
+    {type: key of the feature to set,
+    value: default value and the field to store the selection,
+    id: automatic id to identify the tile e.g. for deletion} */
     tiles = [];
     genres = [];
     //mocked moods
-    moods = [{name: 'crazy', id: 1}, {name: 'happy', id: 2}, {name: 'sad', id: 3}];
-    tile_id: number = 1;
+    moods = ['crazy', 'happy', 'sad'];
+    tileId: number = 0;
+
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
+    private genreApiUrl = Config.serverUrl + '/api/genre/list';  // URL to web api
 
     constructor(public radiostationService: RadiostationService,
                 private playerService: PlayerService,
@@ -61,20 +68,20 @@ export class RadiostationByFeatureComponent implements OnInit {
         this.resetCreationParameters();
         //set the corresponding parameter
         for (let tile of this.tiles) {
-            if (tile.type == 'genre') {
+            if (tile.type == this.keys.genre) {
                 if (this.creationParameters.genres == null) {
                     this.creationParameters.genres = [tile.value];
                 } else {
                     this.creationParameters.genres.push(tile.value);
                 }
             }
-            if (tile.type == 'mood') {
+            if (tile.type == this.keys.mood) {
                 this.creationParameters.mood = tile.value;
             }
-            if (tile.type == 'year-end') {
+            if (tile.type == this.keys.endYear) {
                 this.creationParameters.endYear = +tile.value;
             }
-            if (tile.type == 'year-start') {
+            if (tile.type == this.keys.startYear) {
                 this.creationParameters.startYear = +tile.value;
             }
         }
@@ -85,6 +92,7 @@ export class RadiostationByFeatureComponent implements OnInit {
         this.onStart.emit();
     }
 
+    //opens a dialog to select the constraint to specify
     selectConstraint(): void {
         let dialogRef = this.dialog.open(AddConstraintDialogComponent);
         dialogRef.afterClosed().subscribe(result => {
@@ -94,9 +102,9 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     //adds an element to the gui for the keywords
     addConstraint(result: string): void {
-        //there can be unlimetd genre elements
-        if (result == 'genre') {
-            this.tiles.push({type: 'genre', value: this.genres[0], id: this.tile_id++})
+        //there can be an unlimetd number of genre elements
+        if (result == this.keys.genre) {
+            this.tiles.push({type: this.keys.genre, value: this.genres[0], id: this.tileId++})
         }
         //check if the other elements already contained
         var contained = false;
@@ -107,18 +115,19 @@ export class RadiostationByFeatureComponent implements OnInit {
         }
         //create the element
         if (!contained) {
-            if (result == 'mood') {
-                this.tiles.push({type: 'mood', value: this.moods[0].name, id: this.tile_id++})
+            if (result == this.keys.mood) {
+                this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++})
             }
-            if (result == 'year-end') {
-                this.tiles.push({type: 'year-end', value: 2000, id: this.tile_id++})
+            if (result == this.keys.endYear) {
+                this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++})
             }
-            if (result == 'year-start') {
-                this.tiles.push({type: 'year-start', value: 2000, id: this.tile_id++})
+            if (result == this.keys.startYear) {
+                this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++})
             }
         }
     }
 
+    //removes the tile with the specified key from the tiles array
     remove(key: number): void {
         let tmpTiles = [];
         for (let tile of this.tiles) {

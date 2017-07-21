@@ -4,21 +4,30 @@
         {{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}
     </md-card-title>
     <md-card-content>
-        <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()"><md-icon id="add-icon">add_circle</md-icon></button>
+        <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()">
+            <md-icon id="add-icon">add_circle</md-icon>
+        </button>
 
-            <md-card #leckMich class="tile" *ngFor="let tile of tiles">
-                <button md-icon-button id="close-tile-button" (click)="remove(tile.id)"><md-icon>close</md-icon></button>
-                {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
-                <br>
-                <select *ngIf="tile.type == 'genre'" [(ngModel)]="tile.value">
-                    <option *ngFor="let option of genres" value="{{option}}">{{option}}</option>
-                </select>
-                <select *ngIf="tile.type == 'mood'" [(ngModel)]="tile.value">
-                    <option *ngFor="let option of moods" value="{{option.name}}">{{option.name}}</option>
-                </select>
-                <input type="number" *ngIf="tile.type == 'year-start'" min="1900" max="2099" step="1" [(ngModel)]="tile.value" />
-                <input type="number" *ngIf="tile.type == 'year-end'" min="1900" max="2099" step="1" [(ngModel)]="tile.value" />
-            </md-card>
+        <!-- create the tiles used to select the feature -->
+        <md-card #leckMich class="tile" *ngFor="let tile of tiles">
+            <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
+                <md-icon>close</md-icon>
+            </button>
+            {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
+            <br>
+            <md-select *ngIf="tile.type == keys.genre" [(ngModel)]="tile.value">
+                <md-option *ngFor="let option of genres" [value]="option">
+                    {{option}}
+                </md-option>
+            </md-select>
+            <md-select *ngIf="tile.type == keys.mood" [(ngModel)]="tile.value">
+                <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
+            </md-select>
+            <input type="number" *ngIf="tile.type == keys.startYear" min="1900" max="2099" step="1"
+                   [(ngModel)]="tile.value"/>
+            <input type="number" *ngIf="tile.type == keys.endYear" min="1900" max="2099" step="1"
+                   [(ngModel)]="tile.value"/>
+        </md-card>
 
     </md-card-content>
     <md-card-footer>

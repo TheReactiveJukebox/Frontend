@@ -23,7 +23,7 @@ import {
     MdDialogModule,
     MdIconModule,
     MdInputModule,
-    MdListModule,
+    MdListModule, MdSelect, MdSelectModule,
     MdTabsModule
 } from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
@@ -80,7 +80,7 @@ import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
-        MdDialogModule, MdIconModule,
+        MdDialogModule, MdIconModule, MdSelectModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {
