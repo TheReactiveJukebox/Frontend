@@ -23,9 +23,9 @@
             <md-select *ngIf="tile.type == keys.mood" [(ngModel)]="tile.value">
                 <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
             </md-select>
-            <input type="number" *ngIf="tile.type == keys.startYear" min="1900" max="2099" step="1"
+            <input mdInput class="input-year" type="number" *ngIf="tile.type == keys.startYear" min="1900" max="2099" step="1"
                    [(ngModel)]="tile.value"/>
-            <input type="number" *ngIf="tile.type == keys.endYear" min="1900" max="2099" step="1"
+            <input mdInput class="input-year" type="number" *ngIf="tile.type == keys.endYear" min="1900" max="2099" step="1"
                    [(ngModel)]="tile.value"/>
         </md-card>
 

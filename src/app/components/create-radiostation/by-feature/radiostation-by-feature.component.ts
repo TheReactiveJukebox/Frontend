@@ -3,7 +3,7 @@ import {AppState} from '../../../services/app.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {PlayerService} from '../../../services/player.service';
 import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdSnackBar} from '@angular/material';
 import {Config} from '../../../config';
 import {AuthHttp} from '../../../services/auth/auth-http';
 
@@ -43,7 +43,8 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     constructor(public radiostationService: RadiostationService,
                 private playerService: PlayerService,
-                public dialog: MdDialog, private authHttp: AuthHttp) {
+                public dialog: MdDialog, private authHttp: AuthHttp,
+                public snackBar: MdSnackBar) {
         //fetch the available genres from server
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
             this.genres = genreList;
@@ -124,6 +125,10 @@ export class RadiostationByFeatureComponent implements OnInit {
             if (result == this.keys.startYear) {
                 this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++})
             }
+        } else {
+            this.snackBar.open('already contained', '',{
+                duration: 2000,
+            });
         }
     }
 
