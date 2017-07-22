@@ -15,8 +15,8 @@ export class RadiostationByFeatureComponent implements OnInit {
             id?: number,
             genres?: string[],
             mood?: string,
-            startyear?: number,
-            endyear?: number,
+            startYear?: number,
+            endYear?: number,
             algorithm?: string
         } = {};
 

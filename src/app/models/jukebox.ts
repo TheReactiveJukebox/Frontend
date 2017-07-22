@@ -4,6 +4,6 @@ export class Jukebox {
     mood: string;
     startTracks: number[];
     algorithm: string;
-    startyear: number;
-    endyear: number;
+    startYear: number;
+    endYear: number;
 }
