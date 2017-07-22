@@ -137,10 +137,6 @@ export class TrackService {
     }
 
 
-    public getCurrentTrack(): Track {
-        return this.currentTrack.getValue()
-    }
-
     /**
      * removes the given track from the tracklist
      * @param track to remove

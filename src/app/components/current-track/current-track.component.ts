@@ -50,9 +50,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     btn_like() {
-        let feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
-        feedback = this.feedbackService.likeSong(feedback);
-        this.feedbackService.postTrackFeedback(feedback);
+        this.feedbackService.postSimpleFeedback(this.currentTrack,true);
 
         this.btnVisible = true;
         //wait 3 seconds and hide
@@ -63,10 +61,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     btn_dislike() {
 
-        let
-            feedback = this.feedbackService.createTrackFeedbackToTrack(this.currentTrack);
-        feedback = this.feedbackService.dislikeSong(feedback);
-        this.feedbackService.postTrackFeedback(feedback);
+        this.feedbackService.postSimpleFeedback(this.currentTrack,false);
 
         this.btnVisible = true;
         //wait 3 seconds and hide
@@ -76,7 +71,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
 
-    //opens a dialog to special the feedback
+    //opens a dialog for special feedback
     dialog_special_feedback() {
         this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }

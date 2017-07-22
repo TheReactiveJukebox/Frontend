@@ -16,7 +16,6 @@ export class TrackListItemComponent {
     @Input()
     showFeedback: boolean = true;
 
-
     @Output()
     onDelete: EventEmitter<any>;
 
@@ -25,15 +24,11 @@ export class TrackListItemComponent {
     }
 
     btn_like() {
-        let tmpFeedback = this.feedbackService.createTrackFeedbackToTrack(this.track);
-        tmpFeedback.songLiked=true;
-        this.feedbackService.postTrackFeedback(tmpFeedback);
+        this.feedbackService.postSimpleFeedback(this.track,true);
     }
 
     btn_dislike() {
-        let tmpFeedback = this.feedbackService.createTrackFeedbackToTrack(this.track);
-        tmpFeedback.songDisliked=true;
-        this.feedbackService.postTrackFeedback(tmpFeedback);
+        this.feedbackService.postSimpleFeedback(this.track,false);
     }
 
 }

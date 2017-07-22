@@ -10,7 +10,7 @@ import {RadiostationService} from './radiostation.service';
 import {AuthHttp} from './auth/auth-http';
 import {Track} from '../models/track';
 import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
-import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency_feedback-dialog.component';
+import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
 
 @Injectable()
 export class FeedbackService {
@@ -161,18 +161,30 @@ export class FeedbackService {
 
     public postTrackFeedback(feedback: TrackFeedback): void {
         if (this.isTrackFeedbackValid(feedback)) {
-            console.log('Sending feedback for TrackID: ' + feedback.trackId);
             this.authHttp.post(this.feedbackUrl + feedback.trackId, feedback).subscribe((data: any) => {
-                console.log('This is what has been stored in the DB:');
-                console.log(data);
             }, (error: Response) => {
                 if (error.status == 400) {
                     console.log('The provided feedback entry is malformed');
                 }
-                console.log('Sending feedback failed: ', error);
+                console.warn('Sending feedback failed: ', error);
             });
 
         }
+    }
+
+    /**
+     * Posts a simple feedback containing radiostationID, songID, and a like or dislike for the given track to the backend
+     * @param track track to give feedback to
+     * @param like is the track liked? If false, the track will be disliked
+     */
+    public postSimpleFeedback(track: Track, like: boolean) {
+        let feedback = this.createTrackFeedbackToTrack(track);
+        if (like) {
+            feedback = this.likeSong(feedback);
+        } else {
+            feedback = this.dislikeSong(feedback);
+        }
+        this.postTrackFeedback(feedback);
     }
 
     private isTrackFeedbackValid(feedback: TrackFeedback): boolean {
@@ -212,6 +224,7 @@ export class FeedbackService {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
+                //TODO: Get tendency feeddback and post it to backend
             }
             this.dialogRef = null;
         });
