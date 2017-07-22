@@ -1,6 +1,11 @@
 @import '~@angular/material/theming';
 @import '../../../theme.scss';
 
+.tab-icons {
+  position: relative;
+  top: 6px;
+}
+
 #base-pane {
   padding: 0px !important;
   width: 100vw;
