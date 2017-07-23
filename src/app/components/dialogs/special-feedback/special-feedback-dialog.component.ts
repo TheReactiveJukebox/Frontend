@@ -30,142 +30,198 @@ export class SpecialFeedbackDialogComponent {
     }
 
     btnLikeArtist() {
-        this.cFeedback.artistLiked = true;
-        this.toggleButtonLikeArtistClass = 'feedback-like-artist-toggle-on';
-        this.toggleButtonDislikeArtistClass = 'feedback-dislike-artist-toggle-off';
-        if (this.cFeedback.artistDisliked) {
-            //We don't know if the user dislikes the artist
-            this.cFeedback.artistDisliked = null;
+        if(this.cFeedback.artistLiked){
+            this.cFeedback.artistLiked=false;
+            this.toggleButtonLikeArtistClass = 'feedback-like-artist-toggle-off';
+        } else {
+            this.cFeedback.artistLiked = true;
+            this.toggleButtonLikeArtistClass = 'feedback-like-artist-toggle-on';
+            if (this.cFeedback.artistDisliked) {
+                this.cFeedback.artistDisliked = false;
+                this.toggleButtonDislikeArtistClass = 'feedback-dislike-artist-toggle-off';
+            }
         }
     }
 
     btnDislikeArtist() {
-        this.cFeedback.artistDisliked = true;
-        this.toggleButtonDislikeArtistClass = 'feedback-dislike-artist-toggle-on';
-        this.toggleButtonLikeArtistClass = 'feedback-like-artist-toggle-off';
-        if (this.cFeedback.artistLiked) {
-            //We don't know if the user likes the artist
-            this.cFeedback.artistLiked = null;
+        if(this.cFeedback.artistDisliked){
+            this.cFeedback.artistDisliked=false;
+            this.toggleButtonDislikeArtistClass = 'feedback-dislike-artist-toggle-off';
+        } else {
+            this.cFeedback.artistDisliked = true;
+            this.toggleButtonDislikeArtistClass = 'feedback-dislike-artist-toggle-on';
+            if (this.cFeedback.artistLiked) {
+                this.cFeedback.artistLiked = false;
+                this.toggleButtonLikeArtistClass = 'feedback-dislike-artist-toggle-off';
+            }
         }
     }
 
     btnLikeGenre() {
-        this.cFeedback.genreLiked = true;
-        this.toggleButtonLikeGenreClass = 'feedback-like-genre-toggle-on';
-        this.toggleButtonDislikeGenreClass = 'feedback-dislike-genre-toggle-off';
-        if (this.cFeedback.genreDisliked) {
-            //We don't know if the user dislikes the genre
-            this.cFeedback.genreDisliked = null;
+        if(this.cFeedback.genreLiked){
+            this.cFeedback.genreLiked=false;
+            this.toggleButtonLikeGenreClass = 'feedback-like-genre-toggle-off';
+        } else {
+            this.cFeedback.genreLiked = true;
+            this.toggleButtonLikeGenreClass = 'feedback-like-genre-toggle-on';
+            if (this.cFeedback.genreDisliked) {
+                this.cFeedback.genreDisliked = false;
+                this.toggleButtonDislikeGenreClass = 'feedback-dislike-genre-toggle-off';
+            }
         }
     }
 
     btnDislikeGenre() {
-        this.cFeedback.genreDisliked = true;
-        this.toggleButtonDislikeGenreClass = 'feedback-dislike-genre-toggle-on';
-        this.toggleButtonLikeGenreClass = 'feedback-like-genre-toggle-off';
-        if (this.cFeedback.genreLiked) {
-            //We don't know if the user likes the genre
-            this.cFeedback.genreLiked = null;
+        if(this.cFeedback.genreDisliked){
+            this.cFeedback.genreDisliked=false;
+            this.toggleButtonDislikeGenreClass = 'feedback-dislike-genre-toggle-off';
+        } else {
+            this.cFeedback.genreDisliked = true;
+            this.toggleButtonDislikeGenreClass = 'feedback-dislike-genre-toggle-on';
+            if (this.cFeedback.genreLiked) {
+                this.cFeedback.genreLiked = false;
+                this.toggleButtonLikeGenreClass = 'feedback-dislike-genre-toggle-off';
+            }
         }
     }
 
     btnLikeTitle() {
-        this.cFeedback.songLiked = true;
-        this.toggleButtonLikeTitleClass = 'feedback-like-title-toggle-on';
-        this.toggleButtonDislikeTitleClass = 'feedback-dislike-title-toggle-off';
-        if (this.cFeedback.songDisliked) {
-            //We don't know if the user dislikes the song
-            this.cFeedback.songDisliked = null;
+        if(this.cFeedback.songLiked){
+            this.cFeedback.songLiked=false;
+            this.toggleButtonLikeTitleClass = 'feedback-like-title-toggle-off';
+        } else {
+            this.cFeedback.songLiked = true;
+            this.toggleButtonLikeTitleClass = 'feedback-like-title-toggle-on';
+            if (this.cFeedback.songDisliked) {
+                this.cFeedback.songDisliked = false;
+                this.toggleButtonDislikeTitleClass = 'feedback-dislike-title-toggle-off';
+            }
         }
     }
 
     btnDislikeTitle() {
-        this.cFeedback.songDisliked = true;
-        this.toggleButtonDislikeTitleClass = 'feedback-dislike-title-toggle-on';
-        this.toggleButtonLikeTitleClass = 'feedback-like-title-toggle-off';
-        if (this.cFeedback.songLiked) {
-            //We don't know if the user likes the song
-            this.cFeedback.songLiked = null;
+        if(this.cFeedback.songDisliked){
+            this.cFeedback.songDisliked=false;
+            this.toggleButtonDislikeTitleClass = 'feedback-dislike-title-toggle-off';
+        } else {
+            this.cFeedback.songDisliked = true;
+            this.toggleButtonDislikeTitleClass = 'feedback-dislike-title-toggle-on';
+            if (this.cFeedback.songLiked) {
+                this.cFeedback.songLiked = false;
+                this.toggleButtonLikeTitleClass = 'feedback-dislike-title-toggle-off';
+            }
         }
     }
 
     btnLikePeriod() {
-        this.cFeedback.periodLiked = true;
-        this.toggleButtonLikePeriodClass = 'feedback-like-period-toggle-on';
-        this.toggleButtonDislikePeriodClass = 'feedback-dislike-period-toggle-off';
-        if (this.cFeedback.periodDisliked) {
-            //We don't know if the user dislikes the period
-            this.cFeedback.periodDisliked = null;
+        if(this.cFeedback.periodLiked){
+            this.cFeedback.periodLiked=false;
+            this.toggleButtonLikePeriodClass = 'feedback-like-period-toggle-off';
+        } else {
+            this.cFeedback.periodLiked = true;
+            this.toggleButtonLikePeriodClass = 'feedback-like-period-toggle-on';
+            if (this.cFeedback.periodDisliked) {
+                this.cFeedback.periodDisliked = false;
+                this.toggleButtonDislikePeriodClass = 'feedback-dislike-period-toggle-off';
+            }
         }
     }
 
     btnDislikePeriod() {
-        this.cFeedback.periodDisliked = true;
-        this.toggleButtonDislikePeriodClass = 'feedback-dislike-period-toggle-on';
-        this.toggleButtonLikePeriodClass = 'feedback-like-period-toggle-off';
-        if (this.cFeedback.periodLiked) {
-            //We don't know if the user likes the period
-            this.cFeedback.periodLiked = null;
+        if(this.cFeedback.periodDisliked){
+            this.cFeedback.periodDisliked=false;
+            this.toggleButtonDislikePeriodClass = 'feedback-dislike-period-toggle-off';
+        } else {
+            this.cFeedback.periodDisliked = true;
+            this.toggleButtonDislikePeriodClass = 'feedback-dislike-period-toggle-on';
+            if (this.cFeedback.periodLiked) {
+                this.cFeedback.periodLiked = false;
+                this.toggleButtonLikePeriodClass = 'feedback-dislike-period-toggle-off';
+            }
         }
     }
 
     btnLikeMood() {
-        this.cFeedback.moodLiked = true;
-        this.toggleButtonLikeMoodClass = 'feedback-like-mood-toggle-on';
-        this.toggleButtonDislikeMoodClass = 'feedback-dislike-mood-toggle-off';
-        if (this.cFeedback.moodDisliked) {
-            //We don't know if the user dislikes the mood
-            this.cFeedback.moodDisliked = null;
+        if(this.cFeedback.moodLiked){
+            this.cFeedback.moodLiked=false;
+            this.toggleButtonLikeMoodClass = 'feedback-like-mood-toggle-off';
+        } else {
+            this.cFeedback.moodLiked = true;
+            this.toggleButtonLikeMoodClass = 'feedback-like-mood-toggle-on';
+            if (this.cFeedback.moodDisliked) {
+                this.cFeedback.moodDisliked = false;
+                this.toggleButtonDislikeMoodClass = 'feedback-dislike-mood-toggle-off';
+            }
         }
     }
 
     btnDislikeMood() {
-        this.cFeedback.moodDisliked = true;
-        this.toggleButtonDislikeMoodClass = 'feedback-dislike-mood-toggle-on';
-        this.toggleButtonLikeMoodClass = 'feedback-like-mood-toggle-off';
-        if (this.cFeedback.moodLiked) {
-            //We don't know if the user likes the mood
-            this.cFeedback.moodLiked = null;
+        if(this.cFeedback.moodDisliked){
+            this.cFeedback.moodDisliked=false;
+            this.toggleButtonDislikeMoodClass = 'feedback-dislike-mood-toggle-off';
+        } else {
+            this.cFeedback.moodDisliked = true;
+            this.toggleButtonDislikeMoodClass = 'feedback-dislike-mood-toggle-on';
+            if (this.cFeedback.moodLiked) {
+                this.cFeedback.moodLiked = false;
+                this.toggleButtonLikeMoodClass = 'feedback-dislike-mood-toggle-off';
+            }
         }
     }
 
     btnLikeDynamics() {
-        this.cFeedback.dynamicsLiked = true;
-        this.toggleButtonLikeDynamicsClass = 'feedback-like-dynamics-toggle-on';
-        this.toggleButtonDislikeDynamicsClass = 'feedback-dislike-dynamics-toggle-off';
-        if (this.cFeedback.dynamicsDisliked) {
-            //We don't know if the user dislikes the dynamics
-            this.cFeedback.dynamicsDisliked = null;
+        if(this.cFeedback.dynamicsLiked){
+            this.cFeedback.dynamicsLiked=false;
+            this.toggleButtonLikeDynamicsClass = 'feedback-like-dynamics-toggle-off';
+        } else {
+            this.cFeedback.dynamicsLiked = true;
+            this.toggleButtonLikeDynamicsClass = 'feedback-like-dynamics-toggle-on';
+            if (this.cFeedback.dynamicsDisliked) {
+                this.cFeedback.dynamicsDisliked = false;
+                this.toggleButtonDislikeDynamicsClass = 'feedback-dislike-dynamics-toggle-off';
+            }
         }
     }
 
     btnDislikeDynamics() {
-        this.cFeedback.dynamicsDisliked = true;
-        this.toggleButtonDislikeDynamicsClass = 'feedback-dislike-dynamics-toggle-on';
-        this.toggleButtonLikeDynamicsClass = 'feedback-like-dynamics-toggle-off';
-        if (this.cFeedback.dynamicsLiked) {
-            //We don't know if the user likes the dynamics
-            this.cFeedback.dynamicsLiked = null;
+        if(this.cFeedback.dynamicsDisliked){
+            this.cFeedback.dynamicsDisliked=false;
+            this.toggleButtonDislikeDynamicsClass = 'feedback-dislike-dynamics-toggle-off';
+        } else {
+            this.cFeedback.dynamicsDisliked = true;
+            this.toggleButtonDislikeDynamicsClass = 'feedback-dislike-dynamics-toggle-on';
+            if (this.cFeedback.dynamicsLiked) {
+                this.cFeedback.dynamicsLiked = false;
+                this.toggleButtonLikeDynamicsClass = 'feedback-dislike-dynamics-toggle-off';
+            }
         }
     }
 
     btnLikeSpeed() {
-        this.cFeedback.speedLiked = true;
-        this.toggleButtonLikeSpeedClass = 'feedback-like-speed-toggle-on';
-        this.toggleButtonDislikeSpeedClass = 'feedback-dislike-speed-toggle-off';
-        if (this.cFeedback.speedDisliked) {
-            //We don't know if the user dislikes the speed
-            this.cFeedback.speedDisliked = null;
+        if(this.cFeedback.speedLiked){
+            this.cFeedback.speedLiked=false;
+            this.toggleButtonLikeSpeedClass = 'feedback-like-speed-toggle-off';
+        } else {
+            this.cFeedback.speedLiked = true;
+            this.toggleButtonLikeSpeedClass = 'feedback-like-speed-toggle-on';
+            if (this.cFeedback.speedDisliked) {
+                this.cFeedback.speedDisliked = false;
+                this.toggleButtonDislikeSpeedClass = 'feedback-dislike-speed-toggle-off';
+            }
         }
     }
 
     btnDislikeSpeed() {
-        this.cFeedback.speedDisliked = true;
-        this.toggleButtonDislikeSpeedClass = 'feedback-dislike-speed-toggle-on';
-        this.toggleButtonLikeSpeedClass = 'feedback-like-speed-toggle-off';
-        if (this.cFeedback.speedLiked) {
-            //We don't know if the user likes the speed
-            this.cFeedback.speedLiked = null;
+        if(this.cFeedback.speedDisliked){
+            this.cFeedback.speedDisliked=false;
+            this.toggleButtonDislikeSpeedClass = 'feedback-dislike-speed-toggle-off';
+        } else {
+            this.cFeedback.speedDisliked = true;
+            this.toggleButtonDislikeSpeedClass = 'feedback-dislike-speed-toggle-on';
+            if (this.cFeedback.speedLiked) {
+                this.cFeedback.speedLiked = false;
+                this.toggleButtonLikeSpeedClass = 'feedback-dislike-speed-toggle-off';
+            }
         }
     }
 }
