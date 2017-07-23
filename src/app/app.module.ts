@@ -24,7 +24,7 @@ import {
     MdIconModule,
     MdInputModule,
     MdListModule,
-    MdSelectModule, MdSliderModule, MdSnackBarModule,
+    MdSelectModule, MdSnackBarModule,
     MdTabsModule
 } from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';

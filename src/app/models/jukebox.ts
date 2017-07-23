@@ -2,7 +2,8 @@ export class Jukebox {
     id: number;
     genres: string[];
     mood: string;
-    startyear: number;
-    endyear: number;
-    random: boolean;
+    startTracks: number[];
+    algorithm: string;
+    startYear: number;
+    endYear: number;
 }

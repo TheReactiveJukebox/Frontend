@@ -14,14 +14,15 @@ import {AuthHttp} from '../../../services/auth/auth-http';
 })
 export class RadiostationByFeatureComponent implements OnInit {
 
-    creationParameters: {
-        id?: number,
-        genres?: string[],
-        mood?: string,
-        startYear?: number,
-        endYear?: number,
-        random?: boolean
-    } = {};
+    creationParameters:
+        {
+            id?: number,
+            genres?: string[],
+            mood?: string,
+            startYear?: number,
+            endYear?: number,
+            algorithm?: string
+        } = {};
 
     //keys should hold all identifing strings for the feature tiles
     keys = {genre: 'genre', mood: 'mood', endYear: 'year-end', startYear: 'year-start'};
@@ -35,7 +36,6 @@ export class RadiostationByFeatureComponent implements OnInit {
     //mocked moods
     moods = ['crazy', 'happy', 'sad'];
     tileId: number = 0;
-
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
@@ -88,6 +88,7 @@ export class RadiostationByFeatureComponent implements OnInit {
             }
         }
         //call server for radio
+        this.creationParameters.algorithm='RANDOM';
         this.radiostationService.startNewRadiostation(this.creationParameters);
         //start playing
         this.playerService.play();
@@ -150,6 +151,5 @@ export class RadiostationByFeatureComponent implements OnInit {
         this.creationParameters.mood = null;
         this.creationParameters.startYear = 0;
         this.creationParameters.endYear = 2099;
-        this.creationParameters.random = false;
     }
 }

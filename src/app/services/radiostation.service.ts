@@ -2,13 +2,14 @@
  * This service takes care of actions related to radiostations.
  */
 import {Injectable, OnDestroy} from '@angular/core';
-import {Http, Response} from '@angular/http';
 import {Subscription} from 'rxjs/Subscription';
 import {TrackService} from './track.service';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {Config} from '../config';
 import {Jukebox} from '../models/jukebox';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
 import {HistoryService} from './history.service';
 
 
@@ -17,17 +18,19 @@ export class RadiostationService implements OnDestroy {
 
     private subscriptions: Subscription[];
     public jukebox: Jukebox;
+    private algorithms: BehaviorSubject<string[]>;
 
     private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
     private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
-
+    private algorithmsApiUrl = Config.serverUrl + '/api/jukebox/algorithms';
 
     constructor(private trackService: TrackService,
                 private authHttp: AuthHttp,
                 private localHistory: HistoryService) {
+        this.algorithms = new BehaviorSubject<string[]>([]);
         this.subscriptions = [];
         this.fetchRadiostation();
-
+        this.fetchAlgorithms();
     }
 
     ngOnDestroy(): void {
@@ -84,9 +87,10 @@ export class RadiostationService implements OnDestroy {
             } else if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
                 console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
-                track.historyId = JSON.parse(error._body).id;
+				track.historyId = JSON.parse(error._body).id;
+            } else {
+                console.log('Writing "' + track.title + '" to history failed!', error);
             }
-            console.log('Writing "' + track.title + '" to history failed!', error);
         });
 
     }
@@ -98,12 +102,29 @@ export class RadiostationService implements OnDestroy {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
                 this.jukebox = JSON.parse(error._body);
+            } else {
+                console.log('Error fetching radiostation: ', error);
             }
+        });
+    }
+
+    /*
+     * Fetches available algortihms from server
+     */
+    private fetchAlgorithms(): void {
+        this.authHttp.get(this.algorithmsApiUrl).subscribe((algorithms: string[]) => {
+            this.algorithms.next(algorithms);
+        }, error => {
+            console.log('Error fetching algorithms: ', error);
         });
     }
 
     public hasJukebox(): boolean {
         return this.jukebox != null;
+    }
+
+    public getAlgorithms(): Observable<string[]> {
+        return this.algorithms.asObservable();
     }
 
 }
