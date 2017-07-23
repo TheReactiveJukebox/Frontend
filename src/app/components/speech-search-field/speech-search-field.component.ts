@@ -110,6 +110,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
          */
         this.controlTerms.set('abspielen',1);
         this.controlTerms.set('wiedergeben',1);
+        this.controlTerms.set('wiedergabe',1);
         this.controlTerms.set('play',1);
         this.controlTerms.set('continue',1);
 
