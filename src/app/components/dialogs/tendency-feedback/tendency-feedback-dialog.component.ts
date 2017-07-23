@@ -11,37 +11,29 @@ export class TendencyFeedbackDialogComponent {
     constructor(public dialogRef: MdDialogRef<TendencyFeedbackDialogComponent>) {
     }
 
-    btnLessDynamic() {
+    btnLessDynamics() {
     }
 
-    btnMoreDynamic() {
+    btnMoreDynamics() {
     }
 
-    btnLessSpeed() {
+    btnSlower() {
     }
 
-    btnMoreSpeed() {
+    btnFaster() {
     }
 
-    //TODO: Rename methods (also in tendency-feedback-dialog.html)
-    btnLikeMood() {
+    btnMoreCheerful() {
     }
 
-    btnDislikeMood() {
+    btnSadder() {
     }
 
-    btnLikeGenre() {
+    btnOlder() {
     }
 
-    btnDislikeGenre() {
+    btnNewer() {
     }
-
-    btnLikePeriod() {
-    }
-
-    btnDislikePeriod() {
-    }
-
 
     confirmDialog() {
 
