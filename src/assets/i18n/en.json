@@ -58,13 +58,13 @@
     "BY_SONG": "By Song",
     "TITLE": "Start playback with the following song",
     "PROP_SELECT": "Select the properties of your Radiostation!",
-    "GENRE": "Which genre you want to listen to?",
+    "GENRE": "Which genre do you want to listen to?",
     "MOOD": "What is your current mood?",
     "YEAR-START": "What should be the earliest release time?",
     "YEAR-END": "What should be the latest release time?"
   },
   "ADD_CONSTRAINT": {
-    "TITLE": "Which Feature you want to specify?",
+    "TITLE": "Which feature do you want to specify?",
     "GENRE": "Genre",
     "MOOD": "Mood",
     "YEAR-START": "Start Year",

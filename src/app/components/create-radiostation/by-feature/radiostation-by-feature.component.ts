@@ -49,7 +49,8 @@ export class RadiostationByFeatureComponent implements OnInit {
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
             this.genres = genreList;
         }, error => {
-            //this shit should not happen
+            //should not happen since this was a static request
+            console.log('It seems that the API-Endpoint /genre/list is not working properly: ',error)
         })
         //TODO: load available moods
     }

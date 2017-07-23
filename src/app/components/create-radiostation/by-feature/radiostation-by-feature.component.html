@@ -9,7 +9,7 @@
         </button>
 
         <!-- create the tiles used to select the feature -->
-        <md-card #leckMich class="tile" *ngFor="let tile of tiles">
+        <md-card class="tile" *ngFor="let tile of tiles">
             <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
                 <md-icon>close</md-icon>
             </button>
@@ -23,10 +23,16 @@
             <md-select *ngIf="tile.type == keys.mood" [(ngModel)]="tile.value">
                 <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
             </md-select>
-            <input mdInput class="input-year" type="number" *ngIf="tile.type == keys.startYear" min="1900" max="2099" step="1"
-                   [(ngModel)]="tile.value"/>
-            <input mdInput class="input-year" type="number" *ngIf="tile.type == keys.endYear" min="1900" max="2099" step="1"
-                   [(ngModel)]="tile.value"/>
+            <md-card class="year-container" *ngIf="tile.type == keys.startYear">
+                <input mdInput type="number" min="1000"
+                       max="3000" step="1"
+                       [(ngModel)]="tile.value"/>
+            </md-card>
+            <md-card class="year-container" *ngIf="tile.type == keys.endYear">
+                <input mdInput type="number" min="1000" max="3000"
+                       step="1"
+                       [(ngModel)]="tile.value"/>
+            </md-card>
         </md-card>
 
     </md-card-content>

@@ -12,7 +12,7 @@
 
 #add-button {
   margin-top: 25px;
-  height: 110px;
+  height: 120px;
   width: 200px;
   margin: 10px;
   display: block;
@@ -28,7 +28,7 @@
   margin: 10px;
   display: block;
   float: left;
-  padding: 15px;
+  padding: 20px;
   text-align: center;
   vertical-align: middle;
   background-color: mat-color($default-theme-accent);
@@ -42,10 +42,13 @@
 
 #close-tile-button {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -7px;
+  right: -7px;
 }
 
-.input-year {
+.year-container {
   width: 60px;
+  height: 19px;
+  padding: 3px;
+  margin-left: 70px;
 }
