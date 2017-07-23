@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output, Input, ElementRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, Input} from '@angular/core';
 import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
 import {TranslateService} from '@ngx-translate/core';
@@ -24,7 +24,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     private ngUnsubscribe: Subject<void>;
     public micColor;
     private colorRunner;
-    private beep;
+    //private beep;
 
     private controlTerms: Map<string,number>;
 
@@ -37,9 +37,9 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         this.ngUnsubscribe = new Subject<void>();
         this.micColor = {'color': `rgba(255,255,255,1)`};
         this.animateColor();
-        this.beep = new Audio();
-        this.beep.src = 'http://www.soundjay.com/button/beep-03.wav';
-        this.beep.load();
+        //this.beep = new Audio();
+        //this.beep.src = 'http://www.soundjay.com/button/beep-03.wav';
+        //this.beep.load();
     }
 
     ngOnInit(): void {
@@ -86,12 +86,9 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
             if(this.minimal){
                 this.colorRunner = 0;
-                this.beep.play();
+                //this.beep.play();
             }
         });
-    }
-    public test(event): void {
-      console.log(event.target.value);
     }
 
     //Author: David Spain
@@ -210,7 +207,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 this.micColor = {'color': `rgba(255,255,255,1)`};
                 requestAnimationFrame(worker);
             }
-        }
+        };
         worker();
     };
 
