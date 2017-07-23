@@ -1,4 +1,8 @@
 {
+    "ALGORITHMS": {
+        "RANDOM": "Zufällig",
+        "SAGH": "Größte Hits des gleichen Künstlers"
+    },
     "GENERAL": {
         "INVITE_KEY": "Einladungsschlüssel",
         "PASSWORD": "Passwort",
@@ -23,6 +27,10 @@
         "DURATION": "Dauer",
         "TENDISC": "Feedback zur Tendenz angeben"
     },
+    "HISTORY_LIST": {
+        "TITLE": "Wiedergabeverlauf",
+        "EMPTY": "Es wurden noch keine Titel der aktuellen Radiostation wiedergegeben."
+    },
     "CURRENT_TRACK": {
         "SPECIALFEEDBACK": "Grund angeben",
         "NO_TRACK": "Bitte erstelle eine Radiostation um musik zu hören"
@@ -39,6 +47,7 @@
         "DURATION": "Dauer"
     },
     "RADIOSTATION_CREATE": {
+        "ALGORITHM": "Algorithmus",
         "RESET": "Zurücksetzen",
         "START": "Start",
         "BY_FEATURE": "Nach Merkmalen",

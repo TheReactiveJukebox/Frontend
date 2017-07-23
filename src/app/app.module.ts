@@ -17,7 +17,7 @@ import 'hammerjs';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdButtonModule, MdCheckboxModule, MdListModule, MdSnackBarModule} from '@angular/material';
+import {MdButtonModule, MdCheckboxModule, MdListModule, MdSelectModule} from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
 import {RadiostationService} from './services/radiostation.service';
@@ -44,6 +44,9 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
 import {PlayerService} from './services/player.service';
 import {FeedbackService} from './services/feedback.service';
+import {HistoryService} from "./services/history.service";
+import {HistoryListComponent} from "./components/history-list/history-list.component";
+import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -63,7 +66,9 @@ import {FeedbackService} from './services/feedback.service';
         TendencyFeedbackDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
-        SimpleSearchComponent
+        SimpleSearchComponent,
+        HistoryListComponent,
+        TrackListItemComponent
     ],
     /**
      * Import Angular's modules.
@@ -75,7 +80,7 @@ import {FeedbackService} from './services/feedback.service';
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
-        MdDialogModule, MdIconModule, MdSnackBarModule,
+        MdDialogModule, MdIconModule, MdSelectModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {
@@ -102,7 +107,8 @@ import {FeedbackService} from './services/feedback.service';
         RadiostationService,
         SpeechService,
         PlayerService,
-        FeedbackService
+        FeedbackService,
+        HistoryService
     ]
 })
 export class AppModule {

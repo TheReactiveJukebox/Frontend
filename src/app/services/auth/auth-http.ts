@@ -26,7 +26,7 @@ export class AuthHttp {
     /**
      * This sends an authenticated xhr request to music-server and returns the track as urlObject.
      * @param url The url to the music file.
-     * @returns an urlObject, that contains the music file. this can be set as src o audio element.
+     * @returns an urlObject, that contains the music file. this can be set as src to audio element.
      */
     getTrack(url: string): Observable<any> {
         return Observable.create(observer => {
@@ -107,9 +107,10 @@ export class AuthHttp {
 
     /**
      * Performs a authenticated request with `delete` http method.
+     * Can not be named `delete` because that is a reserved name.
      * @param url: The Url to the REST-Api
      */
-    delete(url: string): Observable<any> {
+    http_delete(url: string): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
             url: url,
             method: RequestMethod.Delete,
@@ -120,8 +121,7 @@ export class AuthHttp {
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
 
-        return this.request(req, reqOptions).
-        map((res: Response) => res.json());
+        return this.request(req, reqOptions);
     }
 
 }
