@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output, Input} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, Input, ElementRef} from '@angular/core';
 import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
 import {TranslateService} from '@ngx-translate/core';
@@ -22,16 +22,24 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
+    public micColor;
+    private colorRunner;
+    private beep;
 
     private controlTerms: Map<string,number>;
 
 
     constructor(public speechService: SpeechService,
                 public playerService : PlayerService,
-                private translateService: TranslateService
+                private translateService: TranslateService,
     ) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
+        this.micColor = {'color': `rgba(255,255,255,1)`};
+        this.animateColor();
+        this.beep = new Audio();
+        this.beep.src = 'http://www.soundjay.com/button/beep-03.wav';
+        this.beep.load();
     }
 
     ngOnInit(): void {
@@ -74,6 +82,11 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 this.detectedText = this.translateService.instant('SPEECH.ERROR.NOT_AVAILABLE');
             } else {
                 this.detectedText = this.translateService.instant('SPEECH.ERROR.GENERAL_ERROR');
+            }
+
+            if(this.minimal){
+                this.colorRunner = 0;
+                this.beep.play();
             }
         });
     }
@@ -181,5 +194,23 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         }
         this.searchCall.emit(speech);
     }
+
+    public animateColor(){
+        console.log('Animate');
+        this.colorRunner = 255;
+        const worker = () => {
+            if(this.colorRunner < 255){
+                console.log('Color '+this.colorRunner);
+                this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`,};
+                this.colorRunner = this.colorRunner +5;
+                requestAnimationFrame(worker);
+            }
+            else{
+                this.micColor = {'color': `rgba(255,255,255,1)`};
+                requestAnimationFrame(worker);
+            }
+        }
+        worker();
+    };
 
 }

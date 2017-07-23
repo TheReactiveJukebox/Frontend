@@ -9,7 +9,7 @@
     </button>
 </div>
 <div *ngIf="this.minimal">
-    <button class="mic-button-small" md-icon-button (click)="toggleListening()">
+    <button class="mic-button-small" md-icon-button (click)="toggleListening()" [ngStyle]="micColor">
         <i *ngIf="listening" class="material-icons md-36">mic</i>
         <i *ngIf="!listening" class="material-icons md-36">mic_none</i>
     </button>
