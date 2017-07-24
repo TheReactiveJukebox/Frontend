@@ -3,14 +3,13 @@
   vertical-align: middle;
 }
 
-.search-field {
-  margin: 10px;
+.component-pane {
   width: auto;
   height: 100%;
 }
 
-.component-pane {
-  width: auto;
-  height: 100%;
-  background-color: green;
+.bottom-bar {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }

@@ -57,6 +57,7 @@ export class SimpleSearchComponent {
     constructor(private searchService: SearchService,
                 private trackService: TrackService,
                 private authHttp: AuthHttp) {
+        this.searchTerm = '';
         this.searchService.trackSearch(this.searchTrack$)
             .subscribe(results => {
                 if (Object.keys(results).length > 0) {
@@ -120,5 +121,9 @@ export class SimpleSearchComponent {
         }
         console.log(JSON.stringify(value));
         this.selectedItem.emit(value);
+    }
+
+    public hasResults(): boolean {
+        return (this.trackResultCount + this.albumResultCount + this.artistResultCount) > 0;
     }
 }

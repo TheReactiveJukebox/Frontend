@@ -1,5 +1,8 @@
 #search-pane {
-  height: 400px;
+  margin: 10px;
+  width: auto;
+  height: auto;
+  max-height: inherit;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-box-shadow: none;
