@@ -36,8 +36,8 @@ import {TrackListComponent} from './components/track-list/track-list.component';
 import {TrackService} from './services/track.service';
 import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
-import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback-dialog.component';
-import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency_feedback-dialog.component';
+import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback/special-feedback-dialog.component';
+import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
 import {CookieModule, CookieService} from 'ngx-cookie';
 import {AuthService} from './services/auth/auth.service';
 import {AuthHttp} from './services/auth/auth-http';
@@ -52,6 +52,8 @@ import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/
 import {HistoryService} from './services/history.service';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
+import {DialogService} from './services/dialog.service';
+
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -113,9 +115,10 @@ import {TrackListItemComponent} from './components/track-list/track-list-item/tr
         TrackService,
         RadiostationService,
         SpeechService,
-        PlayerService,
         FeedbackService,
+        PlayerService,
         HistoryService
+
     ]
 })
 export class AppModule {
