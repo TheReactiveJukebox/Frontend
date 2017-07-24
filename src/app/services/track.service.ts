@@ -22,7 +22,7 @@ export class TrackService {
 
     constructor(private authHttp: AuthHttp) {
         this.currentTrack = new BehaviorSubject<Track>(null);
-        this.nextTracks = new BehaviorSubject<Track[]>(null);
+        this.nextTracks = new BehaviorSubject<Track[]>([]);
     }
 
     //Refreshes current track and track preview according to current radiostation
@@ -37,7 +37,13 @@ export class TrackService {
 
     fetchNewSongs(count: number): Observable<Track[]> {
         return Observable.create(observer => {
-            const url = this.trackListUrl + '?count=' + count;
+            let url = this.trackListUrl + '?count=' + count;
+            if (this.currentTrack.getValue()) {
+                url += '&upcoming'+this.currentTrack.getValue().id;
+            }
+            for (let track of this.nextTracks.getValue()) {
+                url += '&upcoming='+track.id;
+            }
             this.authHttp.get(url).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
                     for (let i = 0; i < tracks.length; i++) {

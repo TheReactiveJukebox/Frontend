@@ -4,34 +4,36 @@
         {{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}
     </md-card-title>
     <md-card-content>
-        <div id="random" class="tile">
-            <input type="checkbox">
-            Create a random Radio?
-        </div>
+        <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()">
+            <md-icon id="add-icon">add_circle</md-icon>
+        </button>
 
-        <div id="song" class="tile">Song ID <input type="text" name="firstname"></div>
-
-        <div id="genre" class="tile">Genre
-            <select>
-                <option>Rock</option>
-                <option>Pop</option>
-                <option>Elektro</option>
-                <option>Klassik</option>
-            </select>
-        </div>
-
-        <div id="mood" class="tile">What is your Mood?
-            <select>
-                <option>Angry</option>
-                <option>Relax</option>
-                <option>Happy</option>
-                <option>Sad</option>
-            </select>
-        </div>
-
-        <div id="decade" class="tile">Want to listen to songs of a specific decade?
-            <input type="text"> - <input type="text">
-        </div>
+        <!-- create the tiles used to select the feature -->
+        <md-card class="tile" *ngFor="let tile of tiles">
+            <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
+                <md-icon>close</md-icon>
+            </button>
+            {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
+            <br>
+            <md-select *ngIf="tile.type == keys.genre" [(ngModel)]="tile.value">
+                <md-option *ngFor="let option of genres" [value]="option">
+                    {{option}}
+                </md-option>
+            </md-select>
+            <md-select *ngIf="tile.type == keys.mood" [(ngModel)]="tile.value">
+                <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
+            </md-select>
+            <md-card class="year-container" *ngIf="tile.type == keys.startYear">
+                <input mdInput type="number" min="1000"
+                       max="3000" step="1"
+                       [(ngModel)]="tile.value"/>
+            </md-card>
+            <md-card class="year-container" *ngIf="tile.type == keys.endYear">
+                <input mdInput type="number" min="1000" max="3000"
+                       step="1"
+                       [(ngModel)]="tile.value"/>
+            </md-card>
+        </md-card>
 
     </md-card-content>
     <md-card-footer>

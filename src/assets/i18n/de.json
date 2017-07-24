@@ -1,4 +1,8 @@
 {
+    "ALGORITHMS": {
+        "RANDOM": "Zufällig",
+        "SAGH": "Größte Hits des gleichen Künstlers"
+    },
     "GENERAL": {
         "INVITE_KEY": "Einladungsschlüssel",
         "PASSWORD": "Passwort",
@@ -46,14 +50,6 @@
         "CONFIRM": "Ok",
         "CONFIRMAPPLY": "Ok und Übernehmen"
     },
-    "RADIOSTATION_CREATE": {
-        "RESET": "Zurücksetzen",
-        "START": "Start",
-        "BY_FEATURE": "Nach Merkmalen",
-        "BY_SONG": "Nach Startsong",
-        "TITLE": "Beginne die Wiedergabe mit folgendem Song",
-        "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!"
-    },
     "SPEECH": {
         "COMMAND_INPUT": "Suchen oder Befehl eingeben...",
         "ERROR": {
@@ -61,5 +57,25 @@
             "INDISTINGUISHABLE_SPEECH": "Entschuldigung, ich habe dich nicht verstanden!",
             "NOT_AVAILABLE":"Entschuldigung, die Sprachsteuerung ist nicht verfügbar!"
         }
-    }
+  },
+  "RADIOSTATION_CREATE": {
+    "ALGORITHM": "Algorithmus",
+    "RESET": "Zurücksetzen",
+    "START": "Start",
+    "BY_FEATURE": "Nach Merkmalen",
+    "BY_SONG": "Nach Startsong",
+    "TITLE": "Beginne die Wiedergabe mit folgendem Song",
+    "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
+    "GENRE": "Welches Genre willst du hören?",
+    "MOOD": "In welcher Stimmung bist du?",
+    "YEAR-START": "Wie alt sollen die Lieder höchtens sein?",
+    "YEAR-END": "Wie neu dürfen die Lieder sein?"
+  },
+  "ADD_CONSTRAINT": {
+    "TITLE": "Welche Eigenschaften willst du bestimmen?",
+    "GENRE": "Genre",
+    "MOOD": "Stimmung",
+    "YEAR-START": "Start-Jahr",
+    "YEAR-END": "End-Jahr"
+  }
 }
