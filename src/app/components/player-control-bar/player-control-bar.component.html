@@ -1,4 +1,4 @@
-<md-card id="player_bar_wrapper" *ngIf="show">
+<md-card id="player_bar_wrapper">
 
     <progress id="progress_bar" value="{{this.playerService.progress}}" max="{{duration}}"
               (click)="onProgressBarClick($event)"></progress>
