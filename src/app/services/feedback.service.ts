@@ -15,8 +15,9 @@ import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-fe
 @Injectable()
 export class FeedbackService {
 
-    private feedbackUrl = Config.serverUrl + '/api/track/feedback?id=';  // URL to web api
-    private dialogRef: MdDialogRef<any>;
+
+    private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
+	private dialogRef: MdDialogRef<any>;
 
     constructor(private radiostationService: RadiostationService,
                 public dialog: MdDialog,
@@ -161,7 +162,7 @@ export class FeedbackService {
 
     public postTrackFeedback(feedback: TrackFeedback): void {
         if (this.isTrackFeedbackValid(feedback)) {
-            this.authHttp.post(this.feedbackUrl + feedback.trackId, feedback).subscribe((data: any) => {
+            this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: any) => {
             }, (error: Response) => {
                 if (error.status == 400) {
                     console.log('The provided feedback entry is malformed');
