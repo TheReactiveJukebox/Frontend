@@ -7,12 +7,8 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Config} from '../config';
 import {AuthHttp} from './auth/auth-http';
 import {Observable} from 'rxjs/Observable';
-import {Artist} from '../models/artist';
-import {Album} from '../models/album';
-import {RadiostationService} from './radiostation.service';
 import {forEach} from '@angular/router/src/utils/collection';
 import {current} from 'codelyzer/util/syntaxKind';
-import {PlayerService} from './player.service';
 
 @Injectable()
 export class TrackService {
@@ -26,7 +22,7 @@ export class TrackService {
 
     constructor(private authHttp: AuthHttp) {
         this.currentTrack = new BehaviorSubject<Track>(null);
-        this.nextTracks = new BehaviorSubject<Track[]>(null);
+        this.nextTracks = new BehaviorSubject<Track[]>([]);
     }
 
     //Refreshes current track and track preview according to current radiostation
@@ -41,7 +37,13 @@ export class TrackService {
 
     fetchNewSongs(count: number): Observable<Track[]> {
         return Observable.create(observer => {
-            const url = this.trackListUrl + '?count=' + count;
+            let url = this.trackListUrl + '?count=' + count;
+            if (this.currentTrack.getValue()) {
+                url += '&upcoming'+this.currentTrack.getValue().id;
+            }
+            for (let track of this.nextTracks.getValue()) {
+                url += '&upcoming='+track.id;
+            }
             this.authHttp.get(url).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
                     for (let i = 0; i < tracks.length; i++) {
@@ -74,27 +76,27 @@ export class TrackService {
     }
 
     /*fillData(rawTracks: Track[]): Observable<Track[]> {
-        return Observable.create(observer => {
-            let artistUrl = Config.serverUrl + '/api/artist?';
-            let albumUrl = Config.serverUrl + '/api/album?';
-            for (let rawTrack of rawTracks) {
-                artistUrl += 'id=' + rawTrack.artist + '&';
-                albumUrl += 'id=' + rawTrack.album + '&';
-            }
-            this.authHttp.get(artistUrl).subscribe((data: Artist[]) => {
-                for (let i = 0; i < rawTracks.length; i++) {
-                    rawTracks[i].artist = data[i];
-                }
-                this.authHttp.get(albumUrl).subscribe((albums: Album[]) => {
-                    for (let i = 0; i < rawTracks.length; i++) {
-                        rawTracks[i].album = albums[i];
-                    }
-                    observer.next(rawTracks);
-                    observer.complete();
-                });
-            });
-        });
-    }*/
+     return Observable.create(observer => {
+     let artistUrl = Config.serverUrl + '/api/artist?';
+     let albumUrl = Config.serverUrl + '/api/album?';
+     for (let rawTrack of rawTracks) {
+     artistUrl += 'id=' + rawTrack.artist + '&';
+     albumUrl += 'id=' + rawTrack.album + '&';
+     }
+     this.authHttp.get(artistUrl).subscribe((data: Artist[]) => {
+     for (let i = 0; i < rawTracks.length; i++) {
+     rawTracks[i].artist = data[i];
+     }
+     this.authHttp.get(albumUrl).subscribe((albums: Album[]) => {
+     for (let i = 0; i < rawTracks.length; i++) {
+     rawTracks[i].album = albums[i];
+     }
+     observer.next(rawTracks);
+     observer.complete();
+     });
+     });
+     });
+     }*/
 
     fillData(rawTracks: Track[]): Observable<Track[]> {
         return Observable.create(observer => {
@@ -103,14 +105,14 @@ export class TrackService {
             let artistRequests = [];
             let albumRequests = [];
             for (let rawTrack of rawTracks) {
-                artistRequests.push(this.authHttp.get(artistUrl+'id='+rawTrack.artist));
+                artistRequests.push(this.authHttp.get(artistUrl + 'id=' + rawTrack.artist));
             }
             Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
                 for (let rawTrack of rawTracks) {
-                    albumRequests.push(this.authHttp.get(albumUrl+'id='+rawTrack.album));
+                    albumRequests.push(this.authHttp.get(albumUrl + 'id=' + rawTrack.album));
                 }
                 Observable.forkJoin(albumRequests).subscribe((albumResults: any[]) => {
-                    for (let i=0; i<rawTracks.length; i++) {
+                    for (let i = 0; i < rawTracks.length; i++) {
                         rawTracks[i].artist = artistResults[i][0];
                         rawTracks[i].album = albumResults[i][0];
                     }
@@ -140,6 +142,7 @@ export class TrackService {
         return (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
     }
 
+
     /**
      * removes the given track from the tracklist
      * @param track to remove
@@ -148,9 +151,9 @@ export class TrackService {
         let currentTracks: Track[] = this.nextTracks.getValue();
         let newTracks: Track[] = new Array(currentTracks.length - 1);
         var removed = 0;
-        for (var i = 0; i<currentTracks.length; i++) {
+        for (var i = 0; i < currentTracks.length; i++) {
             if (currentTracks[i].id != track.id) {
-                newTracks[i-removed] = currentTracks[i];
+                newTracks[i - removed] = currentTracks[i];
             } else {
                 removed = 1;
             }
@@ -170,28 +173,28 @@ export class TrackService {
      * skips/remove all tracks between current and choosen track
      * @param track to jump to
      */
-    jumpToTrack(track: Track): void{
+    jumpToTrack(track: Track): void {
         let currentTracks: Track[] = this.nextTracks.getValue();
         let removedTracks: Track[] = new Array();
         var removed = 0;
         //fill removedTracks array
-        for (var i = 0; i<currentTracks.length; i++) {
+        for (var i = 0; i < currentTracks.length; i++) {
             if (currentTracks[i].id != track.id) {
                 removedTracks[removed] = currentTracks[i];
-                removed ++;
+                removed++;
             } else {
                 break;
             }
         }
 
         //Get #removed + 1 new tracks, +1 because current track is skipped
-        if(removed >= 0){
-            this.fetchNewSongs(removed+1).subscribe((tracks: Track[]) => {
+        if (removed >= 0) {
+            this.fetchNewSongs(removed + 1).subscribe((tracks: Track[]) => {
                 let newTracks: Track[] = this.nextTracks.getValue();
-                newTracks.splice(0,removed);
+                newTracks.splice(0, removed);
                 this.currentTrack.next(newTracks[0]);
                 newTracks = newTracks.slice(1);
-                tracks.forEach(function(track){
+                tracks.forEach(function (track) {
                     newTracks.push(track)
                 });
                 this.nextTracks.next(newTracks);
@@ -199,8 +202,6 @@ export class TrackService {
                 console.log(error);
             });
         }
-
-
 
     }
 }

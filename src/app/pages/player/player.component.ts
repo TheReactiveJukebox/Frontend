@@ -2,11 +2,13 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
 import {MdTabGroup} from '@angular/material';
 import {TrackService} from '../../services/track.service';
+import {PlayerService} from '../../services/player.service';
 
 @Component({
     selector: 'player',
     styleUrls: ['./player.component.scss'],
-    templateUrl: './player.component.html'
+    templateUrl: './player.component.html',
+    providers: [PlayerService]
 })
 export class PlayerComponent implements OnInit{
 
@@ -14,7 +16,8 @@ export class PlayerComponent implements OnInit{
     tabs: MdTabGroup;
 
     constructor(public authService: AuthService,
-                private trackService: TrackService) {
+                private trackService: TrackService,
+                ) {
 
     }
 

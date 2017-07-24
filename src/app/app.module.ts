@@ -3,7 +3,6 @@ import {FormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -17,23 +16,28 @@ import 'hammerjs';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdButtonModule, MdCheckboxModule, MdListModule} from '@angular/material';
+import {
+    MdButtonModule,
+    MdCardModule,
+    MdCheckboxModule,
+    MdDialogModule,
+    MdIconModule,
+    MdInputModule,
+    MdListModule,
+    MdSelectModule, MdSnackBarModule,
+    MdTabsModule
+} from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
 import {RadiostationService} from './services/radiostation.service';
-import {RadiostationBySongComponent}   from './components/create-radiostation/by-song/radiostation-by-song.component';
+import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {PlayerComponent} from './pages/player/player.component';
-import {MdInputModule} from '@angular/material';
-import {MdCardModule} from '@angular/material';
-import {MdTabsModule} from '@angular/material';
-import {MdDialogModule} from '@angular/material';
-import {MdIconModule} from '@angular/material';
 import {TrackListComponent} from './components/track-list/track-list.component';
 import {TrackService} from './services/track.service';
 import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
-import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback-dialog.component';
-import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency_feedback-dialog.component';
+import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback/special-feedback-dialog.component';
+import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
 import {CookieModule, CookieService} from 'ngx-cookie';
 import {AuthService} from './services/auth/auth.service';
 import {AuthHttp} from './services/auth/auth-http';
@@ -44,9 +48,12 @@ import {SpeechSearchFieldComponent} from './components/speech-search-field/speec
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
 import {PlayerService} from './services/player.service';
 import {FeedbackService} from './services/feedback.service';
-import {HistoryService} from "./services/history.service";
-import {HistoryListComponent} from "./components/history-list/history-list.component";
+import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
+import {HistoryService} from './services/history.service';
+import {HistoryListComponent} from './components/history-list/history-list.component';
 import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
+import {DialogService} from './services/dialog.service';
+
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -64,6 +71,7 @@ import {TrackListItemComponent} from './components/track-list/track-list-item/tr
         PlayerControlBarComponent,
         SpecialFeedbackDialogComponent,
         TendencyFeedbackDialogComponent,
+        AddConstraintDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
         SimpleSearchComponent,
@@ -80,7 +88,7 @@ import {TrackListItemComponent} from './components/track-list/track-list-item/tr
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
-        MdDialogModule, MdIconModule,
+        MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {
@@ -92,7 +100,8 @@ import {TrackListItemComponent} from './components/track-list/track-list-item/tr
     ],
     entryComponents: [
         SpecialFeedbackDialogComponent,
-        TendencyFeedbackDialogComponent
+        TendencyFeedbackDialogComponent,
+        AddConstraintDialogComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
@@ -106,9 +115,10 @@ import {TrackListItemComponent} from './components/track-list/track-list-item/tr
         TrackService,
         RadiostationService,
         SpeechService,
-        PlayerService,
         FeedbackService,
+        PlayerService,
         HistoryService
+
     ]
 })
 export class AppModule {

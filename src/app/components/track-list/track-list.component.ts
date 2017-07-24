@@ -55,6 +55,10 @@ export class TrackListComponent implements OnInit, OnDestroy {
 
     }
 
+    btn_Tendency(){
+        this.feedbackService.openTendencyFeedbackDialog();
+    }
+
     jumpToTrack(track: Track): void{
         //if more than 90% of the song are completed, the current Track will be written to the global History
         if(this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9){

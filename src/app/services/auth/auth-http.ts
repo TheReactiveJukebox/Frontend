@@ -26,7 +26,7 @@ export class AuthHttp {
     /**
      * This sends an authenticated xhr request to music-server and returns the track as urlObject.
      * @param url The url to the music file.
-     * @returns an urlObject, that contains the music file. this can be set as src o audio element.
+     * @returns an urlObject, that contains the music file. this can be set as src to audio element.
      */
     getTrack(url: string): Observable<any> {
         return Observable.create(observer => {

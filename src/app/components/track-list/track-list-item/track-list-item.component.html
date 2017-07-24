@@ -1,4 +1,4 @@
-<md-list-item>
+<md-list-item *ngIf="track">
     <p class="tl-cover-col">
         <a> <img *ngIf="track.cover" src="{{track.cover}}" alt="Cover" class="cover-img">
             <img *ngIf="!track.cover" src="../../../../assets/img/album_cover.png" alt="Cover" class="cover-img">

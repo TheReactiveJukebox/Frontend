@@ -1,4 +1,8 @@
 {
+    "ALGORITHMS": {
+      "RANDOM": "Random",
+      "SAGH": "Same Artist Greatest Hits"
+    },
     "GENERAL": {
         "INVITE_KEY": "Invite Key",
         "PASSWORD": "Password",
@@ -21,6 +25,11 @@
         "ARTIST": "Artist",
         "ALBUM": "Album",
         "DURATION": "Duration",
+        "MOOD": "Mood",
+        "DYNAMICS": "Dynamics",
+        "SPEED": "Speed",
+        "PERIOD": "Period",
+        "GENRE": "Genre",
         "TENDISC": "Give Tendency Feedback"
     },
     "HISTORY_LIST": {
@@ -32,23 +41,14 @@
         "NO_TRACK": "Please create a radiostation to listen to!"
     },
     "FEEDBACK_DIALOG": {
-        "LIKE": "I like",
-        "REASON": "because",
+        "LIKE": "Feedback for",
+        "REASON": "",
+        "TENDENCY": "Tendency",
+        "MORE_OF_GENRE": "More of",
+        "CHOOSE_GENRE": "Choose genre",
         "CLOSE": "Close",
         "CONFIRM": "Confirm",
-        "CONFIRMAPPLY": "Confirm and Aplly",
-        "TITLE": "Title",
-        "ARTIST": "Artist",
-        "ALBUM": "Album",
-        "DURATION": "Duration"
-    },
-    "RADIOSTATION_CREATE": {
-        "RESET": "Reset",
-        "START": "Start",
-        "BY_FEATURE": "By Features",
-        "BY_SONG": "By Song",
-        "TITLE": "Start playback with the following song",
-        "PROP_SELECT": "Select the properties of your Radiostation!"
+        "CONFIRMAPPLY": "Confirm and Aplly"
     },
     "SPEECH": {
         "COMMAND_INPUT": "Search or type command...",
@@ -57,5 +57,26 @@
             "INDISTINGUISHABLE_SPEECH": "Sorry, i didn't understand you!",
             "NOT_AVAILABLE": "Sorry, voice control is not available!"
         }
-    }
+  },
+
+  "RADIOSTATION_CREATE": {
+    "ALGORITHM": "Algorithm",
+    "RESET": "Reset",
+    "START": "Start",
+    "BY_FEATURE": "By Features",
+    "BY_SONG": "By Song",
+    "TITLE": "Start playback with the following song",
+    "PROP_SELECT": "Select the properties of your Radiostation!",
+    "GENRE": "Which genre do you want to listen to?",
+    "MOOD": "What is your current mood?",
+    "YEAR-START": "What should be the earliest release time?",
+    "YEAR-END": "What should be the latest release time?"
+  },
+  "ADD_CONSTRAINT": {
+    "TITLE": "Which feature do you want to specify?",
+    "GENRE": "Genre",
+    "MOOD": "Mood",
+    "YEAR-START": "Start Year",
+    "YEAR-END": "End Year"
+  }
 }

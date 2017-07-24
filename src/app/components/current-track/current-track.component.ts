@@ -3,8 +3,10 @@ import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {SpecialFeedbackDialogComponent} from '../dialogs/special-feedback-dialog.component';
+import {FeedbackService} from '../../services/feedback.service';
+import {DialogService} from '../../services/dialog.service';
 import {HistoryService} from '../../services/history.service';
+
 
 @Component({
     selector: 'current-track',
@@ -15,13 +17,14 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     currentTrack: Track;
     btnVisible: boolean = false;
-    dialogRef: MdDialogRef<any>;
     private subscriptions: Subscription[];
     historyButtonClass: string = 'reducedHistory-button-toggle-off';
 
-    constructor(public trackService: TrackService, 
-                public dialog: MdDialog,
+
+    constructor(public trackService: TrackService,
+                public feedbackService: FeedbackService,
                 public historyService: HistoryService) {
+
         this.subscriptions = [];
     }
 
@@ -47,6 +50,8 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     btn_like() {
+        this.feedbackService.postSimpleFeedback(this.currentTrack,true);
+
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
@@ -55,11 +60,20 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     btn_dislike() {
+
+        this.feedbackService.postSimpleFeedback(this.currentTrack,false);
+
         this.btnVisible = true;
         //wait 3 seconds and hide
         setTimeout(function () {
             this.btnVisible = false;
         }.bind(this), 3000);
+    }
+
+
+    //opens a dialog for special feedback
+    dialog_special_feedback() {
+        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }
 
     btn_history_toggle() {
@@ -70,15 +84,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
             this.historyService.historyVisible = true;
             this.historyButtonClass = 'history-button-toggle-on';
         }
-    }
-
-    //opens a dialog to speciy the feedback
-    dialog_special_feedback() {
-        this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = this.currentTrack;
-        this.dialogRef.afterClosed().subscribe(result => {
-            this.dialogRef = null;
-        });
     }
 
 }
