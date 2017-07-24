@@ -23,5 +23,9 @@
             (click)="btn_dislike(); $event.stopPropagation()">
         <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_down</md-icon>
     </button>
-    <p class="tl-icon-col"><i class="material-icons" (click)="onDelete.emit($event); $event.stopPropagation()">delete</i></p>
+    <button class="t1-icon-col"
+            md-icon-button
+            (click)="onDelete.emit($event); $event.stopPropagation()">
+        <md-icon>delete</md-icon>
+    </button>
 </md-list-item>
