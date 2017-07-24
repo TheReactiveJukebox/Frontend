@@ -57,24 +57,10 @@ h2 {
   width: 40px;
   height: 40px;
   cursor: pointer;
-  opacity: .75;
-  margin-right: 15px;
-}
-
-#like-button-wrapper {
   position: relative;
   left: 0;
   bottom: 0;
   margin: 10px;
-  background: url("../../../assets/icon/like.png");
-}
-
-#dislike-button-wrapper {
-  position: relative;
-  left: 0;
-  bottom: 0;
-  margin: 10px;
-  background: url("../../../assets/icon/dislike.png");
 }
 
 #feedback-button-table {
@@ -98,4 +84,9 @@ h2 {
 
 #history-button-toggle-on {
   background-color: mat-color($default-theme-primary);
+}
+
+.track-info {
+  margin-bottom: 5px;
+  margin-top: 0;
 }

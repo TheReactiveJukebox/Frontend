@@ -5,27 +5,30 @@
             <tr>
                 <td id="cover-img-table-wrapper">
                     <div id="cover-img-wrapper">
-                        <a> <img src="{{currentTrack.cover}}" alt="Cover" class="cover-img"></a>
+                        <a> <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
+                            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
+                        </a>
                     </div>
                 </td>
                 <td id="now-playing-details-table-wrapper">
                     <div id="now-playing-details-wrapper">
-                        <h2>{{currentTrack.artist.name}} - {{currentTrack.title}}</h2>
-                        <a>{{currentTrack.album.title}}</a><br>
+                        <h1 class="track-info">{{currentTrack.title}}</h1>
+                        <h3 class="track-info">{{currentTrack.artist.name}}</h3>
+                        <a class="track-info">{{currentTrack.album.title}}</a><br>
                         <table id="feedback-button-table">
                             <tr>
                                 <td>
                                     <button
                                             md-icon-button
-                                            md-fab class="feedback-button-wrapper"
-                                            id="like-button-wrapper"
+                                            class="feedback-button-wrapper"
                                             (click)="btn_like()">
+                                        <md-icon class="feedback-icons">thumb_up</md-icon>
                                     </button>
                                     <button
                                             md-icon-button
-                                            md-fab class="feedback-button-wrapper"
-                                            id="dislike-button-wrapper"
+                                            class="feedback-button-wrapper"
                                             (click)="btn_dislike()">
+                                        <md-icon class="feedback-icons">thumb_down</md-icon>
                                     </button>
                                 </td>
                                 <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn" (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
@@ -34,7 +37,10 @@
                     </div>
                 </td>
                 <td id="history-button-table-wrapper">
-                    <button md-fab disableRipple="true" id="{{historyButtonClass}}" (click)="btn_history_toggle()">
+                    <button md-fab disableRipple="true"
+                            id="{{historyButtonClass}}"
+                            (click)="btn_history_toggle()"
+                            mdTooltip="{{'CURRENT_TRACK.HISTORY_TOOL_TIP' | translate}}">
                         <md-icon>history</md-icon>
                     </button>
                 </td>
