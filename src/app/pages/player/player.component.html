@@ -4,6 +4,7 @@
         <a md-icon-button id="logout-btn" routerLink="/login" (click)="this.authService.logout()">
             <md-icon>exit_to_app</md-icon>
         </a>
+        <speech-search-field id="speech-btn" [minimal]="true"></speech-search-field>
     </md-toolbar>
     <md-tab-group #tabs style="margin: 10px; background-color: blue" [ngStyle]="{'height': 'calc(100% - '+getOffsetHeight()+'px)'}">
         <md-tab>

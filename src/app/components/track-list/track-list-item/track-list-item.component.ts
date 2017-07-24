@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Track} from '../../../models/track';
+import {FeedbackService} from '../../../services/feedback.service';
+import {TrackFeedback} from '../../../models/trackFeedback';
 
 @Component({
     selector: 'track-list-item',
@@ -14,20 +16,19 @@ export class TrackListItemComponent {
     @Input()
     showFeedback: boolean = true;
 
-
     @Output()
     onDelete: EventEmitter<any>;
 
-    constructor() {
+    constructor(public feedbackService: FeedbackService) {
         this.onDelete = new EventEmitter<any>();
     }
 
     btn_like() {
-        console.log('Like for track ' + this.track.title + ' has been triggered!');
+        this.feedbackService.postSimpleFeedback(this.track,true);
     }
 
     btn_dislike() {
-        console.log('Dislike for track ' + this.track.title + ' has been triggered!');
+        this.feedbackService.postSimpleFeedback(this.track,false);
     }
 
 }
