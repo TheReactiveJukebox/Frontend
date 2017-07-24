@@ -1,13 +1,15 @@
 @import '~@angular/material/theming';
 @import '../../../../theme.scss';
 
-#component-pane {
-  width: 100vw;
-  height: 500px;
-  padding: 10px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+.component-pane {
+  width: auto;
+  height: 100%;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }
 
 #add-button {
