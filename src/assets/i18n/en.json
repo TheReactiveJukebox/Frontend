@@ -46,15 +46,6 @@
         "ALBUM": "Album",
         "DURATION": "Duration"
     },
-    "RADIOSTATION_CREATE": {
-        "ALGORITHM": "Algorithm",
-        "RESET": "Reset",
-        "START": "Start",
-        "BY_FEATURE": "By Features",
-        "BY_SONG": "By Song",
-        "TITLE": "Start playback with the following song",
-        "PROP_SELECT": "Select the properties of your Radiostation!"
-    },
     "SPEECH": {
         "COMMAND_INPUT": "Search or type command...",
         "ERROR": {
@@ -62,5 +53,26 @@
             "INDISTINGUISHABLE_SPEECH": "Sorry, i didn't understand you!",
             "NOT_AVAILABLE": "Sorry, voice control is not available!"
         }
-    }
+  },
+
+  "RADIOSTATION_CREATE": {
+    "ALGORITHM": "Algorithm",
+    "RESET": "Reset",
+    "START": "Start",
+    "BY_FEATURE": "By Features",
+    "BY_SONG": "By Song",
+    "TITLE": "Start playback with the following song",
+    "PROP_SELECT": "Select the properties of your Radiostation!",
+    "GENRE": "Which genre do you want to listen to?",
+    "MOOD": "What is your current mood?",
+    "YEAR-START": "What should be the earliest release time?",
+    "YEAR-END": "What should be the latest release time?"
+  },
+  "ADD_CONSTRAINT": {
+    "TITLE": "Which feature do you want to specify?",
+    "GENRE": "Genre",
+    "MOOD": "Mood",
+    "YEAR-START": "Start Year",
+    "YEAR-END": "End Year"
+  }
 }
