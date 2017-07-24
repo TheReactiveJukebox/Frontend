@@ -44,6 +44,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         for (let subscription of this.subscriptions) {
             subscription.unsubscribe();
         }
+        this.playerService.stop();
     }
 
     private trackUpdated(): void {
