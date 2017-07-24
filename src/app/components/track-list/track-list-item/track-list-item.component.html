@@ -10,15 +10,18 @@
     <p class="tl-album-col">{{track.album.title}}</p>
     <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
 
-    <p class="t1-like-col">
-        <md-icon class="feedback-icons feedback-like-icon-wrapper"
-                 (click)="btn_like(); $event.stopPropagation()">thumb_up</md-icon>
-    </p>
 
-    <p class="t1-dislike-col">
-        <md-icon class="feedback-icons feedback-dislike-icon-wrapper"
-                 (click)="btn_dislike(); $event.stopPropagation()">thumb_down</md-icon>
-    </p>
-
+    <button class="t1-like-col"
+            md-icon-button
+            md-fab class="feedback-button-wrapper"
+            (click)="btn_like(); $event.stopPropagation()">
+        <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_up</md-icon>
+    </button>
+    <button class="t1-dislike-col"
+            md-icon-button
+            md-fab class="feedback-button-wrapper"
+            (click)="btn_dislike(); $event.stopPropagation()">
+        <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_down</md-icon>
+    </button>
     <p class="tl-icon-col"><i class="material-icons" (click)="onDelete.emit($event); $event.stopPropagation()">delete</i></p>
 </md-list-item>
