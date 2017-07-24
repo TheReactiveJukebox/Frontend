@@ -38,7 +38,8 @@
     },
     "CURRENT_TRACK": {
         "SPECIALFEEDBACK": "Grund angeben",
-        "NO_TRACK": "Bitte erstelle eine Radiostation um Musik zu hören"
+        "NO_TRACK": "Bitte erstelle eine Radiostation um Musik zu hören",
+        "HISTORY_TOOL_TIP": "Wiedergabeverlauf"
     },
     "FEEDBACK_DIALOG": {
         "LIKE": "Bewerte",

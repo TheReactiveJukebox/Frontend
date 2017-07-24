@@ -34,7 +34,10 @@
                     </div>
                 </td>
                 <td id="history-button-table-wrapper">
-                    <button md-fab disableRipple="true" id="{{historyButtonClass}}" (click)="btn_history_toggle()">
+                    <button md-fab disableRipple="true"
+                            id="{{historyButtonClass}}"
+                            (click)="btn_history_toggle()"
+                            mdTooltip="{{'CURRENT_TRACK.HISTORY_TOOL_TIP' | translate}}">
                         <md-icon>history</md-icon>
                     </button>
                 </td>
