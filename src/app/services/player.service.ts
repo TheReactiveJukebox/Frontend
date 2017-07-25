@@ -127,7 +127,7 @@ export class PlayerService implements OnDestroy {
         if (this.currentTrack != null && (addToHistory || (this.progress / this.currentTrack.duration) > 0.9)) {
             this.radiostationService.writeToHistory(this.currentTrack);
         }
-        this.trackService.nextSong();
+        let nextTrack:Track = this.trackService.nextSong();
     }
 
 //turns on the volume with the last set value
