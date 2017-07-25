@@ -1,6 +1,6 @@
 <td [class]="'themeClass'" id="content-wrapper">
     <md-card *ngIf="!currentTrack">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
-    <div id="now-playing-wrapper" *ngIf="currentTrack" class="ct-container">
+    <div *ngIf="currentTrack" class="ct-container">
         <table id="now-playing-details-table">
             <tr>
                 <td id="cover-img-table-wrapper">
