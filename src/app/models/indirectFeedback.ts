@@ -6,6 +6,6 @@ export class IndirectFeedback{
     userId:number;
     trackId:number; // current played song
     position:number; // Position in seconds in the Song
-    toTrackId:number; // skip to this song
+    toTrackId?:number; // skip to this song
     feedbackName:string;
 }

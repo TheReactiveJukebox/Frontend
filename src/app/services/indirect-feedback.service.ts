@@ -9,8 +9,22 @@ import {Track} from '../models/track';
 
 export class IndirectFeedbackService{
 
-    private indirectFeedbackURI = Config.serverUrl + '';
+    private indirectFeedbackURI = Config.serverUrl + '/api/';
 
     constructor(private authHttp:AuthHttp){}
 
+    private postIndirectFeedback(body:IndirectFeedback):void {
+        if(!this.checkBodySyntax(body)) return;
+
+        this.authHttp.post(this.indirectFeedbackURI,body).subscribe(
+            ()=>{console.log('Posting indirect feedback successful');},
+            error => {
+                console.log('The API call produced a ' + error.status + ' error');
+            }
+            );
+    }
+
+    private checkBodySyntax(body:IndirectFeedback):boolean{
+        return false;
+    }
 }
