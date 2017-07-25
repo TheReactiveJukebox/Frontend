@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+.track-feedback-table tr td {
+  padding-bottom: 15px;
+}
+
 
 #feedback-like-artist-toggle-off {
   background-color: mat-color($default-theme-accent);
@@ -117,4 +121,7 @@
 
 #feedback-dislike-speed-toggle-on {
   background-color: mat-color($default-theme-primary);
+}
+.mat-raised-button {
+  margin: 0 4px;
 }

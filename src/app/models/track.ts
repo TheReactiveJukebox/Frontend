@@ -11,4 +11,6 @@ export class Track {
     file: string;
     data?: any;
     historyId: number;
+    speed: number;
+    period: number;
 }

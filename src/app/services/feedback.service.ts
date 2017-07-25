@@ -11,19 +11,37 @@ import {AuthHttp} from './auth/auth-http';
 import {Track} from '../models/track';
 import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
 import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
+import {Tendency} from '../models/tendency';
 
 @Injectable()
 export class FeedbackService {
 
 
     private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
-	private dialogRef: MdDialogRef<any>;
+    private tendencyUrl = Config.serverUrl + '/api/jukebox/tendency';  // URL to web api
+    private genreApiUrl = Config.serverUrl + '/api/genre/list';  // URL to web api
+
+    private dialogRef: MdDialogRef<any>;
+    private genres = [];
 
     constructor(private radiostationService: RadiostationService,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {
+
+        this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
+            this.genres = genreList;
+        }, error => {
+            //should not happen since this was a static request
+            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error)
+        })
+
     }
 
+    /**
+     * Creates a TrackFeedback object which is matching to the given track and the current radio
+     * @param track
+     * @returns {TrackFeedback}
+     */
     public createTrackFeedbackToTrack(track: Track): TrackFeedback {
         let feedback = new TrackFeedback();
         if (track != null) {
@@ -31,6 +49,16 @@ export class FeedbackService {
         }
         feedback.radioId = this.radiostationService.jukebox.id;
         return feedback;
+    }
+
+    /**
+     * Creates a Tendency object for the current radio
+     * @returns {Tendency}
+     */
+    public createTendencyToCurrentRadio(): Tendency {
+        let tendency = new Tendency();
+        tendency.radioId = this.radiostationService.jukebox.id;
+        return tendency;
     }
 
 
@@ -173,6 +201,19 @@ export class FeedbackService {
         }
     }
 
+    public postTendency(tendency: Tendency): void {
+        if (this.isTendencyValid(tendency)) {
+            this.authHttp.post(this.tendencyUrl, tendency).subscribe((data: any) => {
+            }, (error: Response) => {
+                if (error.status == 400) {
+                    console.log('The provided feedback entry is malformed');
+                }
+                console.warn('Sending feedback failed: ', error);
+            });
+
+        }
+    }
+
     /**
      * Posts a simple feedback containing radiostationID, songID, and a like or dislike for the given track to the backend
      * @param track track to give feedback to
@@ -208,6 +249,18 @@ export class FeedbackService {
         return (a && b && (c || d || e || f || g || h || i || j || k || l || m || n || o || p));
     }
 
+    private isTendencyValid(tendency: Tendency): boolean {
+        let a = tendency.radioId != null
+        let b = tendency.moreDynamics;
+        let c = tendency.lessDynamics;
+        let d = tendency.faster;
+        let e = tendency.slower;
+        let f = tendency.older;
+        let g = tendency.newer;
+
+        return (a && (b || c || d || e || f || g ));
+    }
+
     public openTrackFeedbackDialog(track: Track): void {
         this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
         this.dialogRef.componentInstance.cTrack = track;
@@ -223,9 +276,13 @@ export class FeedbackService {
 
     public openTendencyFeedbackDialog(): void {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
+        this.dialogRef.componentInstance.cTendency = this.createTendencyToCurrentRadio();
+        //temporary mock genres
+        this.genres = ["Rock", "Pop", "Classic"];
+        this.dialogRef.componentInstance.genres = this.genres;
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
-                //TODO: Get tendency feeddback and post it to backend
+
             }
             this.dialogRef = null;
         });
