@@ -44,7 +44,7 @@
     "EMPTY": "No titles played in this radio."
   },
   "CURRENT_TRACK": {
-    "SPECIALFEEDBACK": "explain your feedback",
+    "SPECIALFEEDBACK": "Explain your Feedback",
     "NO_TRACK": "Please create a radiostation to listen to!",
     "HISTORY_TOOL_TIP": "Toggle History"
   },
@@ -56,7 +56,7 @@
     "CHOOSE_GENRE": "Choose genre",
     "CLOSE": "Close",
     "CONFIRM": "Confirm",
-    "CONFIRMAPPLY": "Confirm and Aplly"
+    "CONFIRMAPPLY": "Confirm and Apply"
   },
   "SEARCH": {
     "NO_RESULTS": "No results..."
