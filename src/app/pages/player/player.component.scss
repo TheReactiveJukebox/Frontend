@@ -27,7 +27,7 @@
 .my-content {
   margin: 10px;
   width: calc(100% - 20px);
-  height: 100%;
+  height: calc(100% - 20px);
 }
 
 md-tab-group {
