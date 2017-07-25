@@ -9,21 +9,21 @@
     <md-tab-group #tabs style="margin: 10px;" [ngStyle]="{'height': 'calc(100% - '+getOffsetHeight()+'px)'}">
         <md-tab>
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Konfiguration" class="tab-icons">build</md-icon>
+                <md-icon [mdTooltip]="'PLAYER.TABS.RADIOSTATION' | translate" class="tab-icons">build</md-icon>
             </ng-template>
             <radiostation-by-feature (onStart)="switchToPlayer()"></radiostation-by-feature>
         </md-tab>
 
         <md-tab style="height: 100%">
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Song" class="tab-icons">audiotrack</md-icon>
+                <md-icon [mdTooltip]="'PLAYER.TABS.STARTTRACK' | translate" class="tab-icons">audiotrack</md-icon>
             </ng-template>
             <my-radiostation-by-song style="height: 100%" (onStart)="switchToPlayer()"></my-radiostation-by-song>
         </md-tab>
 
         <md-tab>
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Player" class="tab-icons">radio</md-icon>
+                <md-icon [mdTooltip]="'PLAYER.TABS.PLAYER' | translate" class="tab-icons">radio</md-icon>
             </ng-template>
             <div class="my-content">
                 <history-list></history-list>

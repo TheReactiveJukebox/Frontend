@@ -19,6 +19,13 @@
       "WRONG_PW_OR_USER": "Login fehlgeschlagen! Benutzername oder Passwort ist falsch!"
     }
   },
+  "PLAYER": {
+    "TABS": {
+      "PLAYER": "Deine Radiostation",
+      "RADIOSTATION": "Radiostation erstellen",
+      "STARTTRACK": "Startsong wählen"
+    }
+  },
   "TRACK_LIST": {
     "ID": "ID",
     "TITLE": "Titel",
