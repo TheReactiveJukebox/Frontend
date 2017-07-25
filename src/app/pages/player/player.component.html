@@ -25,11 +25,11 @@
             <ng-template md-tab-label>
                 <md-icon mdTooltip="Player" class="tab-icons">radio</md-icon>
             </ng-template>
-            <md-card id="play-list-view" class="my-content">
+            <div class="my-content">
                 <history-list></history-list>
                 <current-track></current-track>
                 <track-list></track-list>
-            </md-card>
+            </div>
         </md-tab>
     </md-tab-group>
     <player-control-bar style="position: absolute; bottom: 0" *ngIf="trackService.currentTrack.getValue()"></player-control-bar>

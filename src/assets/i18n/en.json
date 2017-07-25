@@ -38,7 +38,8 @@
   },
   "CURRENT_TRACK": {
     "SPECIALFEEDBACK": "explain your feedback",
-    "NO_TRACK": "Please create a radiostation to listen to!"
+    "NO_TRACK": "Please create a radiostation to listen to!",
+    "HISTORY_TOOL_TIP": "Toggle History"
   },
   "FEEDBACK_DIALOG": {
     "LIKE": "Feedback for",

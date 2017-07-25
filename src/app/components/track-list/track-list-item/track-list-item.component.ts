@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Track} from '../../../models/track';
 import {FeedbackService} from '../../../services/feedback.service';
-import {TrackFeedback} from '../../../models/trackFeedback';
 
 @Component({
     selector: 'track-list-item',
