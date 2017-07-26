@@ -24,7 +24,7 @@ import {
     MdIconModule,
     MdInputModule,
     MdListModule,
-    MdSelectModule, MdSnackBarModule,
+    MdSelectModule, MdSliderModule, MdSnackBarModule,
     MdTabsModule
 } from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
@@ -86,7 +86,7 @@ import {TrackListItemComponent} from './components/track-list/track-list-item/tr
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
-        MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule,
+        MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule, MdSliderModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {

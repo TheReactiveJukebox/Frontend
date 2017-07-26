@@ -43,8 +43,8 @@ export class PlayerService implements OnDestroy {
                     /* Use this for testing, if backend doesn't return tracks
                      *this.currentTrack = new Track();
                      * */
-                    //this.currentTrack.file = 'https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';
-
+                    /*this.currentTrack.file = 'https://192.168.99.100/music/f/5/' +
+                    '4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';*/
 
                     this.trackUpdated();
                 }
