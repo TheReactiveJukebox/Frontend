@@ -4,6 +4,7 @@
         <a md-icon-button id="logout-btn" routerLink="/login" (click)="this.authService.logout()">
             <md-icon>exit_to_app</md-icon>
         </a>
+        <speech-search-field id="speech-btn" [minimal]="true"></speech-search-field>
     </md-toolbar>
     <md-tab-group #tabs [dynamicHeight]="true">
         <md-tab>

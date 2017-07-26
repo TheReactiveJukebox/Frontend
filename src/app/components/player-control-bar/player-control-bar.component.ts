@@ -20,7 +20,9 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     public duration: number = 213;
     private subscriptions: Subscription[];
 
-    constructor(public trackService: TrackService, public playerService: PlayerService, public feedbackService: FeedbackService) {
+    constructor(public trackService: TrackService,
+                public playerService: PlayerService,
+                public feedbackService: FeedbackService) {
         this.subscriptions = [];
     }
 
@@ -44,6 +46,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         for (let subscription of this.subscriptions) {
             subscription.unsubscribe();
         }
+        this.playerService.stop();
     }
 
     private trackUpdated(): void {
@@ -69,15 +72,19 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     public like(): void {
-        //TODO: call like service
+        this.feedbackService.postSimpleFeedback(this.currentTrack,true);
     }
 
     public dislike(): void {
-        //TODO: call dislike service
+        this.feedbackService.postSimpleFeedback(this.currentTrack,false);
     }
 
-    public detailFeedback(): void {
-        //TODO: call service for detailed feedback
+    public getSpecialFeedback(): void {
+        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
+    }
+
+    public getTendencyFeedback(): void {
+        this.feedbackService.openTendencyFeedbackDialog();
     }
 
 }

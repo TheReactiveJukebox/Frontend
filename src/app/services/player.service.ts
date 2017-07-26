@@ -13,7 +13,8 @@ export class PlayerService implements OnDestroy {
 
     public currentTrack: Track;
     public audioPlayer: any = new Audio();
-    private volume: number = 0.5;
+    private _volume: number = 0.5;
+    public currentvol: number = 0.5;
     public progress: number = 0;
     public isPlaying: boolean = false;
     private subscriptions: Subscription[];
@@ -21,10 +22,9 @@ export class PlayerService implements OnDestroy {
     constructor(private trackService: TrackService,
                 private radiostationService: RadiostationService,
                 private authHttp: AuthHttp) {
-
         //set the default player settings
         this.audioPlayer.type = 'audio/mpeg';
-        this.audioPlayer.volume = this.volume;
+        this.audioPlayer.volume = this._volume;
         this.audioPlayer.ontimeupdate = () => {
             this.progressUpdate()
         };
@@ -132,14 +132,14 @@ export class PlayerService implements OnDestroy {
 
 //turns on the volume with the last set value
     public volumeOn(): void {
-        this.setVolume(this.volume);
+        this.setVolume(this._volume);
     }
 
 //turns off the volume and remembers the last volume value (if the audio was already muted volume is set to 0.5)
     public volumeOff(): void {
-        this.volume = this.audioPlayer.volume;
-        if (this.volume == 0) {
-            this.volume = 0.5;
+        this._volume = this.audioPlayer.volume;
+        if (this._volume == 0) {
+            this._volume = 0.5;
         }
         this.setVolume(0);
 
@@ -147,12 +147,14 @@ export class PlayerService implements OnDestroy {
 
 //set the volume if valid
     public setVolume(v: number): void {
+        console.log('Set volume to: ' +v);
         if (v < 0 || v > 1
         ) {
             throw new Error('Invalid volume format');
         }
         else {
             this.audioPlayer.volume = v;
+            this.currentvol = v;
         }
     }
 
@@ -172,5 +174,9 @@ export class PlayerService implements OnDestroy {
 //starts the new song and writes the old one to history
     public songEnded(): void {
         this.skipForward(true);
+    }
+
+    get volume(): number {
+        return this.audioPlayer.volume;
     }
 }

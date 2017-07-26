@@ -25,6 +25,11 @@
         "ARTIST": "Interpret",
         "ALBUM": "Album",
         "DURATION": "Dauer",
+        "MOOD": "Stimmung",
+        "DYNAMICS": "Dynamik",
+        "SPEED": "Tempo",
+        "PERIOD": "Zeitraum",
+        "GENRE": "Genre",
         "TENDISC": "Feedback zur Tendenz angeben"
     },
     "HISTORY_LIST": {
@@ -33,18 +38,18 @@
     },
     "CURRENT_TRACK": {
         "SPECIALFEEDBACK": "Grund angeben",
-        "NO_TRACK": "Bitte erstelle eine Radiostation um musik zu hören"
+        "NO_TRACK": "Bitte erstelle eine Radiostation um Musik zu hören",
+        "HISTORY_TOOL_TIP": "Wiedergabeverlauf"
     },
     "FEEDBACK_DIALOG": {
-        "LIKE": "Mir gefällt",
-        "REASON": "weil:",
+        "LIKE": "Bewerte",
+        "REASON": "",
+        "TENDENCY": "Tendenz",
+        "MORE_OF_GENRE": "Mehr von",
+        "CHOOSE_GENRE": "Genre auswählen",
         "CLOSE": "Abbrechen",
         "CONFIRM": "Ok",
-        "CONFIRMAPPLY": "Ok und Übernehmen",
-        "TITLE": "Titel",
-        "ARTIST": "Interpret",
-        "ALBUM": "Album",
-        "DURATION": "Dauer"
+        "CONFIRMAPPLY": "Ok und Übernehmen"
     },
     "SPEECH": {
         "COMMAND_INPUT": "Suchen oder Befehl eingeben...",

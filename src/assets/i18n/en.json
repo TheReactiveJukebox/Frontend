@@ -25,6 +25,11 @@
         "ARTIST": "Artist",
         "ALBUM": "Album",
         "DURATION": "Duration",
+        "MOOD": "Mood",
+        "DYNAMICS": "Dynamics",
+        "SPEED": "Speed",
+        "PERIOD": "Period",
+        "GENRE": "Genre",
         "TENDISC": "Give Tendency Feedback"
     },
     "HISTORY_LIST": {
@@ -33,18 +38,18 @@
     },
     "CURRENT_TRACK": {
         "SPECIALFEEDBACK": "explain your feedback",
-        "NO_TRACK": "Please create a radiostation to listen to!"
+        "NO_TRACK": "Please create a radiostation to listen to!",
+      "HISTORY_TOOL_TIP": "Toggle History"
     },
     "FEEDBACK_DIALOG": {
-        "LIKE": "I like",
-        "REASON": "because",
+        "LIKE": "Feedback for",
+        "REASON": "",
+        "TENDENCY": "Tendency",
+        "MORE_OF_GENRE": "More of",
+        "CHOOSE_GENRE": "Choose genre",
         "CLOSE": "Close",
         "CONFIRM": "Confirm",
-        "CONFIRMAPPLY": "Confirm and Aplly",
-        "TITLE": "Title",
-        "ARTIST": "Artist",
-        "ALBUM": "Album",
-        "DURATION": "Duration"
+        "CONFIRMAPPLY": "Confirm and Aplly"
     },
     "SPEECH": {
         "COMMAND_INPUT": "Search or type command...",
