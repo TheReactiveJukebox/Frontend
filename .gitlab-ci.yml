@@ -1,0 +1,9 @@
+stages:
+- build_frontend
+
+build_frontend:
+  stage: build_frontend
+  image: node:alpine
+  script:
+    - npm install
+    - npm run build:aot:prod
