@@ -1,7 +1,7 @@
 <md-nav-list>
     <md-divider></md-divider>
     <track-list-item [track]="track" (click)="jumpToTrack(track)" (onDelete)="trackService.removeTrack(track); this.indirectFeedback(track)"
-                     [showFeedback]="false" *ngFor="let track of this.nextTracks"></track-list-item>
+                     *ngFor="let track of this.nextTracks"></track-list-item>
     <md-divider></md-divider>
     <md-list-item class="tl-tendency">
         <p class="tl-trend-ico-col">

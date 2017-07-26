@@ -25,7 +25,7 @@ import {
     MdInputModule,
     MdListModule,
     MdSelectModule, MdSnackBarModule,
-    MdTabsModule
+    MdTabsModule, MdTooltipModule
 } from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
@@ -89,7 +89,7 @@ import {IndirectFeedbackService} from './services/indirect-feedback.service';
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
-        MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule,
+        MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule, MdTooltipModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {

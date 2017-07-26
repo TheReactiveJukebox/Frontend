@@ -22,14 +22,6 @@ export class HistoryListComponent {
         this.isExpanded = !this.isExpanded;
     }
 
-    btn_like(track) {
-        console.log('Like for track ' + track.title + ' has been triggered!');
-    }
-
-    btn_dislike(track) {
-        console.log('Dislike for track ' + track.title + ' has been triggered!');
-    }
-
     public indirectFeedback(track:Track): void{
         this.indirectFeedbackService.sendDeleteFeedback(track.id,this.radioStationService.jukebox.id,track.duration);
     }
