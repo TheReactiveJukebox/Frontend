@@ -53,6 +53,7 @@ import {HistoryService} from './services/history.service';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
 import {DialogService} from './services/dialog.service';
+import {IndirectFeedbackService} from './services/indirect-feedback.service';
 
 
 /**
@@ -117,8 +118,8 @@ import {DialogService} from './services/dialog.service';
         SpeechService,
         FeedbackService,
         PlayerService,
-        HistoryService
-
+        HistoryService,
+        IndirectFeedbackService
     ]
 })
 export class AppModule {

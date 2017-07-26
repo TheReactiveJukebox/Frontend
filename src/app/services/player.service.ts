@@ -7,6 +7,7 @@ import {TrackService} from './track.service';
 import {Track} from '../models/track';
 import {RadiostationService} from './radiostation.service';
 import {AuthHttp} from './auth/auth-http';
+import {IndirectFeedbackService} from './indirect-feedback.service';
 
 @Injectable()
 export class PlayerService implements OnDestroy {
@@ -21,6 +22,7 @@ export class PlayerService implements OnDestroy {
 
     constructor(private trackService: TrackService,
                 private radiostationService: RadiostationService,
+                private indirectFeedbackService: IndirectFeedbackService,
                 private authHttp: AuthHttp) {
         //set the default player settings
         this.audioPlayer.type = 'audio/mpeg';
@@ -43,7 +45,8 @@ export class PlayerService implements OnDestroy {
                     /* Use this for testing, if backend doesn't return tracks
                      *this.currentTrack = new Track();
                      * */
-                    //this.currentTrack.file = 'https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';
+                    //this.currentTrack.file =
+                    // 'https://192.168.99.100/music/f/5/4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';
 
 
                     this.trackUpdated();
@@ -127,7 +130,11 @@ export class PlayerService implements OnDestroy {
         if (this.currentTrack != null && (addToHistory || (this.progress / this.currentTrack.duration) > 0.9)) {
             this.radiostationService.writeToHistory(this.currentTrack);
         }
+        let currentID:number = this.currentTrack.id;
+        let currentProgress:number = this.progress;
         let nextTrack:Track = this.trackService.nextSong();
+        this.indirectFeedbackService.sendSkipFeedback(currentID,nextTrack.id,
+            this.radiostationService.jukebox.id, currentProgress);
     }
 
 //turns on the volume with the last set value

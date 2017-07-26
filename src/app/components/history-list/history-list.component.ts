@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
 import {HistoryService} from '../../services/history.service';
+import {Track} from '../../models/track';
+import {IndirectFeedbackService} from '../../services/indirect-feedback.service';
+import {RadiostationService} from '../../services/radiostation.service';
 
 @Component({
     selector: 'history-list',
@@ -11,7 +14,9 @@ export class HistoryListComponent {
     isExpanded: boolean = false;
     visibilityLimit: number = 5;
 
-    constructor(public historyService: HistoryService) { }
+    constructor(public historyService: HistoryService,
+                private  indirectFeedbackService: IndirectFeedbackService,
+                private radioStationService: RadiostationService) { }
 
     public toggleExpansion(): void {
         this.isExpanded = !this.isExpanded;
@@ -23,5 +28,9 @@ export class HistoryListComponent {
 
     btn_dislike(track) {
         console.log('Dislike for track ' + track.title + ' has been triggered!');
+    }
+
+    public indirectFeedback(track:Track): void{
+        this.indirectFeedbackService.sendDeleteFeedback(track.id,this.radioStationService.jukebox.id,track.duration);
     }
 }

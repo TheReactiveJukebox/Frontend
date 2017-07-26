@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Config} from '../config';
-import {Subscription} from 'rxjs/Subscription';
 import {IndirectFeedback} from '../models/indirectFeedback';
 import {AuthHttp} from './auth/auth-http';
-import {Track} from '../models/track';
 
 @Injectable()
 
@@ -15,7 +13,7 @@ export class IndirectFeedbackService{
     constructor(private authHttp:AuthHttp){}
 
     private postIndirectFeedback(body:IndirectFeedback):void {
-        if(this.checkBodySyntax(body)){
+        if(IndirectFeedbackService.checkBodySyntax(body)){
             this.authHttp.post(this.indirectFeedbackURI,body).subscribe(
                 ()=>{console.log('Posting indirect feedback successful');},
                 error => {
@@ -25,11 +23,11 @@ export class IndirectFeedbackService{
         }
     }
 
-    private checkBodySyntax(body:IndirectFeedback):boolean{
+    private static checkBodySyntax(body:IndirectFeedback):boolean{
         let numbercheck:boolean = (body.trackId > 0 && body.radioId > 0 && body.position >=0);
         let namecheck:boolean = (body.feedbackName == 'SKIP' || body.feedbackName == 'DELETE'
             || body.feedbackName == 'MULTI_SKIP');
-        let multicheck = !(body.feedbackName == 'MULTI_SKIP') || body.toTrackId > 0;
+        let multicheck:boolean = !(body.feedbackName == 'MULTI_SKIP') || body.toTrackId > 0;
         return numbercheck && namecheck && multicheck;
     }
 
@@ -39,8 +37,8 @@ export class IndirectFeedbackService{
         this.postIndirectFeedback(feedback);
     }
 
-    public sendSkipFeedback(trackID:number, radioID:number, postition:number):void{
-        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,postition);
+    public sendSkipFeedback(trackID:number,toTrackID:number , radioID:number, postition:number):void{
+        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,postition,toTrackID);
         feedback.makeSkipFeedback();
         this.postIndirectFeedback(feedback);
     }
