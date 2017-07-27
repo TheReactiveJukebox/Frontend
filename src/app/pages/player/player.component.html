@@ -1,12 +1,5 @@
 <md-card id="base-pane">
-    <md-toolbar style="height: 40px">
-        <page-title [height]="40">The Reactive Jukebox</page-title>
-        <a md-icon-button id="logout-btn" routerLink="/login" (click)="this.authService.logout()">
-            <md-icon>exit_to_app</md-icon>
-        </a>
-        <speech-search-field id="speech-btn" [minimal]="true"></speech-search-field>
-    </md-toolbar>
-    <md-tab-group #tabs style="margin: 10px;" [ngStyle]="{'height': 'calc(100% - '+getOffsetHeight()+'px)'}">
+    <md-tab-group #tabs [ngStyle]="{'height': 'calc(100% - '+getOffsetHeight()+'px)'}">
         <md-tab>
             <ng-template md-tab-label>
                 <md-icon [mdTooltip]="'PLAYER.TABS.RADIOSTATION' | translate" class="tab-icons">build</md-icon>
@@ -33,4 +26,10 @@
         </md-tab>
     </md-tab-group>
     <player-control-bar style="position: absolute; bottom: 0" *ngIf="trackService.currentTrack.getValue()"></player-control-bar>
+    <div style="position: absolute; right: 0; top: 0; z-index: 100">
+        <a md-icon-button id="logout-btn" routerLink="/login" (click)="this.authService.logout()">
+            <md-icon>exit_to_app</md-icon>
+        </a>
+        <speech-search-field id="speech-btn" [minimal]="true"></speech-search-field>
+    </div>
 </md-card>

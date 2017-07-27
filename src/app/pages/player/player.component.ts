@@ -43,9 +43,9 @@ export class PlayerComponent implements OnInit{
 
     public getOffsetHeight(): number {
         if (this.showPlayerBar) {
-            return 60 + 44;
+            return 44;
         } else {
-            return 60;
+            return 0;
         }
     }
 }
