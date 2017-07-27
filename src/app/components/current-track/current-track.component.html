@@ -36,12 +36,26 @@
                         </table>
                     </div>
                 </td>
-                <td id="history-button-table-wrapper">
+                <td class="history-button-table-wrapper">
                     <button md-fab disableRipple="true"
                             id="{{historyButtonClass}}"
                             (click)="btn_history_toggle()"
                             mdTooltip="{{'CURRENT_TRACK.HISTORY_TOOL_TIP' | translate}}">
                         <md-icon>history</md-icon>
+                    </button>
+                </td>
+                <td class="history-button-table-wrapper">
+                    <button md-fab disableRipple="true"
+                            (click)="btn_renew()"
+                            mdTooltip="{{'CURRENT_TRACK.REFRESH' | translate}}">
+                        <md-icon>autorenew</md-icon>
+                    </button>
+                </td>
+                <td class="history-button-table-wrapper">
+                    <button md-fab disableRipple="true"
+                            (click)="btn_Tendency()"
+                            mdTooltip="{{'CURRENT_TRACK.TENDISC' | translate}}">
+                        <md-icon id="tendency_button_wrapper">feedback</md-icon>
                     </button>
                 </td>
             </tr>

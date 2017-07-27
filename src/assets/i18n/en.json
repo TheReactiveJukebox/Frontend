@@ -36,8 +36,7 @@
     "DYNAMICS": "Dynamics",
     "SPEED": "Speed",
     "PERIOD": "Period",
-    "GENRE": "Genre",
-    "TENDISC": "Give Tendency Feedback"
+    "GENRE": "Genre"
   },
   "HISTORY_LIST": {
     "TITLE": "History",
@@ -46,7 +45,9 @@
   "CURRENT_TRACK": {
     "SPECIALFEEDBACK": "Explain your Feedback",
     "NO_TRACK": "Please create a radiostation to listen to!",
-    "HISTORY_TOOL_TIP": "Toggle History"
+    "HISTORY_TOOL_TIP": "Toggle History",
+    "REFRESH": "Refresh Tracklist",
+    "TENDISC": "Give Tendency Feedback"
   },
   "FEEDBACK_DIALOG": {
     "LIKE": "Feedback for",

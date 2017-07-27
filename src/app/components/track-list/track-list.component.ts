@@ -17,7 +17,6 @@ export class TrackListComponent implements OnInit, OnDestroy {
     nextTracks: Track[];
 
     constructor(public trackService: TrackService,
-                public feedbackService: FeedbackService,
                 public radiostationService: RadiostationService,
                 public playerService: PlayerService) {
         this.subscriptions = [];
@@ -49,14 +48,6 @@ export class TrackListComponent implements OnInit, OnDestroy {
         for (let subscription of this.subscriptions) {
             subscription.unsubscribe();
         }
-    }
-
-    btn_Renew() {
-
-    }
-
-    btn_Tendency(){
-        this.feedbackService.openTendencyFeedbackDialog();
     }
 
     jumpToTrack(track: Track): void{

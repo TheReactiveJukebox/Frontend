@@ -36,8 +36,7 @@
     "DYNAMICS": "Dynamik",
     "SPEED": "Tempo",
     "PERIOD": "Zeitraum",
-    "GENRE": "Genre",
-    "TENDISC": "Feedback zur Tendenz angeben"
+    "GENRE": "Genre"
   },
   "HISTORY_LIST": {
     "TITLE": "Wiedergabeverlauf",
@@ -46,7 +45,9 @@
   "CURRENT_TRACK": {
     "SPECIALFEEDBACK": "Grund angeben",
     "NO_TRACK": "Bitte erstelle eine Radiostation um Musik zu hören",
-  "HISTORY_TOOL_TIP": "Wiedergabeverlauf"
+    "HISTORY_TOOL_TIP": "Wiedergabeverlauf",
+    "REFRESH": "Songliste aktualisieren",
+    "TENDISC": "Feedback zur Tendenz angeben"
   },
   "FEEDBACK_DIALOG": {
     "LIKE": "Bewerte",
