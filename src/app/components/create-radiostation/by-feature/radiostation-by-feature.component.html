@@ -1,11 +1,7 @@
 <div class="component-pane">
     <page-title [height]="32">{{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}</page-title>
 
-    <div style="display: flex; justify-content: space-around; flex-flow: row wrap">
-        <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()">
-            <md-icon id="add-icon">add_circle</md-icon>
-        </button>
-
+    <div style="display: flex; justify-content: center; flex-flow: row wrap">
         <!-- create the tiles used to select the feature -->
         <md-card class="tile" *ngFor="let tile of tiles">
             <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
@@ -32,6 +28,10 @@
                        [(ngModel)]="tile.value"/>
             </md-card>
         </md-card>
+
+        <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()">
+            <md-icon id="add-icon">add_circle</md-icon>
+        </button>
     </div>
 
     <div class="bottom-bar">
