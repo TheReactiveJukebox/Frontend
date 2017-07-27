@@ -7,16 +7,16 @@
 
             <td>
                 <button
+                        [ngClass]="{'active-remove-button': cTendency.lessDynamics}"
                         md-icon-button
                         md-mini-fab
-                        [ngClass]="{'active-remove-button': cTendency.lessDynamics}"
                         (click)="btnLessDynamics()">
                     <md-icon>remove</md-icon>
                 </button>
                 <button
+                        [ngClass]="{'active-add-button': cTendency.moreDynamics}"
                         md-icon-button
                         md-mini-fab class="feedback-button-wrapper more_button_wrapper"
-                        [ngClass]="{'active-add-button': cTendency.moreDynamics}"
                         (click)="btnMoreDynamics()">
                     <md-icon>add</md-icon>
                 </button>

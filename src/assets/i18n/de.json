@@ -51,6 +51,9 @@
         "CONFIRM": "Ok",
         "CONFIRMAPPLY": "Ok und Übernehmen"
     },
+    "TENDENCY_DIALOG": {
+      "TENDENCY_TOOL_TIP": "Tendenz angeben"
+    },
     "SPEECH": {
         "COMMAND_INPUT": "Suchen oder Befehl eingeben...",
         "ERROR": {

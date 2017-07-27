@@ -51,6 +51,9 @@
         "CONFIRM": "Confirm",
         "CONFIRMAPPLY": "Confirm and Aplly"
     },
+    "TENDENCY_DIALOG": {
+      "TENDENCY_TOOL_TIP": "Add Tendency"
+    },
     "SPEECH": {
         "COMMAND_INPUT": "Search or type command...",
         "ERROR": {
