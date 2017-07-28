@@ -14,7 +14,7 @@
             <my-radiostation-by-song style="height: 100%" (onStart)="switchToPlayer()"></my-radiostation-by-song>
         </md-tab>
 
-        <md-tab>
+        <md-tab [disabled]="!trackService.hasNextTracks()">
             <ng-template md-tab-label>
                 <md-icon [mdTooltip]="'PLAYER.TABS.PLAYER' | translate" class="tab-icons">radio</md-icon>
             </ng-template>
