@@ -13,22 +13,26 @@
   position: relative;
 }
 
-#logout-btn {
+.header-button-container {
   position: absolute;
-  right: 0px;
-  top: 0px;
+  right: 0;
+  top: 0;
+  z-index: 100;
+
+  .header-button {
+    float: right;
+  }
 }
 
-#speech-btn{
+player-control-bar {
   position: absolute;
-  right: 36px;
-  top: 0px;
+  bottom: 0;
 }
 
-.my-content {
-  margin-left: 10px;
-  margin-right: 10px;
-  width: calc(100% - 20px);
+.player-content {
+  margin-left: $default-margin;
+  margin-right: $default-margin;
+  width: calc(100% - #{2 * $default-margin});
   height: 100%;
 }
 
@@ -42,10 +46,3 @@ md-tab-group {
   line-height: 40px !important;
   height: 40px !important;
 }
-
-/*
-Use this class if you want to customize the tab highlighting
-/deep/ .mat-ink-bar {
-  background-color: mat-color(map-get($default-theme, 'accent'), 'darker') !important;
-}
-*/

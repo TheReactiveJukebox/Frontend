@@ -7,29 +7,29 @@
             <radiostation-by-feature (onStart)="switchToPlayer()"></radiostation-by-feature>
         </md-tab>
 
-        <md-tab style="height: 100%">
+        <md-tab>
             <ng-template md-tab-label>
                 <md-icon [mdTooltip]="'PLAYER.TABS.STARTTRACK' | translate" class="tab-icons">audiotrack</md-icon>
             </ng-template>
-            <my-radiostation-by-song style="height: 100%" (onStart)="switchToPlayer()"></my-radiostation-by-song>
+            <my-radiostation-by-song (onStart)="switchToPlayer()"></my-radiostation-by-song>
         </md-tab>
 
         <md-tab [disabled]="!trackService.hasNextTracks()">
             <ng-template md-tab-label>
                 <md-icon [mdTooltip]="'PLAYER.TABS.PLAYER' | translate" class="tab-icons">radio</md-icon>
             </ng-template>
-            <div class="my-content">
+            <div class="player-content">
                 <history-list></history-list>
                 <current-track></current-track>
                 <track-list></track-list>
             </div>
         </md-tab>
     </md-tab-group>
-    <player-control-bar style="position: absolute; bottom: 0" *ngIf="trackService.currentTrack.getValue()"></player-control-bar>
-    <div style="position: absolute; right: 0; top: 0; z-index: 100">
-        <a md-icon-button id="logout-btn" routerLink="/login" (click)="this.authService.logout()">
+    <player-control-bar *ngIf="trackService.currentTrack.getValue()"></player-control-bar>
+    <div class="header-button-container">
+        <a md-icon-button class="header-button" routerLink="/login" (click)="this.authService.logout()">
             <md-icon>exit_to_app</md-icon>
         </a>
-        <speech-search-field id="speech-btn" [minimal]="true"></speech-search-field>
+        <speech-search-field class="header-button" [minimal]="true"></speech-search-field>
     </div>
 </md-card>
