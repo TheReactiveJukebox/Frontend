@@ -3,7 +3,6 @@
     <progress id="progress_bar" value="{{this.playerService.progress}}" max="{{duration}}"
               (click)="onProgressBarClick($event)"></progress>
 
-
     <md-card id="controls_wrapper">
         <button md-icon-button class="controlls" id="play_button" *ngIf="!this.playerService.isPlaying"
                 (click)="this.playerService.play()">
