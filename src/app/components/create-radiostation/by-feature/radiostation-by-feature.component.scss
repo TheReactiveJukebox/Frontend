@@ -1,56 +1,66 @@
 @import '~@angular/material/theming';
 @import '../../../../theme.scss';
 
-.component-pane {
+#component-pane {
   width: auto;
   height: 100%;
+
+  #feature-container {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+
+    .tile {
+      height: 80px;
+      width: 200px;
+      margin: $default-margin;
+      display: block;
+      padding: 20px;
+      text-align: center;
+      vertical-align: middle;
+      background-color: mat-color($default-theme-accent);
+
+      #close-tile-button {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+      }
+
+      .year-container {
+        width: 60px;
+        height: 19px;
+        padding: 3px;
+        margin-left: 70px;
+      }
+    }
+
+    #add-button {
+      margin: $default-margin;
+      height: 120px;
+      width: 240px;
+      display: block;
+      text-align: center;
+      vertical-align: middle;
+
+      md-icon {
+        font-size: 48px;
+        margin-top: -24px;
+        margin-left: -24px;
+      }
+    }
+  }
 }
 
 .bottom-bar {
   position: fixed;
   bottom: 0px;
   width: 100%;
-}
 
-#add-button {
-  margin-top: 25px;
-  height: 120px;
-  width: 240px;
-  margin: 10px;
-  display: block;
-  float: left;
-  padding: 15px;
-  text-align: center;
-  vertical-align: middle;
-}
+  button {
+    margin: $default-margin;
+  }
 
-.tile {
-  height: 80px;
-  width: 200px;
-  margin: 10px;
-  display: block;
-  float: left;
-  padding: 20px;
-  text-align: center;
-  vertical-align: middle;
-  background-color: mat-color($default-theme-accent);
-}
-
-#add-icon {
-  font-size: 48px;
-  margin-top: -24px;
-  margin-left: -24px;
-}
-
-#close-tile-button {
-  position: absolute;
-  top: -7px;
-  right: -7px;
-}
-
-.year-container {
-  width: 60px;
-  height: 19px;
-  padding: 3px;
-  margin-left: 70px;
+  #reset {
+    float: right;
+  }
 }
