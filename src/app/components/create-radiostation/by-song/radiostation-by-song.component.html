@@ -1,21 +1,21 @@
-<div class="component-pane">
+<div id="component-pane">
     <page-title [height]="32">{{'RADIOSTATION_CREATE.TITLE' | translate}}</page-title>
     <simple-search [ngStyle]="{'max-height': 'calc(100% - ' + getSearchHeight() + 'px)'}" (selectedTrack)="addStartTrack($event)"></simple-search>
-    <div *ngIf="track" style="position: fixed; bottom: 56px; width: calc(100% - 20px); margin: 10px">
+    <div id="selected-track-container" *ngIf="track">
         <md-divider></md-divider>
         <md-nav-list>
             <track-list-item [track]="track" [showFeedback]="false" (onDelete)="reset()"></track-list-item>
         </md-nav-list>
     </div>
-    <div class="bottom-bar">
+    <div id="bottom-bar">
         <md-divider></md-divider>
-        <button md-raised-button style="margin: 10px" (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}</button>
+        <button md-raised-button (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}</button>
         <md-select [placeholder]="'RADIOSTATION_CREATE.ALGORITHM' | translate"
                    [(ngModel)]="creationParameters.algorithm">
             <md-option *ngFor="let algorithm of algorithms" [value]="algorithm">
                 {{('ALGORITHMS.'+algorithm) | translate}}
             </md-option>
         </md-select>
-        <button md-raised-button style="margin: 10px; float: right" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' | translate}}</button>
+        <button md-raised-button id="reset" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' | translate}}</button>
     </div>
 </div>
