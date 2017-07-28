@@ -1,5 +1,7 @@
+@import "../../../theme.scss";
+
 #search-pane {
-  margin: 10px;
+  margin: $default-margin;
   width: auto;
   height: auto;
   max-height: inherit;

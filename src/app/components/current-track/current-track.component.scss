@@ -55,7 +55,7 @@ h2 {
   position: relative;
   left: 0;
   bottom: 0;
-  margin: 10px;
+  margin: $default-margin;
 }
 
 #feedback-button-table {
@@ -70,7 +70,7 @@ h2 {
   position: relative;
   left: 0;
   bottom: 0;
-  margin: 10px;
+  margin: $default-margin;
 }
 
 #history-button-toggle-off {
