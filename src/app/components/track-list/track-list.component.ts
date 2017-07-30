@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
-import {FeedbackService} from '../../services/feedback.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {PlayerService} from '../../services/player.service';
 import {IndirectFeedbackService} from '../../services/indirect-feedback.service';
@@ -18,7 +17,6 @@ export class TrackListComponent implements OnInit, OnDestroy {
     nextTracks: Track[];
 
     constructor(public trackService: TrackService,
-                public feedbackService: FeedbackService,
                 public indirectFeedbackService: IndirectFeedbackService,
                 public radiostationService: RadiostationService,
                 public playerService: PlayerService) {
@@ -64,6 +62,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
     }
 
     indirectFeedback(track:Track){
+        //Sends delete feedback with position as zero to indicate deletion from upcoming songs
         this.indirectFeedbackService.sendDeleteFeedback(track.id,this.radiostationService.jukebox.id,0);
     }
-}
+}

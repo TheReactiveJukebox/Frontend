@@ -131,9 +131,12 @@ export class PlayerService implements OnDestroy {
         }
         let currentID:number = this.currentTrack.id;
         let currentProgress:number = this.progress;
+
         let nextTrack:Track = this.trackService.nextSong();
+
+        if(!addToHistory) //Check if legitimate skip
         this.indirectFeedbackService.sendSkipFeedback(currentID,nextTrack.id,
-            this.radiostationService.jukebox.id, currentProgress);
+            this.radiostationService.jukebox.id, currentProgress); //Skip feedback
     }
 
 //turns on the volume with the last set value

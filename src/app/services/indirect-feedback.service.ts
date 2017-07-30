@@ -7,11 +7,12 @@ import {AuthHttp} from './auth/auth-http';
 
 export class IndirectFeedbackService{
 
-    private indirectFeedbackURI = Config.serverUrl + '/api/';
+    private indirectFeedbackURI = Config.serverUrl + '/api/indirect-feedback';
 
 
     constructor(private authHttp:AuthHttp){}
 
+    //HTTP post of the checked feedback object to API
     private postIndirectFeedback(body:IndirectFeedback):void {
         if(IndirectFeedbackService.checkBodySyntax(body)){
             this.authHttp.post(this.indirectFeedbackURI,body).subscribe(
@@ -23,6 +24,7 @@ export class IndirectFeedbackService{
         }
     }
 
+    //Check that mirrors the backend check of the object that will be sent to the backend
     private static checkBodySyntax(body:IndirectFeedback):boolean{
         let numbercheck:boolean = (body.trackId > 0 && body.radioId > 0 && body.position >=0);
         let namecheck:boolean = (body.feedbackName == 'SKIP' || body.feedbackName == 'DELETE'

@@ -23,6 +23,7 @@ export class HistoryListComponent {
     }
 
     public indirectFeedback(track:Track): void{
+        //Sends delete Feedback with duration as position to indicate deletion out of history
         this.indirectFeedbackService.sendDeleteFeedback(track.id,this.radioStationService.jukebox.id,track.duration);
     }
 }
