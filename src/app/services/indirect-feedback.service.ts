@@ -31,20 +31,20 @@ export class IndirectFeedbackService{
         return numbercheck && namecheck && multicheck;
     }
 
-    public sendDeleteFeedback(trackID:number, radioID:number, postition:number):void{
-        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,postition);
+    public sendDeleteFeedback(trackID:number, radioID:number, position:number):void{
+        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,position);
         feedback.makeDeleteFeedback();
         this.postIndirectFeedback(feedback);
     }
 
-    public sendSkipFeedback(trackID:number,toTrackID:number , radioID:number, postition:number):void{
-        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,postition,toTrackID);
+    public sendSkipFeedback(trackID:number,toTrackID:number , radioID:number, position:number):void{
+        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,position,toTrackID);
         feedback.makeSkipFeedback();
         this.postIndirectFeedback(feedback);
     }
 
-    public sendMultiSkipFeedback(trackID:number, toTrackID:number, radioID:number, postition:number):void{
-        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,postition,toTrackID);
+    public sendMultiSkipFeedback(trackID:number, toTrackID:number, radioID:number, position:number):void{
+        let feedback:IndirectFeedback = new IndirectFeedback(radioID,trackID,position,toTrackID);
         feedback.makeMultiSkipFeedback();
         this.postIndirectFeedback(feedback);
     }
