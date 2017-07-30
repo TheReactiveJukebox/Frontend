@@ -268,6 +268,9 @@ export class FeedbackService {
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
                 this.postTrackFeedback(this.dialogRef.componentInstance.cFeedback);
+                if ( result == '2') {
+                    this.radiostationService.refreshTrackList();
+                }
             }
             this.dialogRef = null;
 
@@ -278,12 +281,15 @@ export class FeedbackService {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
         this.dialogRef.componentInstance.cTendency = this.createTendencyToCurrentRadio();
         //temporary mock genres
-        this.genres = ["Rock", "Pop", "Classic"];
+        this.genres = ['Rock', 'Pop', 'Classic'];
         this.dialogRef.componentInstance.genres = this.genres;
         this.dialogRef.afterClosed().subscribe((result: string) => {
-            if (result == '1' || result == '2') {
-
+            if (result == '1' || result == '2' ) {
+                if ( result == '2') {
+                    this.radiostationService.refreshTrackList();
+                }
             }
+
             this.dialogRef = null;
         });
     }

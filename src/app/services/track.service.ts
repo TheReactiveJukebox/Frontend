@@ -35,6 +35,15 @@ export class TrackService {
         });
     }
 
+    //Refreshes current Tracklist
+    refreshTrackList(): void {
+        this.fetchNewSongs(this.numberUpcomingSongs).subscribe((tracks: Track[]) => {
+            this.nextTracks.next(tracks.slice(1));
+        }, error => {
+            console.log(error);
+        });
+    }
+
     fetchNewSongs(count: number): Observable<Track[]> {
         return Observable.create(observer => {
             let url = this.trackListUrl + '?count=' + count;
