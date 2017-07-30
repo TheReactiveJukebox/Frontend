@@ -1,32 +1,42 @@
 <div id="search-pane">
-<speech-search-field (keyup)="searches($event.target.value)" (searchCall)="searches($event)"></speech-search-field>
-<div *ngIf="this.trackResultCount > 0">
-    <md-nav-list class="tl">
-        <h1 md-subheader>Tracks</h1>
-        <md-list-item class="tl-row" *ngFor="let result of this.trackResult | slice:0:9" (click)="this.selection(result, 'TRACK')">
-            <p class="tl-title-col">{{result.title}}</p>
-            <p class="tl-artist-col">{{result.artist.name}}</p>
-            <p class="tl-album-col">{{result.album.title}}</p>
-        </md-list-item>
-    </md-nav-list>
-</div>
-<div *ngIf="this.trackResultCount > 0 && (this.artistResultCount > 0 || this.albumResultCount > 0)"><md-divider></md-divider></div>
-<div *ngIf="this.artistResultCount > 0">
-    <md-nav-list class="tl">
-        <h1 md-subheader>Artists</h1>
-        <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4" (click)="this.selection(result, 'ARTIST')">
-            <p class="tl-name-col">{{result.name}}</p>
-        </md-list-item>
-    </md-nav-list>
-</div>
-<div *ngIf="this.artistResultCount > 0 && this.albumResultCount > 0"><md-divider></md-divider></div>
-<div *ngIf="this.albumResultCount > 0">
-    <md-nav-list class="tl">
-        <h1 md-subheader>Album</h1>
-        <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:4" (click)="this.selection(result, 'ALBUM')">
-            <p class="tl-title-col">{{result.title}}</p>
-            <p class="tl-artist-col">{{result.artist.name}}</p>
-        </md-list-item>
-    </md-nav-list>
-</div>
+    <speech-search-field (keyup)="searches($event.target.value)" (searchCall)="searches($event)"></speech-search-field>
+    <h3 md-subheader="" *ngIf="!hasResults() && this.searchTerm != ''">
+        {{'SEARCH.NO_RESULTS' | translate}}
+    </h3>
+    <div *ngIf="this.trackResultCount > 0">
+        <md-nav-list class="tl">
+            <h1 md-subheader>{{'TRACK_LIST.TITLE' | translate}}</h1>
+            <md-list-item class="tl-row" *ngFor="let result of this.trackResult | slice:0:9"
+                          (click)="this.selection(result, 'TRACK')">
+                <p class="tl-title-col">{{result.title}}</p>
+                <p class="tl-artist-col">{{result.artist.name}}</p>
+                <p class="tl-album-col">{{result.album.title}}</p>
+            </md-list-item>
+        </md-nav-list>
+    </div>
+    <div *ngIf="this.trackResultCount > 0 && (this.artistResultCount > 0 || this.albumResultCount > 0)">
+        <md-divider></md-divider>
+    </div>
+    <div *ngIf="this.artistResultCount > 0">
+        <md-nav-list class="tl">
+            <h1 md-subheader>{{'TRACK_LIST.ARTIST' | translate}}</h1>
+            <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4"
+                          (click)="this.selection(result, 'ARTIST')">
+                <p class="tl-name-col">{{result.name}}</p>
+            </md-list-item>
+        </md-nav-list>
+    </div>
+    <div *ngIf="this.artistResultCount > 0 && this.albumResultCount > 0">
+        <md-divider></md-divider>
+    </div>
+    <div *ngIf="this.albumResultCount > 0">
+        <md-nav-list class="tl">
+            <h1 md-subheader>{{'TRACK_LIST.ALBUM' | translate}}</h1>
+            <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:4"
+                          (click)="this.selection(result, 'ALBUM')">
+                <p class="tl-title-col">{{result.title}}</p>
+                <p class="tl-artist-col">{{result.artist.name}}</p>
+            </md-list-item>
+        </md-nav-list>
+    </div>
 </div>

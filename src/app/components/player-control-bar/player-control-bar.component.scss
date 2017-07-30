@@ -16,6 +16,7 @@
   width: 100%;
   border: 0px;
   background: #ff5131;
+  z-index: 2;
 }
 
 progress[value] {
@@ -55,12 +56,26 @@ progress::-moz-progress-bar {
   border: none;
 }
 
-#player_current_song_desc {
-  position: absolute;
-  left: 100px;
+#feedback_current_song_wrapper {
   bottom: 0px;
   height: 40px;
-  width: 40%;
+  color: white;
+  padding: 0px !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: mat-color($default-theme-accent);
+  border: none;
+  margin: 0 auto;
+  border-spacing: 0px;
+  margin-top: 4px;
+  z-index: 1;
+}
+
+#player_current_song_desc {
+  position: relative;
+  bottom: 0px;
+  height: 40px;
   color: white;
   line-height: 40px;
   text-align: center;
@@ -68,28 +83,30 @@ progress::-moz-progress-bar {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  margin-top: 4px;
   background: mat-color($default-theme-accent);
 }
 
+.title_wrapper {
+  font-weight: bold;
+}
+.position_wrapper {
+  margin-left: 30px;
+}
+
 #feedback_wrapper {
-  position: absolute;
-  bottom: 0px;
-  width: 135px;
-  left: 40%;
-  margin-left: 100px;
+  margin-left: 30px;
   color: white;
   float: left;
   flex-flow: row;
   padding: 0px !important;
-  -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
-  background: mat-color($default-theme-accent);
+  margin-top: 4px;
 }
 
 #sound_wrapper {
   position: absolute;
-  right: 10px;
+  right: 40px;
   bottom: 0px;
   width: 180px;
   color: white;

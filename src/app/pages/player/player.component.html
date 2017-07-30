@@ -1,38 +1,35 @@
 <md-card id="base-pane">
-    <md-toolbar>
-        <span id="title">The Reactive Jukebox</span>
-        <a md-icon-button id="logout-btn" routerLink="/login" (click)="this.authService.logout()">
-            <md-icon>exit_to_app</md-icon>
-        </a>
-        <speech-search-field id="speech-btn" [minimal]="true"></speech-search-field>
-    </md-toolbar>
-    <md-tab-group #tabs [dynamicHeight]="true">
+    <md-tab-group #tabs [ngStyle]="{'height': 'calc(100% - '+getOffsetHeight()+'px)'}">
         <md-tab>
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Konfiguration" class="tab-icons">build</md-icon>
+                <md-icon [mdTooltip]="'PLAYER.TABS.RADIOSTATION' | translate" class="tab-icons">build</md-icon>
             </ng-template>
-            <radiostation-by-feature class="my-content" (onStart)="switchToPlayer()"></radiostation-by-feature>
+            <radiostation-by-feature (onStart)="switchToPlayer()"></radiostation-by-feature>
         </md-tab>
 
         <md-tab>
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Song" class="tab-icons">audiotrack</md-icon>
+                <md-icon [mdTooltip]="'PLAYER.TABS.STARTTRACK' | translate" class="tab-icons">audiotrack</md-icon>
             </ng-template>
-            <my-radiostation-by-song class="my-content" (onStart)="switchToPlayer()"></my-radiostation-by-song>
+            <my-radiostation-by-song (onStart)="switchToPlayer()"></my-radiostation-by-song>
         </md-tab>
 
-        <md-tab>
+        <md-tab [disabled]="!trackService.hasNextTracks()">
             <ng-template md-tab-label>
-                <md-icon mdTooltip="Player" class="tab-icons">radio</md-icon>
+                <md-icon [mdTooltip]="'PLAYER.TABS.PLAYER' | translate" class="tab-icons">radio</md-icon>
             </ng-template>
-            <md-card id="play-list-view" class="my-content">
+            <div class="player-content">
                 <history-list></history-list>
                 <current-track></current-track>
                 <track-list></track-list>
-            </md-card>
+            </div>
         </md-tab>
     </md-tab-group>
-    <md-card-footer>
-        <player-control-bar></player-control-bar>
-    </md-card-footer>
+    <player-control-bar *ngIf="trackService.currentTrack.getValue()"></player-control-bar>
+    <div class="header-button-container">
+        <a md-icon-button class="header-button" routerLink="/login" (click)="this.authService.logout()">
+            <md-icon>exit_to_app</md-icon>
+        </a>
+        <speech-search-field class="header-button" [minimal]="true"></speech-search-field>
+    </div>
 </md-card>

@@ -76,6 +76,10 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }
 
+    btn_Tendency(){
+        this.feedbackService.openTendencyFeedbackDialog();
+    }
+
     btn_history_toggle() {
         if (this.historyService.historyVisible) {
             this.historyService.historyVisible = false;
@@ -84,6 +88,10 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
             this.historyService.historyVisible = true;
             this.historyButtonClass = 'history-button-toggle-on';
         }
+    }
+
+    btn_renew() {
+
     }
 
 }
