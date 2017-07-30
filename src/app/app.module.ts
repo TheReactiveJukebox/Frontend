@@ -24,8 +24,11 @@ import {
     MdIconModule,
     MdInputModule,
     MdListModule,
-    MdSelectModule, MdSnackBarModule,
-    MdTabsModule, MdTooltipModule
+    MdSelectModule,
+    MdSliderModule,
+    MdSnackBarModule,
+    MdTabsModule,
+    MdTooltipModule
 } from '@angular/material';
 import {LoginComponent} from './pages/login/login.component';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
@@ -52,8 +55,8 @@ import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/
 import {HistoryService} from './services/history.service';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
-import {DialogService} from './services/dialog.service';
 import {IndirectFeedbackService} from './services/indirect-feedback.service';
+import {PageTitleComponent} from './components/page-title/page-title.component';
 
 
 /**
@@ -77,7 +80,8 @@ import {IndirectFeedbackService} from './services/indirect-feedback.service';
         SecondsToDatePipe,
         SimpleSearchComponent,
         HistoryListComponent,
-        TrackListItemComponent
+        TrackListItemComponent,
+        PageTitleComponent
     ],
     /**
      * Import Angular's modules.
@@ -89,7 +93,7 @@ import {IndirectFeedbackService} from './services/indirect-feedback.service';
         HttpModule,
         BrowserAnimationsModule,
         MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
-        MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule, MdTooltipModule,
+        MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule, MdSliderModule, MdTooltipModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
             loader: {

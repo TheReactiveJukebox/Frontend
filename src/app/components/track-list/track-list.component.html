@@ -3,20 +3,4 @@
     <track-list-item [track]="track" (click)="jumpToTrack(track)" (onDelete)="trackService.removeTrack(track); this.indirectFeedback(track)"
                      *ngFor="let track of this.nextTracks"></track-list-item>
     <md-divider></md-divider>
-    <md-list-item class="tl-tendency">
-        <p class="tl-trend-ico-col">
-            <button
-                    md-icon-button
-                    (click)="btn_Tendency()">
-                <md-icon id="tendency_button_wrapper">feedback</md-icon>
-            </button>
-
-        </p>
-        <p class="tl-trend-disciption-col">{{'TRACK_LIST.TENDISC' | translate}}</p>
-        <p class="tl-refresh-ico-col">
-            <button md-icon-button (click)="btn_Renew()">
-                <md-icon id="renew_button_wrapper">autorenew</md-icon>
-            </button>
-        </p>
-    </md-list-item>
 </md-nav-list>

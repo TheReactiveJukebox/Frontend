@@ -1,5 +1,5 @@
 <md-list-item *ngIf="track">
-    <p class="tl-cover-col">
+    <p>
         <a> <img *ngIf="track.cover" src="{{track.cover}}" alt="Cover" class="cover-img">
             <img *ngIf="!track.cover" src="../../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
         </a>
@@ -11,13 +11,15 @@
     <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
 
 
-    <button class="t1-like-col"
+    <button *ngIf="showFeedback"
+            class="t1-like-col"
             md-icon-button
             class="feedback-button-wrapper"
             (click)="btn_like(); $event.stopPropagation()">
         <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_up</md-icon>
     </button>
-    <button class="t1-dislike-col"
+    <button  *ngIf="showFeedback"
+            class="t1-dislike-col"
             md-icon-button
             class="feedback-button-wrapper"
             (click)="btn_dislike(); $event.stopPropagation()">

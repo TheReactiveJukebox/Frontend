@@ -53,14 +53,6 @@ export class TrackListComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_Renew() {
-
-    }
-
-    btn_Tendency(){
-        this.feedbackService.openTendencyFeedbackDialog();
-    }
-
     jumpToTrack(track: Track): void{
         //if more than 90% of the song are completed, the current Track will be written to the global History
         if(this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9){
@@ -74,4 +66,4 @@ export class TrackListComponent implements OnInit, OnDestroy {
     indirectFeedback(track:Track){
         this.indirectFeedbackService.sendDeleteFeedback(track.id,this.radiostationService.jukebox.id,0);
     }
-}
+}

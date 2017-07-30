@@ -1,65 +1,75 @@
 {
-    "ALGORITHMS": {
-      "RANDOM": "Random",
-      "SAGH": "Same Artist Greatest Hits"
-    },
-    "GENERAL": {
-        "INVITE_KEY": "Invite Key",
-        "PASSWORD": "Password",
-        "USERNAME": "Username"
-    },
-    "LOGIN_PAGE": {
-        "LOGIN": "Login",
-        "REGISTER": "Register",
-        "ERROR": {
-            "WRONG_KEY": "Register failed. Your invite key is incorrect!",
-            "USERNAME_IN_USE": "Register failed. Username already in use. Choose another one!",
-            "GENERAL_REGISTER": "Register failed. Please try again!",
-            "GENERAL_LOGIN": "Login failed. Please try again!",
-            "WRONG_PW_OR_USER": "Login failed! Username or password are incorrect!"
-        }
-    },
-    "TRACK_LIST": {
-        "ID": "ID",
-        "TITLE": "Title",
-        "ARTIST": "Artist",
-        "ALBUM": "Album",
-        "DURATION": "Duration",
-        "MOOD": "Mood",
-        "DYNAMICS": "Dynamics",
-        "SPEED": "Speed",
-        "PERIOD": "Period",
-        "GENRE": "Genre",
-        "TENDISC": "Give Tendency Feedback"
-    },
-    "HISTORY_LIST": {
-        "TITLE": "History",
-        "EMPTY": "No titles played in this radio."
-    },
-    "CURRENT_TRACK": {
-        "SPECIALFEEDBACK": "explain your feedback",
-        "NO_TRACK": "Please create a radiostation to listen to!",
-      "HISTORY_TOOL_TIP": "Toggle History"
-    },
-    "FEEDBACK_DIALOG": {
-        "LIKE": "Feedback for",
-        "REASON": "",
-        "TENDENCY": "Tendency",
-        "MORE_OF_GENRE": "More of",
-        "CHOOSE_GENRE": "Choose genre",
-        "CLOSE": "Close",
-        "CONFIRM": "Confirm",
-        "CONFIRMAPPLY": "Confirm and Aplly"
-    },
-    "SPEECH": {
-        "COMMAND_INPUT": "Search or type command...",
-        "ERROR": {
-            "GENERAL_ERROR": "Sorry, something went wrong!",
-            "INDISTINGUISHABLE_SPEECH": "Sorry, i didn't understand you!",
-            "NOT_AVAILABLE": "Sorry, voice control is not available!"
-        }
+  "ALGORITHMS": {
+    "RANDOM": "Random",
+    "SAGH": "Same Artist Greatest Hits"
   },
-
+  "GENERAL": {
+    "INVITE_KEY": "Invite Key",
+    "PASSWORD": "Password",
+    "USERNAME": "Username"
+  },
+  "LOGIN_PAGE": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "ERROR": {
+      "WRONG_KEY": "Register failed. Your invite key is incorrect!",
+      "USERNAME_IN_USE": "Register failed. Username already in use. Choose another one!",
+      "GENERAL_REGISTER": "Register failed. Please try again!",
+      "GENERAL_LOGIN": "Login failed. Please try again!",
+      "WRONG_PW_OR_USER": "Login failed! Username or password are incorrect!"
+    }
+  },
+  "PLAYER": {
+    "TABS": {
+      "PLAYER": "Your Radiostation",
+      "RADIOSTATION": "Create a Radiostation",
+      "STARTTRACK": "Choose a Startsong"
+    }
+  },
+  "TRACK_LIST": {
+    "ID": "ID",
+    "TITLE": "Title",
+    "ARTIST": "Artist",
+    "ALBUM": "Album",
+    "DURATION": "Duration",
+    "MOOD": "Mood",
+    "DYNAMICS": "Dynamics",
+    "SPEED": "Speed",
+    "PERIOD": "Period",
+    "GENRE": "Genre"
+  },
+  "HISTORY_LIST": {
+    "TITLE": "History",
+    "EMPTY": "No titles played in this radio."
+  },
+  "CURRENT_TRACK": {
+    "SPECIALFEEDBACK": "Explain your Feedback",
+    "NO_TRACK": "Please create a radiostation to listen to!",
+    "HISTORY_TOOL_TIP": "Toggle History",
+    "REFRESH": "Refresh Tracklist",
+    "TENDISC": "Give Tendency Feedback"
+  },
+  "FEEDBACK_DIALOG": {
+    "LIKE": "Feedback for",
+    "REASON": "",
+    "TENDENCY": "Tendency",
+    "MORE_OF_GENRE": "More of",
+    "CHOOSE_GENRE": "Choose genre",
+    "CLOSE": "Close",
+    "CONFIRM": "Confirm",
+    "CONFIRMAPPLY": "Confirm and Apply"
+  },
+  "SEARCH": {
+    "NO_RESULTS": "No results..."
+  },
+  "SPEECH": {
+    "COMMAND_INPUT": "Search or type command...",
+    "ERROR": {
+      "GENERAL_ERROR": "Sorry, something went wrong!",
+      "INDISTINGUISHABLE_SPEECH": "Sorry, i didn't understand you!",
+      "NOT_AVAILABLE": "Sorry, voice control is not available!"
+    }
+  },
   "RADIOSTATION_CREATE": {
     "ALGORITHM": "Algorithm",
     "RESET": "Reset",
