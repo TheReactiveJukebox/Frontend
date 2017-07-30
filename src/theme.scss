@@ -16,3 +16,5 @@ $default-theme: mat-dark-theme(
 );
 
 @include angular-material-theme($default-theme);
+
+$default-margin: 10px;

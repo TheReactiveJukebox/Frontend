@@ -33,6 +33,7 @@ export class RadiostationBySongComponent {
     }
 
     reset() {
+        this.track = null;
     }
 
     public start(): void {
@@ -44,5 +45,13 @@ export class RadiostationBySongComponent {
     public addStartTrack(track: Track): void {
         this.track = track;
         this.creationParameters.startTracks = [track.id];
+    }
+
+    public getSearchHeight(): number {
+        if (this.track) {
+            return 32 + 58 + 20 + 56;
+        } else {
+            return 32 + 58 + 20;
+        }
     }
 }
