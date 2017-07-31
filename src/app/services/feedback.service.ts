@@ -204,7 +204,7 @@ export class FeedbackService {
     public postTendency(tendency: Tendency): void {
         if (this.isTendencyValid(tendency)) {
             this.authHttp.post(this.tendencyUrl, tendency).subscribe((data: any) => {
-                console.log("Tendency Response:");
+                console.log('Tendency Response:');
                 console.log(data);
             }, (error: Response) => {
                 if (error.status == 400) {
@@ -257,7 +257,7 @@ export class FeedbackService {
         let c = tendency.lessDynamics;
         let d = tendency.faster;
         let e = tendency.slower;
-        let f = tendency.older;
+        let f = tendency.startOlder;
         let g = tendency.newer;
 
         return (a && (b || c || d || e || f || g ));
@@ -270,7 +270,7 @@ export class FeedbackService {
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
                 this.postTrackFeedback(this.dialogRef.componentInstance.cFeedback);
-                if ( result == '2') {
+                if (result == '2') {
                     this.radiostationService.refreshTrackList();
                 }
             }
@@ -286,9 +286,9 @@ export class FeedbackService {
         this.genres = ['Rock', 'Pop', 'Classic'];
         this.dialogRef.componentInstance.genres = this.genres;
         this.dialogRef.afterClosed().subscribe((result: string) => {
-            this.postTendency(this.dialogRef.componentInstance.cTendency);
-            if (result == '1' || result == '2' ) {
-                if ( result == '2') {
+            if (result == '1' || result == '2') {
+                this.postTendency(this.dialogRef.componentInstance.cTendency);
+                if (result == '2') {
                     this.radiostationService.refreshTrackList();
                 }
             }

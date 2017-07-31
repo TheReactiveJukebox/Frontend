@@ -13,4 +13,5 @@ export class Track {
     historyId: number;
     speed: number;
     period: number;
+    dynamic: number;
 }

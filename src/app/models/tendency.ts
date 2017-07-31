@@ -9,7 +9,9 @@ export class Tendency {
     lessDynamics: boolean;
     slower: boolean;
     faster: boolean;
-    older: boolean;
-    newer: boolean;
+    startOlder: boolean;
+    startNewer: boolean;
+    endOlder: boolean;
+    endNewer: boolean;
     moreOfGenre?: string;
 }

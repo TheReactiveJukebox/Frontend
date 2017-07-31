@@ -55,20 +55,20 @@ export class TendencyFeedbackDialogComponent {
 
 
     btnOlder() {
-        if (this.cTendency.older) {
-            this.cTendency.older = false;
+        if (this.cTendency.startOlder) {
+            this.cTendency.startOlder = false;
         } else {
-            this.cTendency.newer = false;
-            this.cTendency.older = true;
+            this.cTendency.startNewer = false;
+            this.cTendency.startOlder = true;
         }
     }
 
     btnNewer() {
-        if (this.cTendency.newer) {
-            this.cTendency.newer = false;
+        if (this.cTendency.startNewer) {
+            this.cTendency.startNewer = false;
         } else {
-            this.cTendency.older = false;
-            this.cTendency.newer = true;
+            this.cTendency.startOlder = false;
+            this.cTendency.startNewer = true;
         }
     }
 

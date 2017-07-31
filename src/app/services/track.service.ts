@@ -37,7 +37,7 @@ export class TrackService {
 
     //Refreshes current Tracklist
     refreshTrackList(): void {
-        this.fetchNewSongs(this.numberUpcomingSongs,false).subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(this.numberUpcomingSongs +1,false).subscribe((tracks: Track[]) => {
             this.nextTracks.next(tracks.slice(1));
         }, error => {
             console.log(error);
