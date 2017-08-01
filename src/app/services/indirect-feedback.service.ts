@@ -7,7 +7,7 @@ import {AuthHttp} from './auth/auth-http';
 
 export class IndirectFeedbackService{
 
-    private indirectFeedbackURI = Config.serverUrl + '/api/indirect-feedback';
+    private indirectFeedbackURI = Config.serverUrl + '/api/track/indirect-feedback';
 
 
     constructor(private authHttp:AuthHttp){}
