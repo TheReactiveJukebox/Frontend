@@ -12,6 +12,7 @@ import {Track} from '../models/track';
 import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
 import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
 import {Tendency} from '../models/tendency';
+import {HistoryService} from './history.service';
 
 @Injectable()
 export class FeedbackService {
@@ -23,8 +24,11 @@ export class FeedbackService {
 
     private dialogRef: MdDialogRef<any>;
     private genres = [];
+    private curTendency: Tendency = null;
+    private curHistory: Track[];
 
     constructor(private radiostationService: RadiostationService,
+                private localHistory: HistoryService,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {
 
@@ -56,10 +60,41 @@ export class FeedbackService {
      * @returns {Tendency}
      */
     public createTendencyToCurrentRadio(): Tendency {
-        let tendency = new Tendency();
-        tendency.radioId = this.radiostationService.jukebox.id;
-        return tendency;
+        //if there is no current tendency object => create one
+        if (this.curTendency == null) {
+            this.curTendency = new Tendency();
+            this.curTendency.radioId = this.radiostationService.jukebox.id;
+            //calculate mean values
+            this.curTendency.meanDynamic = this.localHistory.calculateMeanDynamic();
+            this.curTendency.meanSpeed = this.localHistory.calculateMeanSpeed();
+            this.curTendency.meanYear = this.localHistory.calculateMeanYear();
+        }
+        //if the history isn't identically with current (song written or deleted) => create new tendency object
+        else {
+            for(var i = 0; i< this.localHistory.history.length; i++){
+                if(this.localHistory.history.indexOf(this.curHistory[i]) == -1){
+                    //the history differs => build new tendency
+                    this.curTendency = new Tendency();
+                    this.curTendency.radioId = this.radiostationService.jukebox.id;
+                    //calculate mean values //gives NaN for empty values
+                    this.curTendency.meanDynamic = this.localHistory.calculateMeanDynamic();
+                    this.curTendency.meanSpeed = this.localHistory.calculateMeanSpeed();
+                    this.curTendency.meanYear = this.localHistory.calculateMeanYear();
+                    break;
+                }
+
+            }
+
+        }
+        // remember the history of the last created tendency object is based on
+        this.curHistory = [];
+        for(var i= 0; i< this.localHistory.history.length; i++){
+            this.curHistory.push(this.localHistory.history[i]);
+        }
+        return this.curTendency;
     }
+
+
 
 
     public dislikeSong(feedback: TrackFeedback): TrackFeedback {
@@ -258,7 +293,7 @@ export class FeedbackService {
         let d = tendency.faster;
         let e = tendency.slower;
         let f = tendency.startOlder;
-        let g = tendency.newer;
+        let g = tendency.startNewer;
 
         return (a && (b || c || d || e || f || g ));
     }
@@ -288,6 +323,7 @@ export class FeedbackService {
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
                 this.postTendency(this.dialogRef.componentInstance.cTendency);
+                this.curTendency = this.dialogRef.componentInstance.cTendency;
                 if (result == '2') {
                     this.radiostationService.refreshTrackList();
                 }

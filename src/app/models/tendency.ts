@@ -14,4 +14,8 @@ export class Tendency {
     endOlder: boolean;
     endNewer: boolean;
     moreOfGenre?: string;
+
+    meanDynamic: number;
+    meanSpeed: number;
+    meanYear: number;
 }
