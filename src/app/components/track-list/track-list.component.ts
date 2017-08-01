@@ -55,9 +55,9 @@ export class TrackListComponent implements OnInit, OnDestroy {
         //if more than 90% of the song are completed, the current Track will be written to the global History
         if(this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9){
             this.radiostationService.writeToHistory(this.playerService.currentTrack);
-            this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id,track.id ,
-                this.radiostationService.jukebox.id, this.playerService.progress);
         }
+        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id,track.id ,
+            this.radiostationService.jukebox.id, this.playerService.progress);
         this.trackService.jumpToTrack(track);
     }
 
