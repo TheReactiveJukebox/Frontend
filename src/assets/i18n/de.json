@@ -57,7 +57,9 @@
     "CHOOSE_GENRE": "Genre auswählen",
     "CLOSE": "Abbrechen",
     "CONFIRM": "Ok",
-    "CONFIRMAPPLY": "Ok und Übernehmen"
+    "CONFIRMAPPLY": "Ok und Übernehmen",
+    "PERIOD_START": "Songs aus den Jahren von",
+    "PERIOD_END": "bis"
   },
   "SEARCH": {
     "NO_RESULTS": "Keine Ergebnisse..."

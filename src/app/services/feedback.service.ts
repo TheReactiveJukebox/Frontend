@@ -26,12 +26,12 @@ export class FeedbackService {
     private genres = [];
     private curTendency: Tendency = null;
     private curHistory: Track[];
+    private radioId: number;
 
     constructor(private radiostationService: RadiostationService,
                 private localHistory: HistoryService,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {
-
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
             this.genres = genreList;
         }, error => {
@@ -65,22 +65,37 @@ export class FeedbackService {
             this.curTendency = new Tendency();
             this.curTendency.radioId = this.radiostationService.jukebox.id;
             //calculate mean values
-            this.curTendency.meanDynamic = this.localHistory.calculateMeanDynamic();
-            this.curTendency.meanSpeed = this.localHistory.calculateMeanSpeed();
-            this.curTendency.meanYear = this.localHistory.calculateMeanYear();
+            this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
+            this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
+            this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
+            this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
+
+            //temporary mock attributes until data is available
+            this.curTendency.preferredDynamics = 0.3;
+            this.curTendency.preferredSpeed = 121;
+            this.curTendency.preferredPeriodStart = 1976;
+            this.curTendency.preferredPeriodEnd = 2006;
+
         }
         //if the history isn't identically with current (song written or deleted) => create new tendency object
         else {
-            for(var i = 0; i< this.localHistory.history.length; i++){
-                if(this.localHistory.history.indexOf(this.curHistory[i]) == -1){
+            this.curTendency.moreOfGenre = null;
+            for (let i = 0; i < this.localHistory.history.length; i++) {
+                if (this.curHistory.indexOf(this.localHistory.history[i]) == -1) {
                     //the history differs => build new tendency
                     this.curTendency = new Tendency();
                     this.curTendency.radioId = this.radiostationService.jukebox.id;
-                    //calculate mean values //gives NaN for empty values
-                    this.curTendency.meanDynamic = this.localHistory.calculateMeanDynamic();
-                    this.curTendency.meanSpeed = this.localHistory.calculateMeanSpeed();
-                    this.curTendency.meanYear = this.localHistory.calculateMeanYear();
-                    break;
+                    //calculate mean values
+                    this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
+                    this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
+                    this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
+                    this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
+
+                    //temporary mock attributes until data is available
+                    this.curTendency.preferredDynamics = 0.3;
+                    this.curTendency.preferredSpeed = 121;
+                    this.curTendency.preferredPeriodStart = 1976;
+                    this.curTendency.preferredPeriodEnd = 2006;
                 }
 
             }
@@ -88,13 +103,11 @@ export class FeedbackService {
         }
         // remember the history of the last created tendency object is based on
         this.curHistory = [];
-        for(var i= 0; i< this.localHistory.history.length; i++){
+        for (let i = 0; i < this.localHistory.history.length; i++) {
             this.curHistory.push(this.localHistory.history[i]);
         }
         return this.curTendency;
     }
-
-
 
 
     public dislikeSong(feedback: TrackFeedback): TrackFeedback {
@@ -287,15 +300,17 @@ export class FeedbackService {
     }
 
     private isTendencyValid(tendency: Tendency): boolean {
-        let a = tendency.radioId != null
+        let a = tendency.radioId != null;
         let b = tendency.moreDynamics;
         let c = tendency.lessDynamics;
         let d = tendency.faster;
         let e = tendency.slower;
         let f = tendency.startOlder;
         let g = tendency.startNewer;
-
-        return (a && (b || c || d || e || f || g ));
+        let h = tendency.endOlder;
+        let i = tendency.endNewer;
+        let j = tendency.moreOfGenre != null;
+        return (a && (b || c || d || e || f || g || h || i || j));
     }
 
     public openTrackFeedbackDialog(track: Track): void {
@@ -317,8 +332,10 @@ export class FeedbackService {
     public openTendencyFeedbackDialog(): void {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
         this.dialogRef.componentInstance.cTendency = this.createTendencyToCurrentRadio();
-        //temporary mock genres
+
+        //temporary mock genres until data is available
         this.genres = ['Rock', 'Pop', 'Classic'];
+
         this.dialogRef.componentInstance.genres = this.genres;
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
