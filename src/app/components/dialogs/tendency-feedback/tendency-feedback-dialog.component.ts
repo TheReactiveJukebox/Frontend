@@ -29,6 +29,16 @@ export class TendencyFeedbackDialogComponent {
     constructor(public dialogRef: MdDialogRef<TendencyFeedbackDialogComponent>) {
     }
 
+    setCurTendency(curTendency: Tendency){
+        this.cTendency = new Tendency();
+        this.cTendency.radioId = curTendency.radioId;
+        this.cTendency.preferredDynamics = curTendency.preferredDynamics;
+        this.cTendency.preferredPeriodEnd = curTendency.preferredPeriodEnd;
+        this.cTendency.preferredPeriodStart = curTendency.preferredPeriodStart;
+        this.cTendency.preferredSpeed = curTendency.preferredSpeed;
+
+    }
+
     roundAvoid(value: number, places: number): number {
         let scale = Math.pow(10, places);
         return Math.round(value * scale) / scale;

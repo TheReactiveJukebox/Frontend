@@ -62,44 +62,22 @@ export class FeedbackService {
     public createTendencyToCurrentRadio(): Tendency {
         //if there is no current tendency object => create one
         if (this.curTendency == null) {
-            this.curTendency = new Tendency();
-            this.curTendency.radioId = this.radiostationService.jukebox.id;
-            //calculate mean values
-            this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
-            this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
-            this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
-            this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
-
-            //temporary mock attributes until data is available
-            this.curTendency.preferredDynamics = 0.3;
-            this.curTendency.preferredSpeed = 121;
-            this.curTendency.preferredPeriodStart = 1976;
-            this.curTendency.preferredPeriodEnd = 2006;
-
+            this.initTendency();
         }
-        //if the history isn't identically with current (song written or deleted) => create new tendency object
+        //if a new Radiostation was started
+        else if(this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.jukebox.id) {
+            this.initTendency();
+        }
         else {
             this.curTendency.moreOfGenre = null;
+            //if the history isn't identically with current (song written or deleted) => create new tendency object
             for (let i = 0; i < this.localHistory.history.length; i++) {
                 if (this.curHistory.indexOf(this.localHistory.history[i]) == -1) {
                     //the history differs => build new tendency
-                    this.curTendency = new Tendency();
-                    this.curTendency.radioId = this.radiostationService.jukebox.id;
-                    //calculate mean values
-                    this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
-                    this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
-                    this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
-                    this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
-
-                    //temporary mock attributes until data is available
-                    this.curTendency.preferredDynamics = 0.3;
-                    this.curTendency.preferredSpeed = 121;
-                    this.curTendency.preferredPeriodStart = 1976;
-                    this.curTendency.preferredPeriodEnd = 2006;
+                    this.initTendency();
+                    break;
                 }
-
             }
-
         }
         // remember the history of the last created tendency object is based on
         this.curHistory = [];
@@ -107,6 +85,23 @@ export class FeedbackService {
             this.curHistory.push(this.localHistory.history[i]);
         }
         return this.curTendency;
+    }
+
+
+    private initTendency(): void {
+        this.curTendency = new Tendency();
+        this.curTendency.radioId = this.radiostationService.jukebox.id;
+        //calculate mean values
+        this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
+        this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
+        this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
+        this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
+
+        //temporary mock attributes until data is available
+        this.curTendency.preferredDynamics = 0.3;
+        this.curTendency.preferredSpeed = 121;
+        this.curTendency.preferredPeriodStart = 1976;
+        this.curTendency.preferredPeriodEnd = 2006;
     }
 
 
@@ -331,7 +326,7 @@ export class FeedbackService {
 
     public openTendencyFeedbackDialog(): void {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTendency = this.createTendencyToCurrentRadio();
+        this.dialogRef.componentInstance.setCurTendency(this.createTendencyToCurrentRadio());
 
         //temporary mock genres until data is available
         this.genres = ['Rock', 'Pop', 'Classic'];
