@@ -4,6 +4,9 @@ stages:
 build_frontend:
   stage: build_frontend
   image: node:alpine
+  cache:
+    paths:
+    - /root/.npm/_cacache/
   script:
     - npm install
     - npm run build:aot:prod
