@@ -11,7 +11,7 @@ export class Config {
         },
 
         production: {
-            serverUrl: 'https://129.217.62.109:4799',
+            serverUrl: 'https://pg.netz1984.de:4799',
             dev: false
         }
     };
