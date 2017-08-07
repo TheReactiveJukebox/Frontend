@@ -16,12 +16,4 @@ export class HistoryListComponent {
     public toggleExpansion(): void {
         this.isExpanded = !this.isExpanded;
     }
-
-    btn_like(track) {
-        console.log('Like for track ' + track.title + ' has been triggered!');
-    }
-
-    btn_dislike(track) {
-        console.log('Dislike for track ' + track.title + ' has been triggered!');
-    }
 }

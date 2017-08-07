@@ -14,7 +14,6 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
 
     public currentTrack: Track;
-    public show: boolean = false;
     public title: string = '???';
     public artist: string = '???';
     public duration: number = 213;
@@ -51,7 +50,6 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
     private trackUpdated(): void {
         if (this.currentTrack) {
-            this.show = true;
             this.artist = this.currentTrack.artist.name;
             this.title = this.currentTrack.title;
             this.duration = this.currentTrack.duration;

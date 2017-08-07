@@ -1,13 +1,7 @@
-<md-card id="component-pane">
+<div id="component-pane">
+    <page-title [height]="32">{{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}</page-title>
 
-    <md-card-title>
-        {{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}
-    </md-card-title>
-    <md-card-content>
-        <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()">
-            <md-icon id="add-icon">add_circle</md-icon>
-        </button>
-
+    <div id="feature-container">
         <!-- create the tiles used to select the feature -->
         <md-card class="tile" *ngFor="let tile of tiles">
             <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
@@ -35,15 +29,15 @@
             </md-card>
         </md-card>
 
-    </md-card-content>
-    <md-card-footer>
-        <md-card-actions>
-            <button md-raised-button (click)="start()">{{'RADIOSTATION_CREATE.START' |
-                translate}}
-            </button>
-            <button md-raised-button (click)="reset()">{{'RADIOSTATION_CREATE.RESET' |
-                translate}}
-            </button>
-        </md-card-actions>
-    </md-card-footer>
-</md-card>
+        <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()">
+            <md-icon>add_circle</md-icon>
+        </button>
+    </div>
+
+    <div id="bottom-bar">
+        <button md-raised-button (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}
+        </button>
+        <button md-raised-button id="reset" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' | translate}}
+        </button>
+    </div>
+</div>
