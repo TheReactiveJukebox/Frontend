@@ -5,6 +5,7 @@ frontend:
   stage: build
   image: node:alpine
   cache:
+    key: "frontend_npm"
     paths:
     - /root/.npm/_cacache/
   script:
