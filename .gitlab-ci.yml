@@ -3,8 +3,8 @@ stages:
 
 frontend:
   stage: build
-  # https://hub.docker.com/_/node/
-  image: node:alpine
+  # https://hub.docker.com/r/iron/node/
+  image: iron/node
   cache:
     untracked: true
     key: "frontend_npm"
