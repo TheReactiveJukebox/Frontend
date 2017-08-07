@@ -1,8 +1,8 @@
 stages:
-- build_frontend
+- build
 
-build_frontend:
-  stage: build_frontend
+frontend:
+  stage: build
   image: node:alpine
   cache:
     paths:
