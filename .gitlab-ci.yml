@@ -18,3 +18,8 @@ frontend:
   script:
     - npm install
     - npm run build:aot:prod
+  artifacts:
+    paths:
+    - .npm/
+    - node_modules/
+    expire_in: 1 week
