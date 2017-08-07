@@ -8,7 +8,7 @@ frontend:
   cache:
     key: "frontend_npm"
     paths:
-    - /root/.npm/_cacache/
+    - ~/.npm/_cacache/
   before_script:
     - npm cache verify
   script:
