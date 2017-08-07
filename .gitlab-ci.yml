@@ -8,5 +8,5 @@ frontend:
     paths:
     - /root/.npm/_cacache/
   script:
-    - npm -q install
+    - npm install
     - npm run build:aot:prod
