@@ -3,6 +3,7 @@ stages:
 
 frontend:
   stage: build
+  # https://hub.docker.com/_/node/
   image: node:alpine
   cache:
     key: "frontend_npm"
