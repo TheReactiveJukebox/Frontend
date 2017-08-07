@@ -8,8 +8,10 @@ frontend:
   cache:
     key: "frontend_npm"
     paths:
-    - ~/.npm/_cacache/
+    - .npm/
   before_script:
+    - npm set cache .npm
+    - npm set fetch-retries 5
     - npm cache verify
   script:
     - npm install
