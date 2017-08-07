@@ -9,6 +9,8 @@ frontend:
     key: "frontend_npm"
     paths:
     - /root/.npm/_cacache/
+  before_script:
+    - npm cache verify
   script:
     - npm install
     - npm run build:aot:prod
