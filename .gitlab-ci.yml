@@ -4,7 +4,7 @@ stages:
 frontend:
   stage: build
   # https://hub.docker.com/_/node/
-  image: node:alpine
+  image: node:7-alpine
   before_script:
     - npm set fetch-retries 10
   script:
