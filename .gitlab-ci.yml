@@ -5,7 +5,12 @@ frontend:
   stage: build
   # https://hub.docker.com/_/node/
   image: node:7-alpine
+  cache:
+    key: "frontend_npm"
+    paths:
+    - .npm/
   before_script:
+    - npm set cache .npm
     - npm set fetch-retries 10
   script:
     - npm install
