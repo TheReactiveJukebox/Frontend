@@ -1,5 +1,6 @@
 <md-nav-list>
     <md-divider></md-divider>
-    <track-list-item [track]="track" (click)="jumpToTrack(track)" (onDelete)="trackService.removeTrack(track)" *ngFor="let track of this.nextTracks"></track-list-item>
+    <track-list-item [track]="track" (click)="jumpToTrack(track)" (onDelete)="trackService.removeTrack(track); this.indirectFeedback(track)"
+                     *ngFor="let track of this.nextTracks"></track-list-item>
     <md-divider></md-divider>
 </md-nav-list>

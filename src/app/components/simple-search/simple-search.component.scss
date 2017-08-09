@@ -3,13 +3,16 @@
 #search-pane {
   margin: $default-margin;
   width: auto;
-  height: auto;
-  max-height: inherit;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: inherit;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+
+#results {
+  height: calc(100% - 67px);
+  overflow-y: auto;
+  margin: 0px;
 }
 
 .tl{

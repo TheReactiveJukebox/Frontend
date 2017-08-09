@@ -55,7 +55,9 @@ import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/
 import {HistoryService} from './services/history.service';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
+import {IndirectFeedbackService} from './services/indirect-feedback.service';
 import {PageTitleComponent} from './components/page-title/page-title.component';
+
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -120,8 +122,8 @@ import {PageTitleComponent} from './components/page-title/page-title.component';
         SpeechService,
         FeedbackService,
         PlayerService,
-        HistoryService
-
+        HistoryService,
+        IndirectFeedbackService
     ]
 })
 export class AppModule {

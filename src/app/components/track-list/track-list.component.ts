@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
-import {FeedbackService} from '../../services/feedback.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {PlayerService} from '../../services/player.service';
+import {IndirectFeedbackService} from '../../services/indirect-feedback.service';
 
 @Component({
     selector: 'track-list',
@@ -17,6 +17,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
     nextTracks: Track[];
 
     constructor(public trackService: TrackService,
+                public indirectFeedbackService: IndirectFeedbackService,
                 public radiostationService: RadiostationService,
                 public playerService: PlayerService) {
         this.subscriptions = [];
@@ -55,6 +56,13 @@ export class TrackListComponent implements OnInit, OnDestroy {
         if(this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9){
             this.radiostationService.writeToHistory(this.playerService.currentTrack);
         }
-        this.trackService.jumpToTrack(track)
+        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id,track.id ,
+            this.radiostationService.jukebox.id, this.playerService.progress);
+        this.trackService.jumpToTrack(track);
+    }
+
+    indirectFeedback(track:Track){
+        //Sends delete feedback with position as zero to indicate deletion from upcoming songs
+        this.indirectFeedbackService.sendDeleteFeedback(track.id,this.radiostationService.jukebox.id,0);
     }
 }

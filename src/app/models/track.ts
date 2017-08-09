@@ -14,4 +14,5 @@ export class Track {
     speed: number;
     period: number;
     dynamic: number;
+    genre: string;
 }

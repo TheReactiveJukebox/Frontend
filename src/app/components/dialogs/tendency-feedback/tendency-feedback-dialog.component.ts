@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {Tendency} from '../../../models/tendency';
 import {NgFor} from '@angular/common';
+import {Track} from '../../../models/track';
 
 @Component({
     selector: 'tendency-feedback-dialog',
@@ -11,7 +12,6 @@ import {NgFor} from '@angular/common';
 export class TendencyFeedbackDialogComponent {
     cTendency: Tendency;
     genres = [];
-
 
     speedUpperlimit = 400;
     speedLowerLimit = 1;
