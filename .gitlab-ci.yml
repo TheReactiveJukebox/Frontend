@@ -1,6 +1,7 @@
 stages:
 - build
 - build_image
+- test
 
 variables:
   IMAGE_NAME_PRO: $CI_REGISTRY/jukebox/frontend/pro:$CI_COMMIT_REF_SLUG
@@ -33,3 +34,8 @@ production:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker build --pull -t $IMAGE_NAME_PRO .
     - docker push $IMAGE_NAME_PRO
+
+nginx_syntax:
+  stage: test
+  script:
+    - docker run $IMAGE_NAME_PRO nginx -t
