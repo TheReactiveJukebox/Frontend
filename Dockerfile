@@ -1,5 +1,5 @@
 # Builds a Docker to deliver dist/
-# Alternatively, use nginx:alpine for a smaller image
+# https://hub.docker.com/_/nginx/
 FROM nginx:alpine
 COPY dist/ /usr/share/nginx/html
 COPY config/default.conf /etc/nginx/conf.d/default.conf

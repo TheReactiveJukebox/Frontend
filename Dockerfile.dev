@@ -1,4 +1,5 @@
-FROM node:8-alpine
+# https://hub.docker.com/_/nginx/
+FROM node:7-alpine
 MAINTAINER Danny Textores <textores.danny@gmail.com>
 
 ENV APP_ROOT=/app
