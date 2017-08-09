@@ -124,11 +124,11 @@ export class TrackService {
     }
 
     //Gets the next track from the preview and adds the next track to the preview list
-    nextSong(): void {
+    nextSong(): Track {
         let tempTracks: Track[] = this.nextTracks.getValue();
         this.currentTrack.next(tempTracks[0]);
+        let nextTrack:Track = tempTracks[0];
         tempTracks = tempTracks.slice(1);
-
         //Get new Track
         this.fetchNewSongs(1).subscribe((tracks: Track[]) => {
             tempTracks.push(tracks[0]);
@@ -136,6 +136,8 @@ export class TrackService {
         }, error => {
             console.log(error);
         });
+
+        return nextTrack;
     }
 
     hasNextTracks(): boolean {
@@ -173,7 +175,7 @@ export class TrackService {
      * skips/remove all tracks between current and choosen track
      * @param track to jump to
      */
-    jumpToTrack(track: Track): void {
+    jumpToTrack(track: Track): Track{
         let currentTracks: Track[] = this.nextTracks.getValue();
         let removedTracks: Track[] = new Array();
         var removed = 0;
@@ -202,6 +204,6 @@ export class TrackService {
                 console.log(error);
             });
         }
-
+        return track;
     }
 }
