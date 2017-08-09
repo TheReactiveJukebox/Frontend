@@ -15,3 +15,6 @@ production:
   script:
     - npm install
     - npm run build:aot:prod
+  artifacts:
+    paths:
+    - dist/
