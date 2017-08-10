@@ -17,10 +17,7 @@ h2 {
   width: 100%;
   min-height: 180px;
   min-width: 180px;
-}
-
-#cover-img-wrapper {
-  width: 70%;
+  box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
 }
 
 #now-playing-details-table {
@@ -29,6 +26,7 @@ h2 {
 
 #cover-img-table-wrapper {
   width: 15%;
+  max-width: 400px;
 }
 
 #now-playing-details-table-wrapper {
@@ -60,6 +58,7 @@ h2 {
 
 #feedback-button-table {
   margin-top: 15px;
+  margin-left: -10px;
 }
 
 #duration_table {
