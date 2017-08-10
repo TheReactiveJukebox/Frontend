@@ -1,7 +1,7 @@
 stages:
 - build
 - build_image
-- image_test
+- test_image
 
 variables:
   IMAGE_NAME_PRO: $CI_REGISTRY/jukebox/frontend/pro:$CI_COMMIT_REF_SLUG
@@ -30,6 +30,6 @@ docker_image:
     - docker build --pull -t $IMAGE_NAME_PRO .
 
 nginx_syntax:
-  stage: image_test
+  stage: test_image
   script:
     - docker run $IMAGE_NAME_PRO nginx -t
