@@ -69,6 +69,9 @@ export class TendencyFeedbackDialogComponent {
     }
 
     onDynamicSliderChange(value) {
+        if (this.presetDynamic == null) {
+            this.presetDynamic = this.cTendency.preferredDynamics;
+        }
         this.cTendency.preferredDynamics = this.roundAvoid(value, 3);
     }
 
