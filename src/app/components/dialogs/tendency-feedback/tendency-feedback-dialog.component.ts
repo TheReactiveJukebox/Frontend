@@ -135,6 +135,9 @@ export class TendencyFeedbackDialogComponent {
         }
         this.cTendency.preferredPeriodStart = this.roundAvoid(value, 0);
         if (this.cTendency.preferredPeriodStart > this.cTendency.preferredPeriodEnd) {
+            if (this.presetPeriodEnd == null) {
+                this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
+            }
             this.cTendency.preferredPeriodEnd = this.cTendency.preferredPeriodStart;
         }
     }
@@ -170,6 +173,9 @@ export class TendencyFeedbackDialogComponent {
         }
         this.cTendency.preferredPeriodEnd = this.roundAvoid(value, 0);
         if (this.cTendency.preferredPeriodStart > this.cTendency.preferredPeriodEnd) {
+            if (this.presetPeriodStart == null) {
+                this.presetPeriodStart = this.cTendency.preferredPeriodStart;
+            }
             this.cTendency.preferredPeriodStart = this.cTendency.preferredPeriodEnd;
         }
     }
