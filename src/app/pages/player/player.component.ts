@@ -1,9 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
-import {MdTabGroup} from '@angular/material';
+import {MdIconRegistry, MdTabGroup} from '@angular/material';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
 import {PlayerService} from '../../services/player.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
     selector: 'player',
@@ -11,7 +12,7 @@ import {PlayerService} from '../../services/player.service';
     templateUrl: './player.component.html',
     providers: [PlayerService]
 })
-export class PlayerComponent implements OnInit{
+export class PlayerComponent implements OnInit {
 
     @ViewChild('tabs')
     tabs: MdTabGroup;
@@ -19,7 +20,9 @@ export class PlayerComponent implements OnInit{
     public showPlayerBar: boolean = false;
 
     constructor(public authService: AuthService,
-                public trackService: TrackService) {
+                public trackService: TrackService,
+                private mdIconRegistry: MdIconRegistry,
+                private sanitizer: DomSanitizer) {
         this.trackService.currentTrack.subscribe((track: Track) => {
             if (track) {
                 this.showPlayerBar = true;
@@ -35,6 +38,8 @@ export class PlayerComponent implements OnInit{
         } else {
             this.tabs.selectedIndex = 0;
         }
+        this.mdIconRegistry.addSvgIconInNamespace('img', 'sprites',
+            this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/img/sprites.svg'));
     }
 
     public switchToPlayer(): void {
