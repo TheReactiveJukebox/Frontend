@@ -65,7 +65,7 @@ export class FeedbackService {
             this.initTendency();
         }
         //if a new Radiostation was started
-        else if(this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.jukebox.id) {
+        else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.jukebox.id) {
             this.initTendency();
         }
         else {
@@ -275,37 +275,36 @@ export class FeedbackService {
     }
 
     private isTrackFeedbackValid(feedback: TrackFeedback): boolean {
-        let a = feedback.radioId != null;
-        let b = feedback.trackId != null;
-        let c = feedback.songLiked;
-        let d = feedback.songDisliked;
-        let e = feedback.artistLiked;
-        let f = feedback.artistDisliked;
-        let g = feedback.speedLiked;
-        let h = feedback.speedDisliked;
-        let i = feedback.genreLiked;
-        let j = feedback.genreDisliked;
-        let k = feedback.dynamicsLiked;
-        let l = feedback.dynamicsDisliked;
-        let m = feedback.periodLiked;
-        let n = feedback.periodDisliked;
-        let o = feedback.moodLiked;
-        let p = feedback.moodDisliked;
-        return (a && b && (c || d || e || f || g || h || i || j || k || l || m || n || o || p));
+
+        return (feedback.radioId != null && feedback.trackId != null && (
+        feedback.songLiked ||
+        feedback.songDisliked ||
+        feedback.artistLiked ||
+        feedback.artistDisliked ||
+        feedback.speedLiked ||
+        feedback.speedDisliked ||
+        feedback.genreLiked ||
+        feedback.genreDisliked ||
+        feedback.dynamicsLiked ||
+        feedback.dynamicsDisliked ||
+        feedback.periodLiked ||
+        feedback.periodDisliked ||
+        feedback.moodLiked ||
+        feedback.moodDisliked));
     }
 
     private isTendencyValid(tendency: Tendency): boolean {
-        let a = tendency.radioId != null;
-        let b = tendency.moreDynamics;
-        let c = tendency.lessDynamics;
-        let d = tendency.faster;
-        let e = tendency.slower;
-        let f = tendency.startOlder;
-        let g = tendency.startNewer;
-        let h = tendency.endOlder;
-        let i = tendency.endNewer;
-        let j = tendency.moreOfGenre != null;
-        return (a && (b || c || d || e || f || g || h || i || j));
+
+        return (tendency.radioId != null && (
+        tendency.moreDynamics ||
+        tendency.lessDynamics ||
+        tendency.faster ||
+        tendency.slower ||
+        tendency.startOlder ||
+        tendency.startNewer ||
+        tendency.endOlder ||
+        tendency.endNewer ||
+        tendency.moreOfGenre != null));
     }
 
     public openTrackFeedbackDialog(track: Track): void {
