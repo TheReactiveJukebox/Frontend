@@ -6,6 +6,7 @@ import {Track} from '../../models/track';
 import {PlayerService} from '../../services/player.service';
 import {DomSanitizer} from '@angular/platform-browser';
 
+
 @Component({
     selector: 'player',
     styleUrls: ['./player.component.scss'],

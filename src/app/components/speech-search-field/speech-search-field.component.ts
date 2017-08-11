@@ -1,8 +1,8 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output, Input} from '@angular/core';
-import {SpeechService} from '../../services/speech.service';
-import {Subject} from 'rxjs/Subject';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
+import {Subject} from 'rxjs/Subject';
 import {PlayerService} from '../../services/player.service';
+import {SpeechService} from '../../services/speech.service';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     @Output()
     searchCall = new EventEmitter();
 
-    @Input() minimal:boolean = false;
+    @Input() minimal: boolean = false;
 
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
@@ -26,11 +26,11 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     private colorRunner;
     //private beep;
 
-    private controlTerms: Map<string,number>;
+    private controlTerms: Map<string, number>;
 
 
     constructor(public speechService: SpeechService,
-                public playerService : PlayerService,
+                public playerService: PlayerService,
                 private translateService: TranslateService,
     ) {
         this.detectedText = '';
@@ -57,10 +57,11 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
     // toggles speech-search-field recognition listening state
     public toggleListening(): void {
-        if (this.listening)
+        if (this.listening) {
             this.stop();
-        else
+        } else {
             this.start();
+        }
     }
 
     // cancel speech-search-field recognition
@@ -72,7 +73,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     public start(): void {
         this.speechService.recordSpeech().takeUntil(this.ngUnsubscribe).subscribe((text: string) => {
            this.detectedText = text;
-           if(text.trim().length > 0){
+           if (text.trim().length > 0) {
                this.handleSpeech(text);
            }
         }, error => {
@@ -84,7 +85,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 this.detectedText = this.translateService.instant('SPEECH.ERROR.GENERAL_ERROR');
             }
 
-            if(this.minimal){
+            if (this.minimal) {
                 this.colorRunner = 0;
                 //this.beep.play();
             }
@@ -93,7 +94,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
     //Author: David Spain
 
-    private initializeControlTerms(){
+    private initializeControlTerms(): void {
         this.controlTerms = new Map();
         /*
         Mapping of speech terms and synonyms to control function (incomplete functionality as of 16.07.2017)
@@ -105,105 +106,108 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         6: Quieter
         7: Mute
          */
-        this.controlTerms.set('abspielen',1);
-        this.controlTerms.set('wiedergeben',1);
-        this.controlTerms.set('wiedergabe',1);
-        this.controlTerms.set('play',1);
-        this.controlTerms.set('continue',1);
+        this.controlTerms.set('abspielen', 1);
+        this.controlTerms.set('wiedergeben', 1);
+        this.controlTerms.set('wiedergabe', 1);
+        this.controlTerms.set('play', 1);
+        this.controlTerms.set('continue', 1);
 
-        this.controlTerms.set('pause',2);
-        this.controlTerms.set('pausieren',2);
-        this.controlTerms.set('unterbrechen',2);
+        this.controlTerms.set('pause', 2);
+        this.controlTerms.set('pausieren', 2);
+        this.controlTerms.set('unterbrechen', 2);
 
-        this.controlTerms.set('stop',3);
-        this.controlTerms.set('stopp',3);
-        this.controlTerms.set('anhalten',3);
+        this.controlTerms.set('stop', 3);
+        this.controlTerms.set('stopp', 3);
+        this.controlTerms.set('anhalten', 3);
 
-        this.controlTerms.set('skip',4);
-        this.controlTerms.set('weiter',4);
-        this.controlTerms.set('next',4);
-        this.controlTerms.set('überspringen',4);
+        this.controlTerms.set('skip', 4);
+        this.controlTerms.set('weiter', 4);
+        this.controlTerms.set('next', 4);
+        this.controlTerms.set('überspringen', 4);
 
-        this.controlTerms.set('lauter',5);
-        this.controlTerms.set('louder',5);
+        this.controlTerms.set('lauter', 5);
+        this.controlTerms.set('louder', 5);
 
-        this.controlTerms.set('leiser',6);
-        this.controlTerms.set('quieter',6);
+        this.controlTerms.set('leiser', 6);
+        this.controlTerms.set('quieter', 6);
 
-        this.controlTerms.set('mute',7);
-        this.controlTerms.set('stumm',7);
+        this.controlTerms.set('mute', 7);
+        this.controlTerms.set('stumm', 7);
     }
 
     //Function to handle incoming speech. If no recognized term is in speech query the term will be send to the search bar
-    private handleSpeech(speech:string): void {
+    private handleSpeech(speech: string): void {
         console.log('Recognized speech: ', speech);
 
         //Tokenization to find functional term in a sentence of recognized speech.
-        let tokens:string[] = speech.toLocaleLowerCase().split(' ');
-        let action:number = -1;
+        let tokens: string[] = speech.toLocaleLowerCase().split(' ');
+        let action: number = -1;
 
-        for(let i of tokens){
-            if(this.controlTerms.has(i)){
+        for (let i of tokens){
+            if (this.controlTerms.has(i)) {
                 action = this.controlTerms.get(i);
             }
         }
 
-        switch (action){
-            case 1:{
+        switch (action) {
+            case 1: {
                 this.playerService.play();
                 break;
             }
-            case 2:{
+            case 2: {
 
                 this.playerService.pause();
                 break;
             }
-            case 3:{
+            case 3: {
 
                 this.playerService.stop();
                 break;
             }
-            case 4:{
+            case 4: {
 
                 this.playerService.skipForward(false);
                 break;
             }
 
-            case 5:{
-                let current:number = this.playerService.volume;
+            case 5: {
+                let current: number = this.playerService.volume;
                 current = current + 0.2;
-                if(current > 1) current = 1;
+                if (current > 1) {
+                    current = 1;
+                }
                 this.playerService.setVolume(current);
                 break;
             }
-            case 6:{
-                let current:number = this.playerService.volume;
+            case 6: {
+                let current: number = this.playerService.volume;
                 current = current - 0.2;
-                if(current < 0) current = 0;
+                if (current < 0) {
+                    current = 0;
+                }
                 this.playerService.setVolume(current);
                 break;
             }
-            case 7:{
+            case 7: {
                 this.playerService.volumeOff();
                 break;
             }
-            default:{
+            default: {
             }
         }
         this.searchCall.emit(speech);
     }
 
-    public animateColor(){
+    public animateColor(): void {
         console.log('Animate');
         this.colorRunner = 255;
         const worker = () => {
-            if(this.colorRunner < 255){
-                console.log('Color '+this.colorRunner);
-                this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`,};
-                this.colorRunner = this.colorRunner +5;
+            if (this.colorRunner < 255) {
+                console.log('Color ' + this.colorRunner);
+                this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`, };
+                this.colorRunner = this.colorRunner + 5;
                 requestAnimationFrame(worker);
-            }
-            else{
+            } else {
                 this.micColor = {'color': `rgba(255,255,255,1)`};
                 requestAnimationFrame(worker);
             }

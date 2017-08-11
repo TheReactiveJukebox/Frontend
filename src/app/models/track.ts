@@ -1,5 +1,5 @@
-import {Artist} from './artist';
 import {Album} from './album';
+import {Artist} from './artist';
 
 export class Track {
     id: number;
@@ -11,6 +11,8 @@ export class Track {
     file: string;
     data?: any;
     historyId: number;
-    genre: string;
     speed: number;
+    period: number;
+    dynamic: number;
+    genre: string;
 }

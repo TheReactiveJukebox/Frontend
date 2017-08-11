@@ -2,13 +2,13 @@
  * Created by David on 01.07.2017.
  */
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { AuthHttp } from './auth/auth-http';
-import { Config } from '../config';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
+import { Config } from '../config';
+import { AuthHttp } from './auth/auth-http';
 
 
 @Injectable()
@@ -45,12 +45,11 @@ export class SearchService {
 
     // Function should call our API correctly
     apiCall(term: string, endpoint) {
-        var count = '';
-        if(term.length < SearchService.MIN_QUERY_LENGTH)
-        {
+        let count = '';
+        if (term.length < SearchService.MIN_QUERY_LENGTH) {
             count = 'xxtzt?count=0';
         }
-        const url= Config.serverUrl + endpoint + term +count;
+        const url = Config.serverUrl + endpoint + term + count;
         console.log('Get API call: ' + url);
         return this.authHttp.get(url);
     }

@@ -1,3 +1,30 @@
+@import '~@angular/material/theming'
+;@import '../../../../theme.scss';
+
 .track-feedback-table {
   width: 100%;
 }
+
+.track-feedback-table tr td {
+  padding-bottom: 15px;
+}
+
+.mat-raised-button {
+  margin: 0 4px;
+}
+
+.active-add-button{
+  background-color: #05af04;
+}
+.active-remove-button{
+  background-color: mat-color($default-theme-primary);
+}
+.inactive-button{
+  background-color: mat-color($default-theme-accent);
+}
+.tl-mean-value{
+  align-content: left;
+  marin: 20px
+}
+
+

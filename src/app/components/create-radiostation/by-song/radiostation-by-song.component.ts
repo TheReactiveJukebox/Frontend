@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {RadiostationService} from '../../../services/radiostation.service';
-import {PlayerService} from '../../../services/player.service';
 import {Track} from '../../../models/track';
+import {PlayerService} from '../../../services/player.service';
+import {RadiostationService} from '../../../services/radiostation.service';
 
 @Component({
     selector: 'my-radiostation-by-song',
@@ -32,7 +32,7 @@ export class RadiostationBySongComponent {
         });
     }
 
-    reset() {
+    reset(): void {
         this.track = null;
     }
 

@@ -1,9 +1,8 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {Router} from '@angular/router';
-import {AppComponent} from '../../app.component';
-import {AuthService} from '../../services/auth/auth.service';
-import {TranslateService} from '@ngx-translate/core';
 import { MdTabGroup } from '@angular/material';
+import {Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
     selector: 'about',
@@ -43,7 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.login(this.loginData).subscribe(() => {
             this.router.navigate(['/player']);
         }, (error: Response) => {
-            if(error.status == 442) {
+            if (error.status == 442) {
                 console.log('Login failed!');
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.WRONG_PW_OR_USER'));
             } else {

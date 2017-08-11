@@ -2,13 +2,11 @@
  * This service takes care of the current track and the track preview
  */
 import {Injectable} from '@angular/core';
-import {Track} from '../models/track';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Config} from '../config';
-import {AuthHttp} from './auth/auth-http';
 import {Observable} from 'rxjs/Observable';
-import {forEach} from '@angular/router/src/utils/collection';
-import {current} from 'codelyzer/util/syntaxKind';
+import {Config} from '../config';
+import {Track} from '../models/track';
+import {AuthHttp} from './auth/auth-http';
 
 @Injectable()
 export class TrackService {
@@ -27,7 +25,7 @@ export class TrackService {
 
     //Refreshes current track and track preview according to current radiostation
     refreshTracks(): void {
-        this.fetchNewSongs(this.numberUpcomingSongs + 1).subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
         }, error => {
@@ -35,15 +33,28 @@ export class TrackService {
         });
     }
 
-    fetchNewSongs(count: number): Observable<Track[]> {
+    //Refreshes current Tracklist
+    refreshTrackList(): void {
+        this.fetchNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
+            this.nextTracks.next(tracks.slice(1));
+        }, error => {
+            console.log(error);
+        });
+    }
+
+    fetchNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
             let url = this.trackListUrl + '?count=' + count;
-            if (this.currentTrack.getValue()) {
-                url += '&upcoming'+this.currentTrack.getValue().id;
+            //inculde tracks that are in the current listening queue
+            if (withCurrent) {
+                if (this.currentTrack.getValue()) {
+                    url += '&upcoming' + this.currentTrack.getValue().id;
+                }
+                for (let track of this.nextTracks.getValue()) {
+                    url += '&upcoming=' + track.id;
+                }
             }
-            for (let track of this.nextTracks.getValue()) {
-                url += '&upcoming='+track.id;
-            }
+
             this.authHttp.get(url).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
                     for (let i = 0; i < tracks.length; i++) {
@@ -75,28 +86,6 @@ export class TrackService {
         });
     }
 
-    /*fillData(rawTracks: Track[]): Observable<Track[]> {
-     return Observable.create(observer => {
-     let artistUrl = Config.serverUrl + '/api/artist?';
-     let albumUrl = Config.serverUrl + '/api/album?';
-     for (let rawTrack of rawTracks) {
-     artistUrl += 'id=' + rawTrack.artist + '&';
-     albumUrl += 'id=' + rawTrack.album + '&';
-     }
-     this.authHttp.get(artistUrl).subscribe((data: Artist[]) => {
-     for (let i = 0; i < rawTracks.length; i++) {
-     rawTracks[i].artist = data[i];
-     }
-     this.authHttp.get(albumUrl).subscribe((albums: Album[]) => {
-     for (let i = 0; i < rawTracks.length; i++) {
-     rawTracks[i].album = albums[i];
-     }
-     observer.next(rawTracks);
-     observer.complete();
-     });
-     });
-     });
-     }*/
 
     fillData(rawTracks: Track[]): Observable<Track[]> {
         return Observable.create(observer => {
@@ -127,10 +116,10 @@ export class TrackService {
     nextSong(): Track {
         let tempTracks: Track[] = this.nextTracks.getValue();
         this.currentTrack.next(tempTracks[0]);
-        let nextTrack:Track = tempTracks[0];
+        let nextTrack: Track = tempTracks[0];
         tempTracks = tempTracks.slice(1);
         //Get new Track
-        this.fetchNewSongs(1).subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(1, true).subscribe((tracks: Track[]) => {
             tempTracks.push(tracks[0]);
             this.nextTracks.next(tempTracks);
         }, error => {
@@ -152,8 +141,8 @@ export class TrackService {
     removeTrack(track: Track): void {
         let currentTracks: Track[] = this.nextTracks.getValue();
         let newTracks: Track[] = new Array(currentTracks.length - 1);
-        var removed = 0;
-        for (var i = 0; i < currentTracks.length; i++) {
+        let removed = 0;
+        for (let i = 0; i < currentTracks.length; i++) {
             if (currentTracks[i].id != track.id) {
                 newTracks[i - removed] = currentTracks[i];
             } else {
@@ -162,7 +151,7 @@ export class TrackService {
         }
 
         //Get new Track
-        this.fetchNewSongs(removed).subscribe((tracks: Track[]) => {
+        this.fetchNewSongs(removed, true).subscribe((tracks: Track[]) => {
             newTracks.push(tracks[0]);
             this.nextTracks.next(newTracks);
         }, error => {
@@ -175,12 +164,12 @@ export class TrackService {
      * skips/remove all tracks between current and choosen track
      * @param track to jump to
      */
-    jumpToTrack(track: Track): Track{
+    jumpToTrack(track: Track): Track {
         let currentTracks: Track[] = this.nextTracks.getValue();
         let removedTracks: Track[] = new Array();
-        var removed = 0;
+        let removed = 0;
         //fill removedTracks array
-        for (var i = 0; i < currentTracks.length; i++) {
+        for (let i = 0; i < currentTracks.length; i++) {
             if (currentTracks[i].id != track.id) {
                 removedTracks[removed] = currentTracks[i];
                 removed++;
@@ -191,13 +180,13 @@ export class TrackService {
 
         //Get #removed + 1 new tracks, +1 because current track is skipped
         if (removed >= 0) {
-            this.fetchNewSongs(removed + 1).subscribe((tracks: Track[]) => {
+            this.fetchNewSongs(removed + 1, true).subscribe((tracks: Track[]) => {
                 let newTracks: Track[] = this.nextTracks.getValue();
                 newTracks.splice(0, removed);
                 this.currentTrack.next(newTracks[0]);
                 newTracks = newTracks.slice(1);
-                tracks.forEach(function (track) {
-                    newTracks.push(track)
+                tracks.forEach(function (newTrack) {
+                    newTracks.push(newTrack);
                 });
                 this.nextTracks.next(newTracks);
             }, error => {

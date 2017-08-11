@@ -17,7 +17,9 @@ export class Config {
     };
 
     constructor(env?: string) {
-        if (!env) env = 'development';
+        if (!env) {
+            env = 'development';
+        }
         Config.serverUrl = Config.config[env].serverUrl;
         Config.dev = Config.config[env].dev;
     }

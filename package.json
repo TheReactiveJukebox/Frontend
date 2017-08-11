@@ -28,7 +28,7 @@
     "e2e:live": "npm-run-all -p -r server:prod:ci protractor:live",
     "e2e:travis": "npm-run-all -p -r server:prod:ci protractor:delay",
     "e2e": "npm-run-all -p -r server:prod:ci protractor",
-    "lint": "npm run tslint \"src/**/*.ts\"",
+    "lint": "npm run tslint \"src/app/**/*.ts\"",
     "node": "node",
     "postinstall": "npm run webdriver:update",
     "preclean:install": "npm run clean",

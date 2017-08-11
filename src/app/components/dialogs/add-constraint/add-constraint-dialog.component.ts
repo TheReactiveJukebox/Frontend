@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {AppState} from '../../../services/app.service';
 import {MdDialogRef} from '@angular/material';
+import {AppState} from '../../../services/app.service';
 
 @Component({
     selector: 'add-constraint-dialog',

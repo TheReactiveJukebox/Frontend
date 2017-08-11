@@ -1,11 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {AppState} from '../../../services/app.service';
-import {RadiostationService} from '../../../services/radiostation.service';
-import {PlayerService} from '../../../services/player.service';
-import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {Config} from '../../../config';
+import {AppState} from '../../../services/app.service';
 import {AuthHttp} from '../../../services/auth/auth-http';
+import {PlayerService} from '../../../services/player.service';
+import {RadiostationService} from '../../../services/radiostation.service';
+import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -50,8 +50,8 @@ export class RadiostationByFeatureComponent implements OnInit {
             this.genres = genreList;
         }, error => {
             //should not happen since this was a static request
-            console.log('It seems that the API-Endpoint /genre/list is not working properly: ',error)
-        })
+            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error);
+        });
         //TODO: load available moods
     }
 
@@ -88,7 +88,7 @@ export class RadiostationByFeatureComponent implements OnInit {
             }
         }
         //call server for radio
-        this.creationParameters.algorithm='RANDOM';
+        this.creationParameters.algorithm = 'RANDOM';
         this.radiostationService.startNewRadiostation(this.creationParameters);
         //start playing
         this.playerService.play();
@@ -107,10 +107,10 @@ export class RadiostationByFeatureComponent implements OnInit {
     addConstraint(result: string): void {
         //there can be an unlimetd number of genre elements
         if (result == this.keys.genre) {
-            this.tiles.push({type: this.keys.genre, value: this.genres[0], id: this.tileId++})
+            this.tiles.push({type: this.keys.genre, value: this.genres[0], id: this.tileId++});
         }
         //check if the other elements already contained
-        var contained = false;
+        let contained = false;
         for (let entry of this.tiles) {
             if (entry.type == result) {
                 contained = true;
@@ -119,16 +119,16 @@ export class RadiostationByFeatureComponent implements OnInit {
         //create the element
         if (!contained) {
             if (result == this.keys.mood) {
-                this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++})
+                this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
             }
             if (result == this.keys.endYear) {
-                this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++})
+                this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
             }
             if (result == this.keys.startYear) {
-                this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++})
+                this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
             }
         } else {
-            this.snackBar.open('already contained', '',{
+            this.snackBar.open('already contained', '', {
                 duration: 2000,
             });
         }

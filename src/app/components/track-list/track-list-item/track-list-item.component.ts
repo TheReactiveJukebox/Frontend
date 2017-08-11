@@ -23,11 +23,11 @@ export class TrackListItemComponent {
     }
 
     btn_like() {
-        this.feedbackService.postSimpleFeedback(this.track,true);
+        this.feedbackService.postSimpleFeedback(this.track, true);
     }
 
     btn_dislike() {
-        this.feedbackService.postSimpleFeedback(this.track,false);
+        this.feedbackService.postSimpleFeedback(this.track, false);
     }
 
 }
