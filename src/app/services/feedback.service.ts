@@ -11,19 +11,41 @@ import {AuthHttp} from './auth/auth-http';
 import {Track} from '../models/track';
 import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
 import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
+import {Tendency} from '../models/tendency';
+import {HistoryService} from './history.service';
 
 @Injectable()
 export class FeedbackService {
 
 
     private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
-	private dialogRef: MdDialogRef<any>;
+    private tendencyUrl = Config.serverUrl + '/api/jukebox/tendency';  // URL to web api
+    private genreApiUrl = Config.serverUrl + '/api/genre/list';  // URL to web api
+
+    private dialogRef: MdDialogRef<any>;
+    private genres = [];
+    private curTendency: Tendency = null;
+    private curHistory: Track[];
+    private radioId: number;
 
     constructor(private radiostationService: RadiostationService,
+                private localHistory: HistoryService,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {
+        this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
+            this.genres = genreList;
+        }, error => {
+            //should not happen since this was a static request
+            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error)
+        })
+
     }
 
+    /**
+     * Creates a TrackFeedback object which is matching to the given track and the current radio
+     * @param track
+     * @returns {TrackFeedback}
+     */
     public createTrackFeedbackToTrack(track: Track): TrackFeedback {
         let feedback = new TrackFeedback();
         if (track != null) {
@@ -31,6 +53,55 @@ export class FeedbackService {
         }
         feedback.radioId = this.radiostationService.jukebox.id;
         return feedback;
+    }
+
+    /**
+     * Creates a Tendency object for the current radio
+     * @returns {Tendency}
+     */
+    public createTendencyToCurrentRadio(): Tendency {
+        //if there is no current tendency object => create one
+        if (this.curTendency == null) {
+            this.initTendency();
+        }
+        //if a new Radiostation was started
+        else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.jukebox.id) {
+            this.initTendency();
+        }
+        else {
+            this.curTendency.moreOfGenre = null;
+            //if the history isn't identically with current (song written or deleted) => create new tendency object
+            for (let i = 0; i < this.localHistory.history.length; i++) {
+                if (this.curHistory.indexOf(this.localHistory.history[i]) == -1) {
+                    //the history differs => build new tendency
+                    this.initTendency();
+                    break;
+                }
+            }
+        }
+        // remember the history of the last created tendency object is based on
+        this.curHistory = [];
+        for (let i = 0; i < this.localHistory.history.length; i++) {
+            this.curHistory.push(this.localHistory.history[i]);
+        }
+        return this.curTendency;
+    }
+
+
+    private initTendency(): void {
+        this.curTendency = new Tendency();
+        this.curTendency.radioId = this.radiostationService.jukebox.id;
+        //calculate mean values
+        this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
+        this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
+        this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
+        this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
+
+        //temporary mock attributes until data is available
+        this.curTendency.preferredDynamics = 0.3;
+        this.curTendency.preferredSpeed = 121;
+        this.curTendency.preferredPeriodStart = 1976;
+        this.curTendency.preferredPeriodEnd = 2006;
     }
 
 
@@ -173,6 +244,21 @@ export class FeedbackService {
         }
     }
 
+    public postTendency(tendency: Tendency): void {
+        if (this.isTendencyValid(tendency)) {
+            this.authHttp.post(this.tendencyUrl, tendency).subscribe((data: any) => {
+                console.log('Tendency Response:');
+                console.log(data);
+            }, (error: Response) => {
+                if (error.status == 400) {
+                    console.log('The provided feedback entry is malformed');
+                }
+                console.warn('Sending feedback failed: ', error);
+            });
+
+        }
+    }
+
     /**
      * Posts a simple feedback containing radiostationID, songID, and a like or dislike for the given track to the backend
      * @param track track to give feedback to
@@ -189,23 +275,36 @@ export class FeedbackService {
     }
 
     private isTrackFeedbackValid(feedback: TrackFeedback): boolean {
-        let a = feedback.radioId != null;
-        let b = feedback.trackId != null;
-        let c = feedback.songLiked;
-        let d = feedback.songDisliked;
-        let e = feedback.artistLiked;
-        let f = feedback.artistDisliked;
-        let g = feedback.speedLiked;
-        let h = feedback.speedDisliked;
-        let i = feedback.genreLiked;
-        let j = feedback.genreDisliked;
-        let k = feedback.dynamicsLiked;
-        let l = feedback.dynamicsDisliked;
-        let m = feedback.periodLiked;
-        let n = feedback.periodDisliked;
-        let o = feedback.moodLiked;
-        let p = feedback.moodDisliked;
-        return (a && b && (c || d || e || f || g || h || i || j || k || l || m || n || o || p));
+
+        return (feedback.radioId != null && feedback.trackId != null && (
+        feedback.songLiked ||
+        feedback.songDisliked ||
+        feedback.artistLiked ||
+        feedback.artistDisliked ||
+        feedback.speedLiked ||
+        feedback.speedDisliked ||
+        feedback.genreLiked ||
+        feedback.genreDisliked ||
+        feedback.dynamicsLiked ||
+        feedback.dynamicsDisliked ||
+        feedback.periodLiked ||
+        feedback.periodDisliked ||
+        feedback.moodLiked ||
+        feedback.moodDisliked));
+    }
+
+    private isTendencyValid(tendency: Tendency): boolean {
+
+        return (tendency.radioId != null && (
+        tendency.moreDynamics ||
+        tendency.lessDynamics ||
+        tendency.faster ||
+        tendency.slower ||
+        tendency.startOlder ||
+        tendency.startNewer ||
+        tendency.endOlder ||
+        tendency.endNewer ||
+        tendency.moreOfGenre != null));
     }
 
     public openTrackFeedbackDialog(track: Track): void {
@@ -215,6 +314,9 @@ export class FeedbackService {
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
                 this.postTrackFeedback(this.dialogRef.componentInstance.cFeedback);
+                if (result == '2') {
+                    this.radiostationService.refreshTrackList();
+                }
             }
             this.dialogRef = null;
 
@@ -223,10 +325,21 @@ export class FeedbackService {
 
     public openTendencyFeedbackDialog(): void {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
+        this.dialogRef.componentInstance.setCurTendency(this.createTendencyToCurrentRadio());
+
+        //temporary mock genres until data is available
+        this.genres = ['Rock', 'Pop', 'Classic'];
+
+        this.dialogRef.componentInstance.genres = this.genres;
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
-                //TODO: Get tendency feeddback and post it to backend
+                this.postTendency(this.dialogRef.componentInstance.cTendency);
+                this.curTendency = this.dialogRef.componentInstance.cTendency;
+                if (result == '2') {
+                    this.radiostationService.refreshTrackList();
+                }
             }
+
             this.dialogRef = null;
         });
     }

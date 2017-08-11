@@ -127,4 +127,8 @@ export class RadiostationService implements OnDestroy {
         return this.algorithms.asObservable();
     }
 
+    public refreshTrackList(): void{
+        this.trackService.refreshTrackList();
+    }
+
 }

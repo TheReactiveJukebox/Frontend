@@ -4,12 +4,20 @@
         <tr>
             <td>
                 <p class="tl-dynamics">{{'TRACK_LIST.DYNAMICS' | translate}}: </p></td>
-            <td><p class="innerProp"></p>
+
+            <td>
+            <td>
+                <p class="tl-mean-value">{{cTendency.preferredDynamics}} </p></td>
+            <td>
+                <md-slider #dynamic id="dynamics-slider" color="primary" min="0" step="{{dynamicStepsize}}" max="1"
+                           [value]="cTendency.preferredDynamics"
+                           (change)="onDynamicSliderChange(dynamic.value)"></md-slider>
             </td>
+
             <td>
                 <button
                         md-icon-button
-                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
+                        md-mini-fab
                         (click)="btnLessDynamics()">
                     <md-icon>remove</md-icon>
                 </button>
@@ -24,18 +32,27 @@
         <tr>
             <td>
                 <p class="tl-speed">{{'TRACK_LIST.SPEED' | translate}}: </p></td>
-            <td><p class="innerProp">TODO Speed value</p>
+            <td>
+
+            <td>
+                <p class="tl-mean-value">{{cTendency.preferredSpeed}} </p></td>
+            <td>
+                <md-slider #speed id="speed-slider" color="primary" min="{{speedLowerLimit}}" step="{{speedStepsize}}"
+                           max="{{speedUpperlimit}}"
+                           [value]="cTendency.preferredSpeed"
+                           (change)="onSpeedSliderChange(speed.value)"></md-slider>
             </td>
             <td>
+
                 <button
                         md-icon-button
-                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
+                        md-mini-fab
                         (click)="btnSlower()">
                     <md-icon>remove</md-icon>
                 </button>
                 <button
                         md-icon-button
-                        md-mini-fab class="feedback-button-wrapper more_button_wrapper"
+                        md-mini-fab
                         (click)="btnFaster()">
                     <md-icon>add</md-icon>
                 </button>
@@ -43,59 +60,76 @@
         </tr>
         <tr>
             <td>
-                <p class="tl-mood">{{'TRACK_LIST.MOOD' | translate}}: </p></td>
-            <td><p class="innerProp"></p>
+                <p class="tl-period">{{'FEEDBACK_DIALOG.PERIOD_START' | translate}}: </p></td>
+            <td>
+            <td>
+                <p class="tl-mean-value">{{cTendency.preferredPeriodStart}} </p></td>
+            <td>
+                <md-slider #periodStart id="periodStart-slider" color="primary" min="{{yearLowerLimit}}"
+                           step="{{yearStepsize}}" max="{{yearUpperLimit}}"
+                           [value]="cTendency.preferredPeriodStart"
+                           (change)="onPeriodStartSliderChange(periodStart.value)"></md-slider>
             </td>
             <td>
                 <button
                         md-icon-button
-                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
-                        (click)="btnMoreCheerful()">
+                        md-mini-fab
+                        (click)="btnStartOlder()">
                     <md-icon>remove</md-icon>
                 </button>
                 <button
                         md-icon-button
-                        md-mini-fab class="feedback-button-wrapper more_button_wrapper"
-                        (click)="btnSadder()">
+                        md-mini-fab
+                        (click)="btnStartNewer()">
                     <md-icon>add</md-icon>
                 </button>
             </td>
         </tr>
         <tr>
-            <td><p class="l-genre">{{'FEEDBACK_DIALOG.MORE_OF_GENRE' | translate}}: </p></td>
-            <td><p class="innerProp">TODO Genre value</p></td>
-            <td style="margin-left: 15px">
+            <td>
+                <p class="tl-period">{{'FEEDBACK_DIALOG.PERIOD_END' | translate}}: </p></td>
+            <td>
+            <td>
+                <p class="tl-mean-value">{{cTendency.preferredPeriodEnd}} </p></td>
+            <td>
+                <md-slider #periodEnd id="periodEnd-slider" color="primary" min="{{yearLowerLimit}}"
+                           step="{{yearStepsize}}" max="{{yearUpperLimit}}"
+                           [value]="cTendency.preferredPeriodEnd"
+                           (change)="onPeriodEndSliderChange(periodEnd.value)"></md-slider>
+            </td>
+            <td>
+                <button
+                        md-icon-button
+                        md-mini-fab
+                        (click)="btnEndOlder()">
+                    <md-icon>remove</md-icon>
+                </button>
+                <button
+                        md-icon-button
+                        md-mini-fab
+                        (click)="btnEndNewer()">
+                    <md-icon>add</md-icon>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="l-genre">{{'FEEDBACK_DIALOG.MORE_OF_GENRE' | translate}}: </p>
+            </td>
+            <td colspan="3">
                 <div id="genre" class="tile">
-                    <select>
-                        <option value="" disabled selected hidden>{{'FEEDBACK_DIALOG.CHOOSE_GENRE' | translate}}</option>
-                        <option>Rock</option>
-                        <option>Pop</option>
-                        <option>Elektro</option>
-                        <option>Klassik</option>
-                    </select>
+                    <md-select [style.width]="'200px'" id="genre-selector"
+                               [placeholder]="'FEEDBACK_DIALOG.CHOOSE_GENRE' | translate"
+                               [(ngModel)]="cTendency.moreOfGenre">
+                        <md-option *ngFor="let genre of genres" [value]="genre">
+                            {{genre}}
+                        </md-option>
+                    </md-select>
+
                 </div>
             </td>
         </tr>
-        <tr>
-            <td>
-                <p class="tl-period">{{'TRACK_LIST.PERIOD' | translate}}: </p></td>
-            <td><p class="innerProp">TODO Period value</p>
-            </td>
-            <td>
-                <button
-                        md-icon-button
-                        md-mini-fab class="feedback-button-wrapper less_button_wrapper"
-                        (click)="btnOlder()">
-                    <md-icon>remove</md-icon>
-                </button>
-                <button
-                        md-icon-button
-                        md-mini-fab class="feedback-button-wrapper more_button_wrapper"
-                        (click)="btnNewer()">
-                    <md-icon>add</md-icon>
-                </button>
-            </td>
-        </tr>
+
     </table>
 </md-dialog-content>
 <md-dialog-actions>
@@ -103,18 +137,20 @@
             id="dialog_close_btn"
             md-raised-button
             md-dialog-close
-            >{{'FEEDBACK_DIALOG.CLOSE' | translate}}
+    >{{'FEEDBACK_DIALOG.CLOSE' | translate}}
     </button>
     <button
             id="dialog_confirm_btn"
             md-raised-button
-            md-dialog-close = "1"
-            >{{'FEEDBACK_DIALOG.CONFIRM' | translate}}
+            md-dialog-close="1"
+            (click)="confirmDialog()"
+    >{{'FEEDBACK_DIALOG.CONFIRM' | translate}}
     </button>
     <button
             id="dialog_confirm_apply_btn"
             md-raised-button
-            md-dialog-close = "2"
-            >{{'FEEDBACK_DIALOG.CONFIRMAPPLY' | translate}}
+            md-dialog-close="2"
+            (click)="confirmAndApplyDialog()"
+    >{{'FEEDBACK_DIALOG.CONFIRMAPPLY' | translate}}
     </button>
 </md-dialog-actions>
