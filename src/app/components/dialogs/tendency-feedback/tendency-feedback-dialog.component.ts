@@ -1,8 +1,6 @@
-import {Component, Inject} from '@angular/core';
-import {MdDialog, MdDialogRef} from '@angular/material';
+import {Component} from '@angular/core';
+import {MdDialogRef} from '@angular/material';
 import {Tendency} from '../../../models/tendency';
-import {NgFor} from '@angular/common';
-import {Track} from '../../../models/track';
 
 @Component({
     selector: 'tendency-feedback-dialog',
@@ -29,7 +27,7 @@ export class TendencyFeedbackDialogComponent {
     constructor(public dialogRef: MdDialogRef<TendencyFeedbackDialogComponent>) {
     }
 
-    setCurTendency(curTendency: Tendency){
+    setCurTendency(curTendency: Tendency): void {
         this.cTendency = new Tendency();
         this.cTendency.radioId = curTendency.radioId;
         this.cTendency.preferredDynamics = curTendency.preferredDynamics;
@@ -44,7 +42,7 @@ export class TendencyFeedbackDialogComponent {
         return Math.round(value * scale) / scale;
     }
 
-    btnLessDynamics() {
+    btnLessDynamics(): void {
         if (this.presetDynamic == null) {
             this.presetDynamic = this.cTendency.preferredDynamics;
         }
@@ -56,7 +54,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    btnMoreDynamics() {
+    btnMoreDynamics(): void {
         if (this.presetDynamic == null) {
             this.presetDynamic = this.cTendency.preferredDynamics;
         }
@@ -68,14 +66,14 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    onDynamicSliderChange(value) {
+    onDynamicSliderChange(value): void {
         if (this.presetDynamic == null) {
             this.presetDynamic = this.cTendency.preferredDynamics;
         }
         this.cTendency.preferredDynamics = this.roundAvoid(value, 3);
     }
 
-    btnSlower() {
+    btnSlower(): void {
         if (this.presetSpeed == null) {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
@@ -86,7 +84,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    btnFaster() {
+    btnFaster(): void {
         if (this.presetSpeed == null) {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
@@ -97,14 +95,14 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    onSpeedSliderChange(value) {
+    onSpeedSliderChange(value): void {
         if (this.presetSpeed == null) {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
         this.cTendency.preferredSpeed = this.roundAvoid(value, 0);
     }
 
-    btnStartOlder() {
+    btnStartOlder(): void {
         if (this.presetPeriodStart == null) {
             this.presetPeriodStart = this.cTendency.preferredPeriodStart;
         }
@@ -115,7 +113,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    btnStartNewer() {
+    btnStartNewer(): void {
         if (this.presetPeriodStart == null) {
             this.presetPeriodStart = this.cTendency.preferredPeriodStart;
         }
@@ -129,7 +127,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    onPeriodStartSliderChange(value) {
+    onPeriodStartSliderChange(value): void {
         if (this.presetPeriodStart == null) {
             this.presetPeriodStart = this.cTendency.preferredPeriodStart;
         }
@@ -142,7 +140,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    btnEndOlder() {
+    btnEndOlder(): void {
         if (this.presetPeriodEnd == null) {
             this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
         }
@@ -156,7 +154,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    btnEndNewer() {
+    btnEndNewer(): void {
         if (this.presetPeriodEnd == null) {
             this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
         }
@@ -167,7 +165,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    onPeriodEndSliderChange(value) {
+    onPeriodEndSliderChange(value): void {
         if (this.presetPeriodEnd == null) {
             this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
         }
@@ -180,7 +178,7 @@ export class TendencyFeedbackDialogComponent {
         }
     }
 
-    confirmDialog() {
+    confirmDialog(): void {
         this.cTendency.moreDynamics = this.presetDynamic < this.cTendency.preferredDynamics;
         this.cTendency.lessDynamics = this.presetDynamic > this.cTendency.preferredDynamics;
         this.cTendency.slower = this.presetSpeed > this.cTendency.preferredSpeed;
@@ -191,14 +189,12 @@ export class TendencyFeedbackDialogComponent {
         this.cTendency.endNewer = this.presetPeriodEnd < this.cTendency.preferredPeriodEnd;
     }
 
-    confirmAndApplyDialog() {
+    confirmAndApplyDialog(): void {
         this.confirmDialog();
 
     }
 
-    closeDialog() {
+    closeDialog(): void {
 
     }
-
-
 }

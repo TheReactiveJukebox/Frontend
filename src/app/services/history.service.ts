@@ -2,10 +2,9 @@
  * This service takes care of the local history of the currently playing radio
  */
 import {Injectable} from '@angular/core';
+import {Config} from '../config';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
-import {Config} from '../config';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class HistoryService {
@@ -43,12 +42,11 @@ export class HistoryService {
     public getMeanSpeed(): number {
         if (this.history.length > 0) {
             let sumSpeed: number;
-            for (var i = 0; i < this.history.length; i++) {
+            for (let i = 0; i < this.history.length; i++) {
                 sumSpeed = sumSpeed + this.history[i].speed;
             }
-            return sumSpeed / i;
-        }
-        else {
+            return sumSpeed / this.history.length;
+        } else {
             return 0;
         }
     }
@@ -56,12 +54,11 @@ export class HistoryService {
     public getMeanDynamic(): number {
         if (this.history.length > 0) {
             let sumDynamic: number;
-            for (var i = 0; i < this.history.length; i++) {
+            for (let i = 0; i < this.history.length; i++) {
                 sumDynamic = sumDynamic + this.history[i].dynamic;
             }
-            return sumDynamic / i;
-        }
-        else {
+            return sumDynamic / this.history.length;
+        } else {
             return 0;
         }
     }
@@ -69,12 +66,11 @@ export class HistoryService {
     public getMeanYear(): number {
         if (this.history.length > 0) {
             let sumYear: number;
-            for (var i = 0; i < this.history.length; i++) {
+            for (let i = 0; i < this.history.length; i++) {
                 sumYear = sumYear + this.history[i].period;
             }
-            return sumYear / i;
-        }
-        else {
+            return sumYear / this.history.length;
+        } else {
             return 0;
         }
     }
@@ -83,15 +79,14 @@ export class HistoryService {
     public getMaxYear(): number {
         if (this.history.length > 0) {
             let max = this.history[0].period;
-            for (var i = 1; i < this.history.length; i++) {
+            for (let i = 1; i < this.history.length; i++) {
                 let curYear = this.history[0].period;
                 if (curYear > max) {
                     max = curYear;
                 }
             }
             return max;
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -100,15 +95,14 @@ export class HistoryService {
     public getMinYear(): number {
         if (this.history.length > 0) {
             let min = this.history[0].period;
-            for (var i = 1; i < this.history.length; i++) {
+            for (let i = 1; i < this.history.length; i++) {
                 let curYear = this.history[0].period;
                 if (curYear > min) {
                     min = curYear;
                 }
             }
             return min;
-        }
-        else {
+        } else {
             return 0;
         }
     }

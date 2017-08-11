@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from '../../services/auth/auth.service';
 import {MdTabGroup} from '@angular/material';
-import {TrackService} from '../../services/track.service';
 import {Track} from '../../models/track';
+import {AuthService} from '../../services/auth/auth.service';
 import {PlayerService} from '../../services/player.service';
+import {TrackService} from '../../services/track.service';
 
 @Component({
     selector: 'player',
@@ -11,7 +11,7 @@ import {PlayerService} from '../../services/player.service';
     templateUrl: './player.component.html',
     providers: [PlayerService]
 })
-export class PlayerComponent implements OnInit{
+export class PlayerComponent implements OnInit {
 
     @ViewChild('tabs')
     tabs: MdTabGroup;

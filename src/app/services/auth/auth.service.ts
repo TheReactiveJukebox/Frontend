@@ -3,11 +3,11 @@
  */
 
 import {Injectable} from '@angular/core';
+import {Headers, Http, Request, RequestMethod, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
+import {CookieService} from 'ngx-cookie';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
-import {Http, Response, Headers, Request, RequestOptions, RequestOptionsArgs, RequestMethod} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/Rx';
-import {CookieService} from 'ngx-cookie';
 import {Config} from '../../config';
 
 @Injectable()

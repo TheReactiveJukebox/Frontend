@@ -1,18 +1,17 @@
 /**
  * This service takes care of feedback
  */
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {Config} from '../config';
-import {Subscription} from 'rxjs/Subscription';
-import {TrackFeedback} from '../models/trackFeedback';
-import {RadiostationService} from './radiostation.service';
-import {AuthHttp} from './auth/auth-http';
-import {Track} from '../models/track';
 import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
 import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
+import {Config} from '../config';
 import {Tendency} from '../models/tendency';
+import {Track} from '../models/track';
+import {TrackFeedback} from '../models/track-feedback';
+import {AuthHttp} from './auth/auth-http';
 import {HistoryService} from './history.service';
+import {RadiostationService} from './radiostation.service';
 
 @Injectable()
 export class FeedbackService {
@@ -36,8 +35,8 @@ export class FeedbackService {
             this.genres = genreList;
         }, error => {
             //should not happen since this was a static request
-            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error)
-        })
+            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error);
+        });
 
     }
 
@@ -63,12 +62,9 @@ export class FeedbackService {
         //if there is no current tendency object => create one
         if (this.curTendency == null) {
             this.initTendency();
-        }
-        //if a new Radiostation was started
-        else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.jukebox.id) {
-            this.initTendency();
-        }
-        else {
+        } else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.jukebox.id) {
+            this.initTendency();  //if a new Radiostation was started
+        } else {
             this.curTendency.moreOfGenre = null;
             //if the history isn't identically with current (song written or deleted) => create new tendency object
             for (let i = 0; i < this.localHistory.history.length; i++) {

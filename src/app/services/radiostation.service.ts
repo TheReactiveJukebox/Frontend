@@ -2,15 +2,15 @@
  * This service takes care of actions related to radiostations.
  */
 import {Injectable, OnDestroy} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {TrackService} from './track.service';
-import {Track} from '../models/track';
-import {AuthHttp} from './auth/auth-http';
-import {Config} from '../config';
-import {Jukebox} from '../models/jukebox';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
+import {Config} from '../config';
+import {Jukebox} from '../models/jukebox';
+import {Track} from '../models/track';
+import {AuthHttp} from './auth/auth-http';
 import {HistoryService} from './history.service';
+import {TrackService} from './track.service';
 
 
 @Injectable()
@@ -69,8 +69,9 @@ export class RadiostationService implements OnDestroy {
 
     //saves the song to the history by sending its id to the corresponding api endpoint
     public writeToHistory(track: Track): void {
-        if (this.localHistory.history.length > 0 && this.localHistory.history.slice(-1)[0].id == track.id)
+        if (this.localHistory.history.length > 0 && this.localHistory.history.slice(-1)[0].id == track.id) {
             return;
+        }
         this.localHistory.writeToLocalHistory(track);
         let reqBody = {
             trackId: track.id,
@@ -87,7 +88,7 @@ export class RadiostationService implements OnDestroy {
             } else if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
                 console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
-				track.historyId = JSON.parse(error._body).id;
+                track.historyId = JSON.parse(error._body).id;
             } else {
                 console.log('Writing "' + track.title + '" to history failed!', error);
             }
@@ -127,7 +128,7 @@ export class RadiostationService implements OnDestroy {
         return this.algorithms.asObservable();
     }
 
-    public refreshTrackList(): void{
+    public refreshTrackList(): void {
         this.trackService.refreshTrackList();
     }
 

@@ -3,11 +3,11 @@
  */
 import {Injectable, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
-import {TrackService} from './track.service';
 import {Track} from '../models/track';
-import {RadiostationService} from './radiostation.service';
 import {AuthHttp} from './auth/auth-http';
 import {IndirectFeedbackService} from './indirect-feedback.service';
+import {RadiostationService} from './radiostation.service';
+import {TrackService} from './track.service';
 
 @Injectable()
 export class PlayerService implements OnDestroy {
@@ -28,10 +28,10 @@ export class PlayerService implements OnDestroy {
         this.audioPlayer.type = 'audio/mpeg';
         this.audioPlayer.volume = this._volume;
         this.audioPlayer.ontimeupdate = () => {
-            this.progressUpdate()
+            this.progressUpdate();
         };
         this.audioPlayer.onended = () => {
-            this.songEnded()
+            this.songEnded();
         };
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
@@ -129,14 +129,15 @@ export class PlayerService implements OnDestroy {
         if (this.currentTrack != null && (addToHistory || (this.progress / this.currentTrack.duration) > 0.9)) {
             this.radiostationService.writeToHistory(this.currentTrack);
         }
-        let currentID:number = this.currentTrack.id;
-        let currentProgress:number = this.progress;
+        let currentID: number = this.currentTrack.id;
+        let currentProgress: number = this.progress;
 
-        let nextTrack:Track = this.trackService.nextSong();
+        let nextTrack: Track = this.trackService.nextSong();
 
-        if(!addToHistory) //Check if legitimate skip
-        this.indirectFeedbackService.sendSkipFeedback(currentID,nextTrack.id,
-            this.radiostationService.jukebox.id, currentProgress); //Skip feedback
+        if (!addToHistory) { //Check if legitimate skip
+            this.indirectFeedbackService.sendSkipFeedback(currentID, nextTrack.id,
+                this.radiostationService.jukebox.id, currentProgress); //Skip feedback
+        }
     }
 
 //turns on the volume with the last set value
@@ -156,12 +157,10 @@ export class PlayerService implements OnDestroy {
 
 //set the volume if valid
     public setVolume(v: number): void {
-        console.log('Set volume to: ' +v);
-        if (v < 0 || v > 1
-        ) {
+        console.log('Set volume to: ' + v);
+        if (v < 0 || v > 1) {
             throw new Error('Invalid volume format');
-        }
-        else {
+        } else {
             this.audioPlayer.volume = v;
             this.currentvol = v;
         }

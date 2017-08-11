@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TrackService} from '../../services/track.service';
-import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
-import {RadiostationService} from '../../services/radiostation.service';
-import {PlayerService} from '../../services/player.service';
+import {Track} from '../../models/track';
 import {IndirectFeedbackService} from '../../services/indirect-feedback.service';
+import {PlayerService} from '../../services/player.service';
+import {RadiostationService} from '../../services/radiostation.service';
+import {TrackService} from '../../services/track.service';
 
 @Component({
     selector: 'track-list',
@@ -51,18 +51,18 @@ export class TrackListComponent implements OnInit, OnDestroy {
         }
     }
 
-    jumpToTrack(track: Track): void{
+    jumpToTrack(track: Track): void {
         //if more than 90% of the song are completed, the current Track will be written to the global History
-        if(this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9){
+        if (this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9) {
             this.radiostationService.writeToHistory(this.playerService.currentTrack);
         }
-        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id,track.id ,
+        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id, track.id ,
             this.radiostationService.jukebox.id, this.playerService.progress);
         this.trackService.jumpToTrack(track);
     }
 
-    indirectFeedback(track:Track){
+    indirectFeedback(track: Track): void {
         //Sends delete feedback with position as zero to indicate deletion from upcoming songs
-        this.indirectFeedbackService.sendDeleteFeedback(track.id,this.radiostationService.jukebox.id,0);
+        this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.jukebox.id, 0);
     }
 }

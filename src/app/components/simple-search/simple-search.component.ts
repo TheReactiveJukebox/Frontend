@@ -2,13 +2,13 @@
  * Created by David on 01.07.2017.
  */
 import {Component, EventEmitter, Output} from '@angular/core';
-import {SearchService} from '../../services/search.service';
-import { Subject } from 'rxjs/Subject';
-import {TrackService} from '../../services/track.service';
-import {Track} from '../../models/track';
 import {Observable} from 'rxjs/Observable';
-import {AuthHttp} from '../../services/auth/auth-http';
+import { Subject } from 'rxjs/Subject';
 import {Config} from '../../config';
+import {Track} from '../../models/track';
+import {AuthHttp} from '../../services/auth/auth-http';
+import {SearchService} from '../../services/search.service';
+import {TrackService} from '../../services/track.service';
 
 
 @Component({
@@ -65,7 +65,7 @@ export class SimpleSearchComponent {
                         this.trackResult = filledTracks;
                         this.trackResultCount = Object.keys(filledTracks).length;
                     });
-                }else{
+                } else {
                     this.trackResult = results;
                     this.trackResultCount = 0;
                 }
@@ -91,7 +91,7 @@ export class SimpleSearchComponent {
                         this.albumResult = results;
                         this.albumResultCount = Object.keys(results).length;
                     });
-                }else{
+                } else {
                     this.albumResult = results;
                     this.albumResultCount = 0;
                 }
@@ -99,7 +99,7 @@ export class SimpleSearchComponent {
     }
 
     //Invoked on keyup in search field search API is called when a query with more than two characters is send
-    public searches(value):void {
+    public searches(value): void {
         this.searchTerm = value.replace(/\s+/g, ''); //Remove whitespaces
 
         this.searchTrack$.next(this.searchTerm);
@@ -110,7 +110,7 @@ export class SimpleSearchComponent {
 
 
     //Invoked if user clicks on a search result
-    public selection(value: any, type: string):void{
+    public selection(value: any, type: string): void {
         switch (type) {
             case 'ARTIST': this.selectedArtist.emit(value);
                 break;

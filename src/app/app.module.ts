@@ -1,21 +1,18 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
-import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
+import 'hammerjs';
+import '../styles/styles.scss';
+// App is our top level component
+import {AppComponent} from './app.component';
+import {ROUTES} from './app.routes';
 /*
  * Platform and Environment providers/directives/pipes
  */
 import {ENV_PROVIDERS} from './environment';
-import {ROUTES} from './app.routes';
-// App is our top level component
-import {AppComponent} from './app.component';
-import '../styles/styles.scss';
-import 'hammerjs';
 
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
     MdButtonModule,
     MdCardModule,
@@ -30,33 +27,36 @@ import {
     MdTabsModule,
     MdTooltipModule
 } from '@angular/material';
-import {LoginComponent} from './pages/login/login.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {CookieModule, CookieService} from 'ngx-cookie';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
-import {RadiostationService} from './services/radiostation.service';
 import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
-import {PlayerComponent} from './pages/player/player.component';
-import {TrackListComponent} from './components/track-list/track-list.component';
-import {TrackService} from './services/track.service';
-import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
+import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
 import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback/special-feedback-dialog.component';
 import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
-import {CookieModule, CookieService} from 'ngx-cookie';
-import {AuthService} from './services/auth/auth.service';
-import {AuthHttp} from './services/auth/auth-http';
-import {AuthGuard} from './guards/AuthGuard';
-import {SpeechService} from './services/speech.service';
-import {PlayerControlBarComponent} from './components/player-control-bar/player-control-bar.component';
-import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
-import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
-import {PlayerService} from './services/player.service';
-import {FeedbackService} from './services/feedback.service';
-import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
-import {HistoryService} from './services/history.service';
 import {HistoryListComponent} from './components/history-list/history-list.component';
-import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
-import {IndirectFeedbackService} from './services/indirect-feedback.service';
 import {PageTitleComponent} from './components/page-title/page-title.component';
+import {PlayerControlBarComponent} from './components/player-control-bar/player-control-bar.component';
+import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
+import {SpeechSearchFieldComponent} from './components/speech-search-field/speech-search-field.component';
+import {TrackListItemComponent} from './components/track-list/track-list-item/track-list-item.component';
+import {TrackListComponent} from './components/track-list/track-list.component';
+import {AuthGuard} from './guards/AuthGuard';
+import {LoginComponent} from './pages/login/login.component';
+import {PlayerComponent} from './pages/player/player.component';
+import {SecondsToDatePipe} from './pipes/seconds-to-date.pipe';
+import {AuthHttp} from './services/auth/auth-http';
+import {AuthService} from './services/auth/auth.service';
+import {FeedbackService} from './services/feedback.service';
+import {HistoryService} from './services/history.service';
+import {IndirectFeedbackService} from './services/indirect-feedback.service';
+import {PlayerService} from './services/player.service';
+import {RadiostationService} from './services/radiostation.service';
+import {SpeechService} from './services/speech.service';
+import {TrackService} from './services/track.service';
 
 
 /**

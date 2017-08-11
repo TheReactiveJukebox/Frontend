@@ -1,9 +1,9 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {TrackService} from '../../services/track.service';
-import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
-import {PlayerService} from '../../services/player.service';
+import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
+import {PlayerService} from '../../services/player.service';
+import {TrackService} from '../../services/track.service';
 
 @Component({
     selector: 'player-control-bar',
@@ -70,11 +70,11 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     public like(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack,true);
+        this.feedbackService.postSimpleFeedback(this.currentTrack, true);
     }
 
     public dislike(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack,false);
+        this.feedbackService.postSimpleFeedback(this.currentTrack, false);
     }
 
     public getSpecialFeedback(): void {

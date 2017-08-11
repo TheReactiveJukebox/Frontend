@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TrackService} from '../../services/track.service';
-import {Track} from '../../models/track';
 import {Subscription} from 'rxjs/Subscription';
-import {MdDialog, MdDialogRef} from '@angular/material';
-import {FeedbackService} from '../../services/feedback.service';
+import {Track} from '../../models/track';
 import {DialogService} from '../../services/dialog.service';
+import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
+import {TrackService} from '../../services/track.service';
 
 
 @Component({
@@ -49,8 +48,8 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_like() {
-        this.feedbackService.postSimpleFeedback(this.currentTrack,true);
+    btn_like(): void {
+        this.feedbackService.postSimpleFeedback(this.currentTrack, true);
 
         this.btnVisible = true;
         //wait 3 seconds and hide
@@ -59,9 +58,8 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
-    btn_dislike() {
-
-        this.feedbackService.postSimpleFeedback(this.currentTrack,false);
+    btn_dislike(): void {
+        this.feedbackService.postSimpleFeedback(this.currentTrack, false);
 
         this.btnVisible = true;
         //wait 3 seconds and hide
@@ -69,18 +67,17 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
             this.btnVisible = false;
         }.bind(this), 3000);
     }
-
 
     //opens a dialog for special feedback
-    dialog_special_feedback() {
+    dialog_special_feedback(): void {
         this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }
 
-    btn_Tendency(){
+    btn_Tendency(): void {
         this.feedbackService.openTendencyFeedbackDialog();
     }
 
-    btn_history_toggle() {
+    btn_history_toggle(): void {
         if (this.historyService.historyVisible) {
             this.historyService.historyVisible = false;
             this.historyButtonClass = 'history-button-toggle-off';
@@ -90,7 +87,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_renew() {
+    btn_renew(): void {
         this.trackService.refreshTrackList();
     }
 
