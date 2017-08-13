@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {Config} from '../config';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
+import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
 
 @Injectable()
 export class HistoryService {
@@ -42,6 +43,7 @@ export class HistoryService {
     public getMeanSpeed(): number {
         if (this.history.length > 0) {
             let sumSpeed: number;
+            sumSpeed = 0;
             for (let i = 0; i < this.history.length; i++) {
                 sumSpeed = sumSpeed + this.history[i].speed;
             }
@@ -54,6 +56,7 @@ export class HistoryService {
     public getMeanDynamic(): number {
         if (this.history.length > 0) {
             let sumDynamic: number;
+            sumDynamic = 0;
             for (let i = 0; i < this.history.length; i++) {
                 sumDynamic = sumDynamic + this.history[i].dynamic;
             }
@@ -63,47 +66,46 @@ export class HistoryService {
         }
     }
 
-    public getMeanYear(): number {
-        if (this.history.length > 0) {
-            let sumYear: number;
-            for (let i = 0; i < this.history.length; i++) {
-                sumYear = sumYear + this.history[i].period;
-            }
-            return sumYear / this.history.length;
-        } else {
-            return 0;
-        }
-    }
-
-
     public getMaxYear(): number {
-        if (this.history.length > 0) {
-            let max = this.history[0].period;
-            for (let i = 1; i < this.history.length; i++) {
-                let curYear = this.history[0].period;
+        let max = Number.NEGATIVE_INFINITY;
+        for (let i = 1; i < this.history.length; i++) {
+            let curYear = this.getReleaseYear(this.history[i]);
+            if (curYear != null) {
                 if (curYear > max) {
                     max = curYear;
                 }
             }
-            return max;
-        } else {
-            return 0;
         }
+        if (max == Number.NEGATIVE_INFINITY) {
+            return new Date().getFullYear();
+        }
+        return max;
     }
 
 
     public getMinYear(): number {
-        if (this.history.length > 0) {
-            let min = this.history[0].period;
-            for (let i = 1; i < this.history.length; i++) {
-                let curYear = this.history[0].period;
-                if (curYear > min) {
+        let min = Number.POSITIVE_INFINITY;
+        for (let i = 1; i < this.history.length; i++) {
+            let curYear = this.getReleaseYear(this.history[i]);
+            if (curYear != null) {
+                if (curYear < min) {
                     min = curYear;
                 }
             }
-            return min;
-        } else {
-            return 0;
         }
+        if (min == Number.POSITIVE_INFINITY) {
+            return 1800
+        }
+        return min;
+    }
+
+    public getReleaseYear(track: Track): number {
+        if (track.releaseDate == null) {
+            return null;
+        } else {
+            let currentReleaseDate: Date = new Date(track.releaseDate);
+            return currentReleaseDate.getFullYear();
+        }
+
     }
 }

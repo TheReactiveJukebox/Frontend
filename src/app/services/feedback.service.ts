@@ -92,12 +92,6 @@ export class FeedbackService {
         this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
         this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
         this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
-
-        //temporary mock attributes until data is available
-        this.curTendency.preferredDynamics = 0.3;
-        this.curTendency.preferredSpeed = 121;
-        this.curTendency.preferredPeriodStart = 1976;
-        this.curTendency.preferredPeriodEnd = 2006;
     }
 
 

@@ -15,6 +15,7 @@ import {TrackService} from '../../services/track.service';
 export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     currentTrack: Track;
+    currentYear: number;
     btnVisible: boolean = false;
     private subscriptions: Subscription[];
     historyButtonClass: string = 'reducedHistory-button-toggle-off';
@@ -34,16 +35,26 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         // gets destroyed.
         this.subscriptions.push(
             this.trackService.currentTrack.subscribe((currentTrack: Track) => {
-                this.currentTrack = currentTrack;
-            })
-        );
+                    this.currentTrack = currentTrack;
 
+                    //save release year of track to show it in the track description
+                    this.currentYear = null;
+                    if (this.currentTrack != null) {
+                        if (this.currentTrack.releaseDate != null) {
+                            let currentReleaseDate: Date = new Date(this.currentTrack.releaseDate);
+                            this.currentYear = currentReleaseDate.getFullYear();
+                        }
+                    }
+                }
+            )
+        );
     }
 
     ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
-        for (let subscription of this.subscriptions) {
+        for (let subscription of this.subscriptions
+            ) {
             subscription.unsubscribe();
         }
     }
@@ -52,7 +63,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         this.feedbackService.postSimpleFeedback(this.currentTrack, true);
 
         this.btnVisible = true;
-        //wait 3 seconds and hide
+//wait 3 seconds and hide
         setTimeout(function () {
             this.btnVisible = false;
         }.bind(this), 3000);
@@ -62,13 +73,13 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         this.feedbackService.postSimpleFeedback(this.currentTrack, false);
 
         this.btnVisible = true;
-        //wait 3 seconds and hide
+//wait 3 seconds and hide
         setTimeout(function () {
             this.btnVisible = false;
         }.bind(this), 3000);
     }
 
-    //opens a dialog for special feedback
+//opens a dialog for special feedback
     dialog_special_feedback(): void {
         this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }
@@ -78,10 +89,12 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     btn_history_toggle(): void {
-        if (this.historyService.historyVisible) {
+        if (this.historyService.historyVisible
+        ) {
             this.historyService.historyVisible = false;
             this.historyButtonClass = 'history-button-toggle-off';
-        } else {
+        }
+        else {
             this.historyService.historyVisible = true;
             this.historyButtonClass = 'history-button-toggle-on';
         }

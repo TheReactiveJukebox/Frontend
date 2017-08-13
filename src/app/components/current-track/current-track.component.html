@@ -6,7 +6,8 @@
                 <td id="cover-img-table-wrapper">
                     <div id="cover-img-wrapper">
                         <a> <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
-                            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
+                            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover"
+                                 class="cover-img">
                         </a>
                     </div>
                 </td>
@@ -14,7 +15,8 @@
                     <div id="now-playing-details-wrapper">
                         <h1 class="track-info">{{currentTrack.title}}</h1>
                         <h3 class="track-info">{{currentTrack.artist.name}}</h3>
-                        <a class="track-info">{{currentTrack.album.title}}</a><br>
+                        <a class="track-info">{{currentTrack.album.title}} </a>
+                        <a *ngIf="currentYear" class="track-info">({{currentYear}}) </a><br>
                         <table id="feedback-button-table">
                             <tr>
                                 <td>
@@ -31,7 +33,10 @@
                                         <md-icon class="feedback-icons">thumb_down</md-icon>
                                     </button>
                                 </td>
-                                <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn" (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' | translate}} </button>
+                                <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn"
+                                        (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' |
+                                    translate}}
+                                </button>
                             </tr>
                         </table>
                     </div>
