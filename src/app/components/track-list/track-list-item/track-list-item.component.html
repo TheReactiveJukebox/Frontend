@@ -1,13 +1,15 @@
 <md-list-item *ngIf="track">
-    <p>
+    <p class="tl-cover-col">
         <a> <img *ngIf="track.cover" src="{{track.cover}}" alt="Cover" class="cover-img">
             <img *ngIf="!track.cover" src="../../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
         </a>
     </p>
-    <p class="tl-id-col"></p>
     <p class="tl-title-col">{{track.title}}</p>
     <p class="tl-artist-col">{{track.artist.name}}</p>
     <p class="tl-album-col">{{track.album.title}}</p>
+    <p class="tl-date-col" *ngIf="track.releaseDate">{{track.releaseDate.getFullYear()}}</p>
+    <p class="tl-date-col" *ngIf="!track.releaseDate">{{'-'}}</p>
+    <p class="tl-bpm-col">{{round(track.speed) + 'BPM'}}</p>
     <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
 
 
