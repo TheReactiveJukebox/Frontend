@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
+import {Config} from 'app/config';
 import {Tendency} from '../../../models/tendency';
-import {Config} from './app/config';
+
 
 @Component({
     selector: 'tendency-feedback-dialog',

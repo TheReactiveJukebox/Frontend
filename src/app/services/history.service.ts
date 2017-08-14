@@ -2,9 +2,10 @@
  * This service takes care of the local history of the currently playing radio
  */
 import {Injectable} from '@angular/core';
+import {Config} from 'app/config';
 import {Track} from '../models/track';
-import {Config} from './app/config';
 import {AuthHttp} from './auth/auth-http';
+
 
 
 @Injectable()
