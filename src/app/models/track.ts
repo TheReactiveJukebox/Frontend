@@ -15,4 +15,5 @@ export class Track {
     period: number;
     dynamic: number;
     genre: string;
+    releaseDate: Date;
 }

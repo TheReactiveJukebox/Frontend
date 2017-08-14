@@ -1,22 +1,32 @@
 @import "../../../../theme.scss";
 
-.tl-id-col{
+.tl-cover-col{
   width: 5%;
-  align-content: left;
+  text-align: left;
 }
 
 .tl-title-col{
-  width: 30%;
+  width: 24%;
   text-align: left;
 }
 
 .tl-artist-col{
-  width: 30%;
+  width: 24%;
   text-align: left;
 }
 
 .tl-album-col{
   width: 15%;
+  text-align: left;
+}
+
+.tl-date-col{
+  width: 6%;
+  text-align: left;
+}
+
+.tl-bpm-col{
+  width: 6%;
   text-align: left;
 }
 
