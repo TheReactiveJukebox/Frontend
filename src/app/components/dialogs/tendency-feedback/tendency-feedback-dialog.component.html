@@ -9,7 +9,8 @@
             <td>
                 <p class="tl-mean-value">{{cTendency.preferredDynamics}} </p></td>
             <td>
-                <md-slider #dynamic id="dynamics-slider" color="primary" min="0" step="{{dynamicStepsize}}" max="1"
+                <md-slider #dynamic id="dynamics-slider" color="primary" min="0" step="{{Config.dynamicStepsize}}"
+                           max="1"
                            [value]="cTendency.preferredDynamics"
                            (change)="onDynamicSliderChange(dynamic.value)"></md-slider>
             </td>
@@ -37,8 +38,9 @@
             <td>
                 <p class="tl-mean-value">{{cTendency.preferredSpeed}} </p></td>
             <td>
-                <md-slider #speed id="speed-slider" color="primary" min="{{speedLowerLimit}}" step="{{speedStepsize}}"
-                           max="{{speedUpperlimit}}"
+                <md-slider #speed id="speed-slider" color="primary" min="{{Config.speedLowerLimit}}"
+                           step="{{Config.speedStepsize}}"
+                           max="{{Config.speedUpperlimit}}"
                            [value]="cTendency.preferredSpeed"
                            (change)="onSpeedSliderChange(speed.value)"></md-slider>
             </td>
@@ -65,8 +67,8 @@
             <td>
                 <p class="tl-mean-value">{{cTendency.preferredPeriodStart}} </p></td>
             <td>
-                <md-slider #periodStart id="periodStart-slider" color="primary" min="{{yearLowerLimit}}"
-                           step="{{yearStepsize}}" max="{{yearUpperLimit}}"
+                <md-slider #periodStart id="periodStart-slider" color="primary" min="{{Config.yearLowerLimit}}"
+                           step="{{Config.yearStepsize}}" max="{{Config.yearUpperLimit}}"
                            [value]="cTendency.preferredPeriodStart"
                            (change)="onPeriodStartSliderChange(periodStart.value)"></md-slider>
             </td>
@@ -92,8 +94,8 @@
             <td>
                 <p class="tl-mean-value">{{cTendency.preferredPeriodEnd}} </p></td>
             <td>
-                <md-slider #periodEnd id="periodEnd-slider" color="primary" min="{{yearLowerLimit}}"
-                           step="{{yearStepsize}}" max="{{yearUpperLimit}}"
+                <md-slider #periodEnd id="periodEnd-slider" color="primary" min="{{Config.yearLowerLimit}}"
+                           step="{{Config.yearStepsize}}" max="{{Config.yearUpperLimit}}"
                            [value]="cTendency.preferredPeriodEnd"
                            (change)="onPeriodEndSliderChange(periodEnd.value)"></md-slider>
             </td>

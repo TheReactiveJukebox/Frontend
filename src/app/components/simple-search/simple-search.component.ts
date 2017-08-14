@@ -52,7 +52,7 @@ export class SimpleSearchComponent {
     searchTrack$ = new Subject<string>();
     searchArtist$= new Subject<string>();
     searchAlbum$ = new Subject<string>();
-    getArtistSongs$ = new Subject<string>()
+    getArtistSongs$ = new Subject<string>();
 
     //Subscribing to the search result observables
     constructor(private searchService: SearchService,

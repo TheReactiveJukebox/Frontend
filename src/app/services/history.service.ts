@@ -2,9 +2,10 @@
  * This service takes care of the local history of the currently playing radio
  */
 import {Injectable} from '@angular/core';
-import {Config} from '../config';
 import {Track} from '../models/track';
+import {Config} from './app/config';
 import {AuthHttp} from './auth/auth-http';
+
 
 @Injectable()
 export class HistoryService {
@@ -48,7 +49,7 @@ export class HistoryService {
             }
             return sumSpeed / this.history.length;
         } else {
-            return 0;
+            return Config.speedLowerLimit;
         }
     }
 
@@ -76,7 +77,7 @@ export class HistoryService {
             }
         }
         if (max == Number.NEGATIVE_INFINITY) {
-            return new Date().getFullYear();
+            return Config.yearUpperLimit;
         }
         return max;
     }
@@ -93,7 +94,7 @@ export class HistoryService {
             }
         }
         if (min == Number.POSITIVE_INFINITY) {
-            return 1800;
+            return Config.yearLowerLimit;
         }
         return min;
     }

@@ -2,7 +2,17 @@ export class Config {
     public static serverUrl: string;
     public static dev: boolean;
 
+    //Adjustments for tendency dialog
+    public static speedUpperlimit = 400;
+    public static speedLowerLimit = 1;
+    public static speedStepsize = 5;
+    public static dynamicStepsize = 0.1;
+    public static yearStepsize = 5;
+    public static yearLowerLimit = 1800;
+    public static yearUpperLimit = new Date().getFullYear();
+
     public static config: any = {
+
 
         development: {
             //serverUrl: 'https://192.168.99.100',
