@@ -88,8 +88,8 @@ export class FeedbackService {
         this.curTendency = new Tendency();
         this.curTendency.radioId = this.radiostationService.jukebox.id;
         //calculate mean values
-        this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
-        this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
+        this.curTendency.preferredDynamics = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanDynamic(), 2);
+        this.curTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanSpeed(), 0);
         this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
         this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
     }

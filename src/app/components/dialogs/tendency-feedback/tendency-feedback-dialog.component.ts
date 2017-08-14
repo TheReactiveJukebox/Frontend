@@ -13,6 +13,14 @@ export class TendencyFeedbackDialogComponent {
     cTendency: Tendency;
     genres = [];
 
+    speedUpperLimit = Config.speedUpperLimit;
+    speedLowerLimit = Config.speedLowerLimit;
+    speedStepsize = Config.speedStepsize;
+    dynamicStepsize = Config.dynamicStepsize;
+    yearStepsize = Config.yearStepsize;
+    yearLowerLimit = Config.yearLowerLimit;
+    yearUpperLimit = Config.yearUpperLimit
+    ;
     presetPeriodStart;
     presetPeriodEnd;
     presetDynamic;

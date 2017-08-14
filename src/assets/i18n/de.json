@@ -58,7 +58,8 @@
     "CLOSE": "Abbrechen",
     "CONFIRM": "Ok",
     "CONFIRMAPPLY": "Ok und Übernehmen",
-    "PERIOD_START": "Songs aus den Jahren von",
+    "PERIOD_EXPLANATION": "Songs aus den Jahren",
+    "PERIOD_START": "von",
     "PERIOD_END": "bis"
   },
   "SEARCH": {

@@ -57,8 +57,9 @@
     "CHOOSE_GENRE": "Choose genre",
     "CLOSE": "Close",
     "CONFIRM": "Confirm",
-    "CONFIRMAPPLY": "Confirm and Apply",
-    "PERIOD_START": "Songs from",
+    "CONFIRMAPPLY": "Confirm and apply",
+    "PERIOD_EXPLANATION": "Release Date of recommended songs",
+    "PERIOD_START": "from",
     "PERIOD_END": "to"
   },
   "SEARCH": {
