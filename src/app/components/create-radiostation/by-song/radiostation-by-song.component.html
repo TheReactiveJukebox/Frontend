@@ -1,10 +1,10 @@
 <div id="component-pane">
     <page-title [height]="32">{{'RADIOSTATION_CREATE.TITLE' | translate}}</page-title>
     <simple-search [ngStyle]="{'height': 'calc(100% - ' + getSearchHeight() + 'px)'}" (selectedTrack)="addStartTrack($event)"></simple-search>
-    <div id="selected-track-container" *ngIf="track">
+    <div id="selected-track-container" *ngIf="tracks.length>0">
         <md-divider></md-divider>
         <md-nav-list>
-            <track-list-item [track]="track" [showFeedback]="false" (onDelete)="reset()"></track-list-item>
+            <track-list-item *ngFor="let track of tracks" [track]="track" [showFeedback]="false" (onDelete)="deleteSelection(track)"></track-list-item>
         </md-nav-list>
     </div>
     <div id="bottom-bar">

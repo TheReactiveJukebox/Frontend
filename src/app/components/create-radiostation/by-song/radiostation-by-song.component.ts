@@ -19,7 +19,7 @@ export class RadiostationBySongComponent {
         startTracks: []
     };
 
-    track: Track;
+    tracks: Track[];
     algorithms: string[];
 
     @Output()
@@ -30,10 +30,16 @@ export class RadiostationBySongComponent {
         this.radiostationService.getAlgorithms().subscribe((algorithms: string[]) => {
             this.algorithms = algorithms;
         });
+        this.tracks = [];
     }
 
     reset(): void {
-        this.track = null;
+        this.tracks = [];
+    }
+
+    public deleteSelection(value: Track): void {
+        this.tracks.splice(this.tracks.indexOf(value), 1);
+        //TODO Adjust creationParameters
     }
 
     public start(): void {
@@ -43,16 +49,18 @@ export class RadiostationBySongComponent {
     }
 
     public addStartTrack(track: Track): void {
-        this.track = track;
+        if (this.tracks.indexOf(track) == -1) {
+            if (this.tracks.length == 5) {
+                this.tracks.splice(0, 1);
+            }
+            this.tracks.push(track);
+        }
         //TODO Ask if backend can handle multiple tracks and implement with push
         this.creationParameters.startTracks = [track.id];
     }
 
     public getSearchHeight(): number {
-        if (this.track) {
-            return 32 + 58 + 20 + 56;
-        } else {
-            return 32 + 58 + 20;
-        }
+        let count: number = Math.min(5, this.tracks.length);
+        return 32 + 58 + 20 + (56 * count);
     }
 }
