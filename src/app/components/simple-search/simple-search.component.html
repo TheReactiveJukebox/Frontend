@@ -22,7 +22,7 @@
             <md-nav-list class="tl">
                 <h1 md-subheader>{{'TRACK_LIST.ARTIST' | translate}}</h1>
                 <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4"
-                              (click)="this.selection(result, 'ARTIST')">
+                              (click)="this.selection(result, 'ARTIST'); this.discography(result.id)">
                     <p class="tl-name-col">{{result.name}}</p>
                 </md-list-item>
             </md-nav-list>

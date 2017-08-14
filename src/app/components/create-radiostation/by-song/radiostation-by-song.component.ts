@@ -44,6 +44,7 @@ export class RadiostationBySongComponent {
 
     public addStartTrack(track: Track): void {
         this.track = track;
+        //TODO Ask if backend can handle multiple tracks and implement with push
         this.creationParameters.startTracks = [track.id];
     }
 

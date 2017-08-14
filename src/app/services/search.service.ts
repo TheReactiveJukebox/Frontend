@@ -43,6 +43,12 @@ export class SearchService {
             .switchMap(term => this.apiCall(term, '/api/album?titlesubstr='));
     }
 
+    getArtistSongs(terms: Observable<string>) {
+        return terms.debounceTime(200)
+            .distinctUntilChanged()
+            .switchMap(term => this.apiCall(term, '/api/track?artist='));
+    }
+
     // Function should call our API correctly
     apiCall(term: string, endpoint) {
         let count = '';

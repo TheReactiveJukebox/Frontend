@@ -52,6 +52,7 @@ export class SimpleSearchComponent {
     searchTrack$ = new Subject<string>();
     searchArtist$= new Subject<string>();
     searchAlbum$ = new Subject<string>();
+    getArtistSongs$ = new Subject<string>()
 
     //Subscribing to the search result observables
     constructor(private searchService: SearchService,
@@ -96,6 +97,21 @@ export class SimpleSearchComponent {
                     this.albumResultCount = 0;
                 }
             });
+        //Gets songs for an artist
+        this.searchService.getArtistSongs(this.getArtistSongs$)
+            .subscribe(results => {
+                if (Object.keys(results).length > 0) {
+                    this.trackService.fillData(results).subscribe((filledTracks: Track[]) => {
+                        this.trackResult = filledTracks;
+                        this.trackResultCount = Object.keys(filledTracks).length;
+                        this.artistResultCount = 0;
+                        this.albumResultCount = 0;
+                    });
+                } else {
+                    this.trackResult = results;
+                    this.trackResultCount = 0;
+                }
+            });
     }
 
     //Invoked on keyup in search field search API is called when a query with more than two characters is send
@@ -105,7 +121,10 @@ export class SimpleSearchComponent {
         this.searchTrack$.next(this.searchTerm);
         this.searchArtist$.next(this.searchTerm);
         this.searchAlbum$.next(this.searchTerm);
+    }
 
+    public discography(value): void {
+        this.getArtistSongs$.next(value);
     }
 
 
