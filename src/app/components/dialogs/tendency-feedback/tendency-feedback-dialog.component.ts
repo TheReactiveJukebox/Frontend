@@ -37,7 +37,7 @@ export class TendencyFeedbackDialogComponent {
 
     }
 
-    roundAvoid(value: number, places: number): number {
+    public static roundAvoid(value: number, places: number): number {
         let scale = Math.pow(10, places);
         return Math.round(value * scale) / scale;
     }
@@ -48,7 +48,7 @@ export class TendencyFeedbackDialogComponent {
         }
         if (this.cTendency.preferredDynamics > this.dynamicStepsize) {
             let value = this.cTendency.preferredDynamics - this.dynamicStepsize;
-            this.cTendency.preferredDynamics = this.roundAvoid(value, 3);
+            this.cTendency.preferredDynamics = TendencyFeedbackDialogComponent.roundAvoid(value, 3);
         } else {
             this.cTendency.preferredDynamics = 0;
         }
@@ -60,7 +60,7 @@ export class TendencyFeedbackDialogComponent {
         }
         if (this.cTendency.preferredDynamics < 1 - this.dynamicStepsize) {
             let value = this.cTendency.preferredDynamics + this.dynamicStepsize;
-            this.cTendency.preferredDynamics = this.roundAvoid(value, 3);
+            this.cTendency.preferredDynamics = TendencyFeedbackDialogComponent.roundAvoid(value, 3);
         } else {
             this.cTendency.preferredDynamics = 1;
         }
@@ -70,7 +70,7 @@ export class TendencyFeedbackDialogComponent {
         if (this.presetDynamic == null) {
             this.presetDynamic = this.cTendency.preferredDynamics;
         }
-        this.cTendency.preferredDynamics = this.roundAvoid(value, 3);
+        this.cTendency.preferredDynamics = TendencyFeedbackDialogComponent.roundAvoid(value, 3);
     }
 
     btnSlower(): void {
@@ -78,7 +78,7 @@ export class TendencyFeedbackDialogComponent {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
         if (this.cTendency.preferredSpeed > this.speedStepsize + this.speedLowerLimit) {
-            this.cTendency.preferredSpeed = this.roundAvoid(this.cTendency.preferredSpeed - this.speedStepsize, 0);
+            this.cTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(this.cTendency.preferredSpeed - this.speedStepsize, 0);
         } else {
             this.cTendency.preferredSpeed = this.speedLowerLimit;
         }
@@ -89,7 +89,7 @@ export class TendencyFeedbackDialogComponent {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
         if (this.cTendency.preferredSpeed < this.speedUpperlimit - this.speedStepsize) {
-            this.cTendency.preferredSpeed = this.roundAvoid(this.cTendency.preferredSpeed + this.speedStepsize, 0);
+            this.cTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(this.cTendency.preferredSpeed + this.speedStepsize, 0);
         } else {
             this.cTendency.preferredSpeed = this.speedUpperlimit;
         }
@@ -99,7 +99,7 @@ export class TendencyFeedbackDialogComponent {
         if (this.presetSpeed == null) {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
-        this.cTendency.preferredSpeed = this.roundAvoid(value, 0);
+        this.cTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(value, 0);
     }
 
     btnStartOlder(): void {
@@ -107,7 +107,7 @@ export class TendencyFeedbackDialogComponent {
             this.presetPeriodStart = this.cTendency.preferredPeriodStart;
         }
         if (this.cTendency.preferredPeriodStart > this.yearLowerLimit + this.yearStepsize) {
-            this.cTendency.preferredPeriodStart = this.roundAvoid(this.cTendency.preferredPeriodStart - this.yearStepsize, 0);
+            this.cTendency.preferredPeriodStart = TendencyFeedbackDialogComponent.roundAvoid(this.cTendency.preferredPeriodStart - this.yearStepsize, 0);
         } else {
             this.cTendency.preferredPeriodStart = this.yearLowerLimit;
         }
@@ -118,7 +118,7 @@ export class TendencyFeedbackDialogComponent {
             this.presetPeriodStart = this.cTendency.preferredPeriodStart;
         }
         if (this.cTendency.preferredPeriodStart < new Date().getFullYear() - this.yearStepsize) {
-            this.cTendency.preferredPeriodStart = this.roundAvoid(this.cTendency.preferredPeriodStart + this.yearStepsize, 0);
+            this.cTendency.preferredPeriodStart = TendencyFeedbackDialogComponent.roundAvoid(this.cTendency.preferredPeriodStart + this.yearStepsize, 0);
         } else {
             this.cTendency.preferredPeriodStart = new Date().getFullYear();
         }
@@ -131,7 +131,7 @@ export class TendencyFeedbackDialogComponent {
         if (this.presetPeriodStart == null) {
             this.presetPeriodStart = this.cTendency.preferredPeriodStart;
         }
-        this.cTendency.preferredPeriodStart = this.roundAvoid(value, 0);
+        this.cTendency.preferredPeriodStart = TendencyFeedbackDialogComponent.roundAvoid(value, 0);
         if (this.cTendency.preferredPeriodStart > this.cTendency.preferredPeriodEnd) {
             if (this.presetPeriodEnd == null) {
                 this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
@@ -145,7 +145,7 @@ export class TendencyFeedbackDialogComponent {
             this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
         }
         if (this.cTendency.preferredPeriodEnd > this.yearLowerLimit + this.yearStepsize) {
-            this.cTendency.preferredPeriodEnd = this.roundAvoid(this.cTendency.preferredPeriodEnd - this.yearStepsize, 0);
+            this.cTendency.preferredPeriodEnd = TendencyFeedbackDialogComponent.roundAvoid(this.cTendency.preferredPeriodEnd - this.yearStepsize, 0);
         } else {
             this.cTendency.preferredPeriodEnd = this.yearLowerLimit;
         }
@@ -159,7 +159,7 @@ export class TendencyFeedbackDialogComponent {
             this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
         }
         if (this.cTendency.preferredPeriodEnd < this.yearUpperLimit - this.yearStepsize) {
-            this.cTendency.preferredPeriodEnd = this.roundAvoid(this.cTendency.preferredPeriodEnd + this.yearStepsize, 0);
+            this.cTendency.preferredPeriodEnd = TendencyFeedbackDialogComponent.roundAvoid(this.cTendency.preferredPeriodEnd + this.yearStepsize, 0);
         } else {
             this.cTendency.preferredPeriodEnd = this.yearUpperLimit;
         }
@@ -169,7 +169,7 @@ export class TendencyFeedbackDialogComponent {
         if (this.presetPeriodEnd == null) {
             this.presetPeriodEnd = this.cTendency.preferredPeriodEnd;
         }
-        this.cTendency.preferredPeriodEnd = this.roundAvoid(value, 0);
+        this.cTendency.preferredPeriodEnd = TendencyFeedbackDialogComponent.roundAvoid(value, 0);
         if (this.cTendency.preferredPeriodStart > this.cTendency.preferredPeriodEnd) {
             if (this.presetPeriodStart == null) {
                 this.presetPeriodStart = this.cTendency.preferredPeriodStart;

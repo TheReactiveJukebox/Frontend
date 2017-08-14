@@ -12,8 +12,7 @@ export class Track {
     data?: any;
     historyId: number;
     speed: number;
-    period: number;
     dynamic: number;
     genre: string;
-    releaseDate: Date;
+    releaseDate?: Date;
 }
