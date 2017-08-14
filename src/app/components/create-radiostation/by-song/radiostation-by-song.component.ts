@@ -35,6 +35,7 @@ export class RadiostationBySongComponent {
 
     reset(): void {
         this.tracks = [];
+        this.creationParameters.startTracks = [];
     }
 
     public deleteSelection(value: Track): void {
