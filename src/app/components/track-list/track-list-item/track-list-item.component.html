@@ -25,7 +25,8 @@
             (click)="btn_dislike(); $event.stopPropagation()">
         <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_down</md-icon>
     </button>
-    <button class="t1-icon-col"
+    <button *ngIf="showDelete"
+            class="t1-icon-col"
             md-icon-button
             (click)="onDelete.emit($event); $event.stopPropagation()">
         <md-icon>delete</md-icon>
