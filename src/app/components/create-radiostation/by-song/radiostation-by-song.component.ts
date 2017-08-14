@@ -39,7 +39,7 @@ export class RadiostationBySongComponent {
 
     public deleteSelection(value: Track): void {
         this.tracks.splice(this.tracks.indexOf(value), 1);
-        //TODO Adjust creationParameters
+        this.creationParameters.startTracks.splice(this.creationParameters.startTracks.indexOf(value.id), 1);
     }
 
     public start(): void {
@@ -52,11 +52,11 @@ export class RadiostationBySongComponent {
         if (this.tracks.indexOf(track) == -1) {
             if (this.tracks.length == 5) {
                 this.tracks.splice(0, 1);
+                this.creationParameters.startTracks.splice(0, 1);
             }
             this.tracks.push(track);
+            this.creationParameters.startTracks.push(track.id);
         }
-        //TODO Ask if backend can handle multiple tracks and implement with push
-        this.creationParameters.startTracks = [track.id];
     }
 
     public getSearchHeight(): number {
