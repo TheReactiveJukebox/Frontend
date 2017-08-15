@@ -1,13 +1,14 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Subject} from 'rxjs/Subject';
+import {FeedbackService} from '../../services/feedback.service';
 import {PlayerService} from '../../services/player.service';
 import {SpeechService} from '../../services/speech.service';
-
+import {Subject} from 'rxjs/Subject';
+import {Tendency} from '../../models/tendency';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'speech-search-field',
-    styleUrls: [ './speech-search-field.component.scss' ],
+    styleUrls: ['./speech-search-field.component.scss'],
     templateUrl: './speech-search-field.component.html',
 })
 export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
@@ -32,7 +33,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     constructor(public speechService: SpeechService,
                 public playerService: PlayerService,
                 private translateService: TranslateService,
-    ) {
+                private feedbackService: FeedbackService,) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
         this.micColor = {'color': `rgba(255,255,255,1)`};
@@ -72,10 +73,10 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     // starts speech-search-field recognition and set it's result to detectedText
     public start(): void {
         this.speechService.recordSpeech().takeUntil(this.ngUnsubscribe).subscribe((text: string) => {
-           this.detectedText = text;
-           if (text.trim().length > 0) {
-               this.handleSpeech(text);
-           }
+            this.detectedText = text;
+            if (text.trim().length > 0) {
+                this.handleSpeech(text);
+            }
         }, error => {
             if (error == 'Indistinguishable speech!') {
                 this.detectedText = this.translateService.instant('SPEECH.ERROR.INDISTINGUISHABLE_SPEECH');
@@ -97,14 +98,20 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     private initializeControlTerms(): void {
         this.controlTerms = new Map();
         /*
-        Mapping of speech terms and synonyms to control function (incomplete functionality as of 16.07.2017)
-        1: Play
-        2: Pause
-        3: Stop
-        4: Skip song
-        5: Louder
-        6: Quieter
-        7: Mute
+         Mapping of speech terms and synonyms to control function (incomplete functionality as of 15.05.2017)
+         1: Play
+         2: Pause
+         3: Stop
+         4: Skip song
+         5: Louder
+         6: Quieter
+         7: Mute
+         8: Dynamischer
+         9: Undynamischer
+         10: Faster
+         11: Slower
+         12: Older
+         13: Newer
          */
         this.controlTerms.set('abspielen', 1);
         this.controlTerms.set('wiedergeben', 1);
@@ -133,6 +140,24 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
         this.controlTerms.set('mute', 7);
         this.controlTerms.set('stumm', 7);
+
+        this.controlTerms.set('dynamischer', 8);
+        this.controlTerms.set('more dynamic', 8);
+
+        this.controlTerms.set('undynamischer', 9);
+        this.controlTerms.set('less dynamic', 9);
+
+        this.controlTerms.set('schneller', 10);
+        this.controlTerms.set('faster', 10);
+
+        this.controlTerms.set('langsamer', 11);
+        this.controlTerms.set('slower', 11);
+
+        this.controlTerms.set('older', 12);
+        this.controlTerms.set('älter', 12);
+
+        this.controlTerms.set('newer', 13);
+        this.controlTerms.set('neuer', 13);
     }
 
     //Function to handle incoming speech. If no recognized term is in speech query the term will be send to the search bar
@@ -143,7 +168,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         let tokens: string[] = speech.toLocaleLowerCase().split(' ');
         let action: number = -1;
 
-        for (let i of tokens){
+        for (let i of tokens) {
             if (this.controlTerms.has(i)) {
                 action = this.controlTerms.get(i);
             }
@@ -169,7 +194,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 this.playerService.skipForward(false);
                 break;
             }
-
             case 5: {
                 let current: number = this.playerService.volume;
                 current = current + 0.2;
@@ -192,6 +216,33 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 this.playerService.volumeOff();
                 break;
             }
+            case 8: {
+                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
+                
+                break;
+            }
+            case 9: {
+
+                break;
+            }
+            case 10: {
+
+                break;
+            }
+            case 11: {
+
+                break;
+            }
+
+            case 12: {
+
+                break;
+            }
+            case 13: {
+
+
+                break;
+            }
             default: {
             }
         }
@@ -204,7 +255,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         const worker = () => {
             if (this.colorRunner < 255) {
                 console.log('Color ' + this.colorRunner);
-                this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`, };
+                this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`,};
                 this.colorRunner = this.colorRunner + 5;
                 requestAnimationFrame(worker);
             } else {

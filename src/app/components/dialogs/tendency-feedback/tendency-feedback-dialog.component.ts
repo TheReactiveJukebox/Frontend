@@ -8,16 +8,16 @@ import {Tendency} from '../../../models/tendency';
     styleUrls: ['./tendency-feedback-dialog.component.scss']
 })
 export class TendencyFeedbackDialogComponent {
-    cTendency: Tendency;
+    cTendency: Tendency = new Tendency();
     genres = [];
 
-    speedUpperlimit = 400;
-    speedLowerLimit = 1;
-    speedStepsize = 5;
-    dynamicStepsize = 0.1;
-    yearStepsize = 5;
-    yearLowerLimit = 1800;
-    yearUpperLimit = new Date().getFullYear();
+    speedUpperlimit = this.cTendency.speedUpperlimit;
+    speedLowerLimit = this.cTendency.speedLowerLimit;
+    speedStepsize = this.cTendency.speedStepsize;
+    dynamicStepsize = this.cTendency.dynamicStepsize;
+    yearStepsize = this.cTendency.yearStepsize;
+    yearLowerLimit = this.cTendency.yearLowerLimit;
+    yearUpperLimit = this.cTendency.yearUpperLimit;
 
     presetPeriodStart;
     presetPeriodEnd;
@@ -28,7 +28,6 @@ export class TendencyFeedbackDialogComponent {
     }
 
     setCurTendency(curTendency: Tendency): void {
-        this.cTendency = new Tendency();
         this.cTendency.radioId = curTendency.radioId;
         this.cTendency.preferredDynamics = curTendency.preferredDynamics;
         this.cTendency.preferredPeriodEnd = curTendency.preferredPeriodEnd;
