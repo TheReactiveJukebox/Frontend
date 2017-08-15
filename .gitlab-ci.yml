@@ -1,4 +1,6 @@
 stages:
+- build_node_modules
+- test
 - build
 - build_image
 - test_image
@@ -6,8 +8,8 @@ stages:
 variables:
   IMAGE_NAME_PRO: $CI_REGISTRY/jukebox/frontend/pro:$CI_COMMIT_REF_SLUG
 
-npm:
-  stage: build
+node_modules:
+  stage: build_node_modules
   # https://hub.docker.com/_/node/
   image: node:7-alpine
   cache:
@@ -19,6 +21,26 @@ npm:
     - npm set fetch-retries 10
   script:
     - npm install
+  artifacts:
+    paths:
+    - node_modules/
+
+lint:
+  stage: test
+  dependencies:
+    - node_modules
+  # https://hub.docker.com/_/node/
+  image: node:7-alpine
+  script:
+    - npm run lint
+
+npm:
+  stage: build
+  dependencies:
+    - node_modules
+  # https://hub.docker.com/_/node/
+  image: node:7-alpine
+  script:
     - npm run build:aot:prod
   artifacts:
     paths:
@@ -26,10 +48,13 @@ npm:
 
 docker_image:
   stage: build_image
+  dependencies:
+    - npm
   script:
     - docker build --pull -t $IMAGE_NAME_PRO .
 
 nginx_syntax:
   stage: test_image
+  dependencies: []
   script:
     - docker run $IMAGE_NAME_PRO nginx -t
