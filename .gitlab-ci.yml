@@ -1,0 +1,35 @@
+stages:
+- build
+- build_image
+- test_image
+
+variables:
+  IMAGE_NAME_PRO: $CI_REGISTRY/jukebox/frontend/pro:$CI_COMMIT_REF_SLUG
+
+npm:
+  stage: build
+  # https://hub.docker.com/_/node/
+  image: node:7-alpine
+  cache:
+    key: "frontend_npm"
+    paths:
+    - .npm/
+  before_script:
+    - npm set cache .npm
+    - npm set fetch-retries 10
+  script:
+    - npm install
+    - npm run build:aot:prod
+  artifacts:
+    paths:
+    - dist/
+
+docker_image:
+  stage: build_image
+  script:
+    - docker build --pull -t $IMAGE_NAME_PRO .
+
+nginx_syntax:
+  stage: test_image
+  script:
+    - docker run $IMAGE_NAME_PRO nginx -t
