@@ -19,13 +19,5 @@ export class Tendency {
     preferredSpeed: number;
     preferredPeriodStart: number;
     preferredPeriodEnd: number;
-
-    speedUpperlimit = 400;
-    speedLowerLimit = 1;
-    speedStepsize = 5;
-    dynamicStepsize = 0.1;
-    yearStepsize = 5;
-    yearLowerLimit = 1800;
-    yearUpperLimit = new Date().getFullYear();
 }
 

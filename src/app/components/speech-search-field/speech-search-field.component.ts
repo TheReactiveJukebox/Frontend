@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FeedbackService} from '../../services/feedback.service';
+import {GlobalVariable} from '../../models/globals';
 import {PlayerService} from '../../services/player.service';
 import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
@@ -98,7 +99,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     private initializeControlTerms(): void {
         this.controlTerms = new Map();
         /*
-         Mapping of speech terms and synonyms to control function (incomplete functionality as of 15.05.2017)
+         Mapping of speech terms and synonyms to control function (incomplete functionality as of 15.08.2017)
          1: Play
          2: Pause
          3: Stop
@@ -143,6 +144,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
         this.controlTerms.set('dynamischer', 8);
         this.controlTerms.set('more dynamic', 8);
+        this.controlTerms.set('dynamic', 8);
 
         this.controlTerms.set('undynamischer', 9);
         this.controlTerms.set('less dynamic', 9);
@@ -217,29 +219,66 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 break;
             }
             case 8: {
+                //calculate new Tendency
                 let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                
+                if (cTendency.preferredDynamics < 1 - GlobalVariable.dynamicStepsize) {
+                    let value = cTendency.preferredDynamics + GlobalVariable.dynamicStepsize;
+                    cTendency.preferredDynamics = this.roundAvoid(value, 3);
+                } else {
+                    cTendency.preferredDynamics = 1;
+                }
+                //send new Tendency
+                this.feedbackService.postTendency(cTendency);
+                this.feedbackService.radiostationService.refreshTrackList();
                 break;
             }
             case 9: {
-
+                //calculate new Tendency
+                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
+                if (cTendency.preferredDynamics > GlobalVariable.dynamicStepsize) {
+                    let value = cTendency.preferredDynamics - GlobalVariable.dynamicStepsize;
+                    cTendency.preferredDynamics = this.roundAvoid(value, 3);
+                } else {
+                    cTendency.preferredDynamics = 0;
+                }
+                //send new Tendency
+                this.feedbackService.postTendency(cTendency);
+                this.feedbackService.radiostationService.refreshTrackList();
                 break;
             }
             case 10: {
-
+                //calculate new Tendency
+                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
+                if (cTendency.preferredSpeed < GlobalVariable.speedUpperlimit - GlobalVariable.speedStepsize) {
+                    cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed + GlobalVariable.speedStepsize, 0);
+                } else {
+                    cTendency.preferredSpeed = GlobalVariable.speedUpperlimit;
+                }
+                //send new Tendency
+                this.feedbackService.postTendency(cTendency);
+                this.feedbackService.radiostationService.refreshTrackList();
                 break;
             }
             case 11: {
-
+                //calculate new Tendency
+                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
+                if (cTendency.preferredSpeed > GlobalVariable.speedStepsize + GlobalVariable.speedLowerLimit) {
+                    cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed - GlobalVariable.speedStepsize, 0);
+                } else {
+                    cTendency.preferredSpeed = GlobalVariable.speedLowerLimit;
+                }
+                //send new Tendency
+                this.feedbackService.postTendency(cTendency);
+                this.feedbackService.radiostationService.refreshTrackList();
                 break;
             }
 
             case 12: {
-
+                //TODO older
                 break;
             }
             case 13: {
-
+                //TODO newer
 
                 break;
             }
@@ -247,6 +286,11 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
             }
         }
         this.searchCall.emit(speech);
+    }
+
+    roundAvoid(value: number, places: number): number {
+        let scale = Math.pow(10, places);
+        return Math.round(value * scale) / scale;
     }
 
     public animateColor(): void {

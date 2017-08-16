@@ -27,7 +27,7 @@ export class FeedbackService {
     private curHistory: Track[];
     private radioId: number;
 
-    constructor(private radiostationService: RadiostationService,
+    constructor(public radiostationService: RadiostationService,
                 private localHistory: HistoryService,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {
