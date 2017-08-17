@@ -19,7 +19,7 @@ export class FeedbackService {
 
     private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
     private tendencyUrl = Config.serverUrl + '/api/jukebox/tendency';  // URL to web api
-    private genreApiUrl = Config.serverUrl + '/api/genre/list';  // URL to web api
+    private genreApiUrl = Config.serverUrl + '/api/genre';  // URL to web api
 
     private dialogRef: MdDialogRef<any>;
     private genres = [];
@@ -35,7 +35,7 @@ export class FeedbackService {
             this.genres = genreList;
         }, error => {
             //should not happen since this was a static request
-            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error);
+            console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
 
     }
