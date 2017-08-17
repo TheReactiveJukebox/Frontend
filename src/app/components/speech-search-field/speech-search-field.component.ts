@@ -144,7 +144,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
         this.controlTerms.set('dynamischer', 8);
         this.controlTerms.set('more dynamic', 8);
-        this.controlTerms.set('dynamic', 8);
 
         this.controlTerms.set('undynamischer', 9);
         this.controlTerms.set('less dynamic', 9);
@@ -274,11 +273,47 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
             }
 
             case 12: {
-                //TODO older
+                //set periodStart older
+                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
+                if (cTendency.preferredPeriodStart > GlobalVariable.yearLowerLimit + GlobalVariable.yearStepsize) {
+                    cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart - GlobalVariable.yearStepsize, 0);
+                } else {
+                    cTendency.preferredPeriodStart = GlobalVariable.yearLowerLimit;
+                }
+                //set periodEnd older
+                if (cTendency.preferredPeriodEnd > GlobalVariable.yearLowerLimit + GlobalVariable.yearStepsize) {
+                    cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd - GlobalVariable.yearStepsize, 0);
+                } else {
+                    cTendency.preferredPeriodEnd = GlobalVariable.yearLowerLimit;
+                }
+                if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
+                    cTendency.preferredPeriodStart = cTendency.preferredPeriodEnd;
+                }
+                //send new Tendency
+                this.feedbackService.postTendency(cTendency);
+                this.feedbackService.radiostationService.refreshTrackList();
                 break;
             }
             case 13: {
-                //TODO newer
+                //set periodStart newer
+                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
+                if (cTendency.preferredPeriodStart < new Date().getFullYear() - GlobalVariable.yearStepsize) {
+                    cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart + GlobalVariable.yearStepsize, 0);
+                } else {
+                    cTendency.preferredPeriodStart = new Date().getFullYear();
+                }
+                if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
+                    cTendency.preferredPeriodEnd = cTendency.preferredPeriodStart;
+                }
+                //set periodEnd newer
+                if (cTendency.preferredPeriodEnd < GlobalVariable.yearUpperLimit - GlobalVariable.yearStepsize) {
+                    cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd + GlobalVariable.yearStepsize, 0);
+                } else {
+                    cTendency.preferredPeriodEnd = GlobalVariable.yearUpperLimit;
+                }
+                //send new Tendency
+                this.feedbackService.postTendency(cTendency);
+                this.feedbackService.radiostationService.refreshTrackList();
 
                 break;
             }
@@ -299,7 +334,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         const worker = () => {
             if (this.colorRunner < 255) {
                 console.log('Color ' + this.colorRunner);
-                this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`,};
+                this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`};
                 this.colorRunner = this.colorRunner + 5;
                 requestAnimationFrame(worker);
             } else {
