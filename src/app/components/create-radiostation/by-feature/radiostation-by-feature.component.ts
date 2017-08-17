@@ -39,7 +39,7 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
-    private genreApiUrl = Config.serverUrl + '/api/genre/list';  // URL to web api
+    private genreApiUrl = Config.serverUrl + '/api/genre';  // URL to web api
 
     constructor(public radiostationService: RadiostationService,
                 private playerService: PlayerService,
@@ -50,7 +50,7 @@ export class RadiostationByFeatureComponent implements OnInit {
             this.genres = genreList;
         }, error => {
             //should not happen since this was a static request
-            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error);
+            console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
         //TODO: load available moods
     }

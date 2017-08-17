@@ -19,7 +19,7 @@ export class FeedbackService {
 
     private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
     private tendencyUrl = Config.serverUrl + '/api/jukebox/tendency';  // URL to web api
-    private genreApiUrl = Config.serverUrl + '/api/genre/list';  // URL to web api
+    private genreApiUrl = Config.serverUrl + '/api/genre';  // URL to web api
 
     private dialogRef: MdDialogRef<any>;
     private genres = [];
@@ -35,7 +35,7 @@ export class FeedbackService {
             this.genres = genreList;
         }, error => {
             //should not happen since this was a static request
-            console.log('It seems that the API-Endpoint /genre/list is not working properly: ', error);
+            console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
 
     }
@@ -88,16 +88,10 @@ export class FeedbackService {
         this.curTendency = new Tendency();
         this.curTendency.radioId = this.radiostationService.jukebox.id;
         //calculate mean values
-        this.curTendency.preferredDynamics = this.localHistory.getMeanDynamic();
-        this.curTendency.preferredSpeed = this.localHistory.getMeanSpeed();
+        this.curTendency.preferredDynamics = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanDynamic(), 2);
+        this.curTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanSpeed(), 0);
         this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
         this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
-
-        //temporary mock attributes until data is available
-        this.curTendency.preferredDynamics = 0.3;
-        this.curTendency.preferredSpeed = 121;
-        this.curTendency.preferredPeriodStart = 1976;
-        this.curTendency.preferredPeriodEnd = 2006;
     }
 
 
