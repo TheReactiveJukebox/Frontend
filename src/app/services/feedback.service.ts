@@ -94,6 +94,10 @@ export class FeedbackService {
         this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
     }
 
+    public setCurTendency(cTendency: Tendency): void {
+        this.curTendency = cTendency;
+    }
+
 
     public dislikeSong(feedback: TrackFeedback): TrackFeedback {
         feedback.songDisliked = true;

@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FeedbackService} from '../../services/feedback.service';
-import {Config} from 'app/config';
 import {PlayerService} from '../../services/player.service';
 import {SpeechService} from '../../services/speech.service';
 import {Subject} from 'rxjs/Subject';
 import {Tendency} from '../../models/tendency';
 import {TranslateService} from '@ngx-translate/core';
+import {Config} from '../../config';
 
 @Component({
     selector: 'speech-search-field',
@@ -227,6 +227,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                     cTendency.preferredDynamics = 1;
                 }
                 //send new Tendency
+                this.feedbackService.setCurTendency(cTendency);
                 this.feedbackService.postTendency(cTendency);
                 this.feedbackService.radiostationService.refreshTrackList();
                 break;
@@ -241,6 +242,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                     cTendency.preferredDynamics = 0;
                 }
                 //send new Tendency
+                this.feedbackService.setCurTendency(cTendency);
                 this.feedbackService.postTendency(cTendency);
                 this.feedbackService.radiostationService.refreshTrackList();
                 break;
@@ -248,12 +250,13 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
             case 10: {
                 //calculate new Tendency
                 let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                if (cTendency.preferredSpeed < Config.speedUpperlimit - Config.speedStepsize) {
+                if (cTendency.preferredSpeed < Config.speedUpperLimit - Config.speedStepsize) {
                     cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed + Config.speedStepsize, 0);
                 } else {
-                    cTendency.preferredSpeed = Config.speedUpperlimit;
+                    cTendency.preferredSpeed = Config.speedUpperLimit;
                 }
                 //send new Tendency
+                this.feedbackService.setCurTendency(cTendency);
                 this.feedbackService.postTendency(cTendency);
                 this.feedbackService.radiostationService.refreshTrackList();
                 break;
@@ -267,6 +270,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                     cTendency.preferredSpeed = Config.speedLowerLimit;
                 }
                 //send new Tendency
+                this.feedbackService.setCurTendency(cTendency);
                 this.feedbackService.postTendency(cTendency);
                 this.feedbackService.radiostationService.refreshTrackList();
                 break;
@@ -290,6 +294,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                     cTendency.preferredPeriodStart = cTendency.preferredPeriodEnd;
                 }
                 //send new Tendency
+                this.feedbackService.setCurTendency(cTendency);
                 this.feedbackService.postTendency(cTendency);
                 this.feedbackService.radiostationService.refreshTrackList();
                 break;
@@ -312,6 +317,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                     cTendency.preferredPeriodEnd = Config.yearUpperLimit;
                 }
                 //send new Tendency
+                this.feedbackService.setCurTendency(cTendency);
                 this.feedbackService.postTendency(cTendency);
                 this.feedbackService.radiostationService.refreshTrackList();
 
