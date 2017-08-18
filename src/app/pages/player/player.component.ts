@@ -1,10 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from '../../services/auth/auth.service';
 import {MdIconRegistry, MdTabGroup} from '@angular/material';
-import {TrackService} from '../../services/track.service';
-import {Track} from '../../models/track';
-import {PlayerService} from '../../services/player.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Track} from '../../models/track';
+import {AuthService} from '../../services/auth/auth.service';
+import {PlayerService} from '../../services/player.service';
+import {TrackService} from '../../services/track.service';
+
 
 
 @Component({
