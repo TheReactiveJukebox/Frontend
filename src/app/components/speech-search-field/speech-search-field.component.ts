@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {Subject} from 'rxjs/Subject';
+import {Config} from '../../config';
+import {Tendency} from '../../models/tendency';
 import {FeedbackService} from '../../services/feedback.service';
 import {PlayerService} from '../../services/player.service';
 import {SpeechService} from '../../services/speech.service';
-import {Subject} from 'rxjs/Subject';
-import {Tendency} from '../../models/tendency';
-import {TranslateService} from '@ngx-translate/core';
-import {Config} from '../../config';
 
 @Component({
     selector: 'speech-search-field',
@@ -34,7 +34,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     constructor(public speechService: SpeechService,
                 public playerService: PlayerService,
                 private translateService: TranslateService,
-                private feedbackService: FeedbackService,) {
+                private feedbackService: FeedbackService) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
         this.micColor = {'color': `rgba(255,255,255,1)`};
@@ -100,19 +100,20 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         this.controlTerms = new Map();
         /*
          Mapping of speech terms and synonyms to control function (incomplete functionality as of 15.08.2017)
-         1: Play
-         2: Pause
-         3: Stop
-         4: Skip song
-         5: Louder
-         6: Quieter
-         7: Mute
-         8: Dynamischer
-         9: Undynamischer
+         1:  Play
+         2:  Pause
+         3:  Stop
+         4:  Skip song
+         5:  Louder
+         6:  Quieter
+         7:  Mute
+         8:  More Dynamic
+         9:  Less Dynamic
          10: Faster
          11: Slower
          12: Older
          13: Newer
+         14: More of Genre
          */
         this.controlTerms.set('abspielen', 1);
         this.controlTerms.set('wiedergeben', 1);
@@ -143,10 +144,8 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         this.controlTerms.set('stumm', 7);
 
         this.controlTerms.set('dynamischer', 8);
-        this.controlTerms.set('more dynamic', 8);
 
         this.controlTerms.set('undynamischer', 9);
-        this.controlTerms.set('less dynamic', 9);
 
         this.controlTerms.set('schneller', 10);
         this.controlTerms.set('faster', 10);
@@ -159,6 +158,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
         this.controlTerms.set('newer', 13);
         this.controlTerms.set('neuer', 13);
+
     }
 
     //Function to handle incoming speech. If no recognized term is in speech query the term will be send to the search bar
@@ -168,11 +168,28 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         //Tokenization to find functional term in a sentence of recognized speech.
         let tokens: string[] = speech.toLocaleLowerCase().split(' ');
         let action: number = -1;
-
+        let j = 0;
+        let genre: string;
         for (let i of tokens) {
             if (this.controlTerms.has(i)) {
                 action = this.controlTerms.get(i);
             }
+            //special casees for more than one keyword
+            if ((i.includes('more') || i.includes('mehr')) && tokens.length > j + 1 ) {
+                if (tokens[j + 1].includes('dynamic') || tokens[j + 1].includes('dynamik')) {
+                    action = 8;
+                }
+                if (tokens[j + 1].includes('of') || tokens[j + 1].includes('von') && tokens.length > j + 2) {
+                    genre = tokens[j + 2];
+                    action = 14;
+                }
+            }
+            if ((i.includes('less') || i.includes('les')) && tokens.length > j + 1 ) {
+                if (tokens[j + 1].includes('dynamic') || tokens[j + 1].includes('dynamik')) {
+                    action = 9;
+                }
+            }
+            j++;
         }
 
         switch (action) {
@@ -323,6 +340,17 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
                 break;
             }
+            case 14: {
+                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
+                console.log('genre recognised: ' + genre);
+                cTendency.moreOfGenre = genre;
+                //send new Tendency
+                this.feedbackService.setCurTendency(cTendency);
+                this.feedbackService.postTendency(cTendency);
+                this.feedbackService.radiostationService.refreshTrackList();
+
+                break;
+            }
             default: {
             }
         }
@@ -335,11 +363,9 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     }
 
     public animateColor(): void {
-        console.log('Animate');
         this.colorRunner = 255;
         const worker = () => {
             if (this.colorRunner < 255) {
-                console.log('Color ' + this.colorRunner);
                 this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`};
                 this.colorRunner = this.colorRunner + 5;
                 requestAnimationFrame(worker);
