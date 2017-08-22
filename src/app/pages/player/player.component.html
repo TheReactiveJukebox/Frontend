@@ -16,7 +16,8 @@
 
         <md-tab [disabled]="!trackService.hasNextTracks()">
             <ng-template md-tab-label>
-                <md-icon [mdTooltip]="'PLAYER.TABS.PLAYER' | translate" class="tab-icons">radio</md-icon>
+                <md-icon svgIcon="img:sprites" [mdTooltip]="'PLAYER.TABS.PLAYER' | translate"
+                         class="tab-icons"></md-icon>
             </ng-template>
             <div class="player-content">
                 <history-list></history-list>

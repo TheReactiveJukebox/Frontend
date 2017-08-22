@@ -4,6 +4,9 @@
               (click)="onProgressBarClick($event)"></progress>
 
     <md-card id="controls_wrapper">
+        <button md-icon-button class="controlls" id="stop_button" (click)="this.playerService.stop()">
+            <md-icon class="controlls-icons">stop_circle_outline</md-icon>
+        </button>
         <button md-icon-button class="controlls" id="play_button" *ngIf="!this.playerService.isPlaying"
                 (click)="this.playerService.play()">
             <md-icon class="controlls-icons">play_circle_outline</md-icon>
