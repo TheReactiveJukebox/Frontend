@@ -6,17 +6,22 @@
 }
 
 .tl-title-col{
-  width: 24%;
+  width: 22%;
   text-align: left;
 }
 
 .tl-artist-col{
-  width: 24%;
+  width: 22%;
   text-align: left;
 }
 
 .tl-album-col{
-  width: 15%;
+  width: 17%;
+  text-align: left;
+}
+
+.tl-genre-col{
+  width: 8%;
   text-align: left;
 }
 
@@ -25,13 +30,8 @@
   text-align: left;
 }
 
-.tl-bpm-col{
-  width: 6%;
-  text-align: left;
-}
-
 .tl-duration-col{
-  width: 7%;
+  width: 5%;
   text-align: center;
 }
 
