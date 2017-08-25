@@ -317,9 +317,6 @@ export class FeedbackService {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
         this.dialogRef.componentInstance.setCurTendency(this.createTendencyToCurrentRadio());
 
-        //temporary mock genres until data is available
-        this.genres = ['Rock', 'Pop', 'Classic'];
-
         this.dialogRef.componentInstance.genres = this.genres;
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
