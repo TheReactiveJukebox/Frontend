@@ -1,9 +1,9 @@
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component} from '@angular/core';
 import {Track} from '../../models/track';
 import {HistoryService} from '../../services/history.service';
 import {IndirectFeedbackService} from '../../services/indirect-feedback.service';
 import {RadiostationService} from '../../services/radiostation.service';
-import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'history-list',

@@ -91,13 +91,10 @@ export class TendencyFeedbackDialogComponent {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
         if (this.cTendency.preferredSpeed < Config.speedUpperLimit - Config.speedStepsize) {
-            console.log("1");
             this.cTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(
                 this.cTendency.preferredSpeed + Config.speedStepsize, 0);
-            console.log("2");
         } else {
             this.cTendency.preferredSpeed = Config.speedUpperLimit;
-            console.log("3");
         }
     }
 
