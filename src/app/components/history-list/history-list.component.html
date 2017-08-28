@@ -1,4 +1,4 @@
-<div *ngIf="this.historyService.historyVisible">
+<div class="history-container" *ngIf="this.historyService.historyVisible" [@fadeIn]="this.historyService.historyVisible">
     <h2 id="heading">{{'HISTORY_LIST.TITLE' | translate}}</h2>
     <button md-icon-button (click)="toggleExpansion()">
         <md-icon *ngIf="this.isExpanded">keyboard_arrow_down</md-icon>

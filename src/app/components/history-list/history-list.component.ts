@@ -3,11 +3,20 @@ import {Track} from '../../models/track';
 import {HistoryService} from '../../services/history.service';
 import {IndirectFeedbackService} from '../../services/indirect-feedback.service';
 import {RadiostationService} from '../../services/radiostation.service';
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'history-list',
     templateUrl: './history-list.component.html',
-    styleUrls: ['./history-list.component.scss']
+    styleUrls: ['./history-list.component.scss'],
+    animations: [
+        trigger('fadeIn', [
+            state('true', style({'height': '*'})),
+            state('void', style({'height': '0px'})),
+            transition('void => *', animate('1.0s')),
+            transition('* => void', animate('1.0s'))
+        ])
+    ]
 })
 export class HistoryListComponent {
 
