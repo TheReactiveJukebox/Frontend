@@ -13,8 +13,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
         trigger('fadeIn', [
             state('true', style({'height': '*'})),
             state('void', style({'height': '0px'})),
-            transition('void => *', animate('1.0s')),
-            transition('* => void', animate('1.0s'))
+            transition('void => *', animate('1.0s ease-out')),
+            transition('* => void', animate('1.0s ease-out'))
         ])
     ]
 })

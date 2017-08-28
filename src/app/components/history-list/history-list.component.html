@@ -7,7 +7,7 @@
     <p *ngIf="this.historyService.history.length < 1">{{'HISTORY_LIST.EMPTY' | translate}}</p>
     <md-nav-list>
         <md-divider></md-divider>
-        <div *ngIf="this.isExpanded">
+        <div class="history-container" *ngIf="this.isExpanded" [@fadeIn]="this.isExpanded">
             <track-list-item [track]="track"
                              (onDelete)="this.historyService.deleteFromPersistentHistory(track.historyId); this.indirectFeedback(track)"
                              *ngFor="let track of this.historyService.history.slice(0,this.historyService.history.length - this.visibilityLimit)">
