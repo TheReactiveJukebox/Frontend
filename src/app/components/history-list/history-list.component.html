@@ -1,4 +1,4 @@
-<div *ngIf="this.historyService.historyVisible">
+<div class="history-container" *ngIf="this.historyService.historyVisible" [@fadeIn]="this.historyService.historyVisible">
     <h2 id="heading">{{'HISTORY_LIST.TITLE' | translate}}</h2>
     <button md-icon-button (click)="toggleExpansion()">
         <md-icon *ngIf="this.isExpanded">keyboard_arrow_down</md-icon>
@@ -7,7 +7,7 @@
     <p *ngIf="this.historyService.history.length < 1">{{'HISTORY_LIST.EMPTY' | translate}}</p>
     <md-nav-list>
         <md-divider></md-divider>
-        <div *ngIf="this.isExpanded">
+        <div class="history-container" *ngIf="this.isExpanded" [@fadeIn]="this.isExpanded">
             <track-list-item [track]="track"
                              (onDelete)="this.historyService.deleteFromPersistentHistory(track.historyId); this.indirectFeedback(track)"
                              *ngFor="let track of this.historyService.history.slice(0,this.historyService.history.length - this.visibilityLimit)">

@@ -15,6 +15,9 @@ export class TrackListItemComponent {
     @Input()
     showFeedback: boolean = true;
 
+    @Input()
+    showDelete: boolean = true;
+
     @Output()
     onDelete: EventEmitter<any>;
 
@@ -28,6 +31,10 @@ export class TrackListItemComponent {
 
     btn_dislike() {
         this.feedbackService.postSimpleFeedback(this.track, false);
+    }
+
+    public round(value: number): number {
+        return Math.round(value);
     }
 
 }

@@ -2,6 +2,14 @@ export class Config {
     public static serverUrl: string;
     public static dev: boolean;
 
+    public static speedUpperLimit = 300;
+    public static speedLowerLimit = 1;
+    public static speedStepsize = 5;
+    public static dynamicStepsize = 0.05;
+    public static yearStepsize = 5;
+    public static yearLowerLimit = 1800;
+    public static yearUpperLimit = (new Date()).getFullYear();
+
     public static config: any = {
 
         development: {

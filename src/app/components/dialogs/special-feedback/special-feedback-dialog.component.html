@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td><p class="l-genre">{{'TRACK_LIST.GENRE' | translate}}: </p></td>
-            <td><p class="innerProp">{{cTrack.genre}}</p></td>
+            <td><p class="innerProp">{{cTrack.genres[0]}}</p></td>
             <td style="margin-left: 15px">
                 <button
                         md-icon-button
@@ -67,7 +67,7 @@
         <tr>
             <td>
                 <p class="tl-period">{{'TRACK_LIST.PERIOD' | translate}}: </p></td>
-            <td><p class="innerProp">TODO: Add period!</p>
+            <td><p class="innerProp">{{cTrack.releaseDate.getFullYear()}}</p>
             </td>
             <td>
                 <button
@@ -127,7 +127,7 @@
         <tr>
             <td>
                 <p class="tl-dynamics">{{'TRACK_LIST.DYNAMICS' | translate}}: </p></td>
-            <td><p class="innerProp"></p>
+            <td><p class="innerProp">{{cTrack.dynamic}}</p>
             </td>
             <td>
                 <button

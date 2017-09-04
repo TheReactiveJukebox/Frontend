@@ -7,12 +7,12 @@
         <div *ngIf="this.trackResultCount > 0">
             <md-nav-list class="tl">
                 <h1 md-subheader>{{'TRACK_LIST.TITLE' | translate}}</h1>
-                <md-list-item class="tl-row" *ngFor="let result of this.trackResult | slice:0:9"
-                              (click)="this.selection(result, 'TRACK')">
-                    <p class="tl-title-col">{{result.title}}</p>
-                    <p class="tl-artist-col">{{result.artist.name}}</p>
-                    <p class="tl-album-col">{{result.album.title}}</p>
-                </md-list-item>
+                <track-list-item *ngFor="let result of this.trackResult | slice:0:9"
+                                 [track]="result"
+                                 [showFeedback]="false"
+                                 [showDelete]="false"
+                                 (click)="this.selection(result, 'TRACK')">
+                </track-list-item>
             </md-nav-list>
         </div>
         <div *ngIf="this.trackResultCount > 0 && (this.artistResultCount > 0 || this.albumResultCount > 0)">
@@ -22,7 +22,7 @@
             <md-nav-list class="tl">
                 <h1 md-subheader>{{'TRACK_LIST.ARTIST' | translate}}</h1>
                 <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4"
-                              (click)="this.selection(result, 'ARTIST')">
+                              (click)="this.selection(result, 'ARTIST'); this.discography(result.id)">
                     <p class="tl-name-col">{{result.name}}</p>
                 </md-list-item>
             </md-nav-list>

@@ -94,6 +94,9 @@ export class TrackService {
             let artistRequests = [];
             let albumRequests = [];
             for (let rawTrack of rawTracks) {
+                if (rawTrack.releaseDate) {
+                    rawTrack.releaseDate = new Date(rawTrack.releaseDate);
+                }
                 artistRequests.push(this.authHttp.get(artistUrl + 'id=' + rawTrack.artist));
             }
             Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
