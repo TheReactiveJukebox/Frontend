@@ -6,6 +6,7 @@ import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -43,7 +44,9 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     constructor(public radiostationService: RadiostationService,
                 private playerService: PlayerService,
-                public dialog: MdDialog, private authHttp: AuthHttp,
+                private translateService: TranslateService,
+                public dialog: MdDialog,
+                private authHttp: AuthHttp,
                 public snackBar: MdSnackBar) {
         //fetch the available genres from server
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
@@ -108,29 +111,30 @@ export class RadiostationByFeatureComponent implements OnInit {
         //there can be an unlimetd number of genre elements
         if (result == this.keys.genre) {
             this.tiles.push({type: this.keys.genre, value: this.genres[0], id: this.tileId++});
-        }
-        //check if the other elements already contained
-        let contained = false;
-        for (let entry of this.tiles) {
-            if (entry.type == result) {
-                contained = true;
-            }
-        }
-        //create the element
-        if (!contained) {
-            if (result == this.keys.mood) {
-                this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
-            }
-            if (result == this.keys.endYear) {
-                this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
-            }
-            if (result == this.keys.startYear) {
-                this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
-            }
         } else {
-            this.snackBar.open('already contained', '', {
-                duration: 2000,
-            });
+            //check if the other elements already contained
+            let contained = false;
+            for (let entry of this.tiles) {
+                if (entry.type == result) {
+                    contained = true;
+                }
+            }
+            //create the element
+            if (!contained) {
+                if (result == this.keys.mood) {
+                    this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
+                }
+                if (result == this.keys.endYear) {
+                    this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
+                }
+                if (result == this.keys.startYear) {
+                    this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
+                }
+            } else {
+                this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
+                    duration: 2000,
+                });
+            }
         }
     }
 

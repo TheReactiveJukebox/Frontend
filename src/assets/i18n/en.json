@@ -87,6 +87,7 @@
     "YEAR-END": "What should be the latest release time?"
   },
   "ADD_CONSTRAINT": {
+    "ALREADY_CONTAINED": "This feature already exists!",
     "TITLE": "Which feature do you want to specify?",
     "GENRE": "Genre",
     "MOOD": "Mood",
