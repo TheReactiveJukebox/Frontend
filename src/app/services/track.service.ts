@@ -133,7 +133,8 @@ export class TrackService {
     }
 
     hasNextTracks(): boolean {
-        return (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
+        return  (this.currentTrack.getValue != null) ||
+                (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
     }
 
 
