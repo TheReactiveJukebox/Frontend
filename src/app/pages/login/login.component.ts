@@ -38,12 +38,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     login(): void {
-        console.log('Login pressed!');
         this.authService.login(this.loginData).subscribe(() => {
             this.router.navigate(['/player']);
         }, (error: Response) => {
             if (error.status == 442) {
-                console.log('Login failed!');
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.WRONG_PW_OR_USER'));
             } else {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_LOGIN'));
@@ -62,7 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             } else {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_REGISTER'));
             }
-            console.log('Register failed!', error);
+            console.log('Register failed: ', error);
         });
     }
 

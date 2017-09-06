@@ -36,9 +36,11 @@ export class HistoryService {
             }
         }
         // Then remove item from database
-        this.authHttp.http_delete(this.historyDeleteUrl + '?id=' + historyId).subscribe(() =>
-            console.log('Delete was successful')
-        );
+        this.authHttp.http_delete(this.historyDeleteUrl + '?id=' + historyId).subscribe(() => {
+            console.log('Delete from history was successful');
+        }, error => {
+            console.log('Delete from history failed: ', error);
+        });
     }
 
     public getMeanSpeed(): number {

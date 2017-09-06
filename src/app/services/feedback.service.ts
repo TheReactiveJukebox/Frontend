@@ -225,9 +225,6 @@ export class FeedbackService {
         if (this.isTrackFeedbackValid(feedback)) {
             this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: any) => {
             }, (error: Response) => {
-                if (error.status == 400) {
-                    console.log('The provided feedback entry is malformed');
-                }
                 console.warn('Sending feedback failed: ', error);
             });
 
@@ -237,12 +234,8 @@ export class FeedbackService {
     public postTendency(tendency: Tendency): void {
         if (this.isTendencyValid(tendency)) {
             this.authHttp.post(this.tendencyUrl, tendency).subscribe((data: any) => {
-                console.log('Tendency Response:');
-                console.log(data);
+
             }, (error: Response) => {
-                if (error.status == 400) {
-                    console.log('The provided feedback entry is malformed');
-                }
                 console.warn('Sending feedback failed: ', error);
             });
 

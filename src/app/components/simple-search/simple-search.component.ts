@@ -138,7 +138,6 @@ export class SimpleSearchComponent {
             case 'TRACK': this.selectedTrack.emit(value);
                 break;
         }
-        console.log(JSON.stringify(value));
         this.selectedItem.emit(value);
     }
 

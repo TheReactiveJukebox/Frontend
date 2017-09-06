@@ -74,7 +74,6 @@ export class PlayerService implements OnDestroy {
         this.progressUpdate();
 
         if (this.currentTrack != null) {
-            console.log('refreshing');
             //loading new track
             this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
 

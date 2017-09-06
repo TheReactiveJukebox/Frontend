@@ -29,7 +29,7 @@ export class TrackService {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
         }, error => {
-            console.log(error);
+            console.log('Error fetching new songs: ', error);
         });
     }
 
@@ -38,7 +38,7 @@ export class TrackService {
         this.fetchNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
             this.nextTracks.next(tracks.slice(1));
         }, error => {
-            console.log(error);
+            console.log('Error refreshing tracklist: ', error);
         });
     }
 
@@ -126,7 +126,7 @@ export class TrackService {
             tempTracks.push(tracks[0]);
             this.nextTracks.next(tempTracks);
         }, error => {
-            console.log(error);
+            console.log('Error in nextSong(): ', error);
         });
 
         return nextTrack;
@@ -158,7 +158,7 @@ export class TrackService {
             newTracks.push(tracks[0]);
             this.nextTracks.next(newTracks);
         }, error => {
-            console.log(error);
+            console.log('Error in removeTrack(): ', error);
         });
     }
 
@@ -193,7 +193,7 @@ export class TrackService {
                 });
                 this.nextTracks.next(newTracks);
             }, error => {
-                console.log(error);
+                console.log('Error in jumpToTrack(): ', error);
             });
         }
         return track;

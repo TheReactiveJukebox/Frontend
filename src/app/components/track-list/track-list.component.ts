@@ -35,9 +35,6 @@ export class TrackListComponent implements OnInit, OnDestroy {
                 if (nextTracks != null) {
                     this.nextTracks = nextTracks;
                 }
-                if (this.nextTracks != null) {
-                    console.log('NEXT TRACKS: ', this.nextTracks);
-                }
             })
         );
 

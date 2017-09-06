@@ -50,14 +50,13 @@ export class RadiostationService implements OnDestroy {
             this.jukebox = data;
             this.trackService.refreshTracks();
         }, (error: any) => {
-            if (error.status == 400) {
-                console.log('The provided jukebox object is malformed');
-            } else if (error.status == 500 && error.statusText == 'OK') {
+            if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
                 this.jukebox = JSON.parse(error._body);
                 this.trackService.refreshTracks();
+            } else {
+                console.log('Creating new Radiostation failed!', error);
             }
-            console.log('Creating new Radiostation failed!', error);
         });
     }
 
@@ -79,13 +78,9 @@ export class RadiostationService implements OnDestroy {
         };
 
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
-            // TODO use this data for local history view
-            console.log('HISTORY RETURN DATA: ', data);
             track.historyId = data.id;
         }, (error: any) => {
-            if (error.status == 400) {
-                console.log('The provided history entry is malformed');
-            } else if (error.status == 500 && error.statusText == 'OK') {
+            if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
                 console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
                 track.historyId = JSON.parse(error._body).id;
