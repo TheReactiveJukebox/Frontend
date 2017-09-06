@@ -1,11 +1,6 @@
 @import '~@angular/material/theming';
 @import '../../../theme.scss';
 
-.tab-icons {
-  position: relative;
-  top: 6px;
-}
-
 #base-pane {
   padding: 0px !important;
   width: 100vw;
@@ -39,21 +34,21 @@ player-control-bar {
 
 md-tab-group {
 
-  /deep/ .mat-tab-body-wrapper {
+  ::ng-deep .mat-tab-body-wrapper {
     height: 100%;
   }
 }
 
-/deep/ .mat-tab-label{
+::ng-deep .mat-tab-label{
   line-height: 40px !important;
   height: 40px !important;
   min-width: 80px !important;
 }
 
-/deep/ .mat-tab-label-container {
+::ng-deep .mat-tab-label-container {
   background: mat-color($default-theme-accent) !important;
 }
 
-/deep/ md-tab-body {
+::ng-deep md-tab-body {
   margin-top: 20px !important;
 }
