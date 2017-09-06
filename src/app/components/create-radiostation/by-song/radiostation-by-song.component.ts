@@ -15,7 +15,7 @@ export class RadiostationBySongComponent {
         startTracks?: number[],
         algorithm?: string
     } = {
-        algorithm: '',
+        algorithm: 'SAGH',
         startTracks: []
     };
 
