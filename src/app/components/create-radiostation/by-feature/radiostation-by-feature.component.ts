@@ -1,12 +1,12 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
 import {AppState} from '../../../services/app.service';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'radiostation-by-feature',
