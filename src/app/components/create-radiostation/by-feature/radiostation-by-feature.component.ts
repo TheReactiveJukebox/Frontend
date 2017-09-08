@@ -1,3 +1,4 @@
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -11,7 +12,15 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
 @Component({
     selector: 'radiostation-by-feature',
     styleUrls: ['./radiostation-by-feature.component.scss'],
-    templateUrl: './radiostation-by-feature.component.html'
+    templateUrl: './radiostation-by-feature.component.html',
+    animations: [
+        trigger('expand', [
+            state('true', style({'width': '*'})),
+            state('void', style({'width': '0px'})),
+            transition('void => *', animate('0.3s ease-out')),
+            transition('* => void', animate('0.3s ease-out'))
+        ])
+    ]
 })
 export class RadiostationByFeatureComponent implements OnInit {
 
