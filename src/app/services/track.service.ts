@@ -48,7 +48,7 @@ export class TrackService {
             //inculde tracks that are in the current listening queue
             if (withCurrent) {
                 if (this.currentTrack.getValue()) {
-                    url += '&upcoming' + this.currentTrack.getValue().id;
+                    url += '&upcoming=' + this.currentTrack.getValue().id;
                 }
                 for (let track of this.nextTracks.getValue()) {
                     url += '&upcoming=' + track.id;
@@ -121,6 +121,7 @@ export class TrackService {
         this.currentTrack.next(tempTracks[0]);
         let nextTrack: Track = tempTracks[0];
         tempTracks = tempTracks.slice(1);
+        this.nextTracks.next(tempTracks);
         //Get new Track
         this.fetchNewSongs(1, true).subscribe((tracks: Track[]) => {
             tempTracks.push(tracks[0]);
@@ -184,6 +185,7 @@ export class TrackService {
 
         //Get #removed + 1 new tracks, +1 because current track is skipped
         if (removed >= 0) {
+
             this.fetchNewSongs(removed + 1, true).subscribe((tracks: Track[]) => {
                 let newTracks: Track[] = this.nextTracks.getValue();
                 newTracks.splice(0, removed);
