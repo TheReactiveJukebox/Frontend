@@ -3,7 +3,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
-import {AppState} from '../../../services/app.service';
+import {Jukebox} from '../../../models/jukebox';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
@@ -57,6 +57,10 @@ export class RadiostationByFeatureComponent implements OnInit {
                 public dialog: MdDialog,
                 private authHttp: AuthHttp,
                 public snackBar: MdSnackBar) {
+        this.radiostationService.getJukeboxSubject().subscribe((jukebox: Jukebox) => {
+            this.refresh(jukebox);
+        });
+
         //fetch the available genres from server
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
             this.genres = genreList;
@@ -69,6 +73,27 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     ngOnInit(): void {
 
+    }
+
+    private refresh(jukebox: Jukebox): void {
+        if (jukebox) {
+            this.tiles = [];
+            this.tileId = 0;
+            if (jukebox.genres) {
+                for (let genre of jukebox.genres) {
+                    this.tiles.push({type: this.keys.genre, value: genre, id: this.tileId++});
+                }
+            }
+            if (jukebox.mood) {
+                this.tiles.push({type: this.keys.mood, value: jukebox.mood, id: this.tileId++});
+            }
+            if (jukebox.startYear) {
+                this.tiles.push({type: this.keys.startYear, value: jukebox.startYear, id: this.tileId++});
+            }
+            if (jukebox.endYear) {
+                this.tiles.push({type: this.keys.endYear, value: jukebox.endYear, id: this.tileId++});
+            }
+        }
     }
 
     //resets the gui

@@ -135,7 +135,7 @@ export class PlayerService implements OnDestroy {
 
         if (!addToHistory) { //Check if legitimate skip
             this.indirectFeedbackService.sendSkipFeedback(currentID, nextTrack.id,
-                this.radiostationService.jukebox.id, currentProgress); //Skip feedback
+                this.radiostationService.getJukebox().id, currentProgress); //Skip feedback
         }
     }
 
