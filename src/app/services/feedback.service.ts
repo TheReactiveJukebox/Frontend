@@ -225,7 +225,11 @@ export class FeedbackService {
         if (this.isTrackFeedbackValid(feedback)) {
             this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: any) => {
             }, (error: Response) => {
-                console.warn('Sending feedback failed: ', error);
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                } else {
+                    console.warn('Sending feedback failed: ', error);
+                }
             });
 
         }
@@ -236,7 +240,11 @@ export class FeedbackService {
             this.authHttp.post(this.tendencyUrl, tendency).subscribe((data: any) => {
 
             }, (error: Response) => {
-                console.warn('Sending feedback failed: ', error);
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in postTendency!!!');
+                } else {
+                    console.warn('Sending feedback failed: ', error);
+                }
             });
 
         }
