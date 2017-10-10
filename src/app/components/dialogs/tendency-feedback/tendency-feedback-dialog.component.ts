@@ -90,11 +90,11 @@ export class TendencyFeedbackDialogComponent {
         if (this.presetSpeed == null) {
             this.presetSpeed = this.cTendency.preferredSpeed;
         }
-        if (this.cTendency.preferredSpeed < Config.speedUpperlimit - Config.speedStepsize) {
+        if (this.cTendency.preferredSpeed < Config.speedUpperLimit - Config.speedStepsize) {
             this.cTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(
                 this.cTendency.preferredSpeed + Config.speedStepsize, 0);
         } else {
-            this.cTendency.preferredSpeed = Config.speedUpperlimit;
+            this.cTendency.preferredSpeed = Config.speedUpperLimit;
         }
     }
 
@@ -116,6 +116,7 @@ export class TendencyFeedbackDialogComponent {
             this.cTendency.preferredPeriodStart = Config.yearLowerLimit;
         }
     }
+
 
     btnStartNewer(): void {
         if (this.presetPeriodStart == null) {
