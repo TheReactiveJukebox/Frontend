@@ -144,7 +144,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         this.controlTerms.set('stumm', 7);
 
         this.controlTerms.set('dynamischer', 8);
-
         this.controlTerms.set('undynamischer', 9);
 
         this.controlTerms.set('schneller', 10);
@@ -235,120 +234,32 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 break;
             }
             case 8: {
-                //calculate new Tendency
-                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                if (cTendency.preferredDynamics < 1 - Config.dynamicStepsize) {
-                    let value = cTendency.preferredDynamics + Config.dynamicStepsize;
-                    cTendency.preferredDynamics = this.roundAvoid(value, 3);
-                } else {
-                    cTendency.preferredDynamics = 1;
-                }
-                //send new Tendency
-                this.feedbackService.setCurTendency(cTendency);
-                this.feedbackService.postTendency(cTendency);
-                this.feedbackService.radiostationService.refreshTrackList();
+                this.feedbackService.moreDynamic();
                 break;
             }
             case 9: {
-                //calculate new Tendency
-                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                if (cTendency.preferredDynamics > Config.dynamicStepsize) {
-                    let value = cTendency.preferredDynamics - Config.dynamicStepsize;
-                    cTendency.preferredDynamics = this.roundAvoid(value, 3);
-                } else {
-                    cTendency.preferredDynamics = 0;
-                }
-                //send new Tendency
-                this.feedbackService.setCurTendency(cTendency);
-                this.feedbackService.postTendency(cTendency);
-                this.feedbackService.radiostationService.refreshTrackList();
+                this.feedbackService.lessDynamic();
                 break;
             }
             case 10: {
-                //calculate new Tendency
-                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                if (cTendency.preferredSpeed < Config.speedUpperLimit - Config.speedStepsize) {
-                    cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed + Config.speedStepsize, 0);
-                } else {
-                    cTendency.preferredSpeed = Config.speedUpperLimit;
-                }
-                //send new Tendency
-                this.feedbackService.setCurTendency(cTendency);
-                this.feedbackService.postTendency(cTendency);
-                this.feedbackService.radiostationService.refreshTrackList();
+                this.feedbackService.faster();
                 break;
             }
             case 11: {
-                //calculate new Tendency
-                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                if (cTendency.preferredSpeed > Config.speedStepsize + Config.speedLowerLimit) {
-                    cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed - Config.speedStepsize, 0);
-                } else {
-                    cTendency.preferredSpeed = Config.speedLowerLimit;
-                }
-                //send new Tendency
-                this.feedbackService.setCurTendency(cTendency);
-                this.feedbackService.postTendency(cTendency);
-                this.feedbackService.radiostationService.refreshTrackList();
+                this.feedbackService.slower();
                 break;
             }
 
             case 12: {
-                //set periodStart older
-                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                if (cTendency.preferredPeriodStart > Config.yearLowerLimit + Config.yearStepsize) {
-                    cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart - Config.yearStepsize, 0);
-                } else {
-                    cTendency.preferredPeriodStart = Config.yearLowerLimit;
-                }
-                //set periodEnd older
-                if (cTendency.preferredPeriodEnd > Config.yearLowerLimit + Config.yearStepsize) {
-                    cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd - Config.yearStepsize, 0);
-                } else {
-                    cTendency.preferredPeriodEnd = Config.yearLowerLimit;
-                }
-                if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
-                    cTendency.preferredPeriodStart = cTendency.preferredPeriodEnd;
-                }
-                //send new Tendency
-                this.feedbackService.setCurTendency(cTendency);
-                this.feedbackService.postTendency(cTendency);
-                this.feedbackService.radiostationService.refreshTrackList();
+                this.feedbackService.older();
                 break;
             }
             case 13: {
-                //set periodStart newer
-                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                if (cTendency.preferredPeriodStart < new Date().getFullYear() - Config.yearStepsize) {
-                    cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart + Config.yearStepsize, 0);
-                } else {
-                    cTendency.preferredPeriodStart = new Date().getFullYear();
-                }
-                if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
-                    cTendency.preferredPeriodEnd = cTendency.preferredPeriodStart;
-                }
-                //set periodEnd newer
-                if (cTendency.preferredPeriodEnd < Config.yearUpperLimit - Config.yearStepsize) {
-                    cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd + Config.yearStepsize, 0);
-                } else {
-                    cTendency.preferredPeriodEnd = Config.yearUpperLimit;
-                }
-                //send new Tendency
-                this.feedbackService.setCurTendency(cTendency);
-                this.feedbackService.postTendency(cTendency);
-                this.feedbackService.radiostationService.refreshTrackList();
-
+                this.feedbackService.newer();
                 break;
             }
             case 14: {
-                let cTendency: Tendency = this.feedbackService.createTendencyToCurrentRadio();
-                console.log('genre recognised: ' + genre);
-                cTendency.moreOfGenre = genre;
-                //send new Tendency
-                this.feedbackService.setCurTendency(cTendency);
-                this.feedbackService.postTendency(cTendency);
-                this.feedbackService.radiostationService.refreshTrackList();
-
+                this.feedbackService.moreOfGenre(genre);
                 break;
             }
             default: {

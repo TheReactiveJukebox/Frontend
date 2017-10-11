@@ -334,4 +334,123 @@ export class FeedbackService {
             this.dialogRef = null;
         });
     }
+
+    public moreDynamic(): void {
+        //calculate new Tendency
+        let cTendency: Tendency = this.createTendencyToCurrentRadio();
+        if (cTendency.preferredDynamics < 1 - Config.dynamicStepsize) {
+            let value = cTendency.preferredDynamics + Config.dynamicStepsize;
+            cTendency.preferredDynamics = this.roundAvoid(value, 3);
+        } else {
+            cTendency.preferredDynamics = 1;
+        }
+        //send new Tendency
+        this.setCurTendency(cTendency);
+        this.postTendency(cTendency);
+        this.radiostationService.refreshTrackList();
+    }
+
+    public lessDynamic(): void {
+        //calculate new Tendency
+        let cTendency: Tendency = this.createTendencyToCurrentRadio();
+        if (cTendency.preferredDynamics > Config.dynamicStepsize) {
+            let value = cTendency.preferredDynamics - Config.dynamicStepsize;
+            cTendency.preferredDynamics = this.roundAvoid(value, 3);
+        } else {
+            cTendency.preferredDynamics = 0;
+        }
+        //send new Tendency
+        this.setCurTendency(cTendency);
+        this.postTendency(cTendency);
+        this.radiostationService.refreshTrackList();
+    }
+
+    public faster(): void {
+        //calculate new Tendency
+        let cTendency: Tendency = this.createTendencyToCurrentRadio();
+        if (cTendency.preferredSpeed < Config.speedUpperLimit - Config.speedStepsize) {
+            cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed + Config.speedStepsize, 0);
+        } else {
+            cTendency.preferredSpeed = Config.speedUpperLimit;
+        }
+        //send new Tendency
+        this.setCurTendency(cTendency);
+        this.postTendency(cTendency);
+        this.radiostationService.refreshTrackList();
+    }
+
+    public slower(): void {
+        //calculate new Tendency
+        let cTendency: Tendency = this.createTendencyToCurrentRadio();
+        if (cTendency.preferredSpeed > Config.speedStepsize + Config.speedLowerLimit) {
+            cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed - Config.speedStepsize, 0);
+        } else {
+            cTendency.preferredSpeed = Config.speedLowerLimit;
+        }
+        //send new Tendency
+        this.setCurTendency(cTendency);
+        this.postTendency(cTendency);
+        this.radiostationService.refreshTrackList();
+    }
+
+    public older(): void {
+        //set periodStart older
+        let cTendency: Tendency = this.createTendencyToCurrentRadio();
+        if (cTendency.preferredPeriodStart > Config.yearLowerLimit + Config.yearStepsize) {
+            cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart - Config.yearStepsize, 0);
+        } else {
+            cTendency.preferredPeriodStart = Config.yearLowerLimit;
+        }
+        //set periodEnd older
+        if (cTendency.preferredPeriodEnd > Config.yearLowerLimit + Config.yearStepsize) {
+            cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd - Config.yearStepsize, 0);
+        } else {
+            cTendency.preferredPeriodEnd = Config.yearLowerLimit;
+        }
+        if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
+            cTendency.preferredPeriodStart = cTendency.preferredPeriodEnd;
+        }
+        //send new Tendency
+        this.setCurTendency(cTendency);
+        this.postTendency(cTendency);
+        this.radiostationService.refreshTrackList();
+    }
+
+    public newer(): void {
+        //set periodStart newer
+        let cTendency: Tendency = this.createTendencyToCurrentRadio();
+        if (cTendency.preferredPeriodStart < new Date().getFullYear() - Config.yearStepsize) {
+            cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart + Config.yearStepsize, 0);
+        } else {
+            cTendency.preferredPeriodStart = new Date().getFullYear();
+        }
+        if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
+            cTendency.preferredPeriodEnd = cTendency.preferredPeriodStart;
+        }
+        //set periodEnd newer
+        if (cTendency.preferredPeriodEnd < Config.yearUpperLimit - Config.yearStepsize) {
+            cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd + Config.yearStepsize, 0);
+        } else {
+            cTendency.preferredPeriodEnd = Config.yearUpperLimit;
+        }
+        //send new Tendency
+        this.setCurTendency(cTendency);
+        this.postTendency(cTendency);
+        this.radiostationService.refreshTrackList();
+    }
+
+    public moreOfGenre(genre: string): void {
+        let cTendency: Tendency = this.createTendencyToCurrentRadio();
+        console.log('genre recognised: ' + genre);
+        cTendency.moreOfGenre = genre;
+        //send new Tendency
+        this.setCurTendency(cTendency);
+        this.postTendency(cTendency);
+        this.radiostationService.refreshTrackList();
+    }
+
+    roundAvoid(value: number, places: number): number {
+        let scale = Math.pow(10, places);
+        return Math.round(value * scale) / scale;
+    }
 }
