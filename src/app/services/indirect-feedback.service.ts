@@ -14,9 +14,11 @@ export class IndirectFeedbackService {
     private postIndirectFeedback(body: IndirectFeedback): void {
         if (IndirectFeedbackService.checkBodySyntax(body)) {
             this.authHttp.post(this.indirectFeedbackURI, body).subscribe(
-                () => {console.log('Posting indirect feedback successful'); },
+                () => {
+
+                },
                 error => {
-                    console.log('The API call produced a ' + error.status + ' error');
+                    console.log('postIndirectFeedback failed: ', error);
                 }
             );
         }

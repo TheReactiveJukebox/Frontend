@@ -53,6 +53,7 @@ export class SimpleSearchComponent {
     searchArtist$= new Subject<string>();
     searchAlbum$ = new Subject<string>();
     getArtistSongs$ = new Subject<string>();
+    getAlbumSongs$ = new Subject<string>();
 
     //Subscribing to the search result observables
     constructor(private searchService: SearchService,
@@ -112,6 +113,21 @@ export class SimpleSearchComponent {
                     this.trackResultCount = 0;
                 }
             });
+
+        this.searchService.getAlbumSongs(this.getAlbumSongs$)
+            .subscribe(results => {
+                if (Object.keys(results).length > 0) {
+                    this.trackService.fillData(results).subscribe((filledTracks: Track[]) => {
+                        this.trackResult = filledTracks;
+                        this.trackResultCount = Object.keys(filledTracks).length;
+                        this.artistResultCount = 0;
+                        this.albumResultCount = 0;
+                    });
+                } else {
+                    this.trackResult = results;
+                    this.trackResultCount = 0;
+                }
+            });
     }
 
     //Invoked on keyup in search field search API is called when a query with more than two characters is send
@@ -127,6 +143,10 @@ export class SimpleSearchComponent {
         this.getArtistSongs$.next(value);
     }
 
+    public album(value): void {
+        this.getAlbumSongs$.next(value);
+    }
+
 
     //Invoked if user clicks on a search result
     public selection(value: any, type: string): void {
@@ -138,7 +158,6 @@ export class SimpleSearchComponent {
             case 'TRACK': this.selectedTrack.emit(value);
                 break;
         }
-        console.log(JSON.stringify(value));
         this.selectedItem.emit(value);
     }
 

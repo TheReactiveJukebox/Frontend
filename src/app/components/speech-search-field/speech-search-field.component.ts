@@ -199,11 +199,9 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     }
 
     public animateColor(): void {
-        console.log('Animate');
         this.colorRunner = 255;
         const worker = () => {
             if (this.colorRunner < 255) {
-                console.log('Color ' + this.colorRunner);
                 this.micColor = {'color': `rgba(255,${this.colorRunner},${this.colorRunner},1)`, };
                 this.colorRunner = this.colorRunner + 5;
                 requestAnimationFrame(worker);

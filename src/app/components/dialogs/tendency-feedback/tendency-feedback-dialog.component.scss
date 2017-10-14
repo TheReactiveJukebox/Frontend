@@ -47,7 +47,7 @@ md-select {
   width: 100% !important;
 }
 
-/deep/ md-dialog-content {
+::ng-deep md-dialog-content {
   background: mat-color($default-theme-accent, darker) !important;
 }
 

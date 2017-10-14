@@ -64,7 +64,7 @@
                 </button>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="cTrack.releaseDate">
             <td>
                 <p class="tl-period">{{'TRACK_LIST.PERIOD' | translate}}: </p></td>
             <td><p class="innerProp">{{cTrack.releaseDate.getFullYear()}}</p>
@@ -84,10 +84,10 @@
                 </button>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="cTrack.speed">
             <td>
                 <p class="tl-speed">{{'TRACK_LIST.SPEED' | translate}}: </p></td>
-            <td><p class="innerProp">{{cTrack.speed}}</p>
+            <td><p class="innerProp">{{round(cTrack.speed, 0)}}</p>
             </td>
             <td>
                 <button
@@ -124,10 +124,10 @@
                 </button>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="cTrack.dynamic">
             <td>
                 <p class="tl-dynamics">{{'TRACK_LIST.DYNAMICS' | translate}}: </p></td>
-            <td><p class="innerProp">{{cTrack.dynamic}}</p>
+            <td><p class="innerProp">{{round(cTrack.dynamic, 3)}}</p>
             </td>
             <td>
                 <button

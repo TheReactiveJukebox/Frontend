@@ -50,7 +50,7 @@ export class FeedbackService {
         if (track != null) {
             feedback.trackId = track.id;
         }
-        feedback.radioId = this.radiostationService.jukebox.id;
+        feedback.radioId = this.radiostationService.getJukebox().id;
         return feedback;
     }
 
@@ -62,7 +62,7 @@ export class FeedbackService {
         //if there is no current tendency object => create one
         if (this.curTendency == null) {
             this.initTendency();
-        } else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.jukebox.id) {
+        } else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.getJukebox().id) {
             this.initTendency();  //if a new Radiostation was started
         } else {
             this.curTendency.moreOfGenre = null;
@@ -86,7 +86,7 @@ export class FeedbackService {
 
     private initTendency(): void {
         this.curTendency = new Tendency();
-        this.curTendency.radioId = this.radiostationService.jukebox.id;
+        this.curTendency.radioId = this.radiostationService.getJukebox().id;
         //calculate mean values
         this.curTendency.preferredDynamics = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanDynamic(), 2);
         this.curTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanSpeed(), 0);
@@ -225,10 +225,11 @@ export class FeedbackService {
         if (this.isTrackFeedbackValid(feedback)) {
             this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: any) => {
             }, (error: Response) => {
-                if (error.status == 400) {
-                    console.log('The provided feedback entry is malformed');
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                } else {
+                    console.warn('Sending feedback failed: ', error);
                 }
-                console.warn('Sending feedback failed: ', error);
             });
 
         }
@@ -237,13 +238,13 @@ export class FeedbackService {
     public postTendency(tendency: Tendency): void {
         if (this.isTendencyValid(tendency)) {
             this.authHttp.post(this.tendencyUrl, tendency).subscribe((data: any) => {
-                console.log('Tendency Response:');
-                console.log(data);
+
             }, (error: Response) => {
-                if (error.status == 400) {
-                    console.log('The provided feedback entry is malformed');
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in postTendency!!!');
+                } else {
+                    console.warn('Sending feedback failed: ', error);
                 }
-                console.warn('Sending feedback failed: ', error);
             });
 
         }

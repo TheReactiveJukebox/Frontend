@@ -3,7 +3,7 @@
     <simple-search [ngStyle]="{'height': 'calc(100% - ' + getSearchHeight() + 'px)'}" (selectedTrack)="addStartTrack($event)"></simple-search>
     <div id="selected-track-container" *ngIf="tracks.length>0">
         <md-divider></md-divider>
-        <md-nav-list>
+        <md-nav-list style="overflow: hidden">
             <track-list-item *ngFor="let track of tracks"
                              [track]="track"
                              [showFeedback]="false"

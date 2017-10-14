@@ -19,6 +19,7 @@
       text-align: center;
       vertical-align: middle;
       background-color: mat-color($default-theme-accent);
+      overflow: hidden;
 
       #close-tile-button {
         position: absolute;
