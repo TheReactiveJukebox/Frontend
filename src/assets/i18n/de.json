@@ -87,6 +87,7 @@
     "YEAR-END": "Wie neu dürfen die Lieder sein?"
   },
   "ADD_CONSTRAINT": {
+    "ALREADY_CONTAINED": "Dieses Merkmal ist bereits vorhanden!",
     "TITLE": "Welche Eigenschaften willst du bestimmen?",
     "GENRE": "Genre",
     "MOOD": "Stimmung",

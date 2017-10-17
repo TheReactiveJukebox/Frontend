@@ -17,8 +17,8 @@ import {TrackService} from './track.service';
 export class RadiostationService implements OnDestroy {
 
     private subscriptions: Subscription[];
-    public jukebox: Jukebox;
     private algorithms: BehaviorSubject<string[]>;
+    private jukeboxSubject: BehaviorSubject<Jukebox>;
 
     private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
     private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
@@ -28,6 +28,7 @@ export class RadiostationService implements OnDestroy {
                 private authHttp: AuthHttp,
                 private localHistory: HistoryService) {
         this.algorithms = new BehaviorSubject<string[]>([]);
+        this.jukeboxSubject = new BehaviorSubject<Jukebox>(null);
         this.subscriptions = [];
         this.fetchRadiostation();
         this.fetchAlgorithms();
@@ -47,23 +48,22 @@ export class RadiostationService implements OnDestroy {
         this.deleteRadiostation();
 
         this.authHttp.post(this.radiostationApiUrl, creationParameters).subscribe((data: Jukebox) => {
-            this.jukebox = data;
+            this.jukeboxSubject.next(data);
             this.trackService.refreshTracks();
         }, (error: any) => {
-            if (error.status == 400) {
-                console.log('The provided jukebox object is malformed');
-            } else if (error.status == 500 && error.statusText == 'OK') {
+            if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
-                this.jukebox = JSON.parse(error._body);
+                this.jukeboxSubject.next(JSON.parse(error._body));
                 this.trackService.refreshTracks();
+            } else {
+                console.log('Creating new Radiostation failed!', error);
             }
-            console.log('Creating new Radiostation failed!', error);
         });
     }
 
     //deletes the current radiostation - currently not in use
     public deleteRadiostation(): void {
-        this.jukebox = null;
+        this.jukeboxSubject.next(null);
         this.localHistory.clearLocalHistory();
     }
 
@@ -75,17 +75,13 @@ export class RadiostationService implements OnDestroy {
         this.localHistory.writeToLocalHistory(track);
         let reqBody = {
             trackId: track.id,
-            radioId: this.jukebox.id
+            radioId: this.getJukebox().id
         };
 
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
-            // TODO use this data for local history view
-            console.log('HISTORY RETURN DATA: ', data);
             track.historyId = data.id;
         }, (error: any) => {
-            if (error.status == 400) {
-                console.log('The provided history entry is malformed');
-            } else if (error.status == 500 && error.statusText == 'OK') {
+            if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
                 console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
                 track.historyId = JSON.parse(error._body).id;
@@ -98,11 +94,11 @@ export class RadiostationService implements OnDestroy {
 
     public fetchRadiostation(): void {
         this.authHttp.get(this.radiostationApiUrl).subscribe((jukebox: Jukebox) => {
-            this.jukebox = jukebox;
+            this.jukeboxSubject.next(jukebox);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                this.jukebox = JSON.parse(error._body);
+                this.jukeboxSubject.next(JSON.parse(error._body));
             } else {
                 console.log('Error fetching radiostation: ', error);
             }
@@ -121,7 +117,15 @@ export class RadiostationService implements OnDestroy {
     }
 
     public hasJukebox(): boolean {
-        return this.jukebox != null;
+        return this.jukeboxSubject.getValue() != null;
+    }
+
+    public getJukeboxSubject(): BehaviorSubject<Jukebox> {
+        return this.jukeboxSubject;
+    }
+
+    public getJukebox(): Jukebox {
+        return this.jukeboxSubject.getValue();
     }
 
     public getAlgorithms(): Observable<string[]> {

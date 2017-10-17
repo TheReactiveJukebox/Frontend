@@ -1,7 +1,9 @@
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
-import {AppState} from '../../../services/app.service';
+import {Jukebox} from '../../../models/jukebox';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
@@ -10,7 +12,15 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
 @Component({
     selector: 'radiostation-by-feature',
     styleUrls: ['./radiostation-by-feature.component.scss'],
-    templateUrl: './radiostation-by-feature.component.html'
+    templateUrl: './radiostation-by-feature.component.html',
+    animations: [
+        trigger('expand', [
+            state('true', style({'width': '*'})),
+            state('void', style({'width': '0px'})),
+            transition('void => *', animate('0.3s ease-out')),
+            transition('* => void', animate('0.3s ease-out'))
+        ])
+    ]
 })
 export class RadiostationByFeatureComponent implements OnInit {
 
@@ -43,8 +53,14 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     constructor(public radiostationService: RadiostationService,
                 private playerService: PlayerService,
-                public dialog: MdDialog, private authHttp: AuthHttp,
+                private translateService: TranslateService,
+                public dialog: MdDialog,
+                private authHttp: AuthHttp,
                 public snackBar: MdSnackBar) {
+        this.radiostationService.getJukeboxSubject().subscribe((jukebox: Jukebox) => {
+            this.refresh(jukebox);
+        });
+
         //fetch the available genres from server
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
             this.genres = genreList;
@@ -57,6 +73,27 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     ngOnInit(): void {
 
+    }
+
+    private refresh(jukebox: Jukebox): void {
+        if (jukebox) {
+            this.tiles = [];
+            this.tileId = 0;
+            if (jukebox.genres) {
+                for (let genre of jukebox.genres) {
+                    this.tiles.push({type: this.keys.genre, value: genre, id: this.tileId++});
+                }
+            }
+            if (jukebox.mood) {
+                this.tiles.push({type: this.keys.mood, value: jukebox.mood, id: this.tileId++});
+            }
+            if (jukebox.startYear) {
+                this.tiles.push({type: this.keys.startYear, value: jukebox.startYear, id: this.tileId++});
+            }
+            if (jukebox.endYear) {
+                this.tiles.push({type: this.keys.endYear, value: jukebox.endYear, id: this.tileId++});
+            }
+        }
     }
 
     //resets the gui
@@ -108,29 +145,30 @@ export class RadiostationByFeatureComponent implements OnInit {
         //there can be an unlimetd number of genre elements
         if (result == this.keys.genre) {
             this.tiles.push({type: this.keys.genre, value: this.genres[0], id: this.tileId++});
-        }
-        //check if the other elements already contained
-        let contained = false;
-        for (let entry of this.tiles) {
-            if (entry.type == result) {
-                contained = true;
-            }
-        }
-        //create the element
-        if (!contained) {
-            if (result == this.keys.mood) {
-                this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
-            }
-            if (result == this.keys.endYear) {
-                this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
-            }
-            if (result == this.keys.startYear) {
-                this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
-            }
         } else {
-            this.snackBar.open('already contained', '', {
-                duration: 2000,
-            });
+            //check if the other elements already contained
+            let contained = false;
+            for (let entry of this.tiles) {
+                if (entry.type == result) {
+                    contained = true;
+                }
+            }
+            //create the element
+            if (!contained) {
+                if (result == this.keys.mood) {
+                    this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
+                }
+                if (result == this.keys.endYear) {
+                    this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
+                }
+                if (result == this.keys.startYear) {
+                    this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
+                }
+            } else {
+                this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
+                    duration: 2000,
+                });
+            }
         }
     }
 

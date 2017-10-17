@@ -61,7 +61,7 @@
   align: left;
 }
 
-/deep/ .mat-list-item-content {
+::ng-deep .mat-list-item-content {
   justify-content: space-between;
 }
 

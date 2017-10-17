@@ -74,7 +74,6 @@ export class PlayerService implements OnDestroy {
         this.progressUpdate();
 
         if (this.currentTrack != null) {
-            console.log('refreshing');
             //loading new track
             this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
 
@@ -136,7 +135,7 @@ export class PlayerService implements OnDestroy {
 
         if (!addToHistory) { //Check if legitimate skip
             this.indirectFeedbackService.sendSkipFeedback(currentID, nextTrack.id,
-                this.radiostationService.jukebox.id, currentProgress); //Skip feedback
+                this.radiostationService.getJukebox().id, currentProgress); //Skip feedback
         }
     }
 

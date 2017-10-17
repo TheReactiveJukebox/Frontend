@@ -3,7 +3,7 @@
 
     <div id="feature-container">
         <!-- create the tiles used to select the feature -->
-        <md-card class="tile" *ngFor="let tile of tiles">
+        <md-card class="tile" *ngFor="let tile of tiles" [@expand]="tile">
             <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
                 <md-icon>close</md-icon>
             </button>
