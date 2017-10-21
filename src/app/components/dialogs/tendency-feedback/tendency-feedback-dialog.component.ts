@@ -10,8 +10,9 @@ import {Tendency} from '../../../models/tendency';
     styleUrls: ['./tendency-feedback-dialog.component.scss']
 })
 export class TendencyFeedbackDialogComponent {
-    cTendency: Tendency;
+    cTendency: Tendency = new Tendency();
     genres = [];
+
 
     speedUpperLimit = Config.speedUpperLimit;
     speedLowerLimit = Config.speedLowerLimit;
@@ -29,7 +30,6 @@ export class TendencyFeedbackDialogComponent {
     }
 
     setCurTendency(curTendency: Tendency): void {
-        this.cTendency = new Tendency();
         this.cTendency.radioId = curTendency.radioId;
         this.cTendency.preferredDynamics = curTendency.preferredDynamics;
         this.cTendency.preferredPeriodEnd = curTendency.preferredPeriodEnd;
