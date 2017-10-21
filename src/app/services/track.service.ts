@@ -5,6 +5,8 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {Config} from '../config';
+import {Album} from '../models/album';
+import {Artist} from '../models/artist';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 
@@ -15,12 +17,20 @@ export class TrackService {
     nextTracks: BehaviorSubject<Track[]>;
     numberUpcomingSongs: number = 5;
 
+    // dataCache for artists and albums. Before requesting any data from server, check if it's still here. if not, store
+    // it here to reduce waiting for backend
+    private artistCache: Map<number, Artist>;
+    private albumCache: Map<number, Album>;
 
     private trackListUrl = Config.serverUrl + '/api/jukebox/next';  // URL to web api
+    private artistUrl = Config.serverUrl + '/api/artist';
+    private albumUrl = Config.serverUrl + '/api/album';
 
     constructor(private authHttp: AuthHttp) {
         this.currentTrack = new BehaviorSubject<Track>(null);
         this.nextTracks = new BehaviorSubject<Track[]>([]);
+        this.artistCache = new Map<number, Artist>();
+        this.albumCache = new Map<number, Album>();
     }
 
     //Refreshes current track and track preview according to current radiostation
@@ -86,33 +96,61 @@ export class TrackService {
         });
     }
 
-
-    fillData(rawTracks: Track[]): Observable<Track[]> {
+    // use this method to fill plain track objects provided by server with artist and album data
+    fillData(rawTracks: any[]): Observable<Track[]> {
         return Observable.create(observer => {
-            let artistUrl = Config.serverUrl + '/api/artist?';
-            let albumUrl = Config.serverUrl + '/api/album?';
-            let artistRequests = [];
-            let albumRequests = [];
+            let missingArtists: number[] = [];
+            let missingAlbums: number[] = [];
             for (let rawTrack of rawTracks) {
                 if (rawTrack.releaseDate) {
                     rawTrack.releaseDate = new Date(rawTrack.releaseDate);
                 }
-                artistRequests.push(this.authHttp.get(artistUrl + 'id=' + rawTrack.artist));
-            }
-            Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
-                for (let rawTrack of rawTracks) {
-                    albumRequests.push(this.authHttp.get(albumUrl + 'id=' + rawTrack.album));
+                if (!this.artistCache.has(rawTrack.artist)) {
+                    missingArtists.push(rawTrack.artist);
                 }
-                Observable.forkJoin(albumRequests).subscribe((albumResults: any[]) => {
-                    for (let i = 0; i < rawTracks.length; i++) {
-                        rawTracks[i].artist = artistResults[i][0];
-                        rawTracks[i].album = albumResults[i][0];
-                    }
-                    observer.next(rawTracks);
-                    observer.complete();
-                });
+                if (!this.albumCache.has(rawTrack.album)) {
+                    missingAlbums.push(rawTrack.album);
+                }
+            }
+            // get missing artists and albums from server
+            Observable.forkJoin([
+                this.requestEntities(this.artistUrl, missingArtists),
+                this.requestEntities(this.albumUrl, missingAlbums)]).subscribe((data: any[]) => {
+                // data[0] = requested artists, data[1] = requested albums
+                console.log('DATA: ', data);
+                let artists: Artist[] = data[0];
+                let albums: Album[] = data[1];
+                for (let artist of artists) {
+                    this.artistCache.set(artist.id, artist);
+                }
+                for (let album of albums) {
+                    this.albumCache.set(album.id, album);
+                }
+
+                for (let rawTrack of rawTracks) {
+                    rawTrack.artist = this.artistCache.get(rawTrack.artist);
+                    rawTrack.album = this.albumCache.get(rawTrack.album);
+                }
+                observer.next(rawTracks);
+                observer.complete();
             });
         });
+    }
+
+    private requestEntities(url: string, ids: number[]): Observable<any[]> {
+        if (ids.length > 0) {
+            let reqUrl = url + '?';
+            for (let id of ids) {
+                reqUrl += 'id=' + id + '&';
+            }
+            reqUrl = reqUrl.substring(0, reqUrl.length - 1);
+            return this.authHttp.get(reqUrl);
+        } else {
+            return Observable.create(observer => {
+                observer.next([]);
+                observer.complete();
+            });
+        }
     }
 
     //Gets the next track from the preview and adds the next track to the preview list
