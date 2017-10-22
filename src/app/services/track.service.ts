@@ -60,10 +60,15 @@ export class TrackService {
                     for (let i = 0; i < tracks.length; i++) {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                     }
-                    this.fillData(tracks).subscribe((filledTracks: Track[]) => {
+                    this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
                         observer.next(filledTracks);
                         observer.complete();
                     });
+                    this.fillMusicData(tracks).subscribe((filledTracks: Track[]) => {
+                        observer.next(filledTracks);
+                        observer.complete();
+                    });
+
                 }
             }, error => {
                 if (error.status == 500 && error.statusText == 'OK') {
@@ -73,7 +78,7 @@ export class TrackService {
                         for (let i = 0; i < tracks.length; i++) {
                             tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                         }
-                        this.fillData(tracks).subscribe((filledTracks: Track[]) => {
+                        this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
                             observer.next(filledTracks);
                             observer.complete();
                         });
@@ -87,7 +92,7 @@ export class TrackService {
     }
 
 
-    fillData(rawTracks: Track[]): Observable<Track[]> {
+    fillMetaData(rawTracks: Track[]): Observable<Track[]> {
         return Observable.create(observer => {
             let artistUrl = Config.serverUrl + '/api/artist?';
             let albumUrl = Config.serverUrl + '/api/album?';
@@ -115,6 +120,27 @@ export class TrackService {
         });
     }
 
+    //Fetches music files of tracks from the server
+    fillMusicData(tracks: Track[]): Observable<Track[]> {
+        return Observable.create(observer => {
+            let dataRequests = [];
+            for (let track of tracks) {
+                dataRequests.push(this.authHttp.getTrack(track.file));
+            }
+            Observable.forkJoin(dataRequests).subscribe((dataResults: any[]) => {
+                for (let i = 0; i < tracks.length; i++) {
+                    //simulate Download Delay
+                    //setTimeout(() => console.log('Music Data Loaded:' + tracks[i].file), 2000);
+                    tracks[i].data = dataResults[i];
+                }
+                observer.next(tracks);
+                observer.complete();
+            }, err => {
+                console.log('GET TRACK ERROR: ', err);
+            });
+        });
+    }
+
     //Gets the next track from the preview and adds the next track to the preview list
     nextSong(): Track {
         let tempTracks: Track[] = this.nextTracks.getValue();
@@ -134,8 +160,8 @@ export class TrackService {
     }
 
     hasNextTracks(): boolean {
-        return  (this.currentTrack.getValue() != null) ||
-                (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
+        return (this.currentTrack.getValue() != null) ||
+            (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
     }
 
 

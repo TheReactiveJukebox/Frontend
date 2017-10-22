@@ -75,6 +75,15 @@ export class PlayerService implements OnDestroy {
 
         if (this.currentTrack != null) {
             //loading new track
+
+             this.audioPlayer.src = this.currentTrack.data;
+             this.audioPlayer.load();
+
+             //was the player in playing state when the file file arrived?
+             if (this.isPlaying) {
+             this.play();
+             }
+             /*
             this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
 
                 this.currentTrack.data = data;
@@ -88,6 +97,7 @@ export class PlayerService implements OnDestroy {
             }, err => {
                 console.log('GET TRACK ERROR: ', err);
             });
+            */
         } else {
             this.isPlaying = false;
         }
