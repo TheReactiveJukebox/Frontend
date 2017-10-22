@@ -46,7 +46,7 @@ export class PlayerService implements OnDestroy {
                      *this.currentTrack = new Track();
                      * */
                     /*this.currentTrack.file = 'https://192.168.99.100/music/f/5/' +
-                    '4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';*/
+                     '4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';*/
 
                     this.trackUpdated();
                 }
@@ -74,30 +74,34 @@ export class PlayerService implements OnDestroy {
         this.progressUpdate();
 
         if (this.currentTrack != null) {
-            //loading new track
+            //music data for current track might not be loaded already (e.g. first song of new started radiostation)
+            if (this.currentTrack.data) {
+                //loading new track
 
-             this.audioPlayer.src = this.currentTrack.data;
-             this.audioPlayer.load();
-
-             //was the player in playing state when the file file arrived?
-             if (this.isPlaying) {
-             this.play();
-             }
-             /*
-            this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
-
-                this.currentTrack.data = data;
                 this.audioPlayer.src = this.currentTrack.data;
+
                 this.audioPlayer.load();
 
                 //was the player in playing state when the file file arrived?
                 if (this.isPlaying) {
                     this.play();
                 }
-            }, err => {
-                console.log('GET TRACK ERROR: ', err);
-            });
-            */
+            } else {
+                this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
+
+                    this.currentTrack.data = data;
+                    this.audioPlayer.src = this.currentTrack.data;
+                    this.audioPlayer.load();
+
+                    //was the player in playing state when the file file arrived?
+                    if (this.isPlaying) {
+                        this.play();
+                    }
+                }, err => {
+                    console.log('GET TRACK ERROR: ', err);
+                });
+
+            }
         } else {
             this.isPlaying = false;
         }

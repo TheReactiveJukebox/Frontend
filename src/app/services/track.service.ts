@@ -28,10 +28,18 @@ export class TrackService {
         this.fetchNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
+            /*
+             this.fillMusicData(tracks).subscribe((filledTracks: Track[]) => {
+             for (let i = 0; i < tracks.length; i++) {
+             tracks[i].data = filledTracks[i].data;
+             }
+             });
+             */
         }, error => {
             console.log('Error fetching new songs: ', error);
         });
     }
+
 
     //Refreshes current Tracklist
     refreshTrackList(): void {
@@ -61,14 +69,13 @@ export class TrackService {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                     }
                     this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
+                        tracks = filledTracks;
                         observer.next(filledTracks);
-                        observer.complete();
+                        this.fillMusicData(tracks).subscribe((dataFilledTracks: Track[]) => {
+                            filledTracks = dataFilledTracks;
+                            observer.complete();
+                        });
                     });
-                    this.fillMusicData(tracks).subscribe((filledTracks: Track[]) => {
-                        observer.next(filledTracks);
-                        observer.complete();
-                    });
-
                 }
             }, error => {
                 if (error.status == 500 && error.statusText == 'OK') {
@@ -130,7 +137,7 @@ export class TrackService {
             Observable.forkJoin(dataRequests).subscribe((dataResults: any[]) => {
                 for (let i = 0; i < tracks.length; i++) {
                     //simulate Download Delay
-                    //setTimeout(() => console.log('Music Data Loaded:' + tracks[i].file), 2000);
+                    setTimeout(() => console.log('Music data loaded:' + tracks[i].file), 2000);
                     tracks[i].data = dataResults[i];
                 }
                 observer.next(tracks);
@@ -155,9 +162,9 @@ export class TrackService {
         }, error => {
             console.log('Error in nextSong(): ', error);
         });
-
         return nextTrack;
     }
+
 
     hasNextTracks(): boolean {
         return (this.currentTrack.getValue() != null) ||
