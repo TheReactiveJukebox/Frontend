@@ -137,7 +137,7 @@ export class TrackService {
             Observable.forkJoin(dataRequests).subscribe((dataResults: any[]) => {
                 for (let i = 0; i < tracks.length; i++) {
                     //simulate Download Delay
-                    setTimeout(() => console.log('Music data loaded:' + tracks[i].file), 2000);
+                    //setTimeout(() => console.log('Music data loaded:' + tracks[i].file), 2000);
                     tracks[i].data = dataResults[i];
                 }
                 observer.next(tracks);
