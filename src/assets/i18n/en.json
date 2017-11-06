@@ -1,7 +1,8 @@
 {
   "ALGORITHMS": {
     "RANDOM": "Random",
-    "SAGH": "Same Artist Greatest Hits"
+    "SAGH": "Same Artist Greatest Hits",
+    "SPOTIFY": "Spotify"
   },
   "GENERAL": {
     "INVITE_KEY": "Invite Key",
