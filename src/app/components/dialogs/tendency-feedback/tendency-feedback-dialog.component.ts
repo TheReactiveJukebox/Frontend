@@ -19,12 +19,12 @@ export class TendencyFeedbackDialogComponent {
     yearStepsize = Config.yearStepsize;
     yearLowerLimit = Config.yearLowerLimit;
     yearUpperLimit = Config.yearUpperLimit;
-    presetPeriodStart;
-    presetPeriodEnd;
-    presetDynamic;
-    presetSpeed;
+    presetPeriodStart = null;
+    presetPeriodEnd = null;
+    presetDynamic = null;
+    presetSpeed = null;
 
-    constructor(public dialogRef: MdDialogRef<TendencyFeedbackDialogComponent>) {
+    constructor() {
     }
 
     setCurTendency(curTendency: Tendency): void {
@@ -185,14 +185,7 @@ export class TendencyFeedbackDialogComponent {
     }
 
     confirmDialog(): void {
-        this.cTendency.moreDynamics = this.presetDynamic < this.cTendency.preferredDynamics;
-        this.cTendency.lessDynamics = this.presetDynamic > this.cTendency.preferredDynamics;
-        this.cTendency.slower = this.presetSpeed > this.cTendency.preferredSpeed;
-        this.cTendency.faster = this.presetSpeed < this.cTendency.preferredSpeed;
-        this.cTendency.startOlder = this.presetPeriodStart > this.cTendency.preferredPeriodStart;
-        this.cTendency.endOlder = this.presetPeriodEnd > this.cTendency.preferredPeriodEnd;
-        this.cTendency.startNewer = this.presetPeriodStart < this.cTendency.preferredPeriodStart;
-        this.cTendency.endNewer = this.presetPeriodEnd < this.cTendency.preferredPeriodEnd;
+
     }
 
     confirmAndApplyDialog(): void {

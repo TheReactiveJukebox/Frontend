@@ -16,29 +16,17 @@ import {RadiostationService} from './radiostation.service';
 @Injectable()
 export class FeedbackService {
 
-
     private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
     private tendencyUrl = Config.serverUrl + '/api/jukebox/tendency';  // URL to web api
-    private genreApiUrl = Config.serverUrl + '/api/genre';  // URL to web api
 
     private dialogRef: MdDialogRef<any>;
-    private genres = [];
     private curTendency: Tendency = null;
     private curHistory: Track[];
-    private radioId: number;
 
     constructor(public radiostationService: RadiostationService,
                 private localHistory: HistoryService,
                 public dialog: MdDialog,
-                private authHttp: AuthHttp) {
-        this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
-            this.genres = genreList;
-        }, error => {
-            //should not happen since this was a static request
-            console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
-        });
-
-    }
+                private authHttp: AuthHttp) {}
 
     /**
      * Creates a TrackFeedback object which is matching to the given track and the current radio
@@ -289,15 +277,7 @@ export class FeedbackService {
 
     private isTendencyValid(tendency: Tendency): boolean {
 
-        return (tendency.radioId != null && (
-        tendency.moreDynamics ||
-        tendency.lessDynamics ||
-        tendency.faster ||
-        tendency.slower ||
-        tendency.startOlder ||
-        tendency.startNewer ||
-        tendency.endOlder ||
-        tendency.endNewer));
+        return (tendency.radioId != null);
     }
 
     public openTrackFeedbackDialog(track: Track): void {
@@ -320,7 +300,6 @@ export class FeedbackService {
         this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
         this.dialogRef.componentInstance.setCurTendency(this.createTendencyToCurrentRadio());
 
-        this.dialogRef.componentInstance.genres = this.genres;
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
                 this.postTendency(this.dialogRef.componentInstance.cTendency);
