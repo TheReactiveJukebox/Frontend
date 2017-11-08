@@ -120,27 +120,6 @@
         </table>
 
     </md-card>
-
-    <table class="track-feedback-table">
-        <tr class="last-row">
-            <td>
-                <p class="attribute-description">{{'FEEDBACK_DIALOG.MORE_OF_GENRE' | translate}}: </p>
-            </td>
-            <td colspan="4">
-                <div id="genre" class="tile">
-                    <md-select [style.width]="'200px'" id="genre-selector"
-                               [placeholder]="'FEEDBACK_DIALOG.CHOOSE_GENRE' | translate"
-                               [(ngModel)]="cTendency.moreOfGenre">
-                        <md-option *ngFor="let genre of genres" [value]="genre">
-                            {{genre}}
-                        </md-option>
-                    </md-select>
-
-                </div>
-            </td>
-        </tr>
-
-    </table>
 </md-dialog-content>
 <md-dialog-actions>
     <button

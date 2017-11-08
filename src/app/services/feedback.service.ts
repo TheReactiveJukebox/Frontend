@@ -65,7 +65,6 @@ export class FeedbackService {
         } else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.getJukebox().id) {
             this.initTendency();  //if a new Radiostation was started
         } else {
-            this.curTendency.moreOfGenre = null;
             //if the history isn't identically with current (song written or deleted) => create new tendency object
             for (let i = 0; i < this.localHistory.history.length; i++) {
                 if (this.curHistory.indexOf(this.localHistory.history[i]) == -1) {
@@ -298,8 +297,7 @@ export class FeedbackService {
         tendency.startOlder ||
         tendency.startNewer ||
         tendency.endOlder ||
-        tendency.endNewer ||
-        tendency.moreOfGenre != null));
+        tendency.endNewer));
     }
 
     public openTrackFeedbackDialog(track: Track): void {
@@ -443,7 +441,6 @@ export class FeedbackService {
     public moreOfGenre(genre: string): void {
         let cTendency: Tendency = this.createTendencyToCurrentRadio();
         console.log('genre recognised: ' + genre);
-        cTendency.moreOfGenre = genre;
         //send new Tendency
         this.setCurTendency(cTendency);
         this.postTendency(cTendency);

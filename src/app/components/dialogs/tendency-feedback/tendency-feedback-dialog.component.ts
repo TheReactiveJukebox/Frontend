@@ -11,8 +11,6 @@ import {Tendency} from '../../../models/tendency';
 })
 export class TendencyFeedbackDialogComponent {
     cTendency: Tendency = new Tendency();
-    genres = [];
-
 
     speedUpperLimit = Config.speedUpperLimit;
     speedLowerLimit = Config.speedLowerLimit;

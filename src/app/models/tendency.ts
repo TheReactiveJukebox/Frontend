@@ -13,7 +13,6 @@ export class Tendency {
     startNewer: boolean;
     endOlder: boolean;
     endNewer: boolean;
-    moreOfGenre?: string;
 
     preferredDynamics: number;
     preferredSpeed: number;
