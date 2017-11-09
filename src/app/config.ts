@@ -9,6 +9,8 @@ export class Config {
     public static yearStepsize = 5;
     public static yearLowerLimit = 1800;
     public static yearUpperLimit = (new Date()).getFullYear();
+    public static dynamicLowerLimit = 0;
+    public static dynamicUpperLimit = 1;
 
     public static config: any = {
 
