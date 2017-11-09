@@ -84,7 +84,9 @@
     "GENRE": "Which genre do you want to listen to?",
     "MOOD": "What is your current mood?",
     "YEAR-START": "What should be the earliest release time?",
-    "YEAR-END": "What should be the latest release time?"
+    "YEAR-END": "What should be the latest release time?",
+    "SPEED": "Select Track's BPM!",
+    "DYNAMIC": "How dynmaic should your radio be?"
   },
   "ADD_CONSTRAINT": {
     "ALREADY_CONTAINED": "This feature already exists!",
@@ -92,6 +94,8 @@
     "GENRE": "Genre",
     "MOOD": "Mood",
     "YEAR-START": "Start Year",
-    "YEAR-END": "End Year"
+    "YEAR-END": "End Year",
+    "SPEED": "Speed",
+    "DYNAMIC": "Dynamic"
   }
 }

@@ -31,11 +31,13 @@ export class RadiostationByFeatureComponent implements OnInit {
             mood?: string,
             startYear?: number,
             endYear?: number,
-            algorithm?: string
+            algorithm?: string,
+            speed?: number,
+            dynamic?: number,
         } = {};
 
     //keys should hold all identifing strings for the feature tiles
-    keys = {genre: 'genre', mood: 'mood', endYear: 'year-end', startYear: 'year-start'};
+    keys = {genre: 'genre', mood: 'mood', endYear: 'year-end', startYear: 'year-start', speed: 'speed', dynamic: 'dynamic'};
 
     /* tiles should be filled with
     {type: key of the feature to set,
@@ -46,6 +48,11 @@ export class RadiostationByFeatureComponent implements OnInit {
     //mocked moods
     moods = ['crazy', 'happy', 'sad'];
     tileId: number = 0;
+
+    public speedLowerLimit = Config.speedLowerLimit;
+    public speedUpperLimit = Config.speedUpperLimit;
+    public dynamicLowerLimit = Config.dynamicLowerLimit;
+    public dynamicUpperLimit = Config.dynamicUpperLimit;
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
@@ -93,6 +100,12 @@ export class RadiostationByFeatureComponent implements OnInit {
             if (jukebox.endYear) {
                 this.tiles.push({type: this.keys.endYear, value: jukebox.endYear, id: this.tileId++});
             }
+            if (jukebox.speed) {
+                this.tiles.push({type: this.keys.speed, value: jukebox.speed, id: this.tileId++});
+            }
+            if (jukebox.dynamic) {
+                this.tiles.push({type: this.keys.dynamic, value: jukebox.dynamic, id: this.tileId++});
+            }
         }
     }
 
@@ -118,10 +131,16 @@ export class RadiostationByFeatureComponent implements OnInit {
                 this.creationParameters.mood = tile.value;
             }
             if (tile.type == this.keys.endYear) {
-                this.creationParameters.endYear = +tile.value;
+                this.creationParameters.endYear = tile.value;
             }
             if (tile.type == this.keys.startYear) {
-                this.creationParameters.startYear = +tile.value;
+                this.creationParameters.startYear = tile.value;
+            }
+            if (tile.type == this.keys.speed) {
+                this.creationParameters.speed = tile.value;
+            }
+            if (tile.type == this.keys.dynamic) {
+                this.creationParameters.dynamic = tile.value;
             }
         }
         //call server for radio
@@ -159,10 +178,18 @@ export class RadiostationByFeatureComponent implements OnInit {
                     this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
                 }
                 if (result == this.keys.endYear) {
-                    this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
+                    this.tiles.push({type: this.keys.endYear, value: this.getMaxYear(), id: this.tileId++});
                 }
                 if (result == this.keys.startYear) {
-                    this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
+                    this.tiles.push({type: this.keys.startYear, value: this.getMinYear(), id: this.tileId++});
+                }
+                if (result == this.keys.speed) {
+                    this.tiles.push({type: this.keys.speed,
+                        value: (this.speedLowerLimit + this.speedUpperLimit) / 2, id: this.tileId++});
+                }
+                if (result == this.keys.dynamic) {
+                    this.tiles.push({type: this.keys.dynamic,
+                        value: (this.dynamicLowerLimit + this.dynamicUpperLimit) / 2, id: this.tileId++});
                 }
             } else {
                 this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
@@ -187,7 +214,25 @@ export class RadiostationByFeatureComponent implements OnInit {
     resetCreationParameters(): void {
         this.creationParameters.genres = null;
         this.creationParameters.mood = null;
-        this.creationParameters.startYear = 0;
-        this.creationParameters.endYear = 2099;
+        this.creationParameters.startYear = null;
+        this.creationParameters.endYear = null;
+        this.creationParameters.speed = null;
+        this.creationParameters.dynamic = null;
+    }
+
+    public getMinYear(): number {
+        if (this.creationParameters.startYear) {
+            return Math.max(Config.yearLowerLimit, this.creationParameters.startYear);
+        } else {
+            return Config.yearLowerLimit;
+        }
+    }
+
+    public getMaxYear(): number {
+        if (this.creationParameters.endYear) {
+            return Math.min(Config.yearUpperLimit, this.creationParameters.endYear);
+        } else {
+            return Config.yearUpperLimit;
+        }
     }
 }

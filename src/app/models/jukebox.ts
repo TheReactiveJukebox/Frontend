@@ -6,4 +6,6 @@ export class Jukebox {
     algorithm: string;
     startYear: number;
     endYear: number;
+    speed: number;
+    dynamic: number;
 }

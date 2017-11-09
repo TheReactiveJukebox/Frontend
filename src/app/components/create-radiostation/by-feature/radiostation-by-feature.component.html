@@ -7,8 +7,7 @@
             <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
                 <md-icon>close</md-icon>
             </button>
-            {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
-            <br>
+            <p>{{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}</p>
             <md-select *ngIf="tile.type == keys.genre" [(ngModel)]="tile.value">
                 <md-option *ngFor="let option of genres" [value]="option">
                     {{option}}
@@ -18,14 +17,20 @@
                 <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
             </md-select>
             <md-card class="year-container" *ngIf="tile.type == keys.startYear">
-                <input mdInput type="number" min="1000"
-                       max="3000" step="1"
-                       [(ngModel)]="tile.value"/>
+                <div class="slider-label">{{sliderStart.displayValue}}</div>
+                <md-slider #sliderStart [min]="getMinYear()" [max]="getMaxYear()" [step]="1" [(ngModel)]="tile.value"></md-slider>
             </md-card>
             <md-card class="year-container" *ngIf="tile.type == keys.endYear">
-                <input mdInput type="number" min="1000" max="3000"
-                       step="1"
-                       [(ngModel)]="tile.value"/>
+                <div class="slider-label">{{sliderEnd.displayValue}}</div>
+                <md-slider #sliderEnd [min]="getMinYear()" [max]="getMaxYear()" [step]="1" [(ngModel)]="tile.value"></md-slider>
+            </md-card>
+            <md-card class="year-container" *ngIf="tile.type == keys.speed">
+                <div class="slider-label">{{sliderSpeed.displayValue}}</div>
+                <md-slider #sliderSpeed [min]="speedLowerLimit" [max]="speedUpperLimit" [step]="1" [(ngModel)]="tile.value"></md-slider>
+            </md-card>
+            <md-card class="year-container" *ngIf="tile.type == keys.dynamic">
+                <div class="slider-label">{{sliderDynamic.displayValue}}</div>
+                <md-slider #sliderDynamic [min]="dynamicLowerLimit" [max]="dynamicUpperLimit" [step]="0.05" [(ngModel)]="tile.value"></md-slider>
             </md-card>
         </md-card>
 
