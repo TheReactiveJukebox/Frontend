@@ -30,10 +30,14 @@ export class TrackListItemComponent {
     @Output()
     onDelete: EventEmitter<any>;
 
+    @Output()
+    onCoverClick: EventEmitter<any>;
+
     public showItem: boolean;
 
     constructor(public feedbackService: FeedbackService) {
         this.onDelete = new EventEmitter<any>();
+        this.onCoverClick = new EventEmitter<any>();
         this.showItem = true;
     }
 
@@ -51,6 +55,14 @@ export class TrackListItemComponent {
 
     public hideItem(): void {
         this.showItem = false;
+    }
+
+    public getTrackCover(): string {
+        if (this.track.cover) {
+            return this.track.cover;
+        } else {
+            return '../../../../assets/img/album_cover.png';
+        }
     }
 
 }
