@@ -1,5 +1,5 @@
-<h2 md-dialog-title>{{'FEEDBACK_DIALOG.LIKE' | translate}} "{{cTrack.title}}" {{'FEEDBACK_DIALOG.REASON' |
-    translate}} </h2>
+<h2 md-dialog-title>{{'FEEDBACK_DIALOG.LIKE' | translate}}
+    "{{cTrack.title}}" {{'FEEDBACK_DIALOG.REASON' | translate}} </h2>
 <md-dialog-content class="dialog">
     <table class="track-feedback-table">
         <tr>
@@ -12,13 +12,15 @@
                 <div class="feedback_button_table">
                     <button
                             md-icon-button
-                            md-mini-fab disableRipple="true" id="{{toggleButtonLikeTitleClass}}"
+                            md-mini-fab disableRipple="true"
+                            [ngClass]="{'like': cFeedback.songFeedback == 1}"
                             (click)="btnLikeTitle()">
                         <md-icon>thumb_up</md-icon>
                     </button>
                     <button
                             md-icon-button
-                            md-mini-fab disableRipple="true" id="{{toggleButtonDislikeTitleClass}}"
+                            md-mini-fab disableRipple="true"
+                            [ngClass]="{'dislike': cFeedback.songFeedback == -1}"
                             (click)="btnDislikeTitle()">
                         <md-icon>thumb_down</md-icon>
                     </button>
@@ -34,13 +36,15 @@
             <td>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonLikeArtistClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'like': cFeedback.artistFeedback == 1}"
                         (click)="btnLikeArtist()">
                     <md-icon>thumb_up</md-icon>
                 </button>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonDislikeArtistClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'dislike': cFeedback.artistFeedback == -1}"
                         (click)="btnDislikeArtist()">
                     <md-icon>thumb_down</md-icon>
                 </button>
@@ -52,34 +56,16 @@
             <td style="margin-left: 15px">
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonLikeGenreClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'like': cFeedback.genreFeedback == 1}"
                         (click)="btnLikeGenre()">
                     <md-icon>thumb_up</md-icon>
                 </button>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonDislikeGenreClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'dislike': cFeedback.genreFeedback == -1}"
                         (click)="btnDislikeGenre()">
-                    <md-icon>thumb_down</md-icon>
-                </button>
-            </td>
-        </tr>
-        <tr *ngIf="cTrack.releaseDate">
-            <td>
-                <p class="tl-period">{{'TRACK_LIST.PERIOD' | translate}}: </p></td>
-            <td><p class="innerProp">{{cTrack.releaseDate.getFullYear()}}</p>
-            </td>
-            <td>
-                <button
-                        md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonLikePeriodClass}}"
-                        (click)="btnLikePeriod()">
-                    <md-icon>thumb_up</md-icon>
-                </button>
-                <button
-                        md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonDislikePeriodClass}}"
-                        (click)="btnDislikePeriod()">
                     <md-icon>thumb_down</md-icon>
                 </button>
             </td>
@@ -92,13 +78,15 @@
             <td>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonLikeSpeedClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'like': cFeedback.speedFeedback == 1}"
                         (click)="btnLikeSpeed()">
                     <md-icon>thumb_up</md-icon>
                 </button>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonDislikeSpeedClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'dislike': cFeedback.speedFeedback == -1}"
                         (click)="btnDislikeSpeed()">
                     <md-icon>thumb_down</md-icon>
                 </button>
@@ -112,13 +100,15 @@
             <td>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonLikeMoodClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'like': cFeedback.moodFeedback == 1}"
                         (click)="btnLikeMood()">
                     <md-icon>thumb_up</md-icon>
                 </button>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonDislikeMoodClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'dislike': cFeedback.moodFeedback == -1}"
                         (click)="btnDislikeMood()">
                     <md-icon>thumb_down</md-icon>
                 </button>
@@ -132,13 +122,15 @@
             <td>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonLikeDynamicsClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'like': cFeedback.dynamicsFeedback == 1}"
                         (click)="btnLikeDynamics()">
                     <md-icon>thumb_up</md-icon>
                 </button>
                 <button
                         md-icon-button
-                        md-mini-fab disableRipple="true" id="{{toggleButtonDislikeDynamicsClass}}"
+                        md-mini-fab disableRipple="true"
+                        [ngClass]="{'dislike': cFeedback.dynamicsFeedback == -1}"
                         (click)="btnDislikeDynamics()">
                     <md-icon>thumb_down</md-icon>
                 </button>

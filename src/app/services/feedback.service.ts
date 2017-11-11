@@ -36,125 +36,74 @@ export class FeedbackService {
     }
 
     public dislikeSong(feedback: TrackFeedback): TrackFeedback {
-        feedback.songDisliked = true;
-        if (feedback.songLiked) {
-            //We don't know if the user likes the song
-            feedback.songLiked = null;
-        }
+        feedback.songFeedback = -1;
         return feedback;
     }
 
     public likeSong(feedback: TrackFeedback): TrackFeedback {
-        feedback.songLiked = true;
-        if (feedback.songDisliked) {
-            //We don't know if the user dislikes the song
-            feedback.songDisliked = null;
-        }
+        feedback.songFeedback = 1;
         return feedback;
     }
 
     public dislikeArtist(feedback: TrackFeedback): TrackFeedback {
-        feedback.artistDisliked = true;
-        if (feedback.artistLiked) {
-            //We don't know if the user likes the artist
-            feedback.artistLiked = null;
-        }
+        feedback.artistFeedback = -1;
         return feedback;
     }
 
     public likeArtist(feedback: TrackFeedback): TrackFeedback {
-        feedback.artistLiked = true;
-        if (feedback.artistDisliked) {
-            //We don't know if the user dislikes the artist
-            feedback.artistDisliked = null;
-        }
+        feedback.artistFeedback = 1;
         return feedback;
     }
 
     public dislikeSpeed(feedback: TrackFeedback): TrackFeedback {
-        feedback.speedDisliked = true;
-        if (feedback.speedLiked) {
-            //We don't know if the user likes the speed
-            feedback.speedLiked = null;
-        }
+        feedback.speedFeedback = -1;
         return feedback;
     }
 
     public likeSpeed(feedback: TrackFeedback): TrackFeedback {
-        feedback.speedLiked = true;
-        if (feedback.speedDisliked) {
-            //We don't know if the user dislikes the speed
-            feedback.speedDisliked = null;
-        }
+        feedback.speedFeedback = 1;
         return feedback;
     }
 
     public dislikeGenre(feedback: TrackFeedback): TrackFeedback {
-        feedback.genreDisliked = true;
-        if (feedback.genreLiked) {
-            //We don't know if the user likes the genre
-            feedback.genreLiked = null;
-        }
+        feedback.genreFeedback = -1;
         return feedback;
     }
 
     public likeGenre(feedback: TrackFeedback): TrackFeedback {
-        feedback.genreLiked = true;
-        if (feedback.genreDisliked) {
-            //We don't know if the user dislikes the genre
-            feedback.genreDisliked = null;
-        }
+        feedback.genreFeedback = 1;
         return feedback;
     }
 
     public dislikeDynamics(feedback: TrackFeedback): TrackFeedback {
-        feedback.dynamicsDisliked = true;
-        if (feedback.dynamicsLiked) {
-            //We don't know if the user likes the dynamics
-            feedback.dynamicsLiked = null;
-        }
+        feedback.dynamicsFeedback = 1;
         return feedback;
     }
 
     public likeDynamics(feedback: TrackFeedback): TrackFeedback {
-        feedback.dynamicsLiked = true;
-        if (feedback.dynamicsDisliked) {
-            //We don't know if the user dislikes the dynamics
-            feedback.dynamicsDisliked = null;
-        }
+        feedback.dynamicsFeedback = 1;
         return feedback;
     }
 
     public dislikeMood(feedback: TrackFeedback): TrackFeedback {
-        feedback.moodDisliked = true;
-        if (feedback.moodLiked) {
-            //We don't know if the user likes the mood
-            feedback.moodLiked = null;
-        }
+        feedback.moodFeedback = -1;
         return feedback;
     }
 
     public likeMood(feedback: TrackFeedback): TrackFeedback {
-        feedback.moodLiked = true;
-        if (feedback.moodDisliked) {
-            //We don't know if the user dislikes the mood
-            feedback.moodDisliked = null;
-        }
+        feedback.moodFeedback = 1;
         return feedback;
     }
 
     public postTrackFeedback(feedback: TrackFeedback): void {
-        if (this.isTrackFeedbackValid(feedback)) {
-            this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: any) => {
-            }, (error: Response) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-                } else {
-                    console.warn('Sending feedback failed: ', error);
-                }
-            });
-
-        }
+        this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: any) => {
+        }, (error: Response) => {
+            if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+            } else {
+                console.warn('Sending feedback failed: ', error);
+            }
+        });
     }
 
     /**
@@ -170,25 +119,6 @@ export class FeedbackService {
             feedback = this.dislikeSong(feedback);
         }
         this.postTrackFeedback(feedback);
-    }
-
-    private isTrackFeedbackValid(feedback: TrackFeedback): boolean {
-
-        return (feedback.radioId != null && feedback.trackId != null && (
-        feedback.songLiked ||
-        feedback.songDisliked ||
-        feedback.artistLiked ||
-        feedback.artistDisliked ||
-        feedback.speedLiked ||
-        feedback.speedDisliked ||
-        feedback.genreLiked ||
-        feedback.genreDisliked ||
-        feedback.dynamicsLiked ||
-        feedback.dynamicsDisliked ||
-        feedback.periodLiked ||
-        feedback.periodDisliked ||
-        feedback.moodLiked ||
-        feedback.moodDisliked));
     }
 
     public openTrackFeedbackDialog(track: Track): void {
