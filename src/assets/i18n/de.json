@@ -82,8 +82,8 @@
     "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
     "GENRE": "Welches Genre willst du hören?",
     "MOOD": "In welcher Stimmung bist du?",
-    "YEAR-START": "Wie alt sollen die Lieder höchtens sein?",
-    "YEAR-END": "Wie neu dürfen die Lieder sein?",
+    "ENDYEAR": "Wie alt sollen die Lieder höchtens sein?",
+    "STARTYEAR": "Wie neu dürfen die Lieder sein?",
     "SPEED": "Wähle die BPM aus!",
     "DYNAMIC": "Wie dynamisch soll dein Radio sein?"
   },

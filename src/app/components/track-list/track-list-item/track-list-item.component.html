@@ -1,8 +1,7 @@
 <md-list-item *ngIf="track" [@expand]="showItem">
     <div class="tl-cover-col" (click)="onCoverClick.emit()">
-        <div [ngStyle]="{'background-image': 'url('+getTrackCover()+')'}"
-             alt="Cover" class="cover-img">
-            <md-icon>play_circle_outline</md-icon>
+        <div [ngStyle]="{'background-image': 'url('+getTrackCover()+')'}" alt="Cover" class="cover-img">
+            <md-icon *ngIf="showPlay">play_circle_outline</md-icon>
         </div>
     </div>
     <p class="tl-title-col">{{track.title}}</p>

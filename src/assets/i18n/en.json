@@ -82,8 +82,8 @@
     "PROP_SELECT": "Select the properties of your Radiostation!",
     "GENRE": "Which genre do you want to listen to?",
     "MOOD": "What is your current mood?",
-    "YEAR-START": "What should be the earliest release time?",
-    "YEAR-END": "What should be the latest release time?",
+    "STARTYEAR": "What should be the earliest release time?",
+    "ENDYEAR": "What should be the latest release time?",
     "SPEED": "Select Track's BPM!",
     "DYNAMIC": "How dynmaic should your radio be?"
   },
