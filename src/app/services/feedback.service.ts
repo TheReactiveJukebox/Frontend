@@ -4,27 +4,20 @@
 import {Injectable} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
-import {TendencyFeedbackDialogComponent} from '../components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
 import {Config} from '../config';
-import {Tendency} from '../models/tendency';
 import {Track} from '../models/track';
 import {TrackFeedback} from '../models/track-feedback';
 import {AuthHttp} from './auth/auth-http';
-import {HistoryService} from './history.service';
 import {RadiostationService} from './radiostation.service';
 
 @Injectable()
 export class FeedbackService {
 
     private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
-    private tendencyUrl = Config.serverUrl + '/api/jukebox/tendency';  // URL to web api
 
     private dialogRef: MdDialogRef<any>;
-    private curTendency: Tendency = null;
-    private curHistory: Track[];
 
     constructor(public radiostationService: RadiostationService,
-                private localHistory: HistoryService,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {}
 
@@ -41,50 +34,6 @@ export class FeedbackService {
         feedback.radioId = this.radiostationService.getJukebox().id;
         return feedback;
     }
-
-    /**
-     * Creates a Tendency object for the current radio
-     * @returns {Tendency}
-     */
-    public createTendencyToCurrentRadio(): Tendency {
-        //if there is no current tendency object => create one
-        if (this.curTendency == null) {
-            this.initTendency();
-        } else if (this.localHistory.history.length < 1 && this.curTendency.radioId != this.radiostationService.getJukebox().id) {
-            this.initTendency();  //if a new Radiostation was started
-        } else {
-            //if the history isn't identically with current (song written or deleted) => create new tendency object
-            for (let i = 0; i < this.localHistory.history.length; i++) {
-                if (this.curHistory.indexOf(this.localHistory.history[i]) == -1) {
-                    //the history differs => build new tendency
-                    this.initTendency();
-                    break;
-                }
-            }
-        }
-        // remember the history of the last created tendency object is based on
-        this.curHistory = [];
-        for (let i = 0; i < this.localHistory.history.length; i++) {
-            this.curHistory.push(this.localHistory.history[i]);
-        }
-        return this.curTendency;
-    }
-
-
-    private initTendency(): void {
-        this.curTendency = new Tendency();
-        this.curTendency.radioId = this.radiostationService.getJukebox().id;
-        //calculate mean values
-        this.curTendency.preferredDynamics = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanDynamic(), 2);
-        this.curTendency.preferredSpeed = TendencyFeedbackDialogComponent.roundAvoid(this.localHistory.getMeanSpeed(), 0);
-        this.curTendency.preferredPeriodStart = this.localHistory.getMinYear();
-        this.curTendency.preferredPeriodEnd = this.localHistory.getMaxYear();
-    }
-
-    public setCurTendency(cTendency: Tendency): void {
-        this.curTendency = cTendency;
-    }
-
 
     public dislikeSong(feedback: TrackFeedback): TrackFeedback {
         feedback.songDisliked = true;
@@ -176,24 +125,6 @@ export class FeedbackService {
         return feedback;
     }
 
-    public dislikePeriod(feedback: TrackFeedback): TrackFeedback {
-        feedback.periodDisliked = true;
-        if (feedback.periodLiked) {
-            //We don't know if the user likes the period
-            feedback.periodLiked = null;
-        }
-        return feedback;
-    }
-
-    public likePeriod(feedback: TrackFeedback): TrackFeedback {
-        feedback.periodLiked = true;
-        if (feedback.periodDisliked) {
-            //We don't know if the user dislikes the period
-            feedback.periodDisliked = null;
-        }
-        return feedback;
-    }
-
     public dislikeMood(feedback: TrackFeedback): TrackFeedback {
         feedback.moodDisliked = true;
         if (feedback.moodLiked) {
@@ -218,21 +149,6 @@ export class FeedbackService {
             }, (error: Response) => {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-                } else {
-                    console.warn('Sending feedback failed: ', error);
-                }
-            });
-
-        }
-    }
-
-    public postTendency(tendency: Tendency): void {
-        if (this.isTendencyValid(tendency)) {
-            this.authHttp.post(this.tendencyUrl, tendency).subscribe((data: any) => {
-
-            }, (error: Response) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in postTendency!!!');
                 } else {
                     console.warn('Sending feedback failed: ', error);
                 }
@@ -275,11 +191,6 @@ export class FeedbackService {
         feedback.moodDisliked));
     }
 
-    private isTendencyValid(tendency: Tendency): boolean {
-
-        return (tendency.radioId != null);
-    }
-
     public openTrackFeedbackDialog(track: Track): void {
         this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
         this.dialogRef.componentInstance.cTrack = track;
@@ -294,140 +205,5 @@ export class FeedbackService {
             this.dialogRef = null;
 
         });
-    }
-
-    public openTendencyFeedbackDialog(): void {
-        this.dialogRef = this.dialog.open(TendencyFeedbackDialogComponent);
-        this.dialogRef.componentInstance.setCurTendency(this.createTendencyToCurrentRadio());
-
-        this.dialogRef.afterClosed().subscribe((result: string) => {
-            if (result == '1' || result == '2') {
-                this.postTendency(this.dialogRef.componentInstance.cTendency);
-                this.curTendency = this.dialogRef.componentInstance.cTendency;
-                if (result == '2') {
-                    this.radiostationService.refreshTrackList();
-                }
-            }
-
-            this.dialogRef = null;
-        });
-    }
-
-    public moreDynamic(): void {
-        //calculate new Tendency
-        let cTendency: Tendency = this.createTendencyToCurrentRadio();
-        if (cTendency.preferredDynamics < 1 - Config.dynamicStepsize) {
-            let value = cTendency.preferredDynamics + Config.dynamicStepsize;
-            cTendency.preferredDynamics = this.roundAvoid(value, 3);
-        } else {
-            cTendency.preferredDynamics = 1;
-        }
-        //send new Tendency
-        this.setCurTendency(cTendency);
-        this.postTendency(cTendency);
-        this.radiostationService.refreshTrackList();
-    }
-
-    public lessDynamic(): void {
-        //calculate new Tendency
-        let cTendency: Tendency = this.createTendencyToCurrentRadio();
-        if (cTendency.preferredDynamics > Config.dynamicStepsize) {
-            let value = cTendency.preferredDynamics - Config.dynamicStepsize;
-            cTendency.preferredDynamics = this.roundAvoid(value, 3);
-        } else {
-            cTendency.preferredDynamics = 0;
-        }
-        //send new Tendency
-        this.setCurTendency(cTendency);
-        this.postTendency(cTendency);
-        this.radiostationService.refreshTrackList();
-    }
-
-    public faster(): void {
-        //calculate new Tendency
-        let cTendency: Tendency = this.createTendencyToCurrentRadio();
-        if (cTendency.preferredSpeed < Config.speedUpperLimit - Config.speedStepsize) {
-            cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed + Config.speedStepsize, 0);
-        } else {
-            cTendency.preferredSpeed = Config.speedUpperLimit;
-        }
-        //send new Tendency
-        this.setCurTendency(cTendency);
-        this.postTendency(cTendency);
-        this.radiostationService.refreshTrackList();
-    }
-
-    public slower(): void {
-        //calculate new Tendency
-        let cTendency: Tendency = this.createTendencyToCurrentRadio();
-        if (cTendency.preferredSpeed > Config.speedStepsize + Config.speedLowerLimit) {
-            cTendency.preferredSpeed = this.roundAvoid(cTendency.preferredSpeed - Config.speedStepsize, 0);
-        } else {
-            cTendency.preferredSpeed = Config.speedLowerLimit;
-        }
-        //send new Tendency
-        this.setCurTendency(cTendency);
-        this.postTendency(cTendency);
-        this.radiostationService.refreshTrackList();
-    }
-
-    public older(): void {
-        //set periodStart older
-        let cTendency: Tendency = this.createTendencyToCurrentRadio();
-        if (cTendency.preferredPeriodStart > Config.yearLowerLimit + Config.yearStepsize) {
-            cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart - Config.yearStepsize, 0);
-        } else {
-            cTendency.preferredPeriodStart = Config.yearLowerLimit;
-        }
-        //set periodEnd older
-        if (cTendency.preferredPeriodEnd > Config.yearLowerLimit + Config.yearStepsize) {
-            cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd - Config.yearStepsize, 0);
-        } else {
-            cTendency.preferredPeriodEnd = Config.yearLowerLimit;
-        }
-        if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
-            cTendency.preferredPeriodStart = cTendency.preferredPeriodEnd;
-        }
-        //send new Tendency
-        this.setCurTendency(cTendency);
-        this.postTendency(cTendency);
-        this.radiostationService.refreshTrackList();
-    }
-
-    public newer(): void {
-        //set periodStart newer
-        let cTendency: Tendency = this.createTendencyToCurrentRadio();
-        if (cTendency.preferredPeriodStart < new Date().getFullYear() - Config.yearStepsize) {
-            cTendency.preferredPeriodStart = this.roundAvoid(cTendency.preferredPeriodStart + Config.yearStepsize, 0);
-        } else {
-            cTendency.preferredPeriodStart = new Date().getFullYear();
-        }
-        if (cTendency.preferredPeriodStart > cTendency.preferredPeriodEnd) {
-            cTendency.preferredPeriodEnd = cTendency.preferredPeriodStart;
-        }
-        //set periodEnd newer
-        if (cTendency.preferredPeriodEnd < Config.yearUpperLimit - Config.yearStepsize) {
-            cTendency.preferredPeriodEnd = this.roundAvoid(cTendency.preferredPeriodEnd + Config.yearStepsize, 0);
-        } else {
-            cTendency.preferredPeriodEnd = Config.yearUpperLimit;
-        }
-        //send new Tendency
-        this.setCurTendency(cTendency);
-        this.postTendency(cTendency);
-        this.radiostationService.refreshTrackList();
-    }
-
-    public moreOfGenre(genre: string): void {
-        let cTendency: Tendency = this.createTendencyToCurrentRadio();
-        console.log('genre recognised: ' + genre);
-        //send new Tendency
-        this.setCurTendency(cTendency);
-        this.postTendency(cTendency);
-        this.radiostationService.refreshTrackList();
-    }
-
-    roundAvoid(value: number, places: number): number {
-        let scale = Math.pow(10, places);
-        return Math.round(value * scale) / scale;
     }
 }

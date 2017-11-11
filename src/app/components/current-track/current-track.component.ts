@@ -1,11 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
-import {DialogService} from '../../services/dialog.service';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
 import {TrackService} from '../../services/track.service';
-
 
 @Component({
     selector: 'current-track',
@@ -71,10 +69,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     //opens a dialog for special feedback
     dialog_special_feedback(): void {
         this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
-    }
-
-    btn_Tendency(): void {
-        this.feedbackService.openTendencyFeedbackDialog();
     }
 
     btn_history_toggle(): void {

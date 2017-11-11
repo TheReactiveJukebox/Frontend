@@ -32,6 +32,7 @@
         "no-output-rename": true,
         "no-shadowed-variable": true,
         "no-string-literal": false,
+        "no-unused-variable": true,
         "no-use-before-declare": true,
         "no-var-requires": true,
         "no-var-keyword": true,

@@ -1,9 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Subject} from 'rxjs/Subject';
-import {Config} from '../../config';
-import {Tendency} from '../../models/tendency';
-import {FeedbackService} from '../../services/feedback.service';
 import {PlayerService} from '../../services/player.service';
 import {SpeechService} from '../../services/speech.service';
 
@@ -13,7 +10,6 @@ import {SpeechService} from '../../services/speech.service';
     templateUrl: './speech-search-field.component.html',
 })
 export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
-
 
     @Output()
     public detectedText: string;
@@ -30,11 +26,9 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
     private controlTerms: Map<string, number>;
 
-
     constructor(public speechService: SpeechService,
                 public playerService: PlayerService,
-                private translateService: TranslateService,
-                private feedbackService: FeedbackService) {
+                private translateService: TranslateService) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
         this.micColor = {'color': `rgba(255,255,255,1)`};
@@ -234,43 +228,37 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 break;
             }
             case 8: {
-                this.feedbackService.moreDynamic();
+                // TODO this.feedbackService.moreDynamic();
                 break;
             }
             case 9: {
-                this.feedbackService.lessDynamic();
+                // TODO this.feedbackService.lessDynamic();
                 break;
             }
             case 10: {
-                this.feedbackService.faster();
+                // TODO this.feedbackService.faster();
                 break;
             }
             case 11: {
-                this.feedbackService.slower();
+                // TODO this.feedbackService.slower();
                 break;
             }
-
             case 12: {
-                this.feedbackService.older();
+                // TODO this.feedbackService.older();
                 break;
             }
             case 13: {
-                this.feedbackService.newer();
+                // TODO this.feedbackService.newer();
                 break;
             }
             case 14: {
-                this.feedbackService.moreOfGenre(genre);
+                // TODO this.feedbackService.moreOfGenre(genre);
                 break;
             }
             default: {
             }
         }
         this.searchCall.emit(speech);
-    }
-
-    roundAvoid(value: number, places: number): number {
-        let scale = Math.pow(10, places);
-        return Math.round(value * scale) / scale;
     }
 
     public animateColor(): void {

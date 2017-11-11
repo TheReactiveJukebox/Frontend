@@ -4,7 +4,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { OverlayContainer } from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import {AppState} from './services/app.service';
 import {AuthService} from './services/auth/auth.service';
 
 /**
