@@ -50,6 +50,7 @@ export class RadiostationService implements OnDestroy {
 
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.jukeboxSubject.next(data);
+                console.log('NEW RADIOSTATION: ', data);
                 this.localHistory.clearLocalHistory();
                 this.trackService.refreshTracks();
                 observer.complete();
@@ -59,6 +60,7 @@ export class RadiostationService implements OnDestroy {
                     this.jukeboxSubject.next(JSON.parse(error._body));
                     this.localHistory.clearLocalHistory();
                     this.trackService.refreshTracks();
+                    observer.complete();
                 } else {
                     console.log('Creating new Radiostation failed!', error);
                     observer.error(error);

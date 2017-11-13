@@ -11,8 +11,8 @@ export class Radiostation {
     genres: string[];
 
     constructor() {
-        this.id = -1;
-        this.userId = -1;
+        this.id = null;
+        this.userId = null;
         this.genres = [];
         this.mood = null;
         this.startTracks = [];
