@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
         });
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         // subscribe to some source of theme change events, then...
         this.themeClass = 'default-theme';
         this.overlayContainer.getContainerElement().classList.add('default-theme');

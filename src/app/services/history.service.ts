@@ -14,7 +14,7 @@ export class HistoryService {
     history: Track[] = [];
     historyVisible: boolean = false;
 
-    private historyDeleteUrl = Config.serverUrl + '/api/history';
+    private historyDeleteUrl: string = Config.serverUrl + '/api/history';
 
     constructor(private authHttp: AuthHttp) {
     }
@@ -27,7 +27,7 @@ export class HistoryService {
         this.history = [];
     }
 
-    public deleteFromPersistentHistory(historyId): void {
+    public deleteFromPersistentHistory(historyId: number): void {
         // First remove item from the local history
         let i: number;
         for (i = 0; i < this.history.length; i++) {

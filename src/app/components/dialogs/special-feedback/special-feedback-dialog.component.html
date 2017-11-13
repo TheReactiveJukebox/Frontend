@@ -57,14 +57,14 @@
                 <button
                         md-icon-button
                         md-mini-fab disableRipple="true"
-                        [ngClass]="{'like': cFeedback.genreFeedback == 1}"
+                        [ngClass]="{'like': cFeedback.genreFeedback[0].feedback == 1}"
                         (click)="btnLikeGenre()">
                     <md-icon>thumb_up</md-icon>
                 </button>
                 <button
                         md-icon-button
                         md-mini-fab disableRipple="true"
-                        [ngClass]="{'dislike': cFeedback.genreFeedback == -1}"
+                        [ngClass]="{'dislike': cFeedback.genreFeedback[0].feedback == -1}"
                         (click)="btnDislikeGenre()">
                     <md-icon>thumb_down</md-icon>
                 </button>

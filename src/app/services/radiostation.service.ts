@@ -21,9 +21,9 @@ export class RadiostationService implements OnDestroy {
     private algorithms: BehaviorSubject<string[]>;
     private jukeboxSubject: BehaviorSubject<Radiostation>;
 
-    private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
-    private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
-    private algorithmsApiUrl = Config.serverUrl + '/api/jukebox/algorithms';
+    private radiostationApiUrl: string = Config.serverUrl + '/api/jukebox';  // URL to web api
+    private historyApiUrl: string = Config.serverUrl + '/api/history';  // URL to web api
+    private algorithmsApiUrl: string = Config.serverUrl + '/api/jukebox/algorithms';
 
     constructor(private trackService: TrackService,
                 private authHttp: AuthHttp,
@@ -51,7 +51,10 @@ export class RadiostationService implements OnDestroy {
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.jukeboxSubject.next(data);
                 console.log('NEW RADIOSTATION: ', data);
-                this.localHistory.clearLocalHistory();
+                // reset local history, when a new radiostation is created. Do not reset history on update calls
+                if (radiostation.id == null) {
+                    this.localHistory.clearLocalHistory();
+                }
                 this.trackService.refreshTracks();
                 observer.next(data);
                 observer.complete();
@@ -59,7 +62,10 @@ export class RadiostationService implements OnDestroy {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
                     this.jukeboxSubject.next(JSON.parse(error._body));
-                    this.localHistory.clearLocalHistory();
+                    // reset local history, when a new radiostation is created. Do not reset history on update calls
+                    if (radiostation.id == null) {
+                        this.localHistory.clearLocalHistory();
+                    }
                     this.trackService.refreshTracks();
                     observer.next(error._body);
                     observer.complete();

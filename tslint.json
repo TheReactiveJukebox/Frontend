@@ -49,6 +49,7 @@
         "pipe-naming": [true, "camelCase", "my"],
         "semicolon": true,
         "templates-use-public": true,
+        "typedef": [true, "call-signature", "parameter", "member-variable-declaration"],
         "trailing-comma": [false, {"multiline": "always", "singleline": "never"}],
         "use-host-property-decorator": true,
         "use-input-property-decorator": true,

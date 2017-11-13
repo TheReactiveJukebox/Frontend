@@ -127,6 +127,6 @@ export class AppModule {
 
 }
 
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: Http): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

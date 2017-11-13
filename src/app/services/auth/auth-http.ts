@@ -31,7 +31,7 @@ export class AuthHttp {
     getTrack(url: string): Observable<any> {
         return Observable.create(observer => {
             let xhr: XMLHttpRequest = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function(): void {
                 if (this.readyState == 4 && this.status == 200) {
                     observer.next(window.URL.createObjectURL(this.response));
                     observer.complete();

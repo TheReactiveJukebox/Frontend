@@ -22,9 +22,9 @@ export class TrackService {
     private artistCache: Map<number, Artist>;
     private albumCache: Map<number, Album>;
 
-    private trackListUrl = Config.serverUrl + '/api/jukebox/next';  // URL to web api
-    private artistUrl = Config.serverUrl + '/api/artist';
-    private albumUrl = Config.serverUrl + '/api/album';
+    private trackListUrl: string = Config.serverUrl + '/api/jukebox/next';  // URL to web api
+    private artistUrl: string = Config.serverUrl + '/api/artist';
+    private albumUrl: string = Config.serverUrl + '/api/album';
 
     constructor(private authHttp: AuthHttp) {
         this.currentTrack = new BehaviorSubject<Track>(null);
@@ -229,7 +229,7 @@ export class TrackService {
                 newTracks.splice(0, removed);
                 this.currentTrack.next(newTracks[0]);
                 newTracks = newTracks.slice(1);
-                tracks.forEach(function (newTrack) {
+                tracks.forEach(function (newTrack: Track): void {
                     newTracks.push(newTrack);
                 });
                 this.nextTracks.next(newTracks);

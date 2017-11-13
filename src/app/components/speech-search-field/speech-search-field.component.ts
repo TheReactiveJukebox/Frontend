@@ -14,14 +14,14 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     @Output()
     public detectedText: string;
     @Output()
-    searchCall = new EventEmitter();
+    searchCall: EventEmitter<any> = new EventEmitter();
 
     @Input() minimal: boolean = false;
 
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
-    public micColor;
-    private colorRunner;
+    public micColor: any;
+    private colorRunner: number;
     //private beep;
 
     private controlTerms: Map<string, number>;

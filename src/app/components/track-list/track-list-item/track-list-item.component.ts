@@ -44,11 +44,11 @@ export class TrackListItemComponent {
         this.showItem = true;
     }
 
-    btn_like() {
+    btn_like(): void {
         this.feedbackService.postSimpleFeedback(this.track, true);
     }
 
-    btn_dislike() {
+    btn_dislike(): void {
         this.feedbackService.postSimpleFeedback(this.track, false);
     }
 

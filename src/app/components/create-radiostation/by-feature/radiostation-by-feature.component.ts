@@ -24,19 +24,18 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
 })
 export class RadiostationByFeatureComponent implements OnInit {
 
-    keys = {genre: 'genre', mood: 'mood', endYear: 'year-end', startYear: 'year-start', speed: 'speed', dynamic: 'dynamic'};
-    genres = [];
+    genres: string[] = [];
     //mocked moods
-    moods = ['crazy', 'happy', 'sad'];
+    moods: string[] = ['crazy', 'happy', 'sad'];
 
-    public speedLowerLimit = Config.speedLowerLimit;
-    public speedUpperLimit = Config.speedUpperLimit;
-    public dynamicLowerLimit = Config.dynamicLowerLimit;
-    public dynamicUpperLimit = Config.dynamicUpperLimit;
-    public yearLowerLimit = Config.yearLowerLimit;
-    public yearUpperLimit = Config.yearUpperLimit;
+    public speedLowerLimit: number = Config.speedLowerLimit;
+    public speedUpperLimit: number = Config.speedUpperLimit;
+    public dynamicLowerLimit: number = Config.dynamicLowerLimit;
+    public dynamicUpperLimit: number = Config.dynamicUpperLimit;
+    public yearLowerLimit: number = Config.yearLowerLimit;
+    public yearUpperLimit: number = Config.yearUpperLimit;
 
-    private genreApiUrl = Config.serverUrl + '/api/genre';  // URL to web api
+    private genreApiUrl: string = Config.serverUrl + '/api/genre';  // URL to web api
 
     public radiostation: Radiostation;
 
@@ -78,10 +77,16 @@ export class RadiostationByFeatureComponent implements OnInit {
 
 
     public start(): void {
-        console.log('RADIOSTATION BEFORE: ', this.radiostation);
+        this.radiostation.id = null;
         this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
             this.playerService.play();
+        });
+    }
+
+    public update(): void {
+        this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
+            this.onStart.emit();
         });
     }
 
@@ -96,36 +101,36 @@ export class RadiostationByFeatureComponent implements OnInit {
     //adds an element to the gui for the keywords
     addConstraint(result: string): void {
         //there can be an unlimetd number of genre elements
-        if (result == this.keys.genre) {
+        if (result == 'genre') {
             if (this.radiostation.genres == null) {
                 this.radiostation.genres = [];
             }
             this.radiostation.genres.push(this.genres[0]);
-        } else if (result == this.keys.mood) {
+        } else if (result == 'mood') {
             if (this.radiostation.mood == null) {
                 this.radiostation.mood = this.moods[0];
             } else {
                 this.showWarning();
             }
-        } else if (result == this.keys.endYear) {
+        } else if (result == 'year-end') {
             if (this.radiostation.endYear == null) {
                 this.radiostation.endYear = this.getMaxYear();
             } else {
                 this.showWarning();
             }
-        } else if (result == this.keys.startYear) {
+        } else if (result == 'year-start') {
             if (this.radiostation.startYear == null) {
                 this.radiostation.startYear = this.getMinYear();
             } else {
                 this.showWarning();
             }
-        } else if (result == this.keys.speed) {
+        } else if (result == 'speed') {
             if (this.radiostation.speed == null) {
                 this.radiostation.speed = (this.speedLowerLimit + this.speedUpperLimit) / 2;
             } else {
                 this.showWarning();
             }
-        } else if (result == this.keys.dynamic) {
+        } else if (result == 'dynamic') {
             if (this.radiostation.dynamic == null) {
                 this.radiostation.dynamic = (this.dynamicLowerLimit + this.dynamicUpperLimit) / 2;
             } else {

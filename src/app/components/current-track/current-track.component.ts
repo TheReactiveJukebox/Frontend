@@ -51,7 +51,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
         this.btnVisible = true;
         //wait 3 seconds and hide
-        setTimeout(function () {
+        setTimeout(function (): void {
             this.btnVisible = false;
         }.bind(this), 3000);
     }
@@ -61,7 +61,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
         this.btnVisible = true;
         //wait 3 seconds and hide
-        setTimeout(function () {
+        setTimeout(function (): void {
             this.btnVisible = false;
         }.bind(this), 3000);
     }

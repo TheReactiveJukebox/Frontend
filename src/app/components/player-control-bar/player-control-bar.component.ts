@@ -62,7 +62,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.playerService.setProgress(event.offsetX / window.innerWidth * this.duration);
     }
 
-    public onSliderChange(value): void {
+    public onSliderChange(value: number): void {
         this.playerService.setVolume(value);
     }
 

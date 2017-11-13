@@ -14,51 +14,51 @@ export class SpecialFeedbackDialogComponent {
     constructor() {
     }
 
-    btnLikeArtist() {
+    btnLikeArtist(): void {
         this.cFeedback.artistFeedback = 1;
     }
 
-    btnDislikeArtist() {
+    btnDislikeArtist(): void {
         this.cFeedback.artistFeedback = -1;
     }
 
-    btnLikeGenre() {
+    btnLikeGenre(): void {
         this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: 1}];
     }
 
-    btnDislikeGenre() {
+    btnDislikeGenre(): void {
         this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: -1}];
     }
 
-    btnLikeTitle() {
+    btnLikeTitle(): void {
         this.cFeedback.songFeedback = 1;
     }
 
-    btnDislikeTitle() {
+    btnDislikeTitle(): void {
         this.cFeedback.songFeedback = -1;
     }
 
-    btnLikeMood() {
+    btnLikeMood(): void {
         this.cFeedback.moodFeedback = 1;
     }
 
-    btnDislikeMood() {
+    btnDislikeMood(): void {
         this.cFeedback.moodFeedback = -1;
     }
 
-    btnLikeDynamics() {
+    btnLikeDynamics(): void {
         this.cFeedback.dynamicsFeedback = 1;
     }
 
-    btnDislikeDynamics() {
+    btnDislikeDynamics(): void {
         this.cFeedback.dynamicsFeedback = -1;
     }
 
-    btnLikeSpeed() {
+    btnLikeSpeed(): void {
         this.cFeedback.speedFeedback = 1;
     }
 
-    btnDislikeSpeed() {
+    btnDislikeSpeed(): void {
         this.cFeedback.speedFeedback = -1;
     }
 

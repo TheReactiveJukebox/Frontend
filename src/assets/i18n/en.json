@@ -75,7 +75,8 @@
   "RADIOSTATION_CREATE": {
     "ALGORITHM": "Algorithm",
     "RESET": "Reset",
-    "START": "Start",
+    "START": "Start new Radiostation",
+    "UPDATE": "Update current Radiostation",
     "BY_FEATURE": "By Features",
     "BY_SONG": "By Song",
     "TITLE": "Start playback with the following song",

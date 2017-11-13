@@ -13,7 +13,7 @@ import {RadiostationService} from './radiostation.service';
 @Injectable()
 export class FeedbackService {
 
-    private feedbackUrl = Config.serverUrl + '/api/track/feedback';  // URL to web api
+    private feedbackUrl: string = Config.serverUrl + '/api/track/feedback';  // URL to web api
 
     private dialogRef: MdDialogRef<any>;
 
@@ -61,7 +61,7 @@ export class FeedbackService {
      * @param track track to give feedback to
      * @param like is the track liked? If false, the track will be disliked
      */
-    public postSimpleFeedback(track: Track, like: boolean) {
+    public postSimpleFeedback(track: Track, like: boolean): void {
         let feedback = this.createTrackFeedbackToTrack(track);
         if (like) {
             feedback = this.likeSong(feedback);
