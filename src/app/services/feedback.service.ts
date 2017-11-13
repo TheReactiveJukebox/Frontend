@@ -35,63 +35,13 @@ export class FeedbackService {
         return feedback;
     }
 
-    public dislikeSong(feedback: TrackFeedback): TrackFeedback {
+    private dislikeSong(feedback: TrackFeedback): TrackFeedback {
         feedback.songFeedback = -1;
         return feedback;
     }
 
-    public likeSong(feedback: TrackFeedback): TrackFeedback {
+    private likeSong(feedback: TrackFeedback): TrackFeedback {
         feedback.songFeedback = 1;
-        return feedback;
-    }
-
-    public dislikeArtist(feedback: TrackFeedback): TrackFeedback {
-        feedback.artistFeedback = -1;
-        return feedback;
-    }
-
-    public likeArtist(feedback: TrackFeedback): TrackFeedback {
-        feedback.artistFeedback = 1;
-        return feedback;
-    }
-
-    public dislikeSpeed(feedback: TrackFeedback): TrackFeedback {
-        feedback.speedFeedback = -1;
-        return feedback;
-    }
-
-    public likeSpeed(feedback: TrackFeedback): TrackFeedback {
-        feedback.speedFeedback = 1;
-        return feedback;
-    }
-
-    public dislikeGenre(feedback: TrackFeedback): TrackFeedback {
-        feedback.genreFeedback = -1;
-        return feedback;
-    }
-
-    public likeGenre(feedback: TrackFeedback): TrackFeedback {
-        feedback.genreFeedback = 1;
-        return feedback;
-    }
-
-    public dislikeDynamics(feedback: TrackFeedback): TrackFeedback {
-        feedback.dynamicsFeedback = 1;
-        return feedback;
-    }
-
-    public likeDynamics(feedback: TrackFeedback): TrackFeedback {
-        feedback.dynamicsFeedback = 1;
-        return feedback;
-    }
-
-    public dislikeMood(feedback: TrackFeedback): TrackFeedback {
-        feedback.moodFeedback = -1;
-        return feedback;
-    }
-
-    public likeMood(feedback: TrackFeedback): TrackFeedback {
-        feedback.moodFeedback = 1;
         return feedback;
     }
 
