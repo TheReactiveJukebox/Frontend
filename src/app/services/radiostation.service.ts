@@ -53,6 +53,7 @@ export class RadiostationService implements OnDestroy {
                 console.log('NEW RADIOSTATION: ', data);
                 this.localHistory.clearLocalHistory();
                 this.trackService.refreshTracks();
+                observer.next(data);
                 observer.complete();
             }, (error: any) => {
                 if (error.status == 500 && error.statusText == 'OK') {
@@ -60,6 +61,7 @@ export class RadiostationService implements OnDestroy {
                     this.jukeboxSubject.next(JSON.parse(error._body));
                     this.localHistory.clearLocalHistory();
                     this.trackService.refreshTracks();
+                    observer.next(error._body);
                     observer.complete();
                 } else {
                     console.log('Creating new Radiostation failed!', error);

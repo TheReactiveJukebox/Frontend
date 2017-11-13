@@ -9,7 +9,7 @@ export class TrackFeedback {
     songFeedback: number = 0;
     artistFeedback: number = 0;
     speedFeedback: number = 0;
-    genreFeedback: number = 0;
+    genreFeedback: {genre: string, feedback: number}[];
     dynamicsFeedback: number = 0;
     moodFeedback: number = 0;
 

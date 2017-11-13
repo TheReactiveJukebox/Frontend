@@ -28,7 +28,6 @@ export class RadiostationByFeatureComponent implements OnInit {
     genres = [];
     //mocked moods
     moods = ['crazy', 'happy', 'sad'];
-    tileId: number = 0;
 
     public speedLowerLimit = Config.speedLowerLimit;
     public speedUpperLimit = Config.speedUpperLimit;

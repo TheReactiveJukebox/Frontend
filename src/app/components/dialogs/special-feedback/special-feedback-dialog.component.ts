@@ -23,11 +23,11 @@ export class SpecialFeedbackDialogComponent {
     }
 
     btnLikeGenre() {
-        this.cFeedback.genreFeedback = 1;
+        this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: 1}];
     }
 
     btnDislikeGenre() {
-        this.cFeedback.genreFeedback = -1;
+        this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: -1}];
     }
 
     btnLikeTitle() {
