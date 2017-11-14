@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
@@ -11,7 +11,6 @@ import {TrackService} from '../../services/track.service';
     styleUrls: ['./player-control-bar.component.scss'],
 })
 export class PlayerControlBarComponent implements OnInit, OnDestroy {
-
 
     public currentTrack: Track;
     public title: string = '???';
@@ -26,7 +25,6 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
         // gets destroyed.
@@ -36,7 +34,6 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
                 this.trackUpdated();
             })
         );
-
     }
 
     ngOnDestroy(): void {
@@ -65,7 +62,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.playerService.setProgress(event.offsetX / window.innerWidth * this.duration);
     }
 
-    public onSliderChange(value): void {
+    public onSliderChange(value: number): void {
         this.playerService.setVolume(value);
     }
 
@@ -79,10 +76,6 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
     public getSpecialFeedback(): void {
         this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
-    }
-
-    public getTendencyFeedback(): void {
-        this.feedbackService.openTendencyFeedbackDialog();
     }
 
 }

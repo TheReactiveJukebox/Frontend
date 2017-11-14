@@ -3,30 +3,40 @@
 
     <div id="feature-container">
         <!-- create the tiles used to select the feature -->
-        <md-card class="tile" *ngFor="let tile of tiles" [@expand]="tile">
-            <button md-icon-button id="close-tile-button" (click)="remove(tile.id)">
+        <md-card class="tile" *ngFor="let property of getKeys()" [@expand]="property">
+            <button md-icon-button class="close-tile-button" (click)="removeProperty(property)">
                 <md-icon>close</md-icon>
             </button>
-            {{'RADIOSTATION_CREATE.'+ tile.type.toUpperCase() | translate}}
-            <br>
-            <md-select *ngIf="tile.type == keys.genre" [(ngModel)]="tile.value">
-                <md-option *ngFor="let option of genres" [value]="option">
-                    {{option}}
-                </md-option>
-            </md-select>
-            <md-select *ngIf="tile.type == keys.mood" [(ngModel)]="tile.value">
+            <p>{{'RADIOSTATION_CREATE.'+ property.toUpperCase() | translate}}</p>
+            <md-select *ngIf="property == 'mood'" [(ngModel)]="radiostation.mood">
                 <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
             </md-select>
-            <md-card class="year-container" *ngIf="tile.type == keys.startYear">
-                <input mdInput type="number" min="1000"
-                       max="3000" step="1"
-                       [(ngModel)]="tile.value"/>
+            <md-card class="year-container" *ngIf="property == 'startYear'">
+                <div class="slider-label">{{sliderStart.displayValue}}</div>
+                <md-slider #sliderStart [min]="yearLowerLimit" [max]="getMaxYear()" [step]="1" [(ngModel)]="radiostation.startYear"></md-slider>
             </md-card>
-            <md-card class="year-container" *ngIf="tile.type == keys.endYear">
-                <input mdInput type="number" min="1000" max="3000"
-                       step="1"
-                       [(ngModel)]="tile.value"/>
+            <md-card class="year-container" *ngIf="property == 'endYear'">
+                <div class="slider-label">{{sliderEnd.displayValue}}</div>
+                <md-slider #sliderEnd [min]="getMinYear()" [max]="yearUpperLimit" [step]="1" [(ngModel)]="radiostation.endYear"></md-slider>
             </md-card>
+            <md-card class="year-container" *ngIf="property == 'speed'">
+                <div class="slider-label">{{sliderSpeed.displayValue}}</div>
+                <md-slider #sliderSpeed [min]="speedLowerLimit" [max]="speedUpperLimit" [step]="1" [(ngModel)]="radiostation.speed"></md-slider>
+            </md-card>
+            <md-card class="year-container" *ngIf="property == 'dynamic'">
+                <div class="slider-label">{{sliderDynamic.displayValue}}</div>
+                <md-slider #sliderDynamic [min]="dynamicLowerLimit" [max]="dynamicUpperLimit" [step]="0.05" [(ngModel)]="radiostation.dynamic"></md-slider>
+            </md-card>
+        </md-card>
+
+        <md-card class="tile" *ngFor="let genre of radiostation.genres;let i = index" [@expand]="genre">
+            <button md-icon-button class="close-tile-button" (click)="removeGenre(i)">
+                <md-icon>close</md-icon>
+            </button>
+            <p>{{'RADIOSTATION_CREATE.GENRE' | translate}}</p>
+            <md-select [(ngModel)]="radiostation.genres[i]">
+                <md-option *ngFor="let option of genres" [value]="option">{{option}}</md-option>
+            </md-select>
         </md-card>
 
         <button md-raised-button id="add-button" class="mat-accent" (click)="selectConstraint()">
@@ -37,7 +47,9 @@
     <div id="bottom-bar">
         <button md-raised-button (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}
         </button>
-        <button md-raised-button id="reset" (click)="reset()">{{'RADIOSTATION_CREATE.RESET' | translate}}
+        <button md-raised-button (click)="update()">{{'RADIOSTATION_CREATE.UPDATE' | translate}}
+        </button>
+        <button md-raised-button id="reset" (click)="resetRadiostation()">{{'RADIOSTATION_CREATE.RESET' | translate}}
         </button>
     </div>
 </div>

@@ -14,7 +14,7 @@ import { AuthHttp } from './auth/auth-http';
 @Injectable()
 export class SearchService {
 
-    private static MIN_QUERY_LENGTH = 1;
+    private static MIN_QUERY_LENGTH: number = 1;
 
     constructor(private authHttp: AuthHttp) { }
 
@@ -25,38 +25,38 @@ export class SearchService {
 
 
     //TODO: Transfer endpoint paths to a separate API class
-    trackSearch(terms: Observable<string>) {
+    trackSearch(terms: Observable<string>): Observable<any> {
         return terms.debounceTime(400)
             .distinctUntilChanged()
             .switchMap(term => this.apiCall(term, '/api/track?titlesubstr='));
     }
 
-    artistSearch(terms: Observable<string>) {
+    artistSearch(terms: Observable<string>): Observable<any> {
         return terms.debounceTime(400)
             .distinctUntilChanged()
             .switchMap(term => this.apiCall(term, '/api/artist?namesubstr='));
     }
 
-    albumSearch(terms: Observable<string>) {
+    albumSearch(terms: Observable<string>): Observable<any> {
         return terms.debounceTime(400)
             .distinctUntilChanged()
             .switchMap(term => this.apiCall(term, '/api/album?titlesubstr='));
     }
 
-    getArtistSongs(terms: Observable<string>) {
+    getArtistSongs(terms: Observable<string>): Observable<any> {
         return terms.debounceTime(200)
             .distinctUntilChanged()
             .switchMap(term => this.apiCall(term, '/api/track?artist='));
     }
 
-    getAlbumSongs(terms: Observable<string>) {
+    getAlbumSongs(terms: Observable<string>): Observable<any> {
         return terms.debounceTime(200)
             .distinctUntilChanged()
             .switchMap(term => this.apiCall(term, '/api/track?album='));
     }
 
     // Function should call our API correctly
-    apiCall(term: string, endpoint) {
+    apiCall(term: string, endpoint: string): Observable<any> {
         let count = '';
         if (term.length < SearchService.MIN_QUERY_LENGTH) {
             count = 'xxtzt?count=0';

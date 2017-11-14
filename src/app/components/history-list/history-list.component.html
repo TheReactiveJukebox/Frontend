@@ -10,12 +10,14 @@
         <div class="history-container" *ngIf="this.isExpanded" [@fadeIn]="this.isExpanded">
             <track-list-item [track]="track"
                              (onDelete)="this.historyService.deleteFromPersistentHistory(track.historyId); this.indirectFeedback(track)"
+                             [showPlay]="false"
                              *ngFor="let track of this.historyService.history.slice(0,this.historyService.history.length - this.visibilityLimit)">
             </track-list-item>
             <md-divider></md-divider>
         </div>
         <track-list-item [track]="track"
                          (onDelete)="this.historyService.deleteFromPersistentHistory(track.historyId); this.indirectFeedback(track)"
+                         [showPlay]="false"
                          *ngFor="let track of this.historyService.history.slice(this.visibilityLimit * -1)">
         </track-list-item>
     </md-nav-list>

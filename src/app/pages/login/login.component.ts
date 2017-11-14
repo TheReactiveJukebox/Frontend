@@ -12,7 +12,7 @@ import {AuthService} from '../../services/auth/auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
     @HostListener('window:keydown', ['$event'])
-    keyboardInput(event: KeyboardEvent) {
+    keyboardInput(event: KeyboardEvent): void {
         if (event.key == 'Enter') {
             if (this.tabGroup.selectedIndex == 0) {
                 this.login();

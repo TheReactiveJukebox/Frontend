@@ -4,9 +4,10 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 import {Subscription} from 'rxjs/Subscription';
 import {Config} from '../config';
-import {Jukebox} from '../models/jukebox';
+import {Radiostation} from '../models/radiostation';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {HistoryService} from './history.service';
@@ -18,17 +19,17 @@ export class RadiostationService implements OnDestroy {
 
     private subscriptions: Subscription[];
     private algorithms: BehaviorSubject<string[]>;
-    private jukeboxSubject: BehaviorSubject<Jukebox>;
+    private jukeboxSubject: BehaviorSubject<Radiostation>;
 
-    private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
-    private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
-    private algorithmsApiUrl = Config.serverUrl + '/api/jukebox/algorithms';
+    private radiostationApiUrl: string = Config.serverUrl + '/api/jukebox';  // URL to web api
+    private historyApiUrl: string = Config.serverUrl + '/api/history';  // URL to web api
+    private algorithmsApiUrl: string = Config.serverUrl + '/api/jukebox/algorithms';
 
     constructor(private trackService: TrackService,
                 private authHttp: AuthHttp,
                 private localHistory: HistoryService) {
         this.algorithms = new BehaviorSubject<string[]>([]);
-        this.jukeboxSubject = new BehaviorSubject<Jukebox>(null);
+        this.jukeboxSubject = new BehaviorSubject<Radiostation>(null);
         this.subscriptions = [];
         this.fetchRadiostation();
         this.fetchAlgorithms();
@@ -43,28 +44,37 @@ export class RadiostationService implements OnDestroy {
     }
 
     //starts a new radiostation with given creation criteria
-    public startNewRadiostation(creationParameters: any): void {
-        console.log('Starting New Radiostation');
-        this.deleteRadiostation();
+    public startNewRadiostation(radiostation: Radiostation): Observable<any> {
+        return Observable.create((observer: Observer<any>) => {
+            console.log('Starting New Radiostation');
 
-        this.authHttp.post(this.radiostationApiUrl, creationParameters).subscribe((data: Jukebox) => {
-            this.jukeboxSubject.next(data);
-            this.trackService.refreshTracks();
-        }, (error: any) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
-                this.jukeboxSubject.next(JSON.parse(error._body));
+            this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                this.jukeboxSubject.next(data);
+                console.log('NEW RADIOSTATION: ', data);
+                // reset local history, when a new radiostation is created. Do not reset history on update calls
+                if (radiostation.id == null) {
+                    this.localHistory.clearLocalHistory();
+                }
                 this.trackService.refreshTracks();
-            } else {
-                console.log('Creating new Radiostation failed!', error);
-            }
+                observer.next(data);
+                observer.complete();
+            }, (error: any) => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
+                    this.jukeboxSubject.next(JSON.parse(error._body));
+                    // reset local history, when a new radiostation is created. Do not reset history on update calls
+                    if (radiostation.id == null) {
+                        this.localHistory.clearLocalHistory();
+                    }
+                    this.trackService.refreshTracks();
+                    observer.next(error._body);
+                    observer.complete();
+                } else {
+                    console.log('Creating new Radiostation failed!', error);
+                    observer.error(error);
+                }
+            });
         });
-    }
-
-    //deletes the current radiostation - currently not in use
-    public deleteRadiostation(): void {
-        this.jukeboxSubject.next(null);
-        this.localHistory.clearLocalHistory();
     }
 
     //saves the song to the history by sending its id to the corresponding api endpoint
@@ -93,7 +103,20 @@ export class RadiostationService implements OnDestroy {
     }
 
     public fetchRadiostation(): void {
-        this.authHttp.get(this.radiostationApiUrl).subscribe((jukebox: Jukebox) => {
+        this.authHttp.get(this.radiostationApiUrl).subscribe((jukebox: Radiostation) => {
+            this.jukeboxSubject.next(jukebox);
+        }, error => {
+            if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
+                this.jukeboxSubject.next(JSON.parse(error._body));
+            } else {
+                console.log('Error fetching radiostation: ', error);
+            }
+        });
+    }
+
+    public updateRadiostation(radiostation: Radiostation): void {
+        this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((jukebox: Radiostation) => {
             this.jukeboxSubject.next(jukebox);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
@@ -120,11 +143,11 @@ export class RadiostationService implements OnDestroy {
         return this.jukeboxSubject.getValue() != null;
     }
 
-    public getJukeboxSubject(): BehaviorSubject<Jukebox> {
+    public getJukeboxSubject(): BehaviorSubject<Radiostation> {
         return this.jukeboxSubject;
     }
 
-    public getJukebox(): Jukebox {
+    public getJukebox(): Radiostation {
         return this.jukeboxSubject.getValue();
     }
 

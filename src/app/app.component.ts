@@ -4,7 +4,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { OverlayContainer } from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import {AppState} from './services/app.service';
 import {AuthService} from './services/auth/auth.service';
 
 /**
@@ -48,7 +47,7 @@ export class AppComponent implements OnInit {
         });
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         // subscribe to some source of theme change events, then...
         this.themeClass = 'default-theme';
         this.overlayContainer.getContainerElement().classList.add('default-theme');

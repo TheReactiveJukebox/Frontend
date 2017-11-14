@@ -11,27 +11,39 @@
     flex-flow: row wrap;
 
     .tile {
-      height: 80px;
-      width: 200px;
+      height: 100px;
+      width: 220px;
       margin: $default-margin;
       display: block;
-      padding: 20px;
+      padding: 10px;
       text-align: center;
       vertical-align: middle;
       background-color: mat-color($default-theme-accent);
       overflow: hidden;
 
-      #close-tile-button {
+      p {
+        margin-top: 5px;
+        margin-bottom: 10px;
+      }
+
+      .close-tile-button {
         position: absolute;
         top: -7px;
         right: -7px;
       }
 
       .year-container {
-        width: 60px;
-        height: 19px;
-        padding: 3px;
-        margin-left: 70px;
+        .slider-label {
+          width: 50px;
+        }
+
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        width: 180px;
+        height: 35px;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
 

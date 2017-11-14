@@ -46,8 +46,7 @@
     "SPECIALFEEDBACK": "Grund angeben",
     "NO_TRACK": "Bitte erstelle eine Radiostation um Musik zu hören",
     "HISTORY_TOOL_TIP": "Wiedergabeverlauf",
-    "REFRESH": "Songliste aktualisieren",
-    "TENDISC": "Feedback zur Tendenz angeben"
+    "REFRESH": "Songliste aktualisieren"
   },
   "FEEDBACK_DIALOG": {
     "LIKE": "Bewerte",
@@ -76,15 +75,18 @@
   "RADIOSTATION_CREATE": {
     "ALGORITHM": "Algorithmus",
     "RESET": "Zurücksetzen",
-    "START": "Start",
+    "START": "Starte neue Radiostation",
+    "UPDATE": "Aktualisiere aktuelle Radiostation",
     "BY_FEATURE": "Nach Merkmalen",
     "BY_SONG": "Nach Startsong",
     "TITLE": "Beginne die Wiedergabe mit folgendem Song",
     "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
     "GENRE": "Welches Genre willst du hören?",
     "MOOD": "In welcher Stimmung bist du?",
-    "YEAR-START": "Wie alt sollen die Lieder höchtens sein?",
-    "YEAR-END": "Wie neu dürfen die Lieder sein?"
+    "ENDYEAR": "Wie alt sollen die Lieder höchtens sein?",
+    "STARTYEAR": "Wie neu dürfen die Lieder sein?",
+    "SPEED": "Wähle die BPM aus!",
+    "DYNAMIC": "Wie dynamisch soll dein Radio sein?"
   },
   "ADD_CONSTRAINT": {
     "ALREADY_CONTAINED": "Dieses Merkmal ist bereits vorhanden!",
@@ -92,6 +94,8 @@
     "GENRE": "Genre",
     "MOOD": "Stimmung",
     "YEAR-START": "Start-Jahr",
-    "YEAR-END": "End-Jahr"
+    "YEAR-END": "End-Jahr",
+    "SPEED": "Tempo",
+    "DYNAMIC": "Dynamik"
   }
 }

@@ -49,11 +49,11 @@ export class SimpleSearchComponent {
     searchTerm: string;
 
     //Subjects to send the search terms to the service and to fetch results
-    searchTrack$ = new Subject<string>();
-    searchArtist$= new Subject<string>();
-    searchAlbum$ = new Subject<string>();
-    getArtistSongs$ = new Subject<string>();
-    getAlbumSongs$ = new Subject<string>();
+    searchTrack$: Subject<string> = new Subject<string>();
+    searchArtist$: Subject<string> = new Subject<string>();
+    searchAlbum$: Subject<string> = new Subject<string>();
+    getArtistSongs$: Subject<string> = new Subject<string>();
+    getAlbumSongs$: Subject<string> = new Subject<string>();
 
     //Subscribing to the search result observables
     constructor(private searchService: SearchService,
@@ -131,7 +131,7 @@ export class SimpleSearchComponent {
     }
 
     //Invoked on keyup in search field search API is called when a query with more than two characters is send
-    public searches(value): void {
+    public searches(value: string): void {
         this.searchTerm = value.replace(/\s+/g, ''); //Remove whitespaces
 
         this.searchTrack$.next(this.searchTerm);
@@ -139,11 +139,11 @@ export class SimpleSearchComponent {
         this.searchAlbum$.next(this.searchTerm);
     }
 
-    public discography(value): void {
+    public discography(value: string): void {
         this.getArtistSongs$.next(value);
     }
 
-    public album(value): void {
+    public album(value: string): void {
         this.getAlbumSongs$.next(value);
     }
 
