@@ -7,36 +7,67 @@ h2 {
 
 #content-wrapper {
   padding: 10px;
-}
 
-#cover-img-table-wrapper {
-  width: 15%;
-  max-width: 400px;
-  max-height: 400px;
-  min-height: 180px;
-  min-width: 180px;
-
-  .cover-img {
+  #song-info {
+    display: flex;
+    justify-content: flex-start;
     width: 100%;
-    box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
+    position: relative;
+
+    #cover-img-table-wrapper {
+      width: 15%;
+      max-width: 400px;
+      max-height: 400px;
+      min-height: 180px;
+      min-width: 180px;
+
+      .cover-img {
+        width: 100%;
+        box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
+      }
+    }
+
+    #text-container {
+      display: flex;
+      flex-direction: column;
+      margin: 0px 15px;
+
+      .detail-element {
+        margin: 5px 0px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .track-info {
+          margin: 0 10px 0 0;
+        }
+      }
+
+      #sub-text-container {
+        display: flex;
+        justify-content: flex-start;
+
+        .track-details-container {
+          display: flex;
+          flex-direction: column;
+          margin-right: 15px;
+
+          &.right {
+            align-items: flex-end;
+          }
+        }
+      }
+    }
+
+    #action-buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      position: absolute;
+      right: 0;
+      height: 100%;
+    }
   }
-}
-
-.detail-element {
-  margin: 5px 0px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  .track-info {
-    margin: 0 10px 0 0;
-  }
-}
-
-.track-details-container {
-  display: flex;
-  flex-direction: column;
-  margin-right: 15px;
 }
 
 #history-button-toggle-off {

@@ -66,12 +66,8 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.playerService.setVolume(value);
     }
 
-    public like(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, true);
-    }
-
-    public dislike(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, false);
+    public feedback(): void {
+        this.feedbackService.postTrackFeedback(this.currentTrack);
     }
 
 }

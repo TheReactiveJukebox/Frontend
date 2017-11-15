@@ -73,10 +73,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     // TODO add timer to avoid multiple calls
     public onTrackFeedbackChanged(): void {
-        this.feedbackService.postTrackFeedback(this.currentTrack.trackFeedback)
-            .subscribe((feedback: TrackFeedback) => {
-            this.currentTrack.trackFeedback = feedback;
-        });
+        this.feedbackService.postTrackFeedback(this.currentTrack);
     }
 
 }

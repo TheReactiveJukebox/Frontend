@@ -1,17 +1,17 @@
 <div [class]="'themeClass'" id="content-wrapper">
     <md-card *ngIf="!currentTrack">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
-    <div style="display: flex; justify-content: flex-start; width: 100%; position: relative" *ngIf="currentTrack">
+    <div id="song-info" *ngIf="currentTrack">
         <div id="cover-img-table-wrapper">
             <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
             <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
         </div>
 
-        <div style="display: flex; flex-direction: column; margin: 0px 15px;">
+        <div id="text-container">
             <div class="detail-element">
                 <h1 class="track-info">{{currentTrack.title}}</h1>
                 <like (click)="onTrackFeedbackChanged()" [(value)]="currentTrack.trackFeedback.songFeedback"></like>
             </div>
-            <div style="display: flex; justify-content: flex-start">
+            <div id="sub-text-container">
                 <div class="track-details-container">
                     <div class="detail-element">
                         <h3 class="track-info">{{currentTrack.artist.name}}</h3>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="track-details-container" style="align-items: flex-end">
+                <div class="track-details-container right">
                     <div *ngIf="currentTrack.genres.length > 0" class="detail-element">
                         <a class="track-info">{{currentTrack.genres[0]}} </a>
                         <like></like>
@@ -41,7 +41,7 @@
         </div>
 
         <!-- This div is ignoring the flex-layout set by it's parent! -->
-        <div style="display: flex; flex-direction: column; justify-content: space-around; position: absolute; right: 0; height: 100%">
+        <div id="action-buttons">
             <button md-fab disableRipple="true"
                     id="{{historyButtonClass}}"
                     (click)="btn_history_toggle()"

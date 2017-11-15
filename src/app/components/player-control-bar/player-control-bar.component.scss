@@ -73,16 +73,14 @@ progress::-moz-progress-bar {
 
 #player_current_song_desc {
   position: relative;
-  bottom: 0px;
-  height: 40px;
+  top: 4px;
+  height: 36px;
   color: white;
-  line-height: 40px;
+  line-height: 36px;
   text-align: center;
-  padding: 0px !important;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  margin-top: 4px;
   background: mat-color($default-theme-accent);
 }
 
@@ -90,17 +88,16 @@ progress::-moz-progress-bar {
   font-weight: bold;
 }
 .position_wrapper {
-  margin-left: 30px;
+  margin-left: 15px;
 }
 
-#feedback_wrapper {
-  margin-left: 30px;
-  color: white;
-  float: left;
-  flex-flow: row;
-  padding: 0px !important;
-  -moz-box-shadow: none;
-  margin-top: 4px;
+#feedback {
+  position: relative;
+  top: 4px;
+  padding-left: 30px;
+  height: 36px;
+  display: flex;
+  align-items: center;
 }
 
 #sound_wrapper {
