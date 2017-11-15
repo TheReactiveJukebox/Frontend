@@ -2,14 +2,15 @@
 @import "../../../styles/styles";
 
 .dislike {
-  background-color: mat-color($default-theme-primary) !important;
+  color: mat-color($default-theme-primary);
 }
 
 .like {
-  background-color: #05af04 !important;
+  color: #05af04;
 }
 
 .like-button {
   float: left;
   margin-right: 4px;
+  cursor: pointer;
 }

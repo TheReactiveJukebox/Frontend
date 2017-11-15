@@ -74,8 +74,4 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.feedbackService.postSimpleFeedback(this.currentTrack, false);
     }
 
-    public getSpecialFeedback(): void {
-        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
-    }
-
 }

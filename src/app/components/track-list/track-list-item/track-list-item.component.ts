@@ -52,10 +52,6 @@ export class TrackListItemComponent {
         this.feedbackService.postSimpleFeedback(this.track, false);
     }
 
-    public round(value: number): number {
-        return Math.round(value);
-    }
-
     public hideItem(): void {
         this.showItem = false;
     }

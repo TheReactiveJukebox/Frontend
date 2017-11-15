@@ -35,7 +35,6 @@ import {RadiostationByFeatureComponent} from './components/create-radiostation/b
 import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
 import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
-import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback/special-feedback-dialog.component';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {LikeComponent} from './components/like/like.component';
 import {PageTitleComponent} from './components/page-title/page-title.component';
@@ -73,7 +72,6 @@ import {TrackService} from './services/track.service';
         TrackListComponent,
         CurrentTrackComponent,
         PlayerControlBarComponent,
-        SpecialFeedbackDialogComponent,
         AddConstraintDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
@@ -104,7 +102,6 @@ import {TrackService} from './services/track.service';
         })
     ],
     entryComponents: [
-        SpecialFeedbackDialogComponent,
         AddConstraintDialogComponent
     ],
     /**

@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
+import {TrackFeedback} from '../../models/track-feedback';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
 import {TrackService} from '../../services/track.service';
@@ -45,31 +46,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    public btn_like(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, true);
-
-        this.btnVisible = true;
-        //wait 3 seconds and hide
-        setTimeout(function (): void {
-            this.btnVisible = false;
-        }.bind(this), 3000);
-    }
-
-    public btn_dislike(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, false);
-
-        this.btnVisible = true;
-        //wait 3 seconds and hide
-        setTimeout(function (): void {
-            this.btnVisible = false;
-        }.bind(this), 3000);
-    }
-
-    //opens a dialog for special feedback
-    public dialog_special_feedback(): void {
-        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
-    }
-
     public btn_history_toggle(): void {
         if (this.historyService.historyVisible) {
             this.historyService.historyVisible = false;
@@ -82,6 +58,25 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     public btn_renew(): void {
         this.trackService.refreshUpcomingTracks();
+    }
+
+    public round(value: number, digits?: number): number {
+        if (digits) {
+            value *= Math.pow(10, digits);
+            value = Math.round(value);
+            value /= Math.pow(10, digits);
+            return value;
+        } else {
+            return Math.round(value);
+        }
+    }
+
+    // TODO add timer to avoid multiple calls
+    public onTrackFeedbackChanged(): void {
+        this.feedbackService.postTrackFeedback(this.currentTrack.trackFeedback)
+            .subscribe((feedback: TrackFeedback) => {
+            this.currentTrack.trackFeedback = feedback;
+        });
     }
 
 }

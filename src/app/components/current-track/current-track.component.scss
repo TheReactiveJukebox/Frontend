@@ -7,69 +7,36 @@ h2 {
 
 #content-wrapper {
   padding: 10px;
-  width: 25%;
-  vertical-align: top;
-}
-
-.cover-img {
-  max-width: 400px;
-  max-height: 400px;
-  width: 100%;
-  min-height: 180px;
-  min-width: 180px;
-  box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
-}
-
-#now-playing-details-table {
-  width: 100%;
 }
 
 #cover-img-table-wrapper {
   width: 15%;
   max-width: 400px;
+  max-height: 400px;
+  min-height: 180px;
+  min-width: 180px;
+
+  .cover-img {
+    width: 100%;
+    box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
+  }
 }
 
-#now-playing-details-table-wrapper {
-  width: 55%;
-  vertical-align: top;
+.detail-element {
+  margin: 5px 0px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .track-info {
+    margin: 0 10px 0 0;
+  }
 }
 
-.history-button-table-wrapper {
-  width:10%;
-}
-
-#refresh-recommends-wrapper {
-  width: 30%;
-}
-
-#now-playing-details-wrapper {
-  padding-left: 28px;
-}
-
-.feedback-button-wrapper {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  position: relative;
-  left: 0;
-  bottom: 0;
-  margin: $default-margin;
-}
-
-#feedback-button-table {
-  margin-top: 15px;
-  margin-left: -10px;
-}
-
-#duration_table {
-  margin-top: 15px;
-}
-
-#special-feedback-btn {
-  position: relative;
-  left: 0;
-  bottom: 0;
-  margin: $default-margin;
+.track-details-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px;
 }
 
 #history-button-toggle-off {
@@ -78,9 +45,4 @@ h2 {
 
 #history-button-toggle-on {
   background-color: mat-color($default-theme-primary);
-}
-
-.track-info {
-  margin-bottom: 5px;
-  margin-top: 0;
 }

@@ -2,24 +2,18 @@
  * This service takes care of feedback
  */
 import {Injectable} from '@angular/core';
-import {MdDialog, MdDialogRef} from '@angular/material';
-import {SpecialFeedbackDialogComponent} from '../components/dialogs/special-feedback/special-feedback-dialog.component';
+import {Observable} from 'rxjs/Observable';
 import {Config} from '../config';
 import {Track} from '../models/track';
 import {TrackFeedback} from '../models/track-feedback';
 import {AuthHttp} from './auth/auth-http';
-import {RadiostationService} from './radiostation.service';
 
 @Injectable()
 export class FeedbackService {
 
     private feedbackUrl: string = Config.serverUrl + '/api/track/feedback';  // URL to web api
 
-    private dialogRef: MdDialogRef<any>;
-
-    constructor(public radiostationService: RadiostationService,
-                public dialog: MdDialog,
-                private authHttp: AuthHttp) {}
+    constructor(private authHttp: AuthHttp) {}
 
     /**
      * Creates a TrackFeedback object which is matching to the given track and the current radio
@@ -44,14 +38,21 @@ export class FeedbackService {
         return feedback;
     }
 
-    public postTrackFeedback(feedback: TrackFeedback): void {
-        this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: any) => {
-        }, (error: Response) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-            } else {
-                console.warn('Sending feedback failed: ', error);
-            }
+    public postTrackFeedback(feedback: TrackFeedback): Observable<TrackFeedback> {
+        return Observable.create(observer => {
+            this.authHttp.post(this.feedbackUrl, feedback).subscribe((data: TrackFeedback) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                    observer.next(error._body);
+                    observer.complete();
+                } else {
+                    console.warn('Sending feedback failed: ', error);
+                    observer.error(error);
+                }
+            });
         });
     }
 
@@ -67,23 +68,7 @@ export class FeedbackService {
         } else {
             feedback = this.dislikeSong(feedback);
         }
-        this.postTrackFeedback(feedback);
+        this.postTrackFeedback(feedback).subscribe();
     }
 
-    public openTrackFeedbackDialog(track: Track): void {
-        this.dialogRef = this.dialog.open(SpecialFeedbackDialogComponent);
-        this.dialogRef.componentInstance.cTrack = track;
-        this.dialogRef.componentInstance.cFeedback = this.createTrackFeedbackToTrack(track);
-        this.dialogRef.afterClosed().subscribe((result: string) => {
-            if (result == '1' || result == '2') {
-                this.postTrackFeedback(this.dialogRef.componentInstance.cFeedback);
-                console.log('FEEDBACK: ', this.dialogRef.componentInstance.cFeedback);
-                if (result == '2') {
-                    this.radiostationService.refreshTrackList();
-                }
-            }
-            this.dialogRef = null;
-
-        });
-    }
 }

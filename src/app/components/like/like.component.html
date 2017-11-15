@@ -1,16 +1,12 @@
 <div>
-    <button class="like-button"
-            md-icon-button
-            md-mini-fab disableRipple="true"
+    <md-icon class="like-button"
             [ngClass]="{'like': value == 1}"
             (click)="like()">
-        <md-icon>thumb_up</md-icon>
-    </button>
-    <button
-            md-icon-button
-            md-mini-fab disableRipple="true"
+        thumb_up
+    </md-icon>
+    <md-icon class="like-button"
             [ngClass]="{'dislike': value == -1}"
             (click)="dislike()">
-        <md-icon>thumb_down</md-icon>
-    </button>
+        thumb_down
+    </md-icon>
 </div>

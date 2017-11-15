@@ -1,5 +1,9 @@
 @import "../../../../theme.scss";
 
+::ng-deep .mat-list-item-content {
+  padding: 0 10px !important;
+}
+
 .tl-cover-col{
   width: 5%;
   text-align: left;
