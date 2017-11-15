@@ -8,9 +8,7 @@ import {Observer} from 'rxjs/Observer';
 import {Subscription} from 'rxjs/Subscription';
 import {Config} from '../config';
 import {Radiostation} from '../models/radiostation';
-import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
-import {HistoryService} from './history.service';
 import {TrackService} from './track.service';
 
 
@@ -22,12 +20,10 @@ export class RadiostationService implements OnDestroy {
     private radiostationSubject: BehaviorSubject<Radiostation>;
 
     private radiostationApiUrl: string = Config.serverUrl + '/api/jukebox';  // URL to web api
-    private historyApiUrl: string = Config.serverUrl + '/api/history';  // URL to web api
     private algorithmsApiUrl: string = Config.serverUrl + '/api/jukebox/algorithms';
 
     constructor(private trackService: TrackService,
-                private authHttp: AuthHttp,
-                private localHistory: HistoryService) {
+                private authHttp: AuthHttp) {
         this.algorithms = new BehaviorSubject<string[]>([]);
         this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
         this.subscriptions = [];
@@ -51,10 +47,6 @@ export class RadiostationService implements OnDestroy {
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.radiostationSubject.next(data);
                 console.log('NEW RADIOSTATION: ', data);
-                // reset local history, when a new radiostation is created. Do not reset history on update calls
-                if (radiostation.id == null) {
-                    this.localHistory.clearLocalHistory();
-                }
                 this.trackService.refreshTracks();
                 observer.next(data);
                 observer.complete();
@@ -62,10 +54,6 @@ export class RadiostationService implements OnDestroy {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
                     this.radiostationSubject.next(JSON.parse(error._body));
-                    // reset local history, when a new radiostation is created. Do not reset history on update calls
-                    if (radiostation.id == null) {
-                        this.localHistory.clearLocalHistory();
-                    }
                     this.trackService.refreshTracks();
                     observer.next(error._body);
                     observer.complete();
@@ -75,31 +63,6 @@ export class RadiostationService implements OnDestroy {
                 }
             });
         });
-    }
-
-    //saves the song to the history by sending its id to the corresponding api endpoint
-    public writeToHistory(track: Track): void {
-        if (this.localHistory.history.length > 0 && this.localHistory.history.slice(-1)[0].id == track.id) {
-            return;
-        }
-        this.localHistory.writeToLocalHistory(track);
-        let reqBody = {
-            trackId: track.id,
-            radioId: this.getRadiostation().id
-        };
-
-        this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
-            track.historyId = data.id;
-        }, (error: any) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
-                console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
-                track.historyId = JSON.parse(error._body).id;
-            } else {
-                console.log('Writing "' + track.title + '" to history failed!', error);
-            }
-        });
-
     }
 
     public fetchRadiostation(): void {
