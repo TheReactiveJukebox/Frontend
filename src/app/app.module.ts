@@ -37,6 +37,7 @@ import {CurrentTrackComponent} from './components/current-track/current-track.co
 import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
 import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback/special-feedback-dialog.component';
 import {HistoryListComponent} from './components/history-list/history-list.component';
+import {LikeComponent} from './components/like/like.component';
 import {PageTitleComponent} from './components/page-title/page-title.component';
 import {PlayerControlBarComponent} from './components/player-control-bar/player-control-bar.component';
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
@@ -56,7 +57,6 @@ import {PlayerService} from './services/player.service';
 import {RadiostationService} from './services/radiostation.service';
 import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
-import {LikeComponent} from './components/like/like.component';
 
 
 /**
