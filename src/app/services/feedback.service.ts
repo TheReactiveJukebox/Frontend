@@ -77,6 +77,7 @@ export class FeedbackService {
         this.dialogRef.afterClosed().subscribe((result: string) => {
             if (result == '1' || result == '2') {
                 this.postTrackFeedback(this.dialogRef.componentInstance.cFeedback);
+                console.log('FEEDBACK: ', this.dialogRef.componentInstance.cFeedback);
                 if (result == '2') {
                     this.radiostationService.refreshTrackList();
                 }

@@ -56,6 +56,7 @@ import {PlayerService} from './services/player.service';
 import {RadiostationService} from './services/radiostation.service';
 import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
+import {LikeComponent} from './components/like/like.component';
 
 
 /**
@@ -79,7 +80,8 @@ import {TrackService} from './services/track.service';
         SimpleSearchComponent,
         HistoryListComponent,
         TrackListItemComponent,
-        PageTitleComponent
+        PageTitleComponent,
+        LikeComponent
     ],
     /**
      * Import Angular's modules.
