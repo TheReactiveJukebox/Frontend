@@ -12,11 +12,10 @@ import {TrackService} from '../../services/track.service';
 })
 export class CurrentTrackComponent implements OnInit, OnDestroy {
 
-    currentTrack: Track;
-    btnVisible: boolean = false;
+    public currentTrack: Track;
+    public btnVisible: boolean = false;
     private subscriptions: Subscription[];
-    historyButtonClass: string = 'reducedHistory-button-toggle-off';
-
+    public historyButtonClass: string = 'reducedHistory-button-toggle-off';
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
@@ -25,7 +24,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         this.subscriptions = [];
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
 
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
@@ -38,7 +37,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
         for (let subscription of this.subscriptions) {
@@ -46,7 +45,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_like(): void {
+    public btn_like(): void {
         this.feedbackService.postSimpleFeedback(this.currentTrack, true);
 
         this.btnVisible = true;
@@ -56,7 +55,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
     }
 
-    btn_dislike(): void {
+    public btn_dislike(): void {
         this.feedbackService.postSimpleFeedback(this.currentTrack, false);
 
         this.btnVisible = true;
@@ -67,11 +66,11 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     //opens a dialog for special feedback
-    dialog_special_feedback(): void {
+    public dialog_special_feedback(): void {
         this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
     }
 
-    btn_history_toggle(): void {
+    public btn_history_toggle(): void {
         if (this.historyService.historyVisible) {
             this.historyService.historyVisible = false;
             this.historyButtonClass = 'history-button-toggle-off';
@@ -81,7 +80,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_renew(): void {
+    public btn_renew(): void {
         this.trackService.refreshTrackList();
     }
 

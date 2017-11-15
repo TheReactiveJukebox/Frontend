@@ -15,7 +15,7 @@ import {TrackService} from '../../services/track.service';
 export class TrackListComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[];
-    nextTracks: Track[];
+    public nextTracks: Track[];
 
     constructor(public trackService: TrackService,
                 public indirectFeedbackService: IndirectFeedbackService,
@@ -26,7 +26,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
         this.nextTracks = [];
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         //this.trackService.refreshTracks();
 
         // subscribe to the nextTracks BehaviorSubject in trackService. If it get's changed, it will be automatically
@@ -42,7 +42,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
 
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
         for (let subscription of this.subscriptions) {
@@ -50,7 +50,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
         }
     }
 
-    jumpToTrack(track: Track): void {
+    public jumpToTrack(track: Track): void {
         //if more than 90% of the song are completed, the current Track will be written to the global History
         if (this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9) {
             this.historyService.writeToHistory(this.playerService.currentTrack);
@@ -60,7 +60,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
         this.trackService.jumpToTrack(track);
     }
 
-    indirectFeedback(track: Track): void {
+    public indirectFeedback(track: Track): void {
         //Sends delete feedback with position as zero to indicate deletion from upcoming songs
         this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.getRadiostation().id, 0);
     }

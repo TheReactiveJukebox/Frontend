@@ -20,8 +20,8 @@ import {RadiostationService} from '../../services/radiostation.service';
 })
 export class HistoryListComponent {
 
-    isExpanded: boolean = false;
-    visibilityLimit: number = 5;
+    public isExpanded: boolean = false;
+    public visibilityLimit: number = 5;
 
     constructor(public historyService: HistoryService,
                 private indirectFeedbackService: IndirectFeedbackService,

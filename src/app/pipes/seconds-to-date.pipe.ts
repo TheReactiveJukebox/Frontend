@@ -7,7 +7,7 @@ converted to a representation of minutes and seconds.
 
 @Pipe({name: 'mySecondsToDate'})
 export class SecondsToDatePipe implements PipeTransform {
-    transform(seconds: number): Date {
+    public transform(seconds: number): Date {
         let date: Date = new Date(1970, 0, 1);
         date.setSeconds(seconds);
         return date;

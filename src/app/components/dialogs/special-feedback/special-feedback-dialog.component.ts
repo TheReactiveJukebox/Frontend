@@ -8,57 +8,57 @@ import {TrackFeedback} from '../../../models/track-feedback';
     styleUrls: ['./special-feedback-dialog.component.scss']
 })
 export class SpecialFeedbackDialogComponent {
-    cTrack: Track;
-    cFeedback: TrackFeedback;
+    public cTrack: Track;
+    public cFeedback: TrackFeedback;
 
     constructor() {
     }
 
-    btnLikeArtist(): void {
+    public btnLikeArtist(): void {
         this.cFeedback.artistFeedback = 1;
     }
 
-    btnDislikeArtist(): void {
+    public btnDislikeArtist(): void {
         this.cFeedback.artistFeedback = -1;
     }
 
-    btnLikeGenre(): void {
+    public btnLikeGenre(): void {
         this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: 1}];
     }
 
-    btnDislikeGenre(): void {
+    public btnDislikeGenre(): void {
         this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: -1}];
     }
 
-    btnLikeTitle(): void {
+    public btnLikeTitle(): void {
         this.cFeedback.songFeedback = 1;
     }
 
-    btnDislikeTitle(): void {
+    public btnDislikeTitle(): void {
         this.cFeedback.songFeedback = -1;
     }
 
-    btnLikeMood(): void {
+    public btnLikeMood(): void {
         this.cFeedback.moodFeedback = 1;
     }
 
-    btnDislikeMood(): void {
+    public btnDislikeMood(): void {
         this.cFeedback.moodFeedback = -1;
     }
 
-    btnLikeDynamics(): void {
+    public btnLikeDynamics(): void {
         this.cFeedback.dynamicsFeedback = 1;
     }
 
-    btnDislikeDynamics(): void {
+    public btnDislikeDynamics(): void {
         this.cFeedback.dynamicsFeedback = -1;
     }
 
-    btnLikeSpeed(): void {
+    public btnLikeSpeed(): void {
         this.cFeedback.speedFeedback = 1;
     }
 
-    btnDislikeSpeed(): void {
+    public btnDislikeSpeed(): void {
         this.cFeedback.speedFeedback = -1;
     }
 

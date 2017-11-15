@@ -31,7 +31,7 @@ export class RadiostationService implements OnDestroy {
         this.fetchAlgorithms();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
         for (let subscription of this.subscriptions) {

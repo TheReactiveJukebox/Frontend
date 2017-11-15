@@ -2,16 +2,16 @@
  * Model class for a track feedback
  */
 export class TrackFeedback {
-    id: number = -1;
-    userId: number = -1;
-    radioId: number = -1;
-    trackId: number = -1;
-    songFeedback: number = 0;
-    artistFeedback: number = 0;
-    speedFeedback: number = 0;
-    genreFeedback: {genre: string, feedback: number}[];
-    dynamicsFeedback: number = 0;
-    moodFeedback: number = 0;
+    public id: number = -1;
+    public userId: number = -1;
+    public radioId: number = -1;
+    public trackId: number = -1;
+    public songFeedback: number = 0;
+    public artistFeedback: number = 0;
+    public speedFeedback: number = 0;
+    public genreFeedback: {genre: string, feedback: number}[];
+    public dynamicsFeedback: number = 0;
+    public moodFeedback: number = 0;
 
     constructor(data?: any) {
         if (data) {

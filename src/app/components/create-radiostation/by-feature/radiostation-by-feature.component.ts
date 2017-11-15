@@ -1,5 +1,5 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
@@ -22,11 +22,11 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
         ])
     ]
 })
-export class RadiostationByFeatureComponent implements OnInit {
+export class RadiostationByFeatureComponent {
 
-    genres: string[] = [];
+    public genres: string[] = [];
     //mocked moods
-    moods: string[] = ['crazy', 'happy', 'sad'];
+    public moods: string[] = ['crazy', 'happy', 'sad'];
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
@@ -65,10 +65,6 @@ export class RadiostationByFeatureComponent implements OnInit {
         //TODO: load available moods
     }
 
-    ngOnInit(): void {
-
-    }
-
     //resets the gui
     public resetRadiostation(): void {
         this.radiostation = new Radiostation();
@@ -91,7 +87,7 @@ export class RadiostationByFeatureComponent implements OnInit {
     }
 
     //opens a dialog to select the constraint to specify
-    selectConstraint(): void {
+    public selectConstraint(): void {
         let dialogRef = this.dialog.open(AddConstraintDialogComponent);
         dialogRef.afterClosed().subscribe(result => {
             this.addConstraint(result);
@@ -99,7 +95,7 @@ export class RadiostationByFeatureComponent implements OnInit {
     }
 
     //adds an element to the gui for the keywords
-    addConstraint(result: string): void {
+    public addConstraint(result: string): void {
         //there can be an unlimetd number of genre elements
         if (result == 'genre') {
             if (this.radiostation.genres == null) {

@@ -21,39 +21,39 @@ export class SimpleSearchComponent {
 
     // emits every clicked item
     @Output()
-    selectedItem: EventEmitter<any> = new EventEmitter<any>();
+    public selectedItem: EventEmitter<any> = new EventEmitter<any>();
 
     // emits every clicked item
     @Output()
-    selectedAlbum: EventEmitter<any> = new EventEmitter<any>();
+    public selectedAlbum: EventEmitter<any> = new EventEmitter<any>();
 
     // emits every clicked item
     @Output()
-    selectedArtist: EventEmitter<any> = new EventEmitter<any>();
+    public selectedArtist: EventEmitter<any> = new EventEmitter<any>();
 
     // emits every clicked item
     @Output()
-    selectedTrack: EventEmitter<any> = new EventEmitter<any>();
+    public selectedTrack: EventEmitter<any> = new EventEmitter<any>();
 
     //The search result jsons and their length are stored here by category
-    trackResult: Object;
-    trackResultCount: number;
+    public trackResult: Object;
+    public trackResultCount: number;
 
-    artistResult: Object;
-    artistResultCount: number;
+    public artistResult: Object;
+    public artistResultCount: number;
 
-    albumResult: Object;
-    albumResultCount: number;
+    public albumResult: Object;
+    public albumResultCount: number;
 
     //The trimmed searchTerm
-    searchTerm: string;
+    public searchTerm: string;
 
     //Subjects to send the search terms to the service and to fetch results
-    searchTrack$: Subject<string> = new Subject<string>();
-    searchArtist$: Subject<string> = new Subject<string>();
-    searchAlbum$: Subject<string> = new Subject<string>();
-    getArtistSongs$: Subject<string> = new Subject<string>();
-    getAlbumSongs$: Subject<string> = new Subject<string>();
+    private searchTrack$: Subject<string> = new Subject<string>();
+    private searchArtist$: Subject<string> = new Subject<string>();
+    private searchAlbum$: Subject<string> = new Subject<string>();
+    private getArtistSongs$: Subject<string> = new Subject<string>();
+    private getAlbumSongs$: Subject<string> = new Subject<string>();
 
     //Subscribing to the search result observables
     constructor(private searchService: SearchService,

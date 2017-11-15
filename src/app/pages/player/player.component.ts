@@ -17,7 +17,7 @@ import {TrackService} from '../../services/track.service';
 export class PlayerComponent implements OnInit {
 
     @ViewChild('tabs')
-    tabs: MdTabGroup;
+    private tabs: MdTabGroup;
 
     public showPlayerBar: boolean = false;
 
@@ -34,7 +34,7 @@ export class PlayerComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (this.trackService.hasNextTracks()) {
             this.tabs.selectedIndex = 2;
         } else {

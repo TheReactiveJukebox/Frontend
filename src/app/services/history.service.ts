@@ -11,8 +11,8 @@ import {RadiostationService} from './radiostation.service';
 @Injectable()
 export class HistoryService {
 
-    history: Track[] = [];
-    historyVisible: boolean = false;
+    public history: Track[] = [];
+    public historyVisible: boolean = false;
     private currentRadiostationId: number = -1;
 
     private historyApiUrl: string = Config.serverUrl + '/api/history';

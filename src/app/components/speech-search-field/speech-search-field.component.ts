@@ -14,9 +14,9 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     @Output()
     public detectedText: string;
     @Output()
-    searchCall: EventEmitter<any> = new EventEmitter();
+    public searchCall: EventEmitter<any> = new EventEmitter();
 
-    @Input() minimal: boolean = false;
+    @Input() public minimal: boolean = false;
 
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
@@ -38,7 +38,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         //this.beep.load();
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         // subscribe to Listening Observable. When ever the browser starts or stops listening, this will be called
         this.speechService.isListening().takeUntil(this.ngUnsubscribe).subscribe((listening: boolean) => {
             this.listening = listening;
@@ -46,7 +46,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         this.initializeControlTerms();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
     }

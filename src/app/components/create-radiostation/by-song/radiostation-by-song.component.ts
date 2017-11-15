@@ -12,8 +12,8 @@ import {RadiostationService} from '../../../services/radiostation.service';
 })
 export class RadiostationBySongComponent {
 
-    tracks: Track[];
-    algorithms: string[];
+    public tracks: Track[];
+    public algorithms: string[];
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
@@ -28,7 +28,7 @@ export class RadiostationBySongComponent {
         this.reset();
     }
 
-    reset(): void {
+    public reset(): void {
         this.tracks = [];
         this.radiostation = new Radiostation();
         this.radiostation.algorithm = 'SAGH';

@@ -13,9 +13,9 @@ import {AuthHttp} from './auth/auth-http';
 @Injectable()
 export class TrackService {
 
-    currentTrack: BehaviorSubject<Track>;
-    nextTracks: BehaviorSubject<Track[]>;
-    numberUpcomingSongs: number = 5;
+    public currentTrack: BehaviorSubject<Track>;
+    public nextTracks: BehaviorSubject<Track[]>;
+    private numberUpcomingSongs: number = 5;
 
     // dataCache for artists and albums. Before requesting any data from server, check if it's still here. if not, store
     // it here to reduce waiting for backend
@@ -34,7 +34,7 @@ export class TrackService {
     }
 
     //Refreshes current track and track preview according to current radiostation
-    refreshTracks(): void {
+    public refreshTracks(): void {
         this.fetchNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
@@ -44,7 +44,7 @@ export class TrackService {
     }
 
     //Refreshes current Tracklist
-    refreshTrackList(): void {
+    public refreshTrackList(): void {
         this.fetchNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
             this.nextTracks.next(tracks.slice(1));
         }, error => {
@@ -52,7 +52,7 @@ export class TrackService {
         });
     }
 
-    fetchNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
+    public fetchNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
             let url = this.trackListUrl + '?count=' + count;
             //inculde tracks that are in the current listening queue
@@ -97,7 +97,7 @@ export class TrackService {
     }
 
     // use this method to fill plain track objects provided by server with artist and album data
-    fillData(rawTracks: any[]): Observable<Track[]> {
+    public fillData(rawTracks: any[]): Observable<Track[]> {
         return Observable.create(observer => {
             let missingArtists: number[] = [];
             let missingAlbums: number[] = [];
@@ -154,7 +154,7 @@ export class TrackService {
     }
 
     //Gets the next track from the preview and adds the next track to the preview list
-    nextSong(): Track {
+    public nextSong(): Track {
         let tempTracks: Track[] = this.nextTracks.getValue();
         this.currentTrack.next(tempTracks[0]);
         let nextTrack: Track = tempTracks[0];
@@ -171,7 +171,7 @@ export class TrackService {
         return nextTrack;
     }
 
-    hasNextTracks(): boolean {
+    public hasNextTracks(): boolean {
         return  (this.currentTrack.getValue() != null) ||
                 (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
     }
@@ -181,7 +181,7 @@ export class TrackService {
      * removes the given track from the tracklist
      * @param track to remove
      */
-    removeTrack(track: Track): void {
+    public removeTrack(track: Track): void {
         let currentTracks: Track[] = this.nextTracks.getValue();
         let newTracks: Track[] = new Array(currentTracks.length - 1);
         let removed = 0;
@@ -207,7 +207,7 @@ export class TrackService {
      * skips/remove all tracks between current and choosen track
      * @param track to jump to
      */
-    jumpToTrack(track: Track): Track {
+    public jumpToTrack(track: Track): Track {
         let currentTracks: Track[] = this.nextTracks.getValue();
         let removedTracks: Track[] = new Array();
         let removed = 0;

@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
 export class PageTitleComponent {
 
     @Input()
-    height: number = 40;
+    public height: number = 40;
 
     constructor() {
 

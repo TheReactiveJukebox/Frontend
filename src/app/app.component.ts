@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     private availableLangs: string[] = ['en', 'de'];
     // use this to set correct theme class on app holder
     // eg: <div [class]="themeClass">...</div>
-    themeClass: string;
+    public themeClass: string;
 
     constructor(private authService: AuthService,
                 private translateService: TranslateService,

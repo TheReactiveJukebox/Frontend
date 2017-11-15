@@ -1,14 +1,14 @@
 export class Radiostation {
-    id: number;
-    userId: number;
-    mood: string;
-    startTracks: number[];
-    algorithm: string;
-    startYear: number;
-    endYear: number;
-    speed: number;
-    dynamic: number;
-    genres: string[];
+    public id: number;
+    public userId: number;
+    public mood: string;
+    public startTracks: number[];
+    public algorithm: string;
+    public startYear: number;
+    public endYear: number;
+    public speed: number;
+    public dynamic: number;
+    public genres: string[];
 
     constructor() {
         this.id = null;

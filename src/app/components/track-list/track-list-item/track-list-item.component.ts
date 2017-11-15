@@ -19,22 +19,22 @@ import {FeedbackService} from '../../../services/feedback.service';
 export class TrackListItemComponent {
 
     @Input()
-    track: Track;
+    public track: Track;
 
     @Input()
-    showFeedback: boolean = true;
+    public showFeedback: boolean = true;
 
     @Input()
-    showDelete: boolean = true;
+    public showDelete: boolean = true;
 
     @Input()
-    showPlay: boolean = true;
+    public showPlay: boolean = true;
 
     @Output()
-    onDelete: EventEmitter<any>;
+    public onDelete: EventEmitter<any>;
 
     @Output()
-    onCoverClick: EventEmitter<any>;
+    public onCoverClick: EventEmitter<any>;
 
     public showItem: boolean;
 
@@ -44,11 +44,11 @@ export class TrackListItemComponent {
         this.showItem = true;
     }
 
-    btn_like(): void {
+    public btn_like(): void {
         this.feedbackService.postSimpleFeedback(this.track, true);
     }
 
-    btn_dislike(): void {
+    public btn_dislike(): void {
         this.feedbackService.postSimpleFeedback(this.track, false);
     }
 
