@@ -19,7 +19,7 @@ export class RadiostationService implements OnDestroy {
 
     private subscriptions: Subscription[];
     private algorithms: BehaviorSubject<string[]>;
-    private jukeboxSubject: BehaviorSubject<Radiostation>;
+    private radiostationSubject: BehaviorSubject<Radiostation>;
 
     private radiostationApiUrl: string = Config.serverUrl + '/api/jukebox';  // URL to web api
     private historyApiUrl: string = Config.serverUrl + '/api/history';  // URL to web api
@@ -29,7 +29,7 @@ export class RadiostationService implements OnDestroy {
                 private authHttp: AuthHttp,
                 private localHistory: HistoryService) {
         this.algorithms = new BehaviorSubject<string[]>([]);
-        this.jukeboxSubject = new BehaviorSubject<Radiostation>(null);
+        this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
         this.subscriptions = [];
         this.fetchRadiostation();
         this.fetchAlgorithms();
@@ -49,7 +49,7 @@ export class RadiostationService implements OnDestroy {
             console.log('Starting New Radiostation');
 
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
-                this.jukeboxSubject.next(data);
+                this.radiostationSubject.next(data);
                 console.log('NEW RADIOSTATION: ', data);
                 // reset local history, when a new radiostation is created. Do not reset history on update calls
                 if (radiostation.id == null) {
@@ -61,7 +61,7 @@ export class RadiostationService implements OnDestroy {
             }, (error: any) => {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
-                    this.jukeboxSubject.next(JSON.parse(error._body));
+                    this.radiostationSubject.next(JSON.parse(error._body));
                     // reset local history, when a new radiostation is created. Do not reset history on update calls
                     if (radiostation.id == null) {
                         this.localHistory.clearLocalHistory();
@@ -85,7 +85,7 @@ export class RadiostationService implements OnDestroy {
         this.localHistory.writeToLocalHistory(track);
         let reqBody = {
             trackId: track.id,
-            radioId: this.getJukebox().id
+            radioId: this.getRadiostation().id
         };
 
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
@@ -103,12 +103,12 @@ export class RadiostationService implements OnDestroy {
     }
 
     public fetchRadiostation(): void {
-        this.authHttp.get(this.radiostationApiUrl).subscribe((jukebox: Radiostation) => {
-            this.jukeboxSubject.next(jukebox);
+        this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
+            this.radiostationSubject.next(radiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                this.jukeboxSubject.next(JSON.parse(error._body));
+                this.radiostationSubject.next(JSON.parse(error._body));
             } else {
                 console.log('Error fetching radiostation: ', error);
             }
@@ -116,12 +116,12 @@ export class RadiostationService implements OnDestroy {
     }
 
     public updateRadiostation(radiostation: Radiostation): void {
-        this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((jukebox: Radiostation) => {
-            this.jukeboxSubject.next(jukebox);
+        this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((newRadiostation: Radiostation) => {
+            this.radiostationSubject.next(newRadiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                this.jukeboxSubject.next(JSON.parse(error._body));
+                this.radiostationSubject.next(JSON.parse(error._body));
             } else {
                 console.log('Error fetching radiostation: ', error);
             }
@@ -139,16 +139,16 @@ export class RadiostationService implements OnDestroy {
         });
     }
 
-    public hasJukebox(): boolean {
-        return this.jukeboxSubject.getValue() != null;
+    public hasRadiostation(): boolean {
+        return this.radiostationSubject.getValue() != null;
     }
 
-    public getJukeboxSubject(): BehaviorSubject<Radiostation> {
-        return this.jukeboxSubject;
+    public getRadiostationSubject(): BehaviorSubject<Radiostation> {
+        return this.radiostationSubject;
     }
 
-    public getJukebox(): Radiostation {
-        return this.jukeboxSubject.getValue();
+    public getRadiostation(): Radiostation {
+        return this.radiostationSubject.getValue();
     }
 
     public getAlgorithms(): Observable<string[]> {

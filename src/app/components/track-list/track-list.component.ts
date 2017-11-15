@@ -54,12 +54,12 @@ export class TrackListComponent implements OnInit, OnDestroy {
             this.radiostationService.writeToHistory(this.playerService.currentTrack);
         }
         this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id, track.id ,
-            this.radiostationService.getJukebox().id, this.playerService.progress);
+            this.radiostationService.getRadiostation().id, this.playerService.progress);
         this.trackService.jumpToTrack(track);
     }
 
     indirectFeedback(track: Track): void {
         //Sends delete feedback with position as zero to indicate deletion from upcoming songs
-        this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.getJukebox().id, 0);
+        this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.getRadiostation().id, 0);
     }
 }

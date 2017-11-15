@@ -49,7 +49,7 @@ export class RadiostationByFeatureComponent implements OnInit {
                 private authHttp: AuthHttp,
                 public snackBar: MdSnackBar) {
         this.resetRadiostation();
-        this.radiostationService.getJukeboxSubject().subscribe((radiostation: Radiostation) => {
+        this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
                 this.radiostation = radiostation;
             }
