@@ -40,21 +40,23 @@ export class RadiostationService implements OnDestroy {
     }
 
     //starts a new radiostation with given creation criteria
-    public startNewRadiostation(radiostation: Radiostation): Observable<any> {
+    public startNewRadiostation(radiostation: Radiostation): Observable<Radiostation> {
         return Observable.create((observer: Observer<any>) => {
             console.log('Starting New Radiostation');
-
+            // set ids to null, to indicate server, that we want a new radiostation
+            radiostation.userId = null;
+            radiostation.id = null;
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.radiostationSubject.next(data);
                 console.log('NEW RADIOSTATION: ', data);
-                this.trackService.refreshTracks();
+                this.trackService.refreshCurrentAndUpcomingTracks();
                 observer.next(data);
                 observer.complete();
             }, (error: any) => {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
                     this.radiostationSubject.next(JSON.parse(error._body));
-                    this.trackService.refreshTracks();
+                    this.trackService.refreshCurrentAndUpcomingTracks();
                     observer.next(error._body);
                     observer.complete();
                 } else {
@@ -65,22 +67,32 @@ export class RadiostationService implements OnDestroy {
         });
     }
 
-    public fetchRadiostation(): void {
-        this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
-            this.radiostationSubject.next(radiostation);
-        }, error => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                this.radiostationSubject.next(JSON.parse(error._body));
-            } else {
-                console.log('Error fetching radiostation: ', error);
-            }
+    public updateRadiostation(radiostation: Radiostation): Observable<Radiostation> {
+        return Observable.create((observer: Observer<any>) => {
+            console.log('Update Radiostation');
+            this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                this.radiostationSubject.next(data);
+                this.refreshTrackList();
+                observer.next(data);
+                observer.complete();
+            }, (error: any) => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in updateRadiostation!!!');
+                    this.radiostationSubject.next(JSON.parse(error._body));
+                    this.refreshTrackList();
+                    observer.next(error._body);
+                    observer.complete();
+                } else {
+                    console.log('Updating Radiostation failed!', error);
+                    observer.error(error);
+                }
+            });
         });
     }
 
-    public updateRadiostation(radiostation: Radiostation): void {
-        this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((newRadiostation: Radiostation) => {
-            this.radiostationSubject.next(newRadiostation);
+    public fetchRadiostation(): void {
+        this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
+            this.radiostationSubject.next(radiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
@@ -102,6 +114,28 @@ export class RadiostationService implements OnDestroy {
         });
     }
 
+    // TODO what should be done, if there is no current value?
+    public faster(increment?: number): void {
+        let radiostation: Radiostation = this.radiostationSubject.getValue();
+        if (!increment) {
+            increment = 10;
+        }
+        radiostation.speed = radiostation.speed + increment > Config.speedUpperLimit ?
+                Config.speedUpperLimit : radiostation.speed + increment;
+        this.updateRadiostation(radiostation);
+    }
+
+    // TODO what should be done, if there is no current value?
+    public slower(decrement?: number): void {
+        let radiostation: Radiostation = this.radiostationSubject.getValue();
+        if (!decrement) {
+            decrement = 10;
+        }
+        radiostation.speed = radiostation.speed - decrement < Config.speedLowerLimit ?
+                Config.speedLowerLimit : radiostation.speed - decrement;
+        this.updateRadiostation(radiostation);
+    }
+
     public hasRadiostation(): boolean {
         return this.radiostationSubject.getValue() != null;
     }
@@ -119,7 +153,7 @@ export class RadiostationService implements OnDestroy {
     }
 
     public refreshTrackList(): void {
-        this.trackService.refreshTrackList();
+        this.trackService.refreshUpcomingTracks();
     }
 
 }

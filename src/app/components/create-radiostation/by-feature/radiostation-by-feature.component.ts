@@ -73,7 +73,6 @@ export class RadiostationByFeatureComponent {
 
 
     public start(): void {
-        this.radiostation.id = null;
         this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
             this.playerService.play();
@@ -81,7 +80,7 @@ export class RadiostationByFeatureComponent {
     }
 
     public update(): void {
-        this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
+        this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
         });
     }

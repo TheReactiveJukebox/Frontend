@@ -27,7 +27,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        //this.trackService.refreshTracks();
+        //this.trackService.refreshCurrentAndUpcomingTracks();
 
         // subscribe to the nextTracks BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component

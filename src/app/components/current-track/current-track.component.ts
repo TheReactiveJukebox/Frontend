@@ -81,7 +81,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     }
 
     public btn_renew(): void {
-        this.trackService.refreshTrackList();
+        this.trackService.refreshUpcomingTracks();
     }
 
 }

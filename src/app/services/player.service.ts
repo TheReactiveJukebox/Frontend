@@ -55,7 +55,7 @@ export class PlayerService implements OnDestroy {
             )
         )
         ;
-        this.trackService.refreshTracks();
+        this.trackService.refreshCurrentAndUpcomingTracks();
         this.isPlaying = false;
     }
 

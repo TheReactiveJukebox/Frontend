@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {TranslateService} from '@ngx-translate/core';
 import {Subject} from 'rxjs/Subject';
 import {PlayerService} from '../../services/player.service';
+import {RadiostationService} from '../../services/radiostation.service';
 import {SpeechService} from '../../services/speech.service';
 
 @Component({
@@ -22,20 +23,17 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     private ngUnsubscribe: Subject<void>;
     public micColor: any;
     private colorRunner: number;
-    //private beep;
 
     private controlTerms: Map<string, number>;
 
     constructor(public speechService: SpeechService,
                 public playerService: PlayerService,
+                private radiostationService: RadiostationService,
                 private translateService: TranslateService) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
         this.micColor = {'color': `rgba(255,255,255,1)`};
         this.animateColor();
-        //this.beep = new Audio();
-        //this.beep.src = 'http://www.soundjay.com/button/beep-03.wav';
-        //this.beep.load();
     }
 
     public ngOnInit(): void {
@@ -107,7 +105,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
          11: Slower
          12: Older
          13: Newer
-         14: More of Genre
          */
         this.controlTerms.set('abspielen', 1);
         this.controlTerms.set('wiedergeben', 1);
@@ -162,7 +159,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         let tokens: string[] = speech.toLocaleLowerCase().split(' ');
         let action: number = -1;
         let j = 0;
-        let genre: string;
         for (let i of tokens) {
             if (this.controlTerms.has(i)) {
                 action = this.controlTerms.get(i);
@@ -171,10 +167,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
             if ((i.includes('more') || i.includes('mehr')) && tokens.length > j + 1 ) {
                 if (tokens[j + 1].includes('dynamic') || tokens[j + 1].includes('dynamik')) {
                     action = 8;
-                }
-                if (tokens[j + 1].includes('of') || tokens[j + 1].includes('von') && tokens.length > j + 2) {
-                    genre = tokens[j + 2];
-                    action = 14;
                 }
             }
             if ((i.includes('less') || i.includes('les')) && tokens.length > j + 1 ) {
@@ -228,31 +220,27 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 break;
             }
             case 8: {
-                // TODO this.feedbackService.moreDynamic();
+                // TODO this.radiostationService.moreDynamic();
                 break;
             }
             case 9: {
-                // TODO this.feedbackService.lessDynamic();
+                // TODO this.radiostationService.lessDynamic();
                 break;
             }
             case 10: {
-                // TODO this.feedbackService.faster();
+                this.radiostationService.faster();
                 break;
             }
             case 11: {
-                // TODO this.feedbackService.slower();
+                this.radiostationService.slower();
                 break;
             }
             case 12: {
-                // TODO this.feedbackService.older();
+                // TODO this.radiostationService.older();
                 break;
             }
             case 13: {
-                // TODO this.feedbackService.newer();
-                break;
-            }
-            case 14: {
-                // TODO this.feedbackService.moreOfGenre(genre);
+                // TODO this.radiostationService.newer();
                 break;
             }
             default: {
