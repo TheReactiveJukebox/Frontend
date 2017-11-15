@@ -1,0 +1,28 @@
+@import '~@angular/material/theming';
+@import '../../../theme.scss';
+
+.mood-container {
+  height: 210px;
+  width: 480px;
+  margin: $default-margin;
+  display: block;
+  padding: 20px;
+  text-align: center;
+  vertical-align: top;
+  background-color: mat-color($default-theme_accent);
+  overflow: hidden;
+}
+
+.av-container {
+  .slider-label {
+    width: 50px;
+  }
+
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  width: 180px;
+  height: 35px;
+  margin-left: auto;
+  margin-right: auto;
+}

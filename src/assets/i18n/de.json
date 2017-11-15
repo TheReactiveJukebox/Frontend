@@ -82,7 +82,7 @@
     "TITLE": "Beginne die Wiedergabe mit folgendem Song",
     "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
     "GENRE": "Welches Genre willst du hören?",
-    "MOOD": "In welcher Stimmung bist du?",
+    "MOOD": "Beschreibe deine Stimmung?",
     "ENDYEAR": "Wie alt sollen die Lieder höchtens sein?",
     "STARTYEAR": "Wie neu dürfen die Lieder sein?",
     "SPEED": "Wähle die BPM aus!",
@@ -97,5 +97,17 @@
     "YEAR-END": "End-Jahr",
     "SPEED": "Tempo",
     "DYNAMIC": "Dynamik"
+  },
+
+  "MOOD_SELECTOR": {
+    "AROUSAL": "Wie angeregt beziehungsweise wach fühlen Sie sich?",
+    "VALENCE": "Wie gut ist ihre Grundstimmung?",
+    "MOOD_TAG": "                  Du bist:"
+  },
+
+  "MOODS": {
+    "NEUTRAL": "neutral",
+    "HAPPY": "glücklich",
+    "JOYOUS": "freudig"
   }
 }

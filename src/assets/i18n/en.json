@@ -82,7 +82,7 @@
     "TITLE": "Start playback with the following song",
     "PROP_SELECT": "Select the properties of your Radiostation!",
     "GENRE": "Which genre do you want to listen to?",
-    "MOOD": "What is your current mood?",
+    "MOOD": "Describe your current Mood?",
     "STARTYEAR": "What should be the earliest release time?",
     "ENDYEAR": "What should be the latest release time?",
     "SPEED": "Select Track's BPM!",
@@ -97,5 +97,17 @@
     "YEAR-END": "End Year",
     "SPEED": "Speed",
     "DYNAMIC": "Dynamic"
+  },
+
+  "MOOD_SELECTOR": {
+    "AROUSAL": "How active or aroused do you feel?",
+    "VALENCE": "How pleasant is your current mood?",
+    "MOOD_TAG": "               You are:"
+  },
+
+  "MOODS": {
+    "NEUTRAL": "neutral",
+    "HAPPY": "happy",
+    "JOYOUS": "joyous"
   }
 }

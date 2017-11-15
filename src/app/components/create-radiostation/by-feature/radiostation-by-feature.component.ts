@@ -26,7 +26,7 @@ export class RadiostationByFeatureComponent implements OnInit {
 
     genres: string[] = [];
     //mocked moods
-    moods: string[] = ['crazy', 'happy', 'sad'];
+    moods: string[] = ['crazy', 'happy', 'sad', 'lone'];
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;

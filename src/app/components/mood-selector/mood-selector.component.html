@@ -1,0 +1,37 @@
+<md-card class="mood-container">
+    <table>
+        <tr>
+            <td>
+                <p>{{'MOOD_SELECTOR.AROUSAL' | translate}}</p>
+                <md-card class="av-container">
+                    <div class="slider-label">{{sliderArousal.displayValue}}</div>
+                    <md-slider #sliderArousal [min]="arousalLowerLimit" [max]="arousalUpperLimit"
+                               [step]="0.01" [(ngModel)]="selArousal" (ngModelChange)="updateSelecter()"></md-slider>
+                </md-card>
+            </td>
+            <td>
+                <p>{{'MOOD_SELECTOR.VALENCE' | translate}}</p>
+                <md-card class="av-container">
+                    <div class="slider-label">{{sliderValence.displayValue}}</div>
+                    <md-slider #sliderValence [min]="valencelLowerLimit" [max]="valenceUpperLimit"
+                               [step]="0.01" [(ngModel)]="selValence" (ngModelChange)="updateSelecter()"></md-slider>
+                </md-card>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>{{'MOOD_SELECTOR.MOOD_TAG' | translate}}</p>
+            </td>
+            <td>
+                <md-select [(ngModel)]="selMood" (ngModelChange)="updateSlider()">
+                    <md-option *ngFor="let option of moodList" [value]="option.name">{{'MOODS.'+ option.name.toUpperCase() | translate}}</md-option>
+                </md-select>
+            </td>
+        </tr>
+    </table>
+
+
+
+
+
+</md-card>

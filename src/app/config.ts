@@ -11,12 +11,16 @@ export class Config {
     public static yearUpperLimit: number = (new Date()).getFullYear();
     public static dynamicLowerLimit: number = 0;
     public static dynamicUpperLimit: number = 1;
+    public static arousalLowerLimit: number = -1;
+    public static arousalUpperLimit: number = 1;
+    public static valenceLowerLimit: number = -1;
+    public static valenceUpperLimit: number = 1;
 
     public static config: any = {
 
         development: {
-            //serverUrl: 'https://192.168.99.100',
-            serverUrl: 'https://localhost',
+            serverUrl: 'https://192.168.99.100',
+            //serverUrl: 'https://localhost',
             dev: true
         },
 
