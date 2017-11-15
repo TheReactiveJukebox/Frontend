@@ -14,22 +14,6 @@ export class SpecialFeedbackDialogComponent {
     constructor() {
     }
 
-    public btnLikeArtist(): void {
-        this.cFeedback.artistFeedback = 1;
-    }
-
-    public btnDislikeArtist(): void {
-        this.cFeedback.artistFeedback = -1;
-    }
-
-    public btnLikeGenre(): void {
-        this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: 1}];
-    }
-
-    public btnDislikeGenre(): void {
-        this.cFeedback.genreFeedback = [{genre: this.cTrack.genres[0], feedback: -1}];
-    }
-
     public btnLikeTitle(): void {
         this.cFeedback.songFeedback = 1;
     }

@@ -27,49 +27,6 @@
                 </div>
             </td>
         </tr>
-        <tr>
-            <td>
-                <p class="l-artist">{{'TRACK_LIST.ARTIST' | translate}}: </p></td>
-            <td><p class="innerProp">{{cTrack.artist.name}}</p>
-            </td>
-
-            <td>
-                <button
-                        md-icon-button
-                        md-mini-fab disableRipple="true"
-                        [ngClass]="{'like': cFeedback.artistFeedback == 1}"
-                        (click)="btnLikeArtist()">
-                    <md-icon>thumb_up</md-icon>
-                </button>
-                <button
-                        md-icon-button
-                        md-mini-fab disableRipple="true"
-                        [ngClass]="{'dislike': cFeedback.artistFeedback == -1}"
-                        (click)="btnDislikeArtist()">
-                    <md-icon>thumb_down</md-icon>
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td><p class="l-genre">{{'TRACK_LIST.GENRE' | translate}}: </p></td>
-            <td><p class="innerProp">{{cTrack.genres[0]}}</p></td>
-            <td style="margin-left: 15px">
-                <button
-                        md-icon-button
-                        md-mini-fab disableRipple="true"
-                        [ngClass]="{'like': cFeedback.genreFeedback[0].feedback == 1}"
-                        (click)="btnLikeGenre()">
-                    <md-icon>thumb_up</md-icon>
-                </button>
-                <button
-                        md-icon-button
-                        md-mini-fab disableRipple="true"
-                        [ngClass]="{'dislike': cFeedback.genreFeedback[0].feedback == -1}"
-                        (click)="btnDislikeGenre()">
-                    <md-icon>thumb_down</md-icon>
-                </button>
-            </td>
-        </tr>
         <tr *ngIf="cTrack.speed">
             <td>
                 <p class="tl-speed">{{'TRACK_LIST.SPEED' | translate}}: </p></td>

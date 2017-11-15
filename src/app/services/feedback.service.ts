@@ -31,7 +31,6 @@ export class FeedbackService {
         if (track != null) {
             feedback.trackId = track.id;
         }
-        feedback.radioId = this.radiostationService.getRadiostation().id;
         return feedback;
     }
 
