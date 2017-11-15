@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
-import {TrackFeedback} from '../../models/track-feedback';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
 import {TrackService} from '../../services/track.service';
