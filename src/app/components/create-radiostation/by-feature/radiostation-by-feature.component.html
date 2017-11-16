@@ -12,7 +12,7 @@
                 <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
             </md-select>
             </mood-selector>-->
-            <mood-selector class="mood-container" *ngIf="property == 'mood'"></mood-selector>
+            <mood-selector class="mood-container" *ngIf="property == 'mood'" (selMood)="setSelMood($event)"></mood-selector>
             <md-card class="year-container" *ngIf="property == 'startYear'">
                 <div class="slider-label">{{sliderStart.displayValue}}</div>
                 <md-slider #sliderStart [min]="yearLowerLimit" [max]="getMaxYear()" [step]="1" [(ngModel)]="radiostation.startYear"></md-slider>

@@ -3,11 +3,13 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
+import {Mood} from '../../../models/mood';
 import {Radiostation} from '../../../models/radiostation';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
+
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -25,8 +27,7 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
 export class RadiostationByFeatureComponent implements OnInit {
 
     genres: string[] = [];
-    //mocked moods
-    moods: string[] = ['crazy', 'happy', 'sad', 'lone'];
+    selMood: Mood;
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
@@ -62,7 +63,7 @@ export class RadiostationByFeatureComponent implements OnInit {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
-        //TODO: load available moods
+        this.selMood = new Mood(0, 'neutral', 0, 0);
     }
 
     ngOnInit(): void {
@@ -108,7 +109,8 @@ export class RadiostationByFeatureComponent implements OnInit {
             this.radiostation.genres.push(this.genres[0]);
         } else if (result == 'mood') {
             if (this.radiostation.mood == null) {
-                this.radiostation.mood = this.moods[0];
+                //TODO radiostation.mood from string to mood
+                this.radiostation.mood = this.selMood.name;
             } else {
                 this.showWarning();
             }
@@ -167,6 +169,10 @@ export class RadiostationByFeatureComponent implements OnInit {
         } else {
             return Config.yearUpperLimit;
         }
+    }
+
+    public setSelMood(pSelMood: Mood): void {
+        this.selMood = pSelMood;
     }
 
     public getKeys(): string[] {

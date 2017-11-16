@@ -2,7 +2,7 @@ export class Radiostation {
     id: number;
     userId: number;
     //TODO
-    //mood: Moods[];
+    //mood: Mood;
     mood: string;
     startTracks: number[];
     algorithm: string;

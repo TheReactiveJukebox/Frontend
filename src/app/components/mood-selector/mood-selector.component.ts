@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Mood} from '../../models/mood';
 import {Moods} from '../../models/moods';
 import {Config} from '../../config';
@@ -22,25 +22,30 @@ export class MoodSelectorComponent {
     moodList: Mood[] = [];
     selArousal: number;
     selValence: number;
-    selMood: string;
+    selMoodName: string;
+
+    @Output()
+    selMood: EventEmitter<Mood> = new EventEmitter<Mood>();
+
+
 
     constructor() {
         this.moods = new Moods();
         this.moodList = this.moods.moodlist;
         this.selArousal = 0;
         this.selValence = 0;
-        this.selMood = this.moods.getMood(this.selArousal, this.selValence).name;
+        this.selMoodName = this.moods.getMood(this.selArousal, this.selValence).name;
     }
 
     public updateSlider(): void {
-        this.selArousal = this.moods.getAV(this.selMood).arousal;
-        this.selValence = this.moods.getAV(this.selMood).valence;
-
+        this.selArousal = this.moods.getAV(this.selMoodName).arousal;
+        this.selValence = this.moods.getAV(this.selMoodName).valence;
+        this.selMood.emit(this.moods.getAV(this.selMoodName));
     }
 
     public updateSelecter(): void {
-        this.selMood = this.moods.getMood(this.selArousal, this.selValence).name;
-
+        this.selMoodName = this.moods.getMood(this.selArousal, this.selValence).name;
+        this.selMood.emit(this.moods.getMood(this.selArousal, this.selValence));
     }
 
 

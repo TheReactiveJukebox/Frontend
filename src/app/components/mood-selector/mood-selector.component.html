@@ -23,7 +23,7 @@
                 <p>{{'MOOD_SELECTOR.MOOD_TAG' | translate}}</p>
             </td>
             <td>
-                <md-select [(ngModel)]="selMood" (ngModelChange)="updateSlider()">
+                <md-select [(ngModel)]="selMoodName" (ngModelChange)="updateSlider()">
                     <md-option *ngFor="let option of moodList" [value]="option.name">{{'MOODS.'+ option.name.toUpperCase() | translate}}</md-option>
                 </md-select>
             </td>
