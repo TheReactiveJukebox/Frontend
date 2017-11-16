@@ -4,6 +4,13 @@
   padding: 0 10px !important;
 }
 
+p {
+  margin: auto;
+  overflow: hidden;
+  max-height: 48px;
+  line-height: 24px;
+}
+
 .tl-cover-col{
   width: 48px;
   text-align: left;
