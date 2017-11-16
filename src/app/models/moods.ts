@@ -105,15 +105,7 @@ export class Moods {
         this._moodlist.push(new Mood(96, 'feel_well', -0.07, 0.92));
         this._moodlist.push(new Mood(97, 'impressed', -0.07, 0.38));
 
-        this.printMoodList();
 
-    }
-
-    private printMoodList(): void {
-        for (let m of this._moodlist) {
-            //"NEUTRAL": "neutral",
-            console.log('"' + m.name.toLocaleUpperCase() + '": "' + m.name + '",');
-        }
     }
 
     get moodlist(): Mood[] {

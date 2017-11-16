@@ -116,9 +116,9 @@
     "DETERMINED": "determined",
     "ENTHUSIASTIC": "enthusiastic",
     "DELIGHTED": "delighted",
-    "LIGHT HEARTED": "light hearted",
+    "LIGHT_HEARTED": "light hearted",
     "CONVINCED": "convinced",
-    "FEELING SUPERIOR": "feeling superior",
+    "FEELING_SUPERIOR": "feeling superior",
     "CONCEITED": "conceited",
     "AMBITIOUS": "ambitious",
     "COURAGEOUS": "courageous",
@@ -160,7 +160,7 @@
     "TAKEN_ABACK": "taken aback",
     "APATHETIC": "apathetic",
     "WORRIED": "worried",
-    "FEEL_GUILT": "feel_guilt",
+    "FEEL_GUILT": "feel guilt",
     "DESPONDENT": "despondent",
     "UNCOMFORTABLE": "uncomfortable",
     "SAD": "sad",
@@ -193,7 +193,7 @@
     "RELAXED": "relaxed",
     "SATISFIED": "satisfied",
     "FRIENDLY": "friendly",
-    "AT_EASE": "at_ease",
+    "AT_EASE": "at ease",
     "CONTENT": "content",
     "SERENE": "serene",
     "SOLEMN": "solemn",
@@ -202,7 +202,7 @@
     "AMOROUS": "amorous",
     "GLAD": "glad",
     "PLEASED": "pleased",
-    "FEEL_WELL": "feel_well",
+    "FEEL_WELL": "feel well",
     "IMPRESSED": "impressed"
   }
 }

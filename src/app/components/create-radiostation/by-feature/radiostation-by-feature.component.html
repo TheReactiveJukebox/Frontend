@@ -8,10 +8,6 @@
                 <md-icon>close</md-icon>
             </button>
             <p>{{'RADIOSTATION_CREATE.'+ property.toUpperCase() | translate}}</p>
-            <!--<md-select *ngIf="property == 'mood'" [(ngModel)]="radiostation.mood">
-                <md-option *ngFor="let option of moods" [value]="option">{{option}}</md-option>
-            </md-select>
-            </mood-selector>-->
             <mood-selector class="mood-container" *ngIf="property == 'mood'" (selMood)="setSelMood($event)"></mood-selector>
             <md-card class="year-container" *ngIf="property == 'startYear'">
                 <div class="slider-label">{{sliderStart.displayValue}}</div>
