@@ -38,10 +38,18 @@ export class TrackService {
         this.fetchNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
+            /*
+             this.fillMusicData(tracks).subscribe((filledTracks: Track[]) => {
+             for (let i = 0; i < tracks.length; i++) {
+             tracks[i].data = filledTracks[i].data;
+             }
+             });
+             */
         }, error => {
             console.log('Error fetching new songs: ', error);
         });
     }
+
 
     //Refreshes current Tracklist
     public refreshUpcomingTracks(): void {
@@ -70,9 +78,13 @@ export class TrackService {
                     for (let i = 0; i < tracks.length; i++) {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                     }
-                    this.fillData(tracks).subscribe((filledTracks: Track[]) => {
+                    this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
+                        tracks = filledTracks;
                         observer.next(filledTracks);
-                        observer.complete();
+                        this.fillMusicData(tracks).subscribe((dataFilledTracks: Track[]) => {
+                            filledTracks = dataFilledTracks;
+                            observer.complete();
+                        });
                     });
                 }
             }, error => {
@@ -83,7 +95,7 @@ export class TrackService {
                         for (let i = 0; i < tracks.length; i++) {
                             tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                         }
-                        this.fillData(tracks).subscribe((filledTracks: Track[]) => {
+                        this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
                             observer.next(filledTracks);
                             observer.complete();
                         });
@@ -96,8 +108,7 @@ export class TrackService {
         });
     }
 
-    // use this method to fill plain track objects provided by server with artist and album data
-    public fillData(rawTracks: any[]): Observable<Track[]> {
+    public fillMetaData(rawTracks: any): Observable<Track[]> {
         return Observable.create(observer => {
             let missingArtists: number[] = [];
             let missingAlbums: number[] = [];
@@ -153,6 +164,27 @@ export class TrackService {
         }
     }
 
+    //Fetches music files of tracks from the server
+    public fillMusicData(tracks: Track[]): Observable<Track[]> {
+        return Observable.create(observer => {
+            let dataRequests = [];
+            for (let track of tracks) {
+                dataRequests.push(this.authHttp.getTrack(track.file));
+            }
+            Observable.forkJoin(dataRequests).subscribe((dataResults: any[]) => {
+                for (let i = 0; i < tracks.length; i++) {
+                    //simulate Download Delay
+                    //setTimeout(() => console.log('Music data loaded:' + tracks[i].file), 2000);
+                    tracks[i].data = dataResults[i];
+                }
+                observer.next(tracks);
+                observer.complete();
+            }, err => {
+                console.log('GET TRACK ERROR: ', err);
+            });
+        });
+    }
+
     //Gets the next track from the preview and adds the next track to the preview list
     public nextSong(): Track {
         let tempTracks: Track[] = this.nextTracks.getValue();
@@ -167,7 +199,6 @@ export class TrackService {
         }, error => {
             console.log('Error in nextSong(): ', error);
         });
-
         return nextTrack;
     }
 
