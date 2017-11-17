@@ -3,11 +3,13 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
+import {Mood} from '../../../models/mood';
 import {Radiostation} from '../../../models/radiostation';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
+
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -27,6 +29,7 @@ export class RadiostationByFeatureComponent {
     public genres: string[] = [];
     //mocked moods
     public moods: string[] = ['crazy', 'happy', 'sad'];
+    public selMood: Mood;
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
@@ -62,7 +65,7 @@ export class RadiostationByFeatureComponent {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
-        //TODO: load available moods
+        this.selMood = new Mood(0, 'neutral', 0, 0);
     }
 
     //resets the gui
@@ -103,7 +106,8 @@ export class RadiostationByFeatureComponent {
             this.radiostation.genres.push(this.genres[0]);
         } else if (result == 'mood') {
             if (this.radiostation.mood == null) {
-                this.radiostation.mood = this.moods[0];
+                //TODO radiostation.mood from string to mood
+                this.radiostation.mood = this.selMood.name;
             } else {
                 this.showWarning();
             }
@@ -162,6 +166,10 @@ export class RadiostationByFeatureComponent {
         } else {
             return Config.yearUpperLimit;
         }
+    }
+
+    public setSelMood(pSelMood: Mood): void {
+        this.selMood = pSelMood;
     }
 
     public getKeys(): string[] {

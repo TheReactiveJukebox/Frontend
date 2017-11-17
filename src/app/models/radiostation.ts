@@ -1,4 +1,5 @@
 export class Radiostation {
+
     public id: number;
     public userId: number;
     public mood: string;
@@ -9,6 +10,8 @@ export class Radiostation {
     public speed: number;
     public dynamic: number;
     public genres: string[];
+    //TODO
+    //mood: Mood;
 
     constructor() {
         this.id = null;
