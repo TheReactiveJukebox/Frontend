@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
+import {Config} from '../../config';
 import {Mood} from '../../models/mood';
 import {Moods} from '../../models/moods';
-import {Config} from '../../config';
 
 
 @Component({
