@@ -48,19 +48,6 @@
     "HISTORY_TOOL_TIP": "Toggle History",
     "REFRESH": "Refresh Tracklist"
   },
-  "FEEDBACK_DIALOG": {
-    "LIKE": "Feedback for",
-    "REASON": "",
-    "TENDENCY": "Tendency",
-    "MORE_OF_GENRE": "More of",
-    "CHOOSE_GENRE": "Choose genre",
-    "CLOSE": "Close",
-    "CONFIRM": "Confirm",
-    "CONFIRMAPPLY": "Confirm and apply",
-    "PERIOD_EXPLANATION": "Release Date of recommended songs",
-    "PERIOD_START": "from",
-    "PERIOD_END": "to"
-  },
   "SEARCH": {
     "NO_RESULTS": "No results..."
   },

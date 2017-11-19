@@ -1,28 +1,39 @@
 @import '~@angular/material/theming';
 @import '../../../theme.scss';
 
-.mood-container {
-  height: 210px;
-  width: 480px;
-  margin: $default-margin;
-  display: block;
-  padding: 20px;
-  text-align: center;
-  vertical-align: top;
-  background-color: mat-color($default-theme_accent);
-  overflow: hidden;
-}
-
-.av-container {
-  .slider-label {
-    width: 50px;
+.slider-td {
+  p {
+    width: 200px;
+    height: 54px;
+    text-align: center;
   }
 
+  .av-container {
+    .slider-label {
+      width: 50px;
+    }
+
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    width: 180px;
+    height: 35px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.select-container {
+  margin: 10px;
   display: flex;
-  align-items: center;
-  padding: 5px;
-  width: 180px;
-  height: 35px;
-  margin-left: auto;
-  margin-right: auto;
+  justify-content: center;
+
+  p {
+    margin: 7px 10px 0 0;
+    text-align: center;
+  }
+
+  md-select {
+    padding: 0;
+  }
 }

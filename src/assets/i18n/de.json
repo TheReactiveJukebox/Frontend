@@ -48,19 +48,6 @@
     "HISTORY_TOOL_TIP": "Wiedergabeverlauf",
     "REFRESH": "Songliste aktualisieren"
   },
-  "FEEDBACK_DIALOG": {
-    "LIKE": "Bewerte",
-    "REASON": "",
-    "TENDENCY": "Tendenz",
-    "MORE_OF_GENRE": "Mehr von",
-    "CHOOSE_GENRE": "Genre auswählen",
-    "CLOSE": "Abbrechen",
-    "CONFIRM": "Ok",
-    "CONFIRMAPPLY": "Ok und Übernehmen",
-    "PERIOD_EXPLANATION": "Songs aus den Jahren",
-    "PERIOD_START": "von",
-    "PERIOD_END": "bis"
-  },
   "SEARCH": {
     "NO_RESULTS": "Keine Ergebnisse..."
   },
@@ -81,8 +68,8 @@
     "BY_SONG": "Nach Startsong",
     "TITLE": "Beginne die Wiedergabe mit folgendem Song",
     "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
-    "GENRE": "Welches Genre willst du hören?",
-    "MOOD": "Beschreibe deine Stimmung?",
+    "GENRE": "Welche Genres willst du hören?",
+    "MOOD": "Beschreibe deine Stimmung",
     "ENDYEAR": "Wie alt sollen die Lieder höchtens sein?",
     "STARTYEAR": "Wie neu dürfen die Lieder sein?",
     "SPEED": "Wähle die BPM aus!",
@@ -100,9 +87,9 @@
   },
 
   "MOOD_SELECTOR": {
-    "AROUSAL": "Wie angeregt beziehungsweise wach fühlen Sie sich?",
-    "VALENCE": "Wie gut ist ihre Grundstimmung?",
-    "MOOD_TAG": "                  Du bist:"
+    "AROUSAL": "Wie angeregt beziehungsweise wach fühlest du dich?",
+    "VALENCE": "Wie gut ist deine Grundstimmung?",
+    "MOOD_TAG": "Deine aktuelle Stimmung:"
   },
 
   "MOODS": {

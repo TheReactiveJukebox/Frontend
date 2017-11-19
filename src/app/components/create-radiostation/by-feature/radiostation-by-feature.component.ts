@@ -17,8 +17,8 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
     templateUrl: './radiostation-by-feature.component.html',
     animations: [
         trigger('expand', [
-            state('true', style({'width': '*'})),
-            state('void', style({'width': '0px'})),
+            state('true', style({'opacity': '1.0', 'top': '0', 'height': '*'})),
+            state('void', style({'opacity': '0.0', 'top': '50px', 'height': '0'})),
             transition('void => *', animate('0.3s ease-out')),
             transition('* => void', animate('0.3s ease-out'))
         ])
@@ -30,6 +30,8 @@ export class RadiostationByFeatureComponent {
     //mocked moods
     public moods: string[] = ['crazy', 'happy', 'sad'];
     public selMood: Mood;
+
+    public tiles: string[] = [];
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
@@ -98,6 +100,14 @@ export class RadiostationByFeatureComponent {
 
     //adds an element to the gui for the keywords
     public addConstraint(result: string): void {
+        if (this.tiles.indexOf(result) != -1) {
+            this.showWarning();
+        } else {
+            this.tiles.push(result);
+        }
+    }
+
+    /**public addConstraint(result: string): void {
         //there can be an unlimetd number of genre elements
         if (result == 'genre') {
             if (this.radiostation.genres == null) {
@@ -136,10 +146,11 @@ export class RadiostationByFeatureComponent {
                 this.showWarning();
             }
         }
-    }
+    }*/
 
-    public removeProperty(property: string): void {
+    public removeProperty(property: string, index: number): void {
         this.radiostation[property] = null;
+        this.tiles.splice(index, 1);
     }
 
     public removeGenre(index: number): void {
