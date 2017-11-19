@@ -25,7 +25,7 @@
                 <div class="slider-label">{{sliderDynamic.displayValue}}</div>
                 <md-slider #sliderDynamic [min]="dynamicLowerLimit" [max]="dynamicUpperLimit" [step]="0.05" [(ngModel)]="radiostation.dynamic"></md-slider>
             </md-card>
-            <md-card *ngIf="tile == 'genre'" [@expand]="tile">
+            <md-card *ngIf="tile == 'genres'" [@expand]="tile">
                 <md-select style="width: 300px; padding: 0" multiple [(ngModel)]="radiostation.genres">
                     <md-option *ngFor="let option of genres" [value]="option">{{option}}</md-option>
                 </md-select>

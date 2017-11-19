@@ -27,5 +27,4 @@ export class Mood {
         return this._valence;
     }
 
-
 }

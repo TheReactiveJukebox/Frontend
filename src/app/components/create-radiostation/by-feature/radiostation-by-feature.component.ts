@@ -17,8 +17,8 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
     templateUrl: './radiostation-by-feature.component.html',
     animations: [
         trigger('expand', [
-            state('true', style({'opacity': '1.0', 'top': '0', 'height': '*'})),
-            state('void', style({'opacity': '0.0', 'top': '50px', 'height': '0'})),
+            state('true', style({'height': '*'})),
+            state('void', style({'height': '0'})),
             transition('void => *', animate('0.3s ease-out')),
             transition('* => void', animate('0.3s ease-out'))
         ])
@@ -27,9 +27,6 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
 export class RadiostationByFeatureComponent {
 
     public genres: string[] = [];
-    //mocked moods
-    public moods: string[] = ['crazy', 'happy', 'sad'];
-    public selMood: Mood;
 
     public tiles: string[] = [];
 
@@ -67,7 +64,6 @@ export class RadiostationByFeatureComponent {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
-        this.selMood = new Mood(0, 'neutral', 0, 0);
     }
 
     //resets the gui
@@ -107,54 +103,9 @@ export class RadiostationByFeatureComponent {
         }
     }
 
-    /**public addConstraint(result: string): void {
-        //there can be an unlimetd number of genre elements
-        if (result == 'genre') {
-            if (this.radiostation.genres == null) {
-                this.radiostation.genres = [];
-            }
-            this.radiostation.genres.push(this.genres[0]);
-        } else if (result == 'mood') {
-            if (this.radiostation.mood == null) {
-                //TODO radiostation.mood from string to mood
-                this.radiostation.mood = this.selMood.name;
-            } else {
-                this.showWarning();
-            }
-        } else if (result == 'year-end') {
-            if (this.radiostation.endYear == null) {
-                this.radiostation.endYear = this.getMaxYear();
-            } else {
-                this.showWarning();
-            }
-        } else if (result == 'year-start') {
-            if (this.radiostation.startYear == null) {
-                this.radiostation.startYear = this.getMinYear();
-            } else {
-                this.showWarning();
-            }
-        } else if (result == 'speed') {
-            if (this.radiostation.speed == null) {
-                this.radiostation.speed = (this.speedLowerLimit + this.speedUpperLimit) / 2;
-            } else {
-                this.showWarning();
-            }
-        } else if (result == 'dynamic') {
-            if (this.radiostation.dynamic == null) {
-                this.radiostation.dynamic = (this.dynamicLowerLimit + this.dynamicUpperLimit) / 2;
-            } else {
-                this.showWarning();
-            }
-        }
-    }*/
-
     public removeProperty(property: string, index: number): void {
         this.radiostation[property] = null;
         this.tiles.splice(index, 1);
-    }
-
-    public removeGenre(index: number): void {
-        this.radiostation.genres.splice(index, 1);
     }
 
     private showWarning(): void {
@@ -180,17 +131,8 @@ export class RadiostationByFeatureComponent {
     }
 
     public setSelMood(pSelMood: Mood): void {
-        this.selMood = pSelMood;
+        this.radiostation.valence = pSelMood.valence;
+        this.radiostation.arousal = pSelMood.arousal;
     }
 
-    public getKeys(): string[] {
-        let ignoredKeys: string[] = ['id', 'userId', 'genres', 'startTracks', 'algorithm'];
-        let keys = [];
-        for (let key in this.radiostation) {
-            if (this.radiostation[key] != null && ignoredKeys.indexOf(key) == -1) {
-                keys.push(key);
-            }
-        }
-        return keys;
-    }
 }
