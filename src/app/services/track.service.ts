@@ -9,6 +9,9 @@ import {Album} from '../models/album';
 import {Artist} from '../models/artist';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
+import {FeedbackService} from './feedback.service';
+import {ArtistFeedback} from '../models/artist-feedback';
+import {AlbumFeedback} from '../models/album-feedback';
 
 @Injectable()
 export class TrackService {
@@ -26,7 +29,8 @@ export class TrackService {
     private artistUrl: string = Config.serverUrl + '/api/artist';
     private albumUrl: string = Config.serverUrl + '/api/album';
 
-    constructor(private authHttp: AuthHttp) {
+    constructor(private authHttp: AuthHttp,
+                private feedbackService: FeedbackService) {
         this.currentTrack = new BehaviorSubject<Track>(null);
         this.nextTracks = new BehaviorSubject<Track[]>([]);
         this.artistCache = new Map<number, Artist>();
@@ -79,6 +83,7 @@ export class TrackService {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                     }
                     this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
+                        console.log('FILLED TRACKS:!!!! ', filledTracks);
                         tracks = filledTracks;
                         observer.next(filledTracks);
                         this.fillMusicData(tracks).subscribe((dataFilledTracks: Track[]) => {
@@ -96,6 +101,7 @@ export class TrackService {
                             tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                         }
                         this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
+                            console.log('FILLED TRACKS:!!!! ', filledTracks);
                             observer.next(filledTracks);
                             observer.complete();
                         });
@@ -131,20 +137,42 @@ export class TrackService {
                 console.log('DATA: ', data);
                 let artists: Artist[] = data[0];
                 let albums: Album[] = data[1];
-                for (let artist of artists) {
-                    this.artistCache.set(artist.id, artist);
-                }
-                for (let album of albums) {
-                    this.albumCache.set(album.id, album);
-                }
 
-                for (let rawTrack of rawTracks) {
-                    rawTrack.artist = this.artistCache.get(rawTrack.artist);
-                    rawTrack.album = this.albumCache.get(rawTrack.album);
-                }
-                observer.next(rawTracks);
-                observer.complete();
+                let newArtistIds: number[] = this.getObjectIds(artists);
+                let newAlbumIds: number[] = this.getObjectIds(albums);
+
+                // fetch feedback for new artists and albums
+                Observable.forkJoin([
+                    this.feedbackService.fetchArtistFeedback(newArtistIds),
+                    this.feedbackService.fetchAlbumFeedback(newAlbumIds)
+                ]).subscribe((feedbackData: any[]) => {
+                    let artistFeedbacks: ArtistFeedback[] = feedbackData[0];
+                    let albumFeedbacks: AlbumFeedback[] = feedbackData[1];
+
+                    for (let i = 0; i < artists.length; i++) {
+                        artists[i].feedback = artistFeedbacks[i];
+                        this.artistCache.set(artists[i].id, artists[i]);
+                    }
+
+                    for (let i = 0; i < albums.length; i++) {
+                        albums[i].feedback = albumFeedbacks[i];
+                        this.albumCache.set(albums[i].id, albums[i]);
+                    }
+
+                    for (let rawTrack of rawTracks) {
+                        rawTrack.artist = this.artistCache.get(rawTrack.artist);
+                        rawTrack.album = this.albumCache.get(rawTrack.album);
+                    }
+                    observer.next(rawTracks);
+                    observer.complete();
+                });
             });
+        });
+    }
+
+    private getObjectIds(objects: any[]): number[] {
+        return objects.map(function(obj: any): number {
+            return obj.id;
         });
     }
 
