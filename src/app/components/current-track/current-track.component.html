@@ -19,30 +19,33 @@
                         <h3 class="track-info">{{currentTrack.artist.name}}</h3>
 
                     </div>
-                    <div *ngIf="currentTrack.releaseDate" class="detail-element">
+                    <div class="detail-element">
+                        <like></like>
                         <a class="track-info">{{currentTrack.album.title}} </a>
-                        <a class="track-info">({{currentTrack.releaseDate.getFullYear()}}) </a>
+                        <a *ngIf="currentTrack.releaseDate" class="track-info">
+                            ({{currentTrack.releaseDate.getFullYear()}})
+                        </a>
                     </div>
                 </div>
 
                 <div class="track-details-container right">
                     <div *ngIf="currentTrack.genres.length > 0" class="detail-element">
                         <like></like>
-                        <a class="track-info"> Genres: </a>
+                        <a class="track-info-att"> Genres: </a>
                         <a class="track-info">{{currentTrack.genres[0]}} </a>
 
                     </div>
                     <div class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.speedFeedback"></like>
-                        <a class="track-info"> Tempo: </a>
+                        <a class="track-info-att"> Tempo: </a>
                         <a class="track-info">{{round(currentTrack.speed) + ' BPM'}}</a>
 
                     </div>
                     <div class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.dynamicsFeedback"></like>
-                        <a class="track-info"> Dynamik: </a>
+                        <a class="track-info-att"> Dynamik: </a>
                         <a class="track-info">{{round(currentTrack.dynamic, 2)*100 + '%'}}</a>
 
                     </div>
