@@ -14,11 +14,6 @@
     <p class="tl-date-col" *ngIf="!track.releaseDate">{{'-'}}</p>
     <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
 
-    <like *ngIf="showFeedback"
-          class="tl-feedback-col"
-          [(value)]="track.trackFeedback.songFeedback"
-          (click)="btn_like(); $event.stopPropagation()"></like>
-
     <button *ngIf="showDelete"
             class="tl-icon-col"
             md-icon-button
