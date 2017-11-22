@@ -46,7 +46,6 @@
             "check-whitespace"
         ],
         "one-variable-per-declaration": [true, "ignore-for-loop"],
-        "ordered-imports": true,
         "pipe-naming": [true, "camelCase", "my"],
         "semicolon": true,
         "templates-use-public": true,
