@@ -1,11 +1,15 @@
 <div>
-    <md-icon class="like-button"
+    <md-icon
             [ngClass]="{'like': value == 1}"
+            [@likeState]="value"
+            class="like-button"
             (click)="like()">
         thumb_up
     </md-icon>
-    <md-icon class="like-button"
+    <md-icon
             [ngClass]="{'dislike': value == -1}"
+            [@dislikeState]="value"
+            class="like-button"
             (click)="dislike()">
         thumb_down
     </md-icon>
