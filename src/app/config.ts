@@ -19,8 +19,8 @@ export class Config {
     public static config: any = {
 
         development: {
-            //serverUrl: 'https://192.168.99.100',
-            serverUrl: 'https://localhost',
+            serverUrl: 'https://192.168.99.100',
+            //serverUrl: 'https://localhost',
             dev: true
         },
 

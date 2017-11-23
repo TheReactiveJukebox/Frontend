@@ -190,6 +190,10 @@
     "GLAD": "glad",
     "PLEASED": "pleased",
     "FEEL_WELL": "feel well",
-    "IMPRESSED": "impressed"
+    "IMPRESSED": "impressed",
+    "ACTIVE": "active",
+    "PASSIVE": "passive",
+    "NEGATIVE": "negative",
+    "POSITIVE": "positive"
   }
 }

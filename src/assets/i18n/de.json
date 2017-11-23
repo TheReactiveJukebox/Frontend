@@ -140,7 +140,7 @@
     "BITTER": "verbittert",
     "INSULTED": "beleidigt",
     "DISTRUSTFUL": "misstrauisch",
-    "STARLTED": "erschrocken",
+    "STARTLED": "erschrocken",
     "DISAPPOINTED": "enttäuscht",
     "MISERABLE": "elend",
     "DISSATISFIED": "unzufrieden",
@@ -190,6 +190,10 @@
     "GLAD": "froh",
     "PLEASED": "erfreut",
     "FEEL_WELL": "wohlfühlend",
-    "IMPRESSED": "beeindruckt"
+    "IMPRESSED": "beeindruckt",
+    "ACTIVE": "aktiv",
+    "PASSIVE": "passiv",
+    "NEGATIVE": "negativ",
+    "POSITIVE": "positiv"
   }
 }

@@ -21,6 +21,8 @@
 <div class="select-container">
     <p>{{'MOOD_SELECTOR.MOOD_TAG' | translate}}</p>
     <md-select [(ngModel)]="selMoodName" (ngModelChange)="updateSlider()">
-        <md-option *ngFor="let option of moodList" [value]="option.name">{{'MOODS.'+ option.name.toUpperCase() | translate}}</md-option>
+        <md-optgroup *ngFor="let group of moods._moodGroups" [label]="'MOODS.'+group.name.toUpperCase() | translate">
+            <md-option *ngFor="let option of group.moods" [value]="option.name">{{'MOODS.'+ option.name.toUpperCase() | translate}}</md-option>
+        </md-optgroup>
     </md-select>
 </div>

@@ -1,8 +1,13 @@
 import {Mood} from './mood';
+import {MoodGroups} from './mood-groups';
+
 
 export class Moods {
 
+
+
     private _moodlist: Mood[] = [];
+    public _moodGroups: MoodGroups[] = [];
 
 
     constructor() {
@@ -106,7 +111,73 @@ export class Moods {
         this._moodlist.push(new Mood(97, 'impressed', -0.07, 0.38));
 
 
+        this._moodGroups = [new MoodGroups('neutral', []), new MoodGroups('positive', []), new MoodGroups('active', []),
+            new MoodGroups('negative', []), new MoodGroups('passive', [])];
+
+        for (let mood of this._moodlist){
+            switch (this.getMoodGroup(mood)) {
+                case 'neutral': {
+                    this._moodGroups[0].addMood(mood);
+                    break;
+                }
+                case 'positive': {
+                    this._moodGroups[1].addMood(mood);
+                    break;
+                }
+                case 'active': {
+                    this._moodGroups[2].addMood(mood);
+                    break;
+                }
+                case 'negative': {
+                    this._moodGroups[3].addMood(mood);
+                    break;
+                }
+                case 'passive': {
+                    this._moodGroups[4].addMood(mood);
+                    break;
+                }
+            }
+
+        }
+        for (let mg of this._moodGroups){
+            mg.sortMoods();
+        }
+
     }
+
+    get moodGroups(): MoodGroups[] {
+        return this._moodGroups;
+    }
+
+    public getMoodGroup(pMood: Mood): string {
+        if (pMood.arousal == 0 && pMood.valence == 0) {
+            return 'neutral';
+        }else {
+            if (pMood.arousal >= 0) {
+                if (pMood.arousal >= Math.abs(pMood.valence)) {
+                    return 'active';
+                }else {
+                    if (pMood.valence >= 0) {
+                        return 'positive';
+                    } else {
+                        return 'negative';
+                    }
+                }
+            } else {
+                if (Math.abs(pMood.arousal) >=  Math.abs(pMood.valence)) {
+                    return 'passive';
+                }else {
+                    if (pMood.valence >= 0) {
+                        return 'positive';
+                    } else {
+                        return 'negative';
+                    }
+                }
+            }
+        }
+
+    }
+
 
     get moodlist(): Mood[] {
         return this._moodlist;
