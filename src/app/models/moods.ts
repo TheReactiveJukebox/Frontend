@@ -1,5 +1,6 @@
 import {Mood} from './mood';
 import {MoodGroups} from './mood-groups';
+import {TranslateService} from '@ngx-translate/core';
 
 
 export class Moods {
@@ -10,7 +11,8 @@ export class Moods {
     public _moodGroups: MoodGroups[] = [];
 
 
-    constructor() {
+    constructor(translationService: TranslateService) {
+        //define moods
         this._moodlist.push(new Mood( 0, 'neutral', 0, 0));
         this._moodlist.push(new Mood( 1, 'happy', 0.15, 0.9));
         this._moodlist.push(new Mood( 2, 'joyous', 0.12, 0.95));
@@ -111,9 +113,14 @@ export class Moods {
         this._moodlist.push(new Mood(97, 'impressed', -0.07, 0.38));
 
 
-        this._moodGroups = [new MoodGroups('neutral', []), new MoodGroups('positive', []), new MoodGroups('active', []),
-            new MoodGroups('negative', []), new MoodGroups('passive', [])];
+        //init the moodGroups Array
+        this._moodGroups = [new MoodGroups('neutral', [], translationService),
+                            new MoodGroups('positive', [], translationService),
+                            new MoodGroups('active', [], translationService),
+                            new MoodGroups('negative', [], translationService),
+                            new MoodGroups('passive', [], translationService)];
 
+        //fill the moodGroups Array
         for (let mood of this._moodlist){
             switch (this.getMoodGroup(mood)) {
                 case 'neutral': {
@@ -139,6 +146,8 @@ export class Moods {
             }
 
         }
+
+        //sort the moods in each group
         for (let mg of this._moodGroups){
             mg.sortMoods();
         }
@@ -149,6 +158,7 @@ export class Moods {
         return this._moodGroups;
     }
 
+    //sort the moods to four groups: aktive, passive, negative and positive
     public getMoodGroup(pMood: Mood): string {
         if (pMood.arousal == 0 && pMood.valence == 0) {
             return 'neutral';
@@ -206,7 +216,7 @@ export class Moods {
         return nMood;
     }
 
-    //return the Arousal/Valence for given mood tag
+    //return the a/v for given mood tag
     public getAV(pName: string): Mood {
         for (let mood of this._moodlist) {
             if (pName === mood.name) {

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {Config} from '../../config';
 import {Mood} from '../../models/mood';
 import {Moods} from '../../models/moods';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -26,8 +27,8 @@ export class MoodSelectorComponent {
     @Output()
     public selMood: EventEmitter<Mood> = new EventEmitter<Mood>();
 
-    constructor() {
-        this.moods = new Moods();
+    constructor(translateService: TranslateService) {
+        this.moods = new Moods(translateService);
         this.selArousal = 0;
         this.selValence = 0;
         this.selMoodName = this.moods.getMood(this.selArousal, this.selValence).name;
