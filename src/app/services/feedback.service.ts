@@ -38,6 +38,32 @@ export class FeedbackService {
         });
     }
 
+    public postArtistFeedback(track: Track): void {
+        this.authHttp.post(this.artistFeedbackUrl, track.artist.feedback).subscribe((data: ArtistFeedback) => {
+            track.artist.feedback = data;
+        }, (error) => {
+            if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                track.artist.feedback = error._body;
+            } else {
+                console.warn('Sending feedback failed: ', error);
+            }
+        });
+    }
+
+    public postAlbumFeedback(track: Track): void {
+        this.authHttp.post(this.albumFeedbackUrl, track.album.feedback).subscribe((data: AlbumFeedback) => {
+            track.album.feedback = data;
+        }, (error) => {
+            if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                track.album.feedback = error._body;
+            } else {
+                console.warn('Sending feedback failed: ', error);
+            }
+        });
+    }
+
     public fetchArtistFeedback(artistIds: number[]):  Observable<ArtistFeedback[]> {
         return this.requestEntities(this.artistFeedbackUrl, artistIds);
     }

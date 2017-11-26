@@ -15,12 +15,14 @@
             <div id="sub-text-container">
                 <div class="track-details-container">
                     <div class="detail-element">
-                        <like></like>
+                        <like (click)="onArtistFeedbackChanged()"
+                              [(value)]="currentTrack.artist.feedback.feedback"></like>
                         <h3 class="track-info">{{currentTrack.artist.name}}</h3>
 
                     </div>
                     <div class="detail-element">
-                        <like></like>
+                        <like (click)="onAlbumFeedbackChanged()"
+                              [(value)]="currentTrack.album.feedback.feedback"></like>
                         <a class="track-info">{{currentTrack.album.title}} </a>
                         <a *ngIf="currentTrack.releaseDate" class="track-info">
                             ({{currentTrack.releaseDate.getFullYear()}})
