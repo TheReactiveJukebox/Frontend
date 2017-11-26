@@ -17,8 +17,8 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
     templateUrl: './radiostation-by-feature.component.html',
     animations: [
         trigger('expand', [
-            state('true', style({'height': '*'})),
-            state('void', style({'height': '0'})),
+            state('true', style({'opacity': '1.0', 'width': '*', 'top': '0px'})),
+            state('void', style({'opacity': '0.0', 'width': '0px', 'top': '100px'})),
             transition('void => *', animate('0.3s ease-out')),
             transition('* => void', animate('0.3s ease-out'))
         ])
@@ -54,6 +54,8 @@ export class RadiostationByFeatureComponent {
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
                 this.radiostation = radiostation;
+                console.log('Radiostation: ', radiostation);
+                this.loadRadiostation();
             }
         });
 
@@ -90,8 +92,33 @@ export class RadiostationByFeatureComponent {
     public selectConstraint(): void {
         let dialogRef = this.dialog.open(AddConstraintDialogComponent);
         dialogRef.afterClosed().subscribe(result => {
-            this.addConstraint(result);
+            if (result) {
+                this.addConstraint(result);
+            }
         });
+    }
+
+    private loadRadiostation(): void {
+        this.tiles = [];
+        if (this.radiostation.minSpeed || this.radiostation.maxSpeed) {
+            this.tiles.push('speed');
+        }
+
+        if (this.radiostation.arousal || this.radiostation.valence) {
+            this.tiles.push('mood');
+        }
+
+        if (this.radiostation.startYear || this.radiostation.endYear) {
+            this.tiles.push('year');
+        }
+
+        if (this.radiostation.genres) {
+            this.tiles.push('genres');
+        }
+
+        if (this.radiostation.dynamic) {
+            this.tiles.push('dynamic');
+        }
     }
 
     //adds an element to the gui for the keywords
@@ -104,7 +131,20 @@ export class RadiostationByFeatureComponent {
     }
 
     public removeProperty(property: string, index: number): void {
-        this.radiostation[property] = null;
+        switch (property) {
+            case 'genres': this.radiostation.genres = null;
+            break;
+            case 'year': this.radiostation.startYear = null;
+                         this.radiostation.endYear = null;
+            break;
+            case 'speed': this.radiostation.minSpeed = null;
+                          this.radiostation.maxSpeed = null;
+            break;
+            case 'mood': this.radiostation.arousal = null;
+                         this.radiostation.valence = null;
+            break;
+            case 'dynamic': this.radiostation.dynamic = null;
+        }
         this.tiles.splice(index, 1);
     }
 
@@ -112,22 +152,6 @@ export class RadiostationByFeatureComponent {
         this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
             duration: 2000,
         });
-    }
-
-    public getMinYear(): number {
-        if (this.radiostation.startYear) {
-            return Math.max(Config.yearLowerLimit, this.radiostation.startYear);
-        } else {
-            return Config.yearLowerLimit;
-        }
-    }
-
-    public getMaxYear(): number {
-        if (this.radiostation.endYear) {
-            return Math.min(Config.yearUpperLimit, this.radiostation.endYear);
-        } else {
-            return Config.yearUpperLimit;
-        }
     }
 
     public setSelMood(pSelMood: Mood): void {

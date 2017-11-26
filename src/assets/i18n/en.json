@@ -74,9 +74,12 @@
     "PROP_SELECT": "Select the properties of your Radiostation!",
     "GENRES": "Which genre do you want to listen to?",
     "MOOD": "Describe the mood of your desired music?",
-    "STARTYEAR": "What should be the earliest release time?",
-    "ENDYEAR": "What should be the latest release time?",
-    "SPEED": "Select Track's BPM!",
+    "YEAR": "Choose a release period!",
+    "STARTYEAR": "What should be the earliest release year?",
+    "ENDYEAR": "What should be the latest release year?",
+    "SPEED": "Select your radiostation's speed!",
+    "STARTSPEED": "Minimum BPM",
+    "ENDSPEED": "Maximum BPM",
     "DYNAMIC": "How dynmaic should your radio be?"
   },
   "ADD_CONSTRAINT": {
@@ -84,8 +87,7 @@
     "TITLE": "Which feature do you want to specify?",
     "GENRE": "Genre",
     "MOOD": "Mood",
-    "YEAR-START": "Start Year",
-    "YEAR-END": "End Year",
+    "YEAR": "Release date",
     "SPEED": "Speed",
     "DYNAMIC": "Dynamic"
   },
