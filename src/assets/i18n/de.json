@@ -70,9 +70,12 @@
     "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
     "GENRES": "Welche Genres willst du hören?",
     "MOOD": "Beschreibe die Stimmung der gewünschten Musik",
-    "ENDYEAR": "Wie alt sollen die Lieder höchtens sein?",
-    "STARTYEAR": "Wie neu dürfen die Lieder sein?",
-    "SPEED": "Wähle die BPM aus!",
+    "YEAR": "Wähle einen Veröffentlichungszeitraum!",
+    "STARTYEAR": "Wie alt sollen die Lieder höchtens sein?",
+    "ENDYEAR": "Wie neu dürfen die Lieder sein?",
+    "SPEED": "Wähle das Tempo der Radiostation aus!",
+    "STARTSPEED": "Minimale BPM",
+    "ENDSPEED": "Maximale BPM",
     "DYNAMIC": "Wie dynamisch soll dein Radio sein?"
   },
   "ADD_CONSTRAINT": {
@@ -80,14 +83,13 @@
     "TITLE": "Welche Eigenschaften willst du bestimmen?",
     "GENRE": "Genre",
     "MOOD": "Stimmung",
-    "YEAR-START": "Start-Jahr",
-    "YEAR-END": "End-Jahr",
+    "YEAR": "Veröffentlichungsjahr",
     "SPEED": "Tempo",
     "DYNAMIC": "Dynamik"
   },
 
   "MOOD_SELECTOR": {
-    "AROUSAL": "Wie angeregend soll die Musik sein?",
+    "AROUSAL": "Wie anregend soll die Musik sein?",
     "VALENCE": "Welche Grundstimmung soll die Musik haben?",
     "MOOD_TAG": "Deine ausgewählte Stimmung:"
   },

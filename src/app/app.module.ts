@@ -57,6 +57,7 @@ import {PlayerService} from './services/player.service';
 import {RadiostationService} from './services/radiostation.service';
 import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
+import {RangeSelectorComponent} from './components/range-selector/range-selector.component';
 
 
 /**
@@ -81,7 +82,8 @@ import {TrackService} from './services/track.service';
         TrackListItemComponent,
         PageTitleComponent,
         LikeComponent,
-        MoodSelectorComponent
+        MoodSelectorComponent,
+        RangeSelectorComponent
     ],
     /**
      * Import Angular's modules.

@@ -11,12 +11,11 @@
     align-items: center;
     align-content: center;
     flex-flow: column wrap;
+    overflow-y: hidden;
     height: calc(100% - 100px);
 
     .tile {
-      height: auto;
-      min-height: 150px;
-      width: 400px;
+      width: 380px;
       margin: $default-margin;
       display: flex;
       flex-direction: column;
@@ -25,6 +24,26 @@
       text-align: center;
       background-color: mat-color($default-theme-accent);
       overflow: hidden;
+
+      &.mood {
+        height: 220px;
+      }
+
+      &.genres {
+        height: 120px;
+      }
+
+      &.speed {
+        height: 140px;
+      }
+
+      &.dynamic {
+        height: 100px;
+      }
+
+      &.year {
+        height: 160px;
+      }
 
       p {
         margin-top: 10px;
