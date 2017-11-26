@@ -53,7 +53,8 @@ h2 {
           margin-right: 15px;
 
           &.right {
-            align-items: flex-end;
+            align-items: flex-start;
+            margin-left: 100px;
           }
         }
       }
@@ -76,4 +77,7 @@ h2 {
 
 #history-button-toggle-on {
   background-color: mat-color($default-theme-primary);
+}
+.track-info-att {
+  width: 80px;
 }

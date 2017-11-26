@@ -2,6 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {Config} from '../../config';
 import {Mood} from '../../models/mood';
 import {Moods} from '../../models/moods';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -18,17 +19,16 @@ export class MoodSelectorComponent {
     public valenceUpperLimit: number = Config.valenceUpperLimit;
 
     public moods: Moods;
-    public moodList: Mood[] = [];
     public selArousal: number;
     public selValence: number;
     public selMoodName: string;
 
+
     @Output()
     public selMood: EventEmitter<Mood> = new EventEmitter<Mood>();
 
-    constructor() {
-        this.moods = new Moods();
-        this.moodList = this.moods.moodlist;
+    constructor(translateService: TranslateService) {
+        this.moods = new Moods(translateService);
         this.selArousal = 0;
         this.selValence = 0;
         this.selMoodName = this.moods.getMood(this.selArousal, this.selValence).name;
@@ -44,6 +44,5 @@ export class MoodSelectorComponent {
         this.selMoodName = this.moods.getMood(this.selArousal, this.selValence).name;
         this.selMood.emit(this.moods.getMood(this.selArousal, this.selValence));
     }
-
 }
 

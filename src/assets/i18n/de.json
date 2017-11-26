@@ -69,7 +69,7 @@
     "TITLE": "Beginne die Wiedergabe mit folgendem Song",
     "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
     "GENRES": "Welche Genres willst du hören?",
-    "MOOD": "Beschreibe deine Stimmung",
+    "MOOD": "Beschreibe die Stimmung der gewünschten Musik",
     "ENDYEAR": "Wie alt sollen die Lieder höchtens sein?",
     "STARTYEAR": "Wie neu dürfen die Lieder sein?",
     "SPEED": "Wähle die BPM aus!",
@@ -87,9 +87,9 @@
   },
 
   "MOOD_SELECTOR": {
-    "AROUSAL": "Wie angeregt beziehungsweise wach fühlest du dich?",
-    "VALENCE": "Wie gut ist deine Grundstimmung?",
-    "MOOD_TAG": "Deine aktuelle Stimmung:"
+    "AROUSAL": "Wie angeregend soll die Musik sein?",
+    "VALENCE": "Welche Grundstimmung soll die Musik haben?",
+    "MOOD_TAG": "Deine ausgewählte Stimmung:"
   },
 
   "MOODS": {
@@ -140,7 +140,7 @@
     "BITTER": "verbittert",
     "INSULTED": "beleidigt",
     "DISTRUSTFUL": "misstrauisch",
-    "STARLTED": "erschrocken",
+    "STARTLED": "erschrocken",
     "DISAPPOINTED": "enttäuscht",
     "MISERABLE": "elend",
     "DISSATISFIED": "unzufrieden",
@@ -190,6 +190,10 @@
     "GLAD": "froh",
     "PLEASED": "erfreut",
     "FEEL_WELL": "wohlfühlend",
-    "IMPRESSED": "beeindruckt"
+    "IMPRESSED": "beeindruckt",
+    "ACTIVE": "aktiv",
+    "PASSIVE": "passiv",
+    "NEGATIVE": "negativ",
+    "POSITIVE": "positiv"
   }
 }

@@ -1,11 +1,18 @@
 import {Mood} from './mood';
+import {MoodGroups} from './mood-groups';
+import {TranslateService} from '@ngx-translate/core';
+
 
 export class Moods {
 
+
+
     private _moodlist: Mood[] = [];
+    public _moodGroups: MoodGroups[] = [];
 
 
-    constructor() {
+    constructor(translationService: TranslateService) {
+        //define moods
         this._moodlist.push(new Mood( 0, 'neutral', 0, 0));
         this._moodlist.push(new Mood( 1, 'happy', 0.15, 0.9));
         this._moodlist.push(new Mood( 2, 'joyous', 0.12, 0.95));
@@ -106,7 +113,81 @@ export class Moods {
         this._moodlist.push(new Mood(97, 'impressed', -0.07, 0.38));
 
 
+        //init the moodGroups Array
+        this._moodGroups = [new MoodGroups('neutral', [], translationService),
+                            new MoodGroups('positive', [], translationService),
+                            new MoodGroups('active', [], translationService),
+                            new MoodGroups('negative', [], translationService),
+                            new MoodGroups('passive', [], translationService)];
+
+        //fill the moodGroups Array
+        for (let mood of this._moodlist){
+            switch (this.getMoodGroup(mood)) {
+                case 'neutral': {
+                    this._moodGroups[0].addMood(mood);
+                    break;
+                }
+                case 'positive': {
+                    this._moodGroups[1].addMood(mood);
+                    break;
+                }
+                case 'active': {
+                    this._moodGroups[2].addMood(mood);
+                    break;
+                }
+                case 'negative': {
+                    this._moodGroups[3].addMood(mood);
+                    break;
+                }
+                case 'passive': {
+                    this._moodGroups[4].addMood(mood);
+                    break;
+                }
+            }
+
+        }
+
+        //sort the moods in each group
+        for (let mg of this._moodGroups){
+            mg.sortMoods();
+        }
+
     }
+
+    get moodGroups(): MoodGroups[] {
+        return this._moodGroups;
+    }
+
+    //sort the moods to four groups: aktive, passive, negative and positive
+    public getMoodGroup(pMood: Mood): string {
+        if (pMood.arousal == 0 && pMood.valence == 0) {
+            return 'neutral';
+        }else {
+            if (pMood.arousal >= 0) {
+                if (pMood.arousal >= Math.abs(pMood.valence)) {
+                    return 'active';
+                }else {
+                    if (pMood.valence >= 0) {
+                        return 'positive';
+                    } else {
+                        return 'negative';
+                    }
+                }
+            } else {
+                if (Math.abs(pMood.arousal) >=  Math.abs(pMood.valence)) {
+                    return 'passive';
+                }else {
+                    if (pMood.valence >= 0) {
+                        return 'positive';
+                    } else {
+                        return 'negative';
+                    }
+                }
+            }
+        }
+
+    }
+
 
     get moodlist(): Mood[] {
         return this._moodlist;
@@ -135,7 +216,7 @@ export class Moods {
         return nMood;
     }
 
-    //return the Arousal/Valence for given mood tag
+    //return the a/v for given mood tag
     public getAV(pName: string): Mood {
         for (let mood of this._moodlist) {
             if (pName === mood.name) {

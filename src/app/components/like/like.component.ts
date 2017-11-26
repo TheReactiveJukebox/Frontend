@@ -15,10 +15,10 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
     animations: [
         trigger('likeState', [
             state('0', style({
-                opacity: '.2',
+                opacity: '.35',
                 transform: 'scale(1)'
             })),
-            state('1',   style({
+            state('1', style({
                 opacity: '1',
                 transform: 'scale(1.1)'
             })),
@@ -29,10 +29,10 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
         ]),
         trigger('dislikeState', [
             state('0', style({
-                opacity: '.2',
+                opacity: '.35',
                 transform: 'scale(1)'
             })),
-            state('-1',   style({
+            state('-1', style({
                 opacity: '1',
                 transform: 'scale(1.1)'
             })),

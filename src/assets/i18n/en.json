@@ -69,7 +69,7 @@
     "TITLE": "Start playback with the following song",
     "PROP_SELECT": "Select the properties of your Radiostation!",
     "GENRES": "Which genre do you want to listen to?",
-    "MOOD": "Describe your current Mood?",
+    "MOOD": "Describe the mood of your desired music?",
     "STARTYEAR": "What should be the earliest release time?",
     "ENDYEAR": "What should be the latest release time?",
     "SPEED": "Select Track's BPM!",
@@ -87,9 +87,9 @@
   },
 
   "MOOD_SELECTOR": {
-    "AROUSAL": "How active or aroused do you feel?",
-    "VALENCE": "How pleasant is your current mood?",
-    "MOOD_TAG": "You are:"
+    "AROUSAL": "How active or aroused should the it be?",
+    "VALENCE": "How pleasant should the music be?",
+    "MOOD_TAG": "Your selected mood is:"
   },
 
   "MOODS": {
@@ -190,6 +190,10 @@
     "GLAD": "glad",
     "PLEASED": "pleased",
     "FEEL_WELL": "feel well",
-    "IMPRESSED": "impressed"
+    "IMPRESSED": "impressed",
+    "ACTIVE": "active",
+    "PASSIVE": "passive",
+    "NEGATIVE": "negative",
+    "POSITIVE": "positive"
   }
 }
