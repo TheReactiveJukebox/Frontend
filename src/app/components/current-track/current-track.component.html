@@ -31,23 +31,27 @@
                 <div class="track-details-container right">
                     <div *ngIf="currentTrack.genres.length > 0" class="detail-element">
                         <like></like>
-                        <a class="track-info-att"> Genres: </a>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.GENRES' | translate}}: </a>
                         <a class="track-info">{{currentTrack.genres[0]}} </a>
 
                     </div>
                     <div class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.speedFeedback"></like>
-                        <a class="track-info-att"> Tempo: </a>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.TEMPO' | translate}}: </a>
                         <a class="track-info">{{round(currentTrack.speed) + ' BPM'}}</a>
-
+                    </div>
+                    <div class="detail-element">
+                        <like (click)="onTrackFeedbackChanged()"
+                              [(value)]="currentTrack.trackFeedback.moodFeedback"></like>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.MOOD' | translate}}: </a>
+                        <a class="track-info"></a>
                     </div>
                     <div class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.dynamicsFeedback"></like>
-                        <a class="track-info-att"> Dynamik: </a>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.DYNAMICS' | translate}}: </a>
                         <a class="track-info">{{round(currentTrack.dynamic, 2)*100 + '%'}}</a>
-
                     </div>
                 </div>
             </div>
