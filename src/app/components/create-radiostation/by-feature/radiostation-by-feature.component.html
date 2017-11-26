@@ -19,7 +19,10 @@
             </md-card>
             <md-card class="year-container" *ngIf="tile == 'speed'">
                 <div class="slider-label">{{sliderSpeed.displayValue}}</div>
-                <md-slider #sliderSpeed [min]="speedLowerLimit" [max]="speedUpperLimit" [step]="1" [(ngModel)]="radiostation.speed"></md-slider>
+                <md-slider #sliderSpeed [min]="speedLowerLimit" [max]="speedUpperLimit" [step]="1" [(ngModel)]="radiostation.minSpeed"></md-slider>
+
+                <div class="slider-label">{{sliderMaxSpeed.displayValue}}</div>
+                <md-slider #sliderMaxSpeed [min]="speedLowerLimit" [max]="speedUpperLimit" [step]="1" [(ngModel)]="radiostation.maxSpeed"></md-slider>
             </md-card>
             <md-card class="year-container" *ngIf="tile == 'dynamic'">
                 <div class="slider-label">{{sliderDynamic.displayValue}}</div>

@@ -6,7 +6,8 @@ export class Radiostation {
     public algorithm: string;
     public startYear: number;
     public endYear: number;
-    public speed: number;
+    public minSpeed: number;
+    public maxSpeed: number;
     public dynamic: number;
     public genres: string[];
     public arousal: number;
@@ -20,7 +21,8 @@ export class Radiostation {
         this.algorithm = null;
         this.startYear = null;
         this.endYear = null;
-        this.speed = null;
+        this.minSpeed = null;
+        this.maxSpeed = null;
         this.dynamic = null;
         this.arousal = null;
         this.valence = null;
