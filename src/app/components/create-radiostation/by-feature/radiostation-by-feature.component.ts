@@ -76,6 +76,7 @@ export class RadiostationByFeatureComponent {
 
 
     public start(): void {
+        this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
             this.playerService.play();
@@ -83,6 +84,7 @@ export class RadiostationByFeatureComponent {
     }
 
     public update(): void {
+        this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
         });
@@ -112,7 +114,7 @@ export class RadiostationByFeatureComponent {
             this.tiles.push('year');
         }
 
-        if (this.radiostation.genres) {
+        if (this.radiostation.genres && this.radiostation.genres.length > 0) {
             this.tiles.push('genres');
         }
 

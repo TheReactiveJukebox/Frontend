@@ -17,7 +17,7 @@ export class FeedbackService {
     private feedbackUrl: string = Config.serverUrl + '/api/track/feedback';  // URL to web api
     private artistFeedbackUrl: string = Config.serverUrl + '/api/artist/feedback';
     private albumFeedbackUrl: string = Config.serverUrl + '/api/album/feedback';
-    // private genreFeedbackUrl: string = Config.serverUrl + '/api/genre/feedback';
+    private genreFeedbackUrl: string = Config.serverUrl + '/api/genre/feedback';
 
     private genreFeedbackCache: Map<string, GenreFeedback>;
 
@@ -33,7 +33,7 @@ export class FeedbackService {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
                 track.trackFeedback = error._body;
             } else {
-                console.warn('Sending feedback failed: ', error);
+                console.warn('Sending track feedback failed: ', error);
             }
         });
     }
@@ -46,7 +46,22 @@ export class FeedbackService {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
                 track.artist.feedback = error._body;
             } else {
-                console.warn('Sending feedback failed: ', error);
+                console.warn('Sending artist feedback failed: ', error);
+            }
+        });
+    }
+
+    public postGenreFeedback(track: Track): void {
+        this.authHttp.post(this.genreFeedbackUrl, track.genres[0]).subscribe((data: GenreFeedback) => {
+            track.genres[0] = data;
+            this.genreFeedbackCache.set(data.genre, data);
+        }, (error) => {
+            if (error.status == 500 && error.statusText == 'OK') {
+                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                track.genres[0] = error._body;
+                this.genreFeedbackCache.set(error._body.genre, error._body);
+            } else {
+                console.warn('Sending genre feedback failed: ', error);
             }
         });
     }
@@ -62,6 +77,60 @@ export class FeedbackService {
                 console.warn('Sending feedback failed: ', error);
             }
         });
+    }
+
+    public fetchGenreFeedback(genres: string[][]):  Observable<GenreFeedback[][]> {
+        let allGenres: Set<string> = new Set<string>();
+        for (let trackGenres of genres) {
+            for (let genre of trackGenres) {
+                allGenres.add(genre);
+            }
+        }
+        let missingGenres: string[] = [];
+        allGenres.forEach((genre) => {
+            if (!this.genreFeedbackCache.has(genre)) {
+                missingGenres.push(genre);
+            }
+        });
+
+        return Observable.create(observer => {
+            this.requestEntities(this.genreFeedbackUrl, missingGenres).subscribe((data: GenreFeedback[]) => {
+                this.addGenreFeedbackToCache(data);
+                let result: any[] = [];
+                for (let trackGenres of genres) {
+                    let feedbackObjects: GenreFeedback[] = [];
+                    for (let genre of trackGenres) {
+                        feedbackObjects.push(this.genreFeedbackCache.get(genre));
+                    }
+                    result.push(feedbackObjects);
+                }
+                observer.next(result);
+                observer.complete();
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchArtistFeedback!!!');
+                    this.addGenreFeedbackToCache(error._body);
+                    let result: any[] = [];
+                    for (let trackGenres of genres) {
+                        let feedbackObjects: GenreFeedback[] = [];
+                        for (let genre of trackGenres) {
+                            feedbackObjects.push(this.genreFeedbackCache.get(genre));
+                        }
+                        result.push(feedbackObjects);
+                    }
+                    observer.next(result);
+                    observer.complete();
+                } else {
+                    observer.error(error);
+                }
+            });
+        });
+    }
+
+    private addGenreFeedbackToCache(feedbacks: GenreFeedback[]): void {
+        for (let feedback of feedbacks) {
+            this.genreFeedbackCache.set(feedback.genre, feedback);
+        }
     }
 
     public fetchArtistFeedback(artistIds: number[]):  Observable<ArtistFeedback[]> {
@@ -98,7 +167,7 @@ export class FeedbackService {
         });
     }
 
-    private requestEntities(url: string, ids: number[]): Observable<any[]> {
+    private requestEntities(url: string, ids: any[]): Observable<any[]> {
         if (ids.length > 0) {
             let reqUrl = url + '?';
             for (let id of ids) {

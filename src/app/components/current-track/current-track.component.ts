@@ -75,6 +75,10 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         this.feedbackService.postTrackFeedback(this.currentTrack);
     }
 
+    public onGenreFeedbackChanged(): void {
+        this.feedbackService.postGenreFeedback(this.currentTrack);
+    }
+
     public onArtistFeedbackChanged(): void {
         this.feedbackService.postArtistFeedback(this.currentTrack);
     }

@@ -14,6 +14,7 @@ import {ArtistFeedback} from '../models/artist-feedback';
 import {AlbumFeedback} from '../models/album-feedback';
 import {Moods} from '../models/moods';
 import {TranslateService} from '@ngx-translate/core';
+import {GenreFeedback} from '../models/genre-feedback';
 
 @Injectable()
 export class TrackService {
@@ -123,6 +124,7 @@ export class TrackService {
         return Observable.create(observer => {
             let missingArtists: number[] = [];
             let missingAlbums: number[] = [];
+            let genres: string[][] = [];
             for (let rawTrack of rawTracks) {
                 if (rawTrack.releaseDate) {
                     rawTrack.releaseDate = new Date(rawTrack.releaseDate);
@@ -136,15 +138,18 @@ export class TrackService {
                 if (rawTrack.arousal && rawTrack.valence) {
                     rawTrack.mood = this.moods.getMood(rawTrack.arousal, rawTrack.valence);
                 }
+                genres.push(rawTrack.genres);
             }
             // get missing artists and albums from server
             Observable.forkJoin([
                 this.requestEntities(this.artistUrl, missingArtists),
-                this.requestEntities(this.albumUrl, missingAlbums)]).subscribe((data: any[]) => {
+                this.requestEntities(this.albumUrl, missingAlbums),
+                this.feedbackService.fetchGenreFeedback(genres)]).subscribe((data: any[]) => {
                 // data[0] = requested artists, data[1] = requested albums
                 console.log('DATA: ', data);
                 let artists: Artist[] = data[0];
                 let albums: Album[] = data[1];
+                let genreFeedbacks: GenreFeedback[][] = data[2];
 
                 let newArtistIds: number[] = this.getObjectIds(artists);
                 let newAlbumIds: number[] = this.getObjectIds(albums);
@@ -152,7 +157,7 @@ export class TrackService {
                 // fetch feedback for new artists and albums
                 Observable.forkJoin([
                     this.feedbackService.fetchArtistFeedback(newArtistIds),
-                    this.feedbackService.fetchAlbumFeedback(newAlbumIds)
+                    this.feedbackService.fetchAlbumFeedback(newAlbumIds),
                 ]).subscribe((feedbackData: any[]) => {
                     let artistFeedbacks: ArtistFeedback[] = feedbackData[0];
                     let albumFeedbacks: AlbumFeedback[] = feedbackData[1];
@@ -167,10 +172,12 @@ export class TrackService {
                         this.albumCache.set(albums[i].id, albums[i]);
                     }
 
-                    for (let rawTrack of rawTracks) {
-                        rawTrack.artist = this.artistCache.get(rawTrack.artist);
-                        rawTrack.album = this.albumCache.get(rawTrack.album);
+                    for (let i = 0; i < rawTracks.length; i++) {
+                        rawTracks[i].artist = this.artistCache.get(rawTracks[i].artist);
+                        rawTracks[i].album = this.albumCache.get(rawTracks[i].album);
+                        rawTracks[i].genres = genreFeedbacks[i];
                     }
+
                     observer.next(rawTracks);
                     observer.complete();
                 });
