@@ -12,12 +12,15 @@ import {AuthHttp} from './auth/auth-http';
 import {FeedbackService} from './feedback.service';
 import {ArtistFeedback} from '../models/artist-feedback';
 import {AlbumFeedback} from '../models/album-feedback';
+import {Moods} from '../models/moods';
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class TrackService {
 
     public currentTrack: BehaviorSubject<Track>;
     public nextTracks: BehaviorSubject<Track[]>;
+    public moods: Moods;
     private numberUpcomingSongs: number = 5;
 
     // dataCache for artists and albums. Before requesting any data from server, check if it's still here. if not, store
@@ -30,7 +33,9 @@ export class TrackService {
     private albumUrl: string = Config.serverUrl + '/api/album';
 
     constructor(private authHttp: AuthHttp,
-                private feedbackService: FeedbackService) {
+                private feedbackService: FeedbackService,
+                private translateService: TranslateService) {
+        this.moods = new Moods(translateService);
         this.currentTrack = new BehaviorSubject<Track>(null);
         this.nextTracks = new BehaviorSubject<Track[]>([]);
         this.artistCache = new Map<number, Artist>();
@@ -128,6 +133,9 @@ export class TrackService {
                 if (!this.albumCache.has(rawTrack.album)) {
                     missingAlbums.push(rawTrack.album);
                 }
+                if (rawTrack.arousal && rawTrack.valence) {
+                    rawTrack.mood = this.moods.getMood(rawTrack.arousal, rawTrack.valence);
+                }
             }
             // get missing artists and albums from server
             Observable.forkJoin([
@@ -171,7 +179,7 @@ export class TrackService {
     }
 
     private getObjectIds(objects: any[]): number[] {
-        return objects.map(function(obj: any): number {
+        return objects.map(function (obj: any): number {
             return obj.id;
         });
     }
@@ -231,8 +239,8 @@ export class TrackService {
     }
 
     public hasNextTracks(): boolean {
-        return  (this.currentTrack.getValue() != null) ||
-                (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
+        return (this.currentTrack.getValue() != null) ||
+            (this.nextTracks.getValue() != null && this.nextTracks.getValue().length > 0);
     }
 
 
