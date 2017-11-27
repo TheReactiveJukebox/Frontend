@@ -83,4 +83,8 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         this.feedbackService.postAlbumFeedback(this.currentTrack);
     }
 
+    public  capitalize(s: string): string {
+        return s[0].toUpperCase() + s.slice(1);
+    }
+
 }

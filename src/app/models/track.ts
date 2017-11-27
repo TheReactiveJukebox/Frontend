@@ -1,6 +1,7 @@
 import {Album} from './album';
 import {Artist} from './artist';
 import {TrackFeedback} from './track-feedback';
+import {Mood} from './mood';
 
 export class Track {
     public id: number;
@@ -15,6 +16,9 @@ export class Track {
     public speed: number;
     public dynamic: number;
     public genres: string[];
+    public valence?: number;
+    public arousal?: number;
+    public mood?: Mood;
     public releaseDate?: Date;
     public trackFeedback?: TrackFeedback;
 }
