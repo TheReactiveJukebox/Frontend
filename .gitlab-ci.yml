@@ -2,11 +2,6 @@ stages:
 - build_node_modules
 - test
 - build
-- build_image
-- test_image
-
-variables:
-  IMAGE_NAME_PRO: $CI_REGISTRY/jukebox/frontend/pro:$CI_COMMIT_REF_SLUG
 
 node_modules:
   stage: build_node_modules
@@ -45,16 +40,3 @@ npm:
   artifacts:
     paths:
     - dist/
-
-docker_image:
-  stage: build_image
-  dependencies:
-    - npm
-  script:
-    - docker build --pull -t $IMAGE_NAME_PRO .
-
-nginx_syntax:
-  stage: test_image
-  dependencies: []
-  script:
-    - docker run $IMAGE_NAME_PRO nginx -t
