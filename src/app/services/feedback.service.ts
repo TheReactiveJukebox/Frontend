@@ -65,11 +65,37 @@ export class FeedbackService {
     }
 
     public fetchArtistFeedback(artistIds: number[]):  Observable<ArtistFeedback[]> {
-        return this.requestEntities(this.artistFeedbackUrl, artistIds);
+        return Observable.create(observer => {
+            this.requestEntities(this.artistFeedbackUrl, artistIds).subscribe((data: ArtistFeedback[]) => {
+                observer.next(data);
+                observer.complete();
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchArtistFeedback!!!');
+                    observer.next(error._body);
+                    observer.complete();
+                } else {
+                    observer.error(error);
+                }
+            });
+        });
     }
 
     public fetchAlbumFeedback(albumIds: number[]):  Observable<AlbumFeedback[]> {
-        return this.requestEntities(this.albumFeedbackUrl, albumIds);
+        return Observable.create(observer => {
+            this.requestEntities(this.albumFeedbackUrl, albumIds).subscribe((data: AlbumFeedback[]) => {
+                observer.next(data);
+                observer.complete();
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchAlbumFeedback!!!');
+                    observer.next(error._body);
+                    observer.complete();
+                } else {
+                    observer.error(error);
+                }
+            });
+        });
     }
 
     private requestEntities(url: string, ids: number[]): Observable<any[]> {
