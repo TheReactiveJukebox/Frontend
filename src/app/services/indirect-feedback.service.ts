@@ -18,7 +18,11 @@ export class IndirectFeedbackService {
 
                 },
                 error => {
-                    console.log('postIndirectFeedback failed: ', error);
+                    if (error.status == 500 && error.statusText == 'OK') {
+                        console.warn('WARNING: UGLY CATCH OF 500 Error in postIndirectFeedback!!!');
+                    } else {
+                        console.warn('Sending feedback failed: ', error);
+                    }
                 }
             );
         }
