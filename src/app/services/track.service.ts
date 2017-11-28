@@ -15,7 +15,6 @@ import {AlbumFeedback} from '../models/album-feedback';
 import {Moods} from '../models/moods';
 import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class TrackService {
