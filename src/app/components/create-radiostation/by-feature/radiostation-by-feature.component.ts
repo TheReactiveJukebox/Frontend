@@ -55,9 +55,9 @@ export class RadiostationByFeatureComponent {
         this.resetRadiostation();
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
+                this.tiles = [];
                 this.radiostation = radiostation;
                 console.log('Radiostation: ', radiostation);
-                this.tiles = [];
                 this.loadRadiostation();
             }
         });
