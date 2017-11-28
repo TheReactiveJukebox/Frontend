@@ -4,16 +4,16 @@
             <p>{{minLabel}}</p>
             <md-card class="av-container">
                 <div class="slider-label">{{sliderMin.displayValue}}</div>
-                <md-slider #sliderMin [min]="minLimit" [max]="getMaxValue()"
-                           [step]="step" [(ngModel)]="minValue" (ngModelChange)="updateValues()"></md-slider>
+                <md-slider #sliderMin [min]="minLimit" [max]="maxLimit"
+                           [step]="step" [(ngModel)]="minValue" (ngModelChange)="updateValuesMin()"></md-slider>
             </md-card>
         </td>
         <td class="slider-td">
             <p>{{maxLabel}}</p>
             <md-card class="av-container">
                 <div class="slider-label">{{sliderMax.displayValue}}</div>
-                <md-slider #sliderMax [min]="getMinValue()" [max]="maxLimit"
-                           [step]="step" [(ngModel)]="maxValue" (ngModelChange)="updateValues()"></md-slider>
+                <md-slider #sliderMax [min]="minLimit" [max]="maxLimit"
+                           [step]="step" [(ngModel)]="maxValue" (ngModelChange)="updateValuesMax()"></md-slider>
             </md-card>
         </td>
     </tr>

@@ -39,6 +39,20 @@ export class RangeSelectorComponent {
 
     }
 
+    public updateValuesMin(): void {
+        if (this.maxValue < this.minValue) {
+            this.maxValue = this.minValue;
+        }
+        this.updateValues();
+    }
+
+    public updateValuesMax(): void {
+        if (this.minValue > this.maxValue) {
+            this.minValue = this.maxValue;
+        }
+        this.updateValues();
+    }
+
     public updateValues(): void {
         this.minValueChange.emit(this.minValue);
         this.maxValueChange.emit(this.maxValue);
@@ -51,6 +65,7 @@ export class RangeSelectorComponent {
             return this.minLimit;
         }
     }
+
 
     public getMaxValue(): number {
         if (this.maxValue) {
