@@ -7,7 +7,7 @@ WORKDIR /app
 
 # install dependencies one level above app
 COPY package.json .
-RUN npm install
+RUN npm -q install
 
 # declare volumes to mount app sources and config
 VOLUME ["/app/src", "/app/config"]
