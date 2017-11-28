@@ -107,23 +107,23 @@ export class RadiostationByFeatureComponent {
     }
 
     private loadRadiostation(): void {
-        if (this.radiostation.minSpeed || this.radiostation.maxSpeed) {
+        if (this.radiostation.minSpeed  != null || this.radiostation.maxSpeed != null) {
             this.tiles.push('speed');
         }
 
-        if (this.radiostation.arousal || this.radiostation.valence) {
+        if (this.radiostation.arousal != null || this.radiostation.valence != null) {
             this.tiles.push('mood');
         }
 
-        if (this.radiostation.startYear || this.radiostation.endYear) {
+        if (this.radiostation.startYear  != null || this.radiostation.endYear != null) {
             this.tiles.push('year');
         }
 
-        if (this.radiostation.genres && this.radiostation.genres.length > 0) {
+        if (this.radiostation.genres != null && this.radiostation.genres.length > 0) {
             this.tiles.push('genres');
         }
 
-        if (this.radiostation.dynamic) {
+        if (this.radiostation.dynamic != null) {
             this.tiles.push('dynamic');
         }
     }
