@@ -16,6 +16,8 @@ export class Config {
     public static valenceLowerLimit: number = -1;
     public static valenceUpperLimit: number = 1;
 
+    public static numberUpcomingSongs: number = 5;
+
     public static config: any = {
 
         development: {

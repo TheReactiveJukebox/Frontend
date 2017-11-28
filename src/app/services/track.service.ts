@@ -15,6 +15,7 @@ import {AlbumFeedback} from '../models/album-feedback';
 import {Moods} from '../models/moods';
 import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class TrackService {
@@ -22,7 +23,7 @@ export class TrackService {
     public currentTrack: BehaviorSubject<Track>;
     public nextTracks: BehaviorSubject<Track[]>;
     public moods: Moods;
-    private numberUpcomingSongs: number = 5;
+    private numberUpcomingSongs: number = Config.numberUpcomingSongs;
 
     // dataCache for artists and albums. Before requesting any data from server, check if it's still here. if not, store
     // it here to reduce waiting for backend
@@ -236,8 +237,10 @@ export class TrackService {
         tempTracks = tempTracks.slice(1);
         this.nextTracks.next(tempTracks);
         //Get new Track
-        this.fetchNewSongs(1, true).subscribe((tracks: Track[]) => {
-            tempTracks.push(tracks[0]);
+        this.fetchNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true).subscribe((tracks: Track[]) => {
+            for (let t of tracks) {
+                tempTracks.push(t);
+            }
             this.nextTracks.next(tempTracks);
         }, error => {
             console.log('Error in nextSong(): ', error);
