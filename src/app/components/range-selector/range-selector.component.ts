@@ -47,7 +47,7 @@ export class RangeSelectorComponent implements OnInit {
         if (this.maxValue == null) {
             this.maxValue = this.maxLimit;
         }
-
+        this.updateValues();
     }
 
     public updateValuesMin(): void {
