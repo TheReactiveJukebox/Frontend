@@ -54,7 +54,7 @@
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.dynamicsFeedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.DYNAMICS' | translate}}: </a>
-                        <a class="track-info">{{round(currentTrack.dynamic, 2)*100 + '%'}}</a>
+                        <a class="track-info">{{round(currentTrack.dynamic * 100, 0) + '%'}}</a>
                     </div>
                 </div>
             </div>
