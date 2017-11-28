@@ -6,7 +6,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     templateUrl: './range-selector.component.html',
 })
 
-export class RangeSelectorComponent implements OnInit {
+export class RangeSelectorComponent {
 
     @Input()
     public minLimit: number;
@@ -37,17 +37,6 @@ export class RangeSelectorComponent implements OnInit {
 
     constructor() {
 
-    }
-
-    public ngOnInit(): void {
-        if (this.minValue == null) {
-            this.minValue = this.minLimit;
-        }
-
-        if (this.maxValue == null) {
-            this.maxValue = this.maxLimit;
-        }
-        this.updateValues();
     }
 
     public updateValuesMin(): void {

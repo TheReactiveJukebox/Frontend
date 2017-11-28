@@ -134,6 +134,25 @@ export class RadiostationByFeatureComponent {
             this.showWarning();
         } else {
             this.tiles.push(result);
+            switch (result) {
+                case 'genres':
+                    this.radiostation.genres = [];
+                    break;
+                case 'year':
+                    this.radiostation.startYear = this.yearLowerLimit;
+                    this.radiostation.endYear = this.yearUpperLimit;
+                    break;
+                case 'speed':
+                    this.radiostation.minSpeed = this.speedLowerLimit;
+                    this.radiostation.maxSpeed = this.speedUpperLimit;
+                    break;
+                case 'mood':
+                    this.radiostation.arousal = 0;
+                    this.radiostation.valence = 0;
+                    break;
+                case 'dynamic':
+                    this.radiostation.dynamic = 0.5;
+            }
         }
     }
 
