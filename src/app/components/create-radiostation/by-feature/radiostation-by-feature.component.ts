@@ -72,10 +72,12 @@ export class RadiostationByFeatureComponent {
     public resetRadiostation(): void {
         this.radiostation = new Radiostation();
         this.radiostation.algorithm = 'RANDOM';
+        this.tiles = [];
     }
 
 
     public start(): void {
+        // TODO: If we have some new algorithms, we need to change this default value
         this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
@@ -84,6 +86,7 @@ export class RadiostationByFeatureComponent {
     }
 
     public update(): void {
+        // TODO: If we have some new algorithms, we need to change this default value
         this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
