@@ -5,7 +5,8 @@ import {Track} from '../../models/track';
 import {AuthService} from '../../services/auth/auth.service';
 import {PlayerService} from '../../services/player.service';
 import {TrackService} from '../../services/track.service';
-
+import {RadiostationService} from '../../services/radiostation.service';
+import {Radiostation} from '../../models/radiostation';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class PlayerComponent implements OnInit {
 
     constructor(public authService: AuthService,
                 public trackService: TrackService,
+                public radiostationService: RadiostationService,
                 private mdIconRegistry: MdIconRegistry,
                 private sanitizer: DomSanitizer) {
         this.trackService.currentTrack.subscribe((track: Track) => {
@@ -32,14 +34,19 @@ export class PlayerComponent implements OnInit {
                 this.showPlayerBar = false;
             }
         });
+        this.radiostationService.getRadiostationSubject().subscribe((radio: Radiostation) => {
+            if (radio != null) {
+                this.switchToPlayer();
+            }
+        });
+
     }
 
     public ngOnInit(): void {
-        if (this.trackService.hasNextTracks()) {
-            this.tabs.selectedIndex = 2;
-        } else {
-            this.tabs.selectedIndex = 0;
-        }
+
+
+        this.tabs.selectedIndex = 0;
+
         this.mdIconRegistry.addSvgIconInNamespace('img', 'sprites',
             this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/img/sprites.svg'));
     }

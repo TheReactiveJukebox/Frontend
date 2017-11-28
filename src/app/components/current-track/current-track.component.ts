@@ -90,5 +90,4 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
     public  capitalize(s: string): string {
         return s[0].toUpperCase() + s.slice(1);
     }
-
 }
