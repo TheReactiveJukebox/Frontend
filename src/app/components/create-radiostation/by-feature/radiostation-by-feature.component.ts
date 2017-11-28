@@ -9,6 +9,7 @@ import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
+import {TrackService} from '../../../services/track.service';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class RadiostationByFeatureComponent {
     public onStart: EventEmitter<any> = new EventEmitter();
 
     constructor(public radiostationService: RadiostationService,
+                public trackService: TrackService,
                 private playerService: PlayerService,
                 private translateService: TranslateService,
                 public dialog: MdDialog,
@@ -134,18 +136,23 @@ export class RadiostationByFeatureComponent {
 
     public removeProperty(property: string, index: number): void {
         switch (property) {
-            case 'genres': this.radiostation.genres = null;
-            break;
-            case 'year': this.radiostation.startYear = null;
-                         this.radiostation.endYear = null;
-            break;
-            case 'speed': this.radiostation.minSpeed = null;
-                          this.radiostation.maxSpeed = null;
-            break;
-            case 'mood': this.radiostation.arousal = null;
-                         this.radiostation.valence = null;
-            break;
-            case 'dynamic': this.radiostation.dynamic = null;
+            case 'genres':
+                this.radiostation.genres = null;
+                break;
+            case 'year':
+                this.radiostation.startYear = null;
+                this.radiostation.endYear = null;
+                break;
+            case 'speed':
+                this.radiostation.minSpeed = null;
+                this.radiostation.maxSpeed = null;
+                break;
+            case 'mood':
+                this.radiostation.arousal = null;
+                this.radiostation.valence = null;
+                break;
+            case 'dynamic':
+                this.radiostation.dynamic = null;
         }
         this.tiles.splice(index, 1);
     }
