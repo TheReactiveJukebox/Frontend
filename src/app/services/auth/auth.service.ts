@@ -24,12 +24,12 @@ export class AuthService {
     }
 
     // returns user's loggedin status as Observable
-    getLoggedIn (): Observable<boolean> {
+    public getLoggedIn (): Observable<boolean> {
         return this.loggedIn.asObservable();
     }
 
     // returns true, if user is logged in, otherwise false.
-    isLoggedIn (): boolean {
+    public isLoggedIn (): boolean {
         return this.loggedIn.getValue();
     }
 

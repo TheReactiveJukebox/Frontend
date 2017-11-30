@@ -1,11 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
-import {DialogService} from '../../services/dialog.service';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
 import {TrackService} from '../../services/track.service';
-
 
 @Component({
     selector: 'current-track',
@@ -14,11 +12,10 @@ import {TrackService} from '../../services/track.service';
 })
 export class CurrentTrackComponent implements OnInit, OnDestroy {
 
-    currentTrack: Track;
-    btnVisible: boolean = false;
+    public currentTrack: Track;
+    public btnVisible: boolean = false;
     private subscriptions: Subscription[];
-    historyButtonClass: string = 'reducedHistory-button-toggle-off';
-
+    public historyButtonClass: string = 'reducedHistory-button-toggle-off';
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
@@ -27,7 +24,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         this.subscriptions = [];
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
 
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
@@ -40,7 +37,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
         for (let subscription of this.subscriptions) {
@@ -48,36 +45,7 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_like(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, true);
-
-        this.btnVisible = true;
-        //wait 3 seconds and hide
-        setTimeout(function () {
-            this.btnVisible = false;
-        }.bind(this), 3000);
-    }
-
-    btn_dislike(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, false);
-
-        this.btnVisible = true;
-        //wait 3 seconds and hide
-        setTimeout(function () {
-            this.btnVisible = false;
-        }.bind(this), 3000);
-    }
-
-    //opens a dialog for special feedback
-    dialog_special_feedback(): void {
-        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
-    }
-
-    btn_Tendency(): void {
-        this.feedbackService.openTendencyFeedbackDialog();
-    }
-
-    btn_history_toggle(): void {
+    public btn_history_toggle(): void {
         if (this.historyService.historyVisible) {
             this.historyService.historyVisible = false;
             this.historyButtonClass = 'history-button-toggle-off';
@@ -87,8 +55,39 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
         }
     }
 
-    btn_renew(): void {
-        this.trackService.refreshTrackList();
+    public btn_renew(): void {
+        this.trackService.refreshUpcomingTracks();
     }
 
+    public round(value: number, digits?: number): number {
+        if (digits) {
+            value *= Math.pow(10, digits);
+            value = Math.round(value);
+            value /= Math.pow(10, digits);
+            return value;
+        } else {
+            return Math.round(value);
+        }
+    }
+
+    // TODO add timer to avoid multiple calls
+    public onTrackFeedbackChanged(): void {
+        this.feedbackService.postTrackFeedback(this.currentTrack);
+    }
+
+    public onGenreFeedbackChanged(): void {
+        this.feedbackService.postGenreFeedback(this.currentTrack);
+    }
+
+    public onArtistFeedbackChanged(): void {
+        this.feedbackService.postArtistFeedback(this.currentTrack);
+    }
+
+    public onAlbumFeedbackChanged(): void {
+        this.feedbackService.postAlbumFeedback(this.currentTrack);
+    }
+
+    public  capitalize(s: string): string {
+        return s[0].toUpperCase() + s.slice(1);
+    }
 }

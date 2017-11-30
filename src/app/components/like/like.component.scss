@@ -1,0 +1,16 @@
+@import "~@angular/material/theming";
+@import "../../../styles/styles";
+
+.like-button {
+  float: left;
+  margin-right: 4px;
+  cursor: pointer;
+  opacity: .35;
+  font-size: larger;
+  margin-top: 3px;
+  margin-bottom: -3px;
+}
+
+.dislike, .like{
+  opacity: 1;
+}

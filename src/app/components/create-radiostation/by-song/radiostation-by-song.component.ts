@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
+import {Radiostation} from '../../../models/radiostation';
 import {Track} from '../../../models/track';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
@@ -11,52 +12,48 @@ import {RadiostationService} from '../../../services/radiostation.service';
 })
 export class RadiostationBySongComponent {
 
-    creationParameters: {
-        startTracks?: number[],
-        algorithm?: string
-    } = {
-        algorithm: 'SAGH',
-        startTracks: []
-    };
-
-    tracks: Track[];
-    algorithms: string[];
+    public tracks: Track[];
+    public algorithms: string[];
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
+
+    public radiostation: Radiostation;
 
     constructor(public radiostationService: RadiostationService,
                 public playerService: PlayerService) {
         this.radiostationService.getAlgorithms().subscribe((algorithms: string[]) => {
             this.algorithms = algorithms;
         });
-        this.tracks = [];
+        this.reset();
     }
 
-    reset(): void {
+    public reset(): void {
         this.tracks = [];
-        this.creationParameters.startTracks = [];
+        this.radiostation = new Radiostation();
+        this.radiostation.algorithm = 'SAGH';
     }
 
     public deleteSelection(value: Track): void {
         this.tracks.splice(this.tracks.indexOf(value), 1);
-        this.creationParameters.startTracks.splice(this.creationParameters.startTracks.indexOf(value.id), 1);
+        this.radiostation.startTracks.splice(this.radiostation.startTracks.indexOf(value.id), 1);
     }
 
     public start(): void {
-        this.radiostationService.startNewRadiostation(this.creationParameters);
-        this.playerService.play();
-        this.onStart.emit();
+        this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
+            this.playerService.play();
+            this.onStart.emit();
+        });
     }
 
     public addStartTrack(track: Track): void {
         if (this.tracks.indexOf(track) == -1) {
             if (this.tracks.length == 5) {
                 this.tracks.splice(0, 1);
-                this.creationParameters.startTracks.splice(0, 1);
+                this.radiostation.startTracks.splice(0, 1);
             }
             this.tracks.push(track);
-            this.creationParameters.startTracks.push(track.id);
+            this.radiostation.startTracks.push(track.id);
         }
     }
 

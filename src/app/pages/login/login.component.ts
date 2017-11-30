@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { MdTabGroup } from '@angular/material';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
@@ -9,10 +9,10 @@ import {AuthService} from '../../services/auth/auth.service';
     templateUrl: './login.component.html',
     styleUrls: [ './login.component.scss' ]
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
 
     @HostListener('window:keydown', ['$event'])
-    keyboardInput(event: KeyboardEvent) {
+    public keyboardInput(event: KeyboardEvent): void {
         if (event.key == 'Enter') {
             if (this.tabGroup.selectedIndex == 0) {
                 this.login();
@@ -22,22 +22,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
-    @ViewChild('tabGroup') tabGroup: MdTabGroup;
+    @ViewChild('tabGroup') private tabGroup: MdTabGroup;
 
-    loginData: {username?: string, password?: string} = {};
-    registerData: {username?: string, password?: string, inviteKey?: string} = {};
+    public loginData: {username?: string, password?: string} = {};
+    public registerData: {username?: string, password?: string, inviteKey?: string} = {};
 
     constructor(private authService: AuthService,
                 private translateService: TranslateService,
                 private router: Router) {}
 
-    public ngOnInit(): void {
-    }
-
-    public ngOnDestroy(): void {
-    }
-
-    login(): void {
+    public login(): void {
         this.authService.login(this.loginData).subscribe(() => {
             this.router.navigate(['/player']);
         }, (error: Response) => {
@@ -49,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
-    register(): void {
+    public register(): void {
         this.authService.registerUser(this.registerData).subscribe(data => {
             this.router.navigate(['/player']);
         }, (error: Response) => {

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
@@ -12,7 +12,6 @@ import {TrackService} from '../../services/track.service';
 })
 export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
-
     public currentTrack: Track;
     public title: string = '???';
     public artist: string = '???';
@@ -25,8 +24,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.subscriptions = [];
     }
 
-    ngOnInit(): void {
-
+    public ngOnInit(): void {
         // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
         // gets destroyed.
@@ -36,10 +34,9 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
                 this.trackUpdated();
             })
         );
-
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
         for (let subscription of this.subscriptions) {
@@ -65,24 +62,12 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         this.playerService.setProgress(event.offsetX / window.innerWidth * this.duration);
     }
 
-    public onSliderChange(value): void {
+    public onSliderChange(value: number): void {
         this.playerService.setVolume(value);
     }
 
-    public like(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, true);
-    }
-
-    public dislike(): void {
-        this.feedbackService.postSimpleFeedback(this.currentTrack, false);
-    }
-
-    public getSpecialFeedback(): void {
-        this.feedbackService.openTrackFeedbackDialog(this.currentTrack);
-    }
-
-    public getTendencyFeedback(): void {
-        this.feedbackService.openTendencyFeedbackDialog();
+    public feedback(): void {
+        this.feedbackService.postTrackFeedback(this.currentTrack);
     }
 
 }

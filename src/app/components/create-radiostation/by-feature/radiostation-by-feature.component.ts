@@ -1,13 +1,16 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
-import {Jukebox} from '../../../models/jukebox';
+import {Mood} from '../../../models/mood';
+import {Radiostation} from '../../../models/radiostation';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
+import {TrackService} from '../../../services/track.service';
+
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -15,50 +18,48 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
     templateUrl: './radiostation-by-feature.component.html',
     animations: [
         trigger('expand', [
-            state('true', style({'width': '*'})),
-            state('void', style({'width': '0px'})),
+            state('true', style({'opacity': '1.0', 'width': '*', 'top': '0px'})),
+            state('void', style({'opacity': '0.0', 'width': '0px', 'top': '100px'})),
             transition('void => *', animate('0.3s ease-out')),
             transition('* => void', animate('0.3s ease-out'))
         ])
     ]
 })
-export class RadiostationByFeatureComponent implements OnInit {
+export class RadiostationByFeatureComponent {
 
-    creationParameters:
-        {
-            id?: number,
-            genres?: string[],
-            mood?: string,
-            startYear?: number,
-            endYear?: number,
-            algorithm?: string
-        } = {};
+    public genres: string[] = [];
 
-    //keys should hold all identifing strings for the feature tiles
-    keys = {genre: 'genre', mood: 'mood', endYear: 'year-end', startYear: 'year-start'};
+    public tiles: string[] = [];
 
-    /* tiles should be filled with
-    {type: key of the feature to set,
-    value: default value and the field to store the selection,
-    id: automatic id to identify the tile e.g. for deletion} */
-    tiles = [];
-    genres = [];
-    //mocked moods
-    moods = ['crazy', 'happy', 'sad'];
-    tileId: number = 0;
+    public speedLowerLimit: number = Config.speedLowerLimit;
+    public speedUpperLimit: number = Config.speedUpperLimit;
+    public dynamicLowerLimit: number = Config.dynamicLowerLimit;
+    public dynamicUpperLimit: number = Config.dynamicUpperLimit;
+    public yearLowerLimit: number = Config.yearLowerLimit;
+    public yearUpperLimit: number = Config.yearUpperLimit;
+
+    private genreApiUrl: string = Config.serverUrl + '/api/genre';  // URL to web api
+
+    public radiostation: Radiostation;
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
-    private genreApiUrl = Config.serverUrl + '/api/genre';  // URL to web api
 
     constructor(public radiostationService: RadiostationService,
+                public trackService: TrackService,
                 private playerService: PlayerService,
                 private translateService: TranslateService,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp,
                 public snackBar: MdSnackBar) {
-        this.radiostationService.getJukeboxSubject().subscribe((jukebox: Jukebox) => {
-            this.refresh(jukebox);
+        this.resetRadiostation();
+        this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
+            if (radiostation != null) {
+                this.tiles = [];
+                this.radiostation = radiostation;
+                console.log('Radiostation: ', radiostation);
+                this.loadRadiostation();
+            }
         });
 
         //fetch the available genres from server
@@ -68,126 +69,125 @@ export class RadiostationByFeatureComponent implements OnInit {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
-        //TODO: load available moods
-    }
-
-    ngOnInit(): void {
-
-    }
-
-    private refresh(jukebox: Jukebox): void {
-        if (jukebox) {
-            this.tiles = [];
-            this.tileId = 0;
-            if (jukebox.genres) {
-                for (let genre of jukebox.genres) {
-                    this.tiles.push({type: this.keys.genre, value: genre, id: this.tileId++});
-                }
-            }
-            if (jukebox.mood) {
-                this.tiles.push({type: this.keys.mood, value: jukebox.mood, id: this.tileId++});
-            }
-            if (jukebox.startYear) {
-                this.tiles.push({type: this.keys.startYear, value: jukebox.startYear, id: this.tileId++});
-            }
-            if (jukebox.endYear) {
-                this.tiles.push({type: this.keys.endYear, value: jukebox.endYear, id: this.tileId++});
-            }
-        }
     }
 
     //resets the gui
-    reset() {
+    public resetRadiostation(): void {
+        this.radiostation = new Radiostation();
+        this.radiostation.algorithm = 'RANDOM';
         this.tiles = [];
     }
 
 
-    start() {
-        //remove the creationparameters from the last call
-        this.resetCreationParameters();
-        //set the corresponding parameter
-        for (let tile of this.tiles) {
-            if (tile.type == this.keys.genre) {
-                if (this.creationParameters.genres == null) {
-                    this.creationParameters.genres = [tile.value];
-                } else {
-                    this.creationParameters.genres.push(tile.value);
-                }
-            }
-            if (tile.type == this.keys.mood) {
-                this.creationParameters.mood = tile.value;
-            }
-            if (tile.type == this.keys.endYear) {
-                this.creationParameters.endYear = +tile.value;
-            }
-            if (tile.type == this.keys.startYear) {
-                this.creationParameters.startYear = +tile.value;
-            }
-        }
-        //call server for radio
-        this.creationParameters.algorithm = 'RANDOM';
-        this.radiostationService.startNewRadiostation(this.creationParameters);
-        //start playing
-        this.playerService.play();
-        this.onStart.emit();
-    }
-
-    //opens a dialog to select the constraint to specify
-    selectConstraint(): void {
-        let dialogRef = this.dialog.open(AddConstraintDialogComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            this.addConstraint(result);
+    public start(): void {
+        // TODO: If we have some new algorithms, we need to change this default value
+        this.radiostation.algorithm = 'RANDOM';
+        this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
+            this.onStart.emit();
+            this.playerService.play();
         });
     }
 
+    public update(): void {
+        // TODO: If we have some new algorithms, we need to change this default value
+        this.radiostation.algorithm = 'RANDOM';
+        this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
+            this.onStart.emit();
+        });
+    }
+
+    //opens a dialog to select the constraint to specify
+    public selectConstraint(): void {
+        let dialogRef = this.dialog.open(AddConstraintDialogComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.addConstraint(result);
+            }
+        });
+    }
+
+    private loadRadiostation(): void {
+        if (this.radiostation.minSpeed  != null || this.radiostation.maxSpeed != null) {
+            this.tiles.push('speed');
+        }
+
+        if (this.radiostation.arousal != null || this.radiostation.valence != null) {
+            this.tiles.push('mood');
+        }
+
+        if (this.radiostation.startYear  != null || this.radiostation.endYear != null) {
+            this.tiles.push('year');
+        }
+
+        if (this.radiostation.genres != null && this.radiostation.genres.length > 0) {
+            this.tiles.push('genres');
+        }
+
+        if (this.radiostation.dynamic != null) {
+            this.tiles.push('dynamic');
+        }
+    }
+
     //adds an element to the gui for the keywords
-    addConstraint(result: string): void {
-        //there can be an unlimetd number of genre elements
-        if (result == this.keys.genre) {
-            this.tiles.push({type: this.keys.genre, value: this.genres[0], id: this.tileId++});
+    public addConstraint(result: string): void {
+        if (this.tiles.indexOf(result) != -1) {
+            this.showWarning();
         } else {
-            //check if the other elements already contained
-            let contained = false;
-            for (let entry of this.tiles) {
-                if (entry.type == result) {
-                    contained = true;
-                }
-            }
-            //create the element
-            if (!contained) {
-                if (result == this.keys.mood) {
-                    this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
-                }
-                if (result == this.keys.endYear) {
-                    this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
-                }
-                if (result == this.keys.startYear) {
-                    this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
-                }
-            } else {
-                this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
-                    duration: 2000,
-                });
+            this.tiles.push(result);
+            switch (result) {
+                case 'genres':
+                    this.radiostation.genres = [];
+                    break;
+                case 'year':
+                    this.radiostation.startYear = this.yearLowerLimit;
+                    this.radiostation.endYear = this.yearUpperLimit;
+                    break;
+                case 'speed':
+                    this.radiostation.minSpeed = this.speedLowerLimit;
+                    this.radiostation.maxSpeed = this.speedUpperLimit;
+                    break;
+                case 'mood':
+                    this.radiostation.arousal = 0;
+                    this.radiostation.valence = 0;
+                    break;
+                case 'dynamic':
+                    this.radiostation.dynamic = 0.5;
             }
         }
     }
 
-    //removes the tile with the specified key from the tiles array
-    remove(key: number): void {
-        let tmpTiles = [];
-        for (let tile of this.tiles) {
-            if (tile.id != key) {
-                tmpTiles.push(tile);
-            }
+    public removeProperty(property: string, index: number): void {
+        switch (property) {
+            case 'genres':
+                this.radiostation.genres = null;
+                break;
+            case 'year':
+                this.radiostation.startYear = null;
+                this.radiostation.endYear = null;
+                break;
+            case 'speed':
+                this.radiostation.minSpeed = null;
+                this.radiostation.maxSpeed = null;
+                break;
+            case 'mood':
+                this.radiostation.arousal = null;
+                this.radiostation.valence = null;
+                break;
+            case 'dynamic':
+                this.radiostation.dynamic = null;
         }
-        this.tiles = tmpTiles;
+        this.tiles.splice(index, 1);
     }
 
-    //resets the creation parameters to avoid, that old parameters will be used
-    resetCreationParameters(): void {
-        this.creationParameters.genres = null;
-        this.creationParameters.mood = null;
-        this.creationParameters.startYear = 0;
-        this.creationParameters.endYear = 2099;
+    private showWarning(): void {
+        this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
+            duration: 2000,
+        });
     }
+
+    public setSelMood(pSelMood: Mood): void {
+        this.radiostation.valence = pSelMood.valence;
+        this.radiostation.arousal = pSelMood.arousal;
+    }
+
 }

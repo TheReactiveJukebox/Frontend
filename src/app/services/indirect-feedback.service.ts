@@ -6,7 +6,7 @@ import {AuthHttp} from './auth/auth-http';
 @Injectable()
 export class IndirectFeedbackService {
 
-    private indirectFeedbackURI = Config.serverUrl + '/api/track/indirect-feedback';
+    private indirectFeedbackURI: string = Config.serverUrl + '/api/track/indirect-feedback';
 
     constructor(private authHttp: AuthHttp) {}
 

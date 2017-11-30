@@ -19,38 +19,45 @@ import {FeedbackService} from '../../../services/feedback.service';
 export class TrackListItemComponent {
 
     @Input()
-    track: Track;
+    public track: Track;
 
     @Input()
-    showFeedback: boolean = true;
+    public showFeedback: boolean = true;
 
     @Input()
-    showDelete: boolean = true;
+    public showDelete: boolean = true;
+
+    @Input()
+    public showPlay: boolean = true;
 
     @Output()
-    onDelete: EventEmitter<any>;
+    public onDelete: EventEmitter<any>;
+
+    @Output()
+    public onCoverClick: EventEmitter<any>;
 
     public showItem: boolean;
 
     constructor(public feedbackService: FeedbackService) {
         this.onDelete = new EventEmitter<any>();
+        this.onCoverClick = new EventEmitter<any>();
         this.showItem = true;
     }
 
-    btn_like() {
-        this.feedbackService.postSimpleFeedback(this.track, true);
-    }
-
-    btn_dislike() {
-        this.feedbackService.postSimpleFeedback(this.track, false);
-    }
-
-    public round(value: number): number {
-        return Math.round(value);
+    public btn_like(): void {
+        this.feedbackService.postTrackFeedback(this.track);
     }
 
     public hideItem(): void {
         this.showItem = false;
+    }
+
+    public getTrackCover(): string {
+        if (this.track.cover) {
+            return this.track.cover;
+        } else {
+            return '../../../../assets/img/album_cover.png';
+        }
     }
 
 }

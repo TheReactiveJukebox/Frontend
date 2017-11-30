@@ -2,13 +2,21 @@ export class Config {
     public static serverUrl: string;
     public static dev: boolean;
 
-    public static speedUpperLimit = 300;
-    public static speedLowerLimit = 1;
-    public static speedStepsize = 5;
-    public static dynamicStepsize = 0.05;
-    public static yearStepsize = 5;
-    public static yearLowerLimit = 1800;
-    public static yearUpperLimit = (new Date()).getFullYear();
+    public static speedUpperLimit: number = 300;
+    public static speedLowerLimit: number = 1;
+    public static speedStepsize: number = 5;
+    public static dynamicStepsize: number = 0.05;
+    public static yearStepsize: number = 5;
+    public static yearLowerLimit: number = 1800;
+    public static yearUpperLimit: number = (new Date()).getFullYear();
+    public static dynamicLowerLimit: number = 0;
+    public static dynamicUpperLimit: number = 1;
+    public static arousalLowerLimit: number = -1;
+    public static arousalUpperLimit: number = 1;
+    public static valenceLowerLimit: number = -1;
+    public static valenceUpperLimit: number = 1;
+
+    public static numberUpcomingSongs: number = 5;
 
     public static config: any = {
 

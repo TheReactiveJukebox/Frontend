@@ -1,7 +1,9 @@
 import {Artist} from './artist';
+import {AlbumFeedback} from './album-feedback';
 
 export class Album {
-    id: number;
-    artist: Artist;
-    title: string;
+    public id: number;
+    public artist: Artist;
+    public title: string;
+    public feedback?: AlbumFeedback;
 }

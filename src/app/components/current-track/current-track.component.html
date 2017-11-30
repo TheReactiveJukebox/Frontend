@@ -1,71 +1,78 @@
-<td [class]="'themeClass'" id="content-wrapper">
+<div [class]="'themeClass'" id="content-wrapper">
     <md-card *ngIf="!currentTrack">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
-    <div *ngIf="currentTrack" class="ct-container">
-        <table id="now-playing-details-table">
-            <tr>
-                <td id="cover-img-table-wrapper">
-                    <div id="cover-img-wrapper">
-                        <a> <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
-                            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover"
-                                 class="cover-img">
+    <div id="song-info" *ngIf="currentTrack">
+        <div id="cover-img-table-wrapper">
+            <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
+            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
+        </div>
+
+        <div id="text-container">
+            <div class="detail-element">
+                <like (click)="onTrackFeedbackChanged()" [(value)]="currentTrack.trackFeedback.songFeedback"></like>
+                <h1 class="track-info">{{currentTrack.title}}</h1>
+
+            </div>
+            <div id="sub-text-container">
+                <div class="track-details-container">
+                    <div class="detail-element">
+                        <like (click)="onArtistFeedbackChanged()"
+                              [(value)]="currentTrack.artist.feedback.feedback"></like>
+                        <h3 class="track-info">{{currentTrack.artist.name}}</h3>
+
+                    </div>
+                    <div class="detail-element">
+                        <like (click)="onAlbumFeedbackChanged()"
+                              [(value)]="currentTrack.album.feedback.feedback"></like>
+                        <a class="track-info">{{currentTrack.album.title}} </a>
+                        <a *ngIf="currentTrack.releaseDate" class="track-info">
+                            ({{currentTrack.releaseDate.getFullYear()}})
                         </a>
                     </div>
-                </td>
-                <td id="now-playing-details-table-wrapper">
-                    <div id="now-playing-details-wrapper">
-                        <h1 class="track-info">{{currentTrack.title}}</h1>
-                        <h3 class="track-info">{{currentTrack.artist.name}}</h3>
-                        <a class="track-info">{{currentTrack.album.title}} </a>
-                        <a *ngIf="currentTrack.releaseDate" class="track-info">({{currentTrack.releaseDate.getFullYear()}}) </a><br>
-                        <a class="track-info">{{currentTrack.genres[0]}} </a>
-                        <table id="feedback-button-table">
-                            <tr>
-                                <td>
-                                    <button
-                                            md-icon-button
-                                            class="feedback-button-wrapper"
-                                            (click)="btn_like()">
-                                        <md-icon class="feedback-icons">thumb_up</md-icon>
-                                    </button>
-                                    <button
-                                            md-icon-button
-                                            class="feedback-button-wrapper"
-                                            (click)="btn_dislike()">
-                                        <md-icon class="feedback-icons">thumb_down</md-icon>
-                                    </button>
-                                </td>
-                                <button md-raised-button *ngIf="btnVisible" id="special-feedback-btn"
-                                        (click)="dialog_special_feedback()">{{'CURRENT_TRACK.SPECIALFEEDBACK' |
-                                    translate}}
-                                </button>
-                            </tr>
-                        </table>
+                </div>
+
+                <div class="track-details-container right">
+                    <div *ngIf="currentTrack.genres.length > 0" class="detail-element">
+                        <like (click)="onGenreFeedbackChanged()"
+                              [(value)]="currentTrack.genres[0].feedback"></like>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.GENRES' | translate}}: </a>
+                        <a class="track-info">{{capitalize(currentTrack.genres[0].genre)}} </a>
+
                     </div>
-                </td>
-                <td class="history-button-table-wrapper">
-                    <button md-fab disableRipple="true"
-                            id="{{historyButtonClass}}"
-                            (click)="btn_history_toggle()"
-                            mdTooltip="{{'CURRENT_TRACK.HISTORY_TOOL_TIP' | translate}}">
-                        <md-icon>history</md-icon>
-                    </button>
-                </td>
-                <td class="history-button-table-wrapper">
-                    <button md-fab disableRipple="true"
-                            (click)="btn_renew()"
-                            mdTooltip="{{'CURRENT_TRACK.REFRESH' | translate}}">
-                        <md-icon>autorenew</md-icon>
-                    </button>
-                </td>
-                <td class="history-button-table-wrapper">
-                    <button md-fab disableRipple="true"
-                            (click)="btn_Tendency()"
-                            mdTooltip="{{'CURRENT_TRACK.TENDISC' | translate}}">
-                        <md-icon id="tendency_button_wrapper">feedback</md-icon>
-                    </button>
-                </td>
-            </tr>
-        </table>
+                    <div *ngIf="currentTrack.speed" class="detail-element">
+                        <like (click)="onTrackFeedbackChanged()"
+                              [(value)]="currentTrack.trackFeedback.speedFeedback"></like>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.TEMPO' | translate}}: </a>
+                        <a class="track-info">{{round(currentTrack.speed) + ' BPM'}}</a>
+                    </div>
+                    <div *ngIf="currentTrack.mood" class="detail-element">
+                        <like (click)="onTrackFeedbackChanged()"
+                              [(value)]="currentTrack.trackFeedback.moodFeedback"></like>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.MOOD' | translate}}: </a>
+                        <a class="track-info">{{capitalize('MOODS.'+ currentTrack.mood.name.toUpperCase() | translate)}}</a>
+                    </div>
+                    <div *ngIf="currentTrack.dynamic" class="detail-element">
+                        <like (click)="onTrackFeedbackChanged()"
+                              [(value)]="currentTrack.trackFeedback.dynamicsFeedback"></like>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.DYNAMICS' | translate}}: </a>
+                        <a class="track-info">{{round(currentTrack.dynamic * 100, 0) + '%'}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- This div is ignoring the flex-layout set by it's parent! -->
+        <div id="action-buttons">
+            <button md-fab disableRipple="true"
+                    id="{{historyButtonClass}}"
+                    (click)="btn_history_toggle()"
+                    mdTooltip="{{'CURRENT_TRACK.HISTORY_TOOL_TIP' | translate}}">
+                <md-icon>history</md-icon>
+            </button>
+            <button md-fab disableRipple="true"
+                    (click)="btn_renew()"
+                    mdTooltip="{{'CURRENT_TRACK.REFRESH' | translate}}">
+                <md-icon>autorenew</md-icon>
+            </button>
+        </div>
     </div>
-</td>
-<div style="clear:both"></div>
+</div>

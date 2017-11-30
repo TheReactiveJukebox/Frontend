@@ -1,10 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Subject} from 'rxjs/Subject';
-import {Config} from '../../config';
-import {Tendency} from '../../models/tendency';
-import {FeedbackService} from '../../services/feedback.service';
 import {PlayerService} from '../../services/player.service';
+import {RadiostationService} from '../../services/radiostation.service';
 import {SpeechService} from '../../services/speech.service';
 
 @Component({
@@ -14,37 +12,31 @@ import {SpeechService} from '../../services/speech.service';
 })
 export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
-
     @Output()
     public detectedText: string;
     @Output()
-    searchCall = new EventEmitter();
+    public searchCall: EventEmitter<any> = new EventEmitter();
 
-    @Input() minimal: boolean = false;
+    @Input() public minimal: boolean = false;
 
     public listening: boolean;
     private ngUnsubscribe: Subject<void>;
-    public micColor;
-    private colorRunner;
-    //private beep;
+    public micColor: any;
+    private colorRunner: number;
 
     private controlTerms: Map<string, number>;
 
-
     constructor(public speechService: SpeechService,
                 public playerService: PlayerService,
-                private translateService: TranslateService,
-                private feedbackService: FeedbackService) {
+                private radiostationService: RadiostationService,
+                private translateService: TranslateService) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
         this.micColor = {'color': `rgba(255,255,255,1)`};
         this.animateColor();
-        //this.beep = new Audio();
-        //this.beep.src = 'http://www.soundjay.com/button/beep-03.wav';
-        //this.beep.load();
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         // subscribe to Listening Observable. When ever the browser starts or stops listening, this will be called
         this.speechService.isListening().takeUntil(this.ngUnsubscribe).subscribe((listening: boolean) => {
             this.listening = listening;
@@ -52,7 +44,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         this.initializeControlTerms();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
     }
@@ -113,7 +105,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
          11: Slower
          12: Older
          13: Newer
-         14: More of Genre
          */
         this.controlTerms.set('abspielen', 1);
         this.controlTerms.set('wiedergeben', 1);
@@ -168,7 +159,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         let tokens: string[] = speech.toLocaleLowerCase().split(' ');
         let action: number = -1;
         let j = 0;
-        let genre: string;
         for (let i of tokens) {
             if (this.controlTerms.has(i)) {
                 action = this.controlTerms.get(i);
@@ -177,10 +167,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
             if ((i.includes('more') || i.includes('mehr')) && tokens.length > j + 1 ) {
                 if (tokens[j + 1].includes('dynamic') || tokens[j + 1].includes('dynamik')) {
                     action = 8;
-                }
-                if (tokens[j + 1].includes('of') || tokens[j + 1].includes('von') && tokens.length > j + 2) {
-                    genre = tokens[j + 2];
-                    action = 14;
                 }
             }
             if ((i.includes('less') || i.includes('les')) && tokens.length > j + 1 ) {
@@ -234,43 +220,33 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
                 break;
             }
             case 8: {
-                this.feedbackService.moreDynamic();
+                // TODO this.radiostationService.moreDynamic();
                 break;
             }
             case 9: {
-                this.feedbackService.lessDynamic();
+                // TODO this.radiostationService.lessDynamic();
                 break;
             }
             case 10: {
-                this.feedbackService.faster();
+                this.radiostationService.faster();
                 break;
             }
             case 11: {
-                this.feedbackService.slower();
+                this.radiostationService.slower();
                 break;
             }
-
             case 12: {
-                this.feedbackService.older();
+                // TODO this.radiostationService.older();
                 break;
             }
             case 13: {
-                this.feedbackService.newer();
-                break;
-            }
-            case 14: {
-                this.feedbackService.moreOfGenre(genre);
+                // TODO this.radiostationService.newer();
                 break;
             }
             default: {
             }
         }
         this.searchCall.emit(speech);
-    }
-
-    roundAvoid(value: number, places: number): number {
-        let scale = Math.pow(10, places);
-        return Math.round(value * scale) / scale;
     }
 
     public animateColor(): void {

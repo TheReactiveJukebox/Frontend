@@ -1,34 +1,22 @@
 <md-list-item *ngIf="track" [@expand]="showItem">
-    <p class="tl-cover-col">
-        <a> <img *ngIf="track.cover" src="{{track.cover}}" alt="Cover" class="cover-img">
-            <img *ngIf="!track.cover" src="../../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
-        </a>
-    </p>
-    <p class="tl-title-col">{{track.title}}</p>
-    <p class="tl-artist-col">{{track.artist.name}}</p>
-    <p class="tl-album-col">{{track.album.title}}</p>
-    <p class="tl-genre-col">{{track.genres[0]}}</p>
+    <div class="tl-cover-col" (click)="onCoverClick.emit()">
+        <div [ngStyle]="{'background-image': 'url('+getTrackCover()+')'}" alt="Cover" class="cover-img">
+            <md-icon *ngIf="showPlay">play_circle_outline</md-icon>
+        </div>
+    </div>
+    <div class="text">
+        <p class="tl-title-col">{{track.title}}</p>
+        <p class="tl-artist-col">{{track.artist.name}}</p>
+        <p class="tl-album-col">{{track.album.title}}</p>
+        <p class="tl-genre-col" *ngIf="track.genres.length > 0">{{track.genres[0].genre}}</p>
+        <p class="tl-genre-col" *ngIf="!(track.genres.length > 0)">{{'-'}}</p>
+    </div>
     <p class="tl-date-col" *ngIf="track.releaseDate">{{track.releaseDate.getFullYear()}}</p>
     <p class="tl-date-col" *ngIf="!track.releaseDate">{{'-'}}</p>
     <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
 
-
-    <button *ngIf="showFeedback"
-            class="t1-like-col"
-            md-icon-button
-            class="feedback-button-wrapper"
-            (click)="btn_like(); $event.stopPropagation()">
-        <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_up</md-icon>
-    </button>
-    <button  *ngIf="showFeedback"
-            class="t1-dislike-col"
-            md-icon-button
-            class="feedback-button-wrapper"
-            (click)="btn_dislike(); $event.stopPropagation()">
-        <md-icon class="feedback-icons feedback-md-icon-wrapper">thumb_down</md-icon>
-    </button>
     <button *ngIf="showDelete"
-            class="t1-icon-col"
+            class="tl-icon-col"
             md-icon-button
             (click)="onDelete.emit($event); $event.stopPropagation(); hideItem()">
         <md-icon>delete</md-icon>

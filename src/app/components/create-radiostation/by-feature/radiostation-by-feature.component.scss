@@ -7,31 +7,65 @@
 
   #feature-container {
     display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    flex-flow: column wrap;
+    overflow-y: hidden;
+    height: calc(100% - 100px);
 
     .tile {
-      height: 80px;
-      width: 200px;
+      width: 380px;
       margin: $default-margin;
-      display: block;
-      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
       text-align: center;
-      vertical-align: middle;
       background-color: mat-color($default-theme-accent);
       overflow: hidden;
 
-      #close-tile-button {
+      &.mood {
+        height: 220px;
+      }
+
+      &.genres {
+        height: 120px;
+      }
+
+      &.speed {
+        height: 140px;
+      }
+
+      &.dynamic {
+        height: 100px;
+      }
+
+      &.year {
+        height: 160px;
+      }
+
+      p {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      .close-tile-button {
         position: absolute;
         top: -7px;
         right: -7px;
       }
 
       .year-container {
-        width: 60px;
-        height: 19px;
-        padding: 3px;
-        margin-left: 70px;
+        .slider-label {
+          width: 50px;
+        }
+
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        width: 180px;
+        height: 35px;
       }
     }
 

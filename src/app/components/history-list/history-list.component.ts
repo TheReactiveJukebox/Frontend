@@ -20,8 +20,8 @@ import {RadiostationService} from '../../services/radiostation.service';
 })
 export class HistoryListComponent {
 
-    isExpanded: boolean = false;
-    visibilityLimit: number = 5;
+    public isExpanded: boolean = false;
+    public visibilityLimit: number = 5;
 
     constructor(public historyService: HistoryService,
                 private indirectFeedbackService: IndirectFeedbackService,
@@ -33,6 +33,6 @@ export class HistoryListComponent {
 
     public indirectFeedback(track: Track): void {
         //Sends delete Feedback with duration as position to indicate deletion out of history
-        this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radioStationService.getJukebox().id, track.duration);
+        this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radioStationService.getRadiostation().id, track.duration);
     }
 }

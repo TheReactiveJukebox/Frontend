@@ -5,6 +5,7 @@ import {Injectable, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
+import {HistoryService} from './history.service';
 import {IndirectFeedbackService} from './indirect-feedback.service';
 import {RadiostationService} from './radiostation.service';
 import {TrackService} from './track.service';
@@ -22,6 +23,7 @@ export class PlayerService implements OnDestroy {
 
     constructor(private trackService: TrackService,
                 private radiostationService: RadiostationService,
+                private historyService: HistoryService,
                 private indirectFeedbackService: IndirectFeedbackService,
                 private authHttp: AuthHttp) {
         //set the default player settings
@@ -53,11 +55,11 @@ export class PlayerService implements OnDestroy {
             )
         )
         ;
-        this.trackService.refreshTracks();
+        this.trackService.refreshCurrentAndUpcomingTracks();
         this.isPlaying = false;
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
         for (let subscription of this.subscriptions
@@ -140,7 +142,7 @@ export class PlayerService implements OnDestroy {
      */
     public skipForward(addToHistory: boolean): void {
         if (this.currentTrack != null && (addToHistory || (this.progress / this.currentTrack.duration) > 0.9)) {
-            this.radiostationService.writeToHistory(this.currentTrack);
+            this.historyService.writeToHistory(this.currentTrack);
         }
         let currentID: number = this.currentTrack.id;
         let currentProgress: number = this.progress;
@@ -149,7 +151,7 @@ export class PlayerService implements OnDestroy {
 
         if (!addToHistory) { //Check if legitimate skip
             this.indirectFeedbackService.sendSkipFeedback(currentID, nextTrack.id,
-                this.radiostationService.getJukebox().id, currentProgress); //Skip feedback
+                this.radiostationService.getRadiostation().id, currentProgress); //Skip feedback
         }
     }
 

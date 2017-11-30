@@ -18,7 +18,7 @@ export class AuthHttp {
      * Basic request method. This method adds the authentication token to each request, before the request is sent to
      * the server.
      */
-    request(request: Request, options?: RequestOptionsArgs): Observable<Response> {
+    public request(request: Request, options?: RequestOptionsArgs): Observable<Response> {
         request.headers.append('Authorization', 'Bearer ' + this.authService.getToken());
         return this.http.request(request, options);
     }
@@ -28,10 +28,10 @@ export class AuthHttp {
      * @param url The url to the music file.
      * @returns an urlObject, that contains the music file. this can be set as src to audio element.
      */
-    getTrack(url: string): Observable<any> {
+    public getTrack(url: string): Observable<any> {
         return Observable.create(observer => {
             let xhr: XMLHttpRequest = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function(): void {
                 if (this.readyState == 4 && this.status == 200) {
                     observer.next(window.URL.createObjectURL(this.response));
                     observer.complete();
@@ -48,7 +48,7 @@ export class AuthHttp {
      * Performs a authenticated request with `get` http method.
      * @param url: The Url to the REST-Api
      */
-    get(url: string): Observable<any> {
+    public get(url: string): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
             url: url,
             method: RequestMethod.Get,
@@ -68,7 +68,7 @@ export class AuthHttp {
      * @param url: The Url to the REST-Api
      * @param body: Any content, that should be sent to the server.
      */
-    post(url: string, body: any): Observable<any> {
+    public post(url: string, body: any): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
             url: url,
             method: RequestMethod.Post,
@@ -89,7 +89,7 @@ export class AuthHttp {
      * @param url: The Url to the REST-Api
      * @param body: Any content, that should be sent to the server.
      */
-    put(url: string, body: any): Observable<any> {
+    public put(url: string, body: any): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
             url: url,
             method: RequestMethod.Put,
@@ -110,7 +110,7 @@ export class AuthHttp {
      * Can not be named `delete` because that is a reserved name.
      * @param url: The Url to the REST-Api
      */
-    http_delete(url: string): Observable<any> {
+    public http_delete(url: string): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
             url: url,
             method: RequestMethod.Delete,
