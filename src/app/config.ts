@@ -1,6 +1,7 @@
 export class Config {
     public static serverUrl: string;
     public static dev: boolean;
+    public static study: boolean;
 
     public static speedUpperLimit: number = 300;
     public static speedLowerLimit: number = 1;
@@ -21,14 +22,22 @@ export class Config {
     public static config: any = {
 
         development: {
-            //serverUrl: 'https://192.168.99.100',
+            // serverUrl: 'https://192.168.99.100',
             serverUrl: 'https://localhost',
-            dev: true
+            dev: true,
+            study: false
         },
 
         production: {
             serverUrl: 'https://pg.netz1984.de:4799',
-            dev: false
+            dev: false,
+            study: false
+        },
+
+        productionStudy: {
+            serverUrl: '???', //TODO
+            dev: false,
+            study: true
         }
     };
 
@@ -38,6 +47,7 @@ export class Config {
         }
         Config.serverUrl = Config.config[env].serverUrl;
         Config.dev = Config.config[env].dev;
+        Config.study = Config.config[env].study;
     }
 
 }

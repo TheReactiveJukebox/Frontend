@@ -16,7 +16,7 @@
                 <button md-raised-button class="login-button" (click)="login()">{{'LOGIN_PAGE.LOGIN' | translate}}
                 </button>
             </md-tab>
-            <md-tab [label]="'LOGIN_PAGE.REGISTER' | translate">
+            <md-tab *ngIf="!study" [label]="'LOGIN_PAGE.REGISTER' | translate">
                 <h1>{{'LOGIN_PAGE.REGISTER' | translate}}</h1>
                 <md-input-container class="login-input">
                     <input mdInput [(ngModel)]="registerData.username" [placeholder]="'GENERAL.USERNAME' | translate"
