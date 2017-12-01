@@ -59,6 +59,8 @@ import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
 import {RangeSelectorComponent} from './components/range-selector/range-selector.component';
 import {WelcomeComponent} from './components/welcome/welcome.component';
+import {SurveyService} from './services/survey.service';
+import {OpenSurveyComponent} from './components/dialogs/open-survey/open-survey.component';
 
 
 /**
@@ -85,7 +87,8 @@ import {WelcomeComponent} from './components/welcome/welcome.component';
         LikeComponent,
         MoodSelectorComponent,
         RangeSelectorComponent,
-        WelcomeComponent
+        WelcomeComponent,
+        OpenSurveyComponent
     ],
     /**
      * Import Angular's modules.
@@ -108,7 +111,8 @@ import {WelcomeComponent} from './components/welcome/welcome.component';
         })
     ],
     entryComponents: [
-        AddConstraintDialogComponent
+        AddConstraintDialogComponent,
+        OpenSurveyComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
@@ -125,7 +129,8 @@ import {WelcomeComponent} from './components/welcome/welcome.component';
         FeedbackService,
         PlayerService,
         HistoryService,
-        IndirectFeedbackService
+        IndirectFeedbackService,
+        SurveyService
     ]
 })
 export class AppModule {

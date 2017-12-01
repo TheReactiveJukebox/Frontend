@@ -6,6 +6,7 @@ import {IndirectFeedbackService} from '../../services/indirect-feedback.service'
 import {PlayerService} from '../../services/player.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {TrackService} from '../../services/track.service';
+import {SurveyService} from '../../services/survey.service';
 
 @Component({
     selector: 'track-list',
@@ -20,6 +21,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
     constructor(public trackService: TrackService,
                 public indirectFeedbackService: IndirectFeedbackService,
                 public radiostationService: RadiostationService,
+                private surveyService: SurveyService,
                 private historyService: HistoryService,
                 public playerService: PlayerService) {
         this.subscriptions = [];
@@ -54,6 +56,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
         //if more than 90% of the song are completed, the current Track will be written to the global History
         if (this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9) {
             this.historyService.writeToHistory(this.playerService.currentTrack);
+            this.surveyService.countUp();
         }
         this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id, track.id ,
             this.radiostationService.getRadiostation().id, this.playerService.progress);

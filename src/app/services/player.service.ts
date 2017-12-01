@@ -9,6 +9,7 @@ import {HistoryService} from './history.service';
 import {IndirectFeedbackService} from './indirect-feedback.service';
 import {RadiostationService} from './radiostation.service';
 import {TrackService} from './track.service';
+import {SurveyService} from './survey.service';
 
 @Injectable()
 export class PlayerService implements OnDestroy {
@@ -24,6 +25,7 @@ export class PlayerService implements OnDestroy {
     constructor(private trackService: TrackService,
                 private radiostationService: RadiostationService,
                 private historyService: HistoryService,
+                private surveyService: SurveyService,
                 private indirectFeedbackService: IndirectFeedbackService,
                 private authHttp: AuthHttp) {
         //set the default player settings
@@ -143,6 +145,7 @@ export class PlayerService implements OnDestroy {
     public skipForward(addToHistory: boolean): void {
         if (this.currentTrack != null && (addToHistory || (this.progress / this.currentTrack.duration) > 0.9)) {
             this.historyService.writeToHistory(this.currentTrack);
+            this.surveyService.countUp();
         }
         let currentID: number = this.currentTrack.id;
         let currentProgress: number = this.progress;

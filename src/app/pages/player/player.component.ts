@@ -8,6 +8,7 @@ import {TrackService} from '../../services/track.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {Radiostation} from '../../models/radiostation';
 import {Config} from '../../config';
+import {SurveyService} from '../../services/survey.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class PlayerComponent implements OnInit {
                 public trackService: TrackService,
                 public radiostationService: RadiostationService,
                 private mdIconRegistry: MdIconRegistry,
+                public surveyService: SurveyService,
                 private sanitizer: DomSanitizer) {
         this.trackService.currentTrack.subscribe((track: Track) => {
             if (track) {
