@@ -7,6 +7,7 @@ import {PlayerService} from '../../services/player.service';
 import {TrackService} from '../../services/track.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {Radiostation} from '../../models/radiostation';
+import {Config} from '../../config';
 
 
 @Component({
@@ -22,6 +23,8 @@ export class PlayerComponent implements OnInit {
 
     public showPlayerBar: boolean = false;
 
+    public study: boolean = Config.study;
+
     constructor(public authService: AuthService,
                 public trackService: TrackService,
                 public radiostationService: RadiostationService,
@@ -35,7 +38,7 @@ export class PlayerComponent implements OnInit {
             }
         });
         this.radiostationService.getRadiostationSubject().subscribe((radio: Radiostation) => {
-            if (radio != null) {
+            if (radio != null && !this.study) {
                 this.switchToPlayer();
             }
         });
@@ -43,9 +46,9 @@ export class PlayerComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-
-
-        this.tabs.selectedIndex = 0;
+        if (this.study) {
+            this.tabs.selectedIndex = 3;
+        }
 
         this.mdIconRegistry.addSvgIconInNamespace('img', 'sprites',
             this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/img/sprites.svg'));
@@ -53,6 +56,10 @@ export class PlayerComponent implements OnInit {
 
     public switchToPlayer(): void {
         this.tabs.selectedIndex = 2;
+    }
+
+    public switchToCreate(): void {
+        this.tabs.selectedIndex = 0;
     }
 
     public getOffsetHeight(): number {

@@ -1,0 +1,38 @@
+<page-title>The Reactive Jukebox</page-title>
+<div id="main">
+    <p>Willkommen zur unserer Studie!</p>
+    <p>
+        An dieser Stelle schon mal ein Dankeschön dafür, das du dich für unsere Studie etwas Zeit nimmst. Keine Sorge, es dauert
+        nicht lange und du kannst dabei sogar deine Lieblingsmusik hören!
+    </p>
+    <p>
+        In unserer Studie wollen wir heraus finden, wie man Musik-Empfehlungen generieren kann. Dazu haben wir ein Feedback-System
+        entwickelt, das auf detailierte Kriterien reagieren kann. In dieser Studie möchten wir dich bitten, dieses System
+        einmal auszuprobieren und uns am Ende zu sagen, was du davon hälst.
+    </p>
+    <p>
+        Dazu erstellst du zunächst eine sog. Radiostation nach deinen persönlichen Präferenzen.
+        Es gibt eine Reihe von Optionen, die du bei der Erstellung angeben kannst.
+        <!-- TODO: Bild einfügen-->
+    </p>
+    <p>
+        Dann geht's auch schon los mit der Musik!
+        Die Radiostation startet mit ersten Vorschlägen.
+        Wenn dir ein Song gefällt kannst du angeben, was diesen Song für dich so gut macht.
+        Die Radiostation wird dann mehr Songs in dieser Art empfehlen.
+        Und wenn dir ein Song nicht gefällt: Kein Problem.
+        Lass es uns wissen, und deine Radiostation wird nicht mehr solche Lieder spielen.
+        <!-- TODO: Bild einfügen -->
+    </p>
+    <p>
+        Am Ende haben wir dann noch eine paar Fragen an dich.
+        Hier kannst du deine Meinung zu dem System abgeben, damit wir es verbessern können.
+    </p>
+
+    <button md-raised-button class="mat-accent" (click)="onStart.emit($event);">Los geht's!</button>
+
+</div>
+
+<div id="footer">
+    <!-- Impressum 'n' shit -->
+</div>

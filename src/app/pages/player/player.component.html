@@ -25,6 +25,13 @@
                 <track-list></track-list>
             </div>
         </md-tab>
+
+        <md-tab *ngIf="study">
+            <ng-template md-tab-label>
+                <md-icon [mdTooltip]="'Hilfe'" class="tab-icons">info</md-icon>
+            </ng-template>
+            <welcome (onStart)="switchToCreate()"></welcome>
+        </md-tab>
     </md-tab-group>
     <player-control-bar *ngIf="trackService.currentTrack.getValue()"></player-control-bar>
     <div class="header-button-container">
