@@ -60,4 +60,18 @@ export class TrackListItemComponent {
         }
     }
 
+    public getGenres(): string {
+        let genres: string = '';
+        for (let genre of this.track.genres) {
+            let genreStr: string = this.capitalize(genre.genre);
+            genres += genreStr + ', ';
+        }
+        genres = genres.substr(0, genres.length - 2);
+        return genres;
+    }
+
+    public  capitalize(s: string): string {
+        return s[0].toUpperCase() + s.slice(1);
+    }
+
 }
