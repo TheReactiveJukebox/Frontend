@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="track-details-container right">
-                    <div *ngFor="let genre of currentTrack.genres" class="detail-element">
+                    <div *ngFor="let genre of getGenres()" class="detail-element">
                         <like (click)="onGenreFeedbackChanged()"
                               [(value)]="genre.feedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.GENRE' | translate}}: </a>
