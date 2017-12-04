@@ -44,7 +44,6 @@ export class AuthService {
             if (data) { // check if there is any token to send to the server, otherwise abort the autologin
                 let parts: string[] = data.split(',');
                 this.token = parts[0];
-                console.log('TOKEN: ', this.token);
                 this.loginWithToken(this.token, parts[1]).subscribe(result => {
                     observer.next(result);
                     observer.complete();

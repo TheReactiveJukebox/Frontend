@@ -3,6 +3,8 @@ import {AuthService} from './auth/auth.service';
 import {Config} from '../config';
 import {MdDialog} from '@angular/material';
 import {OpenSurveyComponent} from '../components/dialogs/open-survey/open-survey.component';
+import {TrackService} from './track.service';
+import {Track} from '../models/track';
 
 @Injectable()
 export class SurveyService {
@@ -10,13 +12,20 @@ export class SurveyService {
     private surveyUrl: string = 'https://docs.google.com/forms/d/e/1FAIpQLSeFrq80WF_HWSxvQaaF8xvtk9YZt5_DpZ5yMxb8-EalK_YTrQ/viewform?' +
         'usp=pp_url&entry.478674814=';
 
-    // TODO: define a final rule for 'finished users'
-    private songTarget: number = 15;
+    private playedSongsTarget: number = 20;
+    private startedSongsTarget: number = 30;
     private playedSongs: number = 0;
+    private startedSongs: number = 0;
     private popupOpened: boolean = false;
 
     constructor(private authService: AuthService,
+                private trackService: TrackService,
                 private dialog: MdDialog) {
+        this.trackService.currentTrack.asObservable().subscribe((track: Track) => {
+            if (track != null) {
+                this.startedSongs++;
+            }
+        });
     }
 
     public openSurvey(): void {
@@ -24,7 +33,7 @@ export class SurveyService {
     }
 
     public canOpenSurvey(): boolean {
-        return this.playedSongs >= this.songTarget;
+        return this.playedSongs >= this.playedSongsTarget || this.startedSongs >= this.startedSongsTarget;
     }
 
     public countUp(): void {
