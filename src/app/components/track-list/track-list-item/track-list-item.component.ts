@@ -2,7 +2,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Track} from '../../../models/track';
 import {FeedbackService} from '../../../services/feedback.service';
-import {Config} from "../../../config";
+import {Config} from '../../../config';
 
 @Component({
     selector: 'track-list-item',
