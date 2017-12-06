@@ -2,7 +2,7 @@
   "ALGORITHMS": {
     "RANDOM": "Random",
     "SAGH": "Same Artist Greatest Hits",
-    "MOOD": "Song Mood"
+    "MOOD": "Similar Mood"
   },
   "GENERAL": {
     "INVITE_KEY": "Invite Key",
