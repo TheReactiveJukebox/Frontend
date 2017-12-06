@@ -1,0 +1,26 @@
+@import '~@angular/material/theming';
+@import '../../../../../theme.scss';
+
+.tile {
+  width: 360px;
+  margin: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-color: mat-color($default-theme-accent);
+  overflow: hidden;
+
+  p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .close-tile-button {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+  }
+}

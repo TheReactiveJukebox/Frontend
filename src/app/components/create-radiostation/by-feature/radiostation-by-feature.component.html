@@ -3,12 +3,15 @@
 
     <div id="feature-container">
         <!-- create the tiles used to select the feature -->
-        <md-card class="tile" *ngFor="let tile of tiles; let i = index" [ngClass]="tile">
+        <tile [label]="'RADIOSTATION_CREATE.MOOD' | translate" (onDelete)="removeProperty('mood')" [showContent]="true">
+            <mood-selector (selMood)="setSelMood($event)"></mood-selector>
+        </tile>
+
+        <md-card class="tile" *ngFor="let tile of tiles; let i = index">
             <button md-icon-button class="close-tile-button" (click)="removeProperty(tile, i)">
                 <md-icon>close</md-icon>
             </button>
             <p>{{'RADIOSTATION_CREATE.'+ tile.toUpperCase() | translate}}</p>
-            <mood-selector *ngIf="tile == 'mood'" (selMood)="setSelMood($event)"></mood-selector>
 
             <range-selector *ngIf="tile == 'year'"
                             [maxLimit]="yearUpperLimit"
@@ -31,7 +34,7 @@
                 <div class="slider-label">{{sliderDynamic.displayValue}}</div>
                 <md-slider #sliderDynamic [min]="dynamicLowerLimit" [max]="dynamicUpperLimit" [step]="0.05" [(ngModel)]="radiostation.dynamic"></md-slider>
             </md-card>
-            <md-card *ngIf="tile == 'genres'" [@expand]="tile">
+            <md-card class="genre-container" *ngIf="tile == 'genres'" [@expand]="tile">
                 <md-select style="width: 300px; padding: 0" multiple [(ngModel)]="radiostation.genres">
                     <md-option *ngFor="let option of genres" [value]="option">{{option}}</md-option>
                 </md-select>

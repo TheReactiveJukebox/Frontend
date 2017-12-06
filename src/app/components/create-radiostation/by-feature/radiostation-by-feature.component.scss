@@ -15,8 +15,9 @@
     height: calc(100% - 100px);
 
     .tile {
-      width: 380px;
-      margin: $default-margin;
+      width: 360px;
+      margin: 5px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -54,6 +55,10 @@
         position: absolute;
         top: -7px;
         right: -7px;
+      }
+
+      .genre-container {
+        padding: 10px;
       }
 
       .year-container {

@@ -1,0 +1,12 @@
+<md-card class="tile">
+    <p>{{label}}</p>
+    <div *ngIf="showContent">
+        <button md-icon-button class="close-tile-button" (click)="onDelete.emit()">
+            <md-icon>close</md-icon>
+        </button>
+        <ng-content></ng-content>
+    </div>
+    <button *ngIf="!showContent" md-raised-button class="mat-accent" (click)="onAdd.emit()">
+        <md-icon>add_circle</md-icon>
+    </button>
+</md-card>

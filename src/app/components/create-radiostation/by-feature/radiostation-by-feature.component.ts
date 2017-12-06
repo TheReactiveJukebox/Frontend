@@ -156,7 +156,7 @@ export class RadiostationByFeatureComponent {
         }
     }
 
-    public removeProperty(property: string, index: number): void {
+    public removeProperty(property: string): void {
         switch (property) {
             case 'genres':
                 this.radiostation.genres = null;
@@ -176,7 +176,6 @@ export class RadiostationByFeatureComponent {
             case 'dynamic':
                 this.radiostation.dynamic = null;
         }
-        this.tiles.splice(index, 1);
     }
 
     private showWarning(): void {
