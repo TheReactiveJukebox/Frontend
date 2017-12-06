@@ -16,6 +16,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[];
     public nextTracks: Track[];
+    public currentTrack: Track;
 
     constructor(public trackService: TrackService,
                 public indirectFeedbackService: IndirectFeedbackService,
@@ -24,6 +25,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
                 public playerService: PlayerService) {
         this.subscriptions = [];
         this.nextTracks = [];
+
     }
 
     public ngOnInit(): void {
@@ -33,13 +35,19 @@ export class TrackListComponent implements OnInit, OnDestroy {
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
         // gets destroyed.
         this.subscriptions.push(
+            this.trackService.currentTrack.subscribe((currentTrack: Track) => {
+                if (currentTrack != null) {
+                    this.currentTrack = currentTrack;
+                }
+            })
+        );
+        this.subscriptions.push(
             this.trackService.nextTracks.subscribe((nextTracks: Track[]) => {
                 if (nextTracks != null) {
                     this.nextTracks = nextTracks;
                 }
             })
         );
-
     }
 
     public ngOnDestroy(): void {

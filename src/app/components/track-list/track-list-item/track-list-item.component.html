@@ -1,24 +1,105 @@
-<md-list-item *ngIf="track" [@expand]="showItem">
-    <div class="tl-cover-col" (click)="onCoverClick.emit()">
-        <div [ngStyle]="{'background-image': 'url('+getTrackCover()+')'}" alt="Cover" class="cover-img">
-            <md-icon *ngIf="showPlay">play_circle_outline</md-icon>
+<md-card *ngIf="!track">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
+<!-- Simple track list element -->
+<md-list-item *ngIf="track" [@expand]="showItem"
+              [ngClass]="{ 'currentTrack': this.displayClass == 'currentTrack',
+              'historyTrack':this.displayClass == 'historyTrack',
+               'big-row' : detailView}"
+              (dblclick)="onCoverClick.emit();">
+    <div [ngClass]="{ 'tl-cover-col': !detailView, 'tl-cover-col-big':detailView}"
+         (click)="onCoverClick.emit(); toggleState()" [@sizeState]="detailView">
+        <div #square [ngStyle]="{'height.px': square.offsetWidth, 'background-image': 'url('+getTrackCover()+')'}"
+             alt="Cover" class="cover-img-thumb">
+            <md-icon *ngIf=" showPlay">play_circle_outline</md-icon>
         </div>
     </div>
-    <div class="text">
+
+    <!-- Simple track list element view -->
+    <div class="text" (click)="toggleState()" *ngIf="!detailView">
         <p class="tl-title-col">{{track.title}}</p>
         <p class="tl-artist-col">{{track.artist.name}}</p>
         <p class="tl-album-col">{{track.album.title}}</p>
         <p class="tl-genre-col" *ngIf="track.genres.length > 0">{{track.genres[0].genre}}</p>
         <p class="tl-genre-col" *ngIf="!(track.genres.length > 0)">{{'-'}}</p>
-    </div>
-    <p class="tl-date-col" *ngIf="track.releaseDate">{{track.releaseDate.getFullYear()}}</p>
-    <p class="tl-date-col" *ngIf="!track.releaseDate">{{'-'}}</p>
-    <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
 
-    <button *ngIf="showDelete"
-            class="tl-icon-col"
-            md-icon-button
-            (click)="onDelete.emit($event); $event.stopPropagation(); hideItem()">
-        <md-icon>delete</md-icon>
-    </button>
+        <p class="tl-date-col" *ngIf="track.releaseDate">{{track.releaseDate.getFullYear()}}</p>
+        <p class="tl-date-col" *ngIf="!track.releaseDate">{{'-'}}</p>
+        <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
+
+
+        <button *ngIf="showDelete"
+                class="tl-icon-col"
+                md-icon-button
+                (click)="onDelete.emit($event); $event.stopPropagation(); hideItem()">
+            <md-icon>delete</md-icon>
+        </button>
+    </div>
+    <!-- Detail view -->
+    <div *ngIf="detailView" class="detail-view-wrapper">
+        <div id="song-info">
+            <!--
+            <div id="cover-img-table-wrapper">
+                <img *ngIf="track.cover" src="{{track.cover}}" alt="Cover" class="cover-img">
+                <img *ngIf="!track.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
+            </div>
+    -->
+            <div id="text-container">
+                <div class="detail-element">
+                    <like (click)="onTrackFeedbackChanged()" [(value)]="track.trackFeedback.songFeedback"></like>
+                    <h1 class="track-info">{{track.title}}</h1>
+
+                </div>
+                <div id="sub-text-container">
+                    <div class="track-details-container">
+                        <div class="detail-element">
+                            <like (click)="onArtistFeedbackChanged()"
+                                  [(value)]="track.artist.feedback.feedback"></like>
+                            <h3 class="track-info">{{track.artist.name}}</h3>
+
+                        </div>
+                        <div class="detail-element">
+                            <like (click)="onAlbumFeedbackChanged()"
+                                  [(value)]="track.album.feedback.feedback"></like>
+                            <a class="track-info">{{track.album.title}} </a>
+                            <a *ngIf="track.releaseDate" class="track-info">
+                                ({{track.releaseDate.getFullYear()}})
+                            </a>
+                        </div>
+                    </div>
+                    <div class="track-details-container right">
+                        <div *ngIf="track.genres.length > 0" class="detail-element">
+                            <like (click)="onGenreFeedbackChanged()"
+                                  [(value)]="track.genres[0].feedback"></like>
+                            <a class="track-info-att"> {{'CURRENT_TRACK.GENRES' | translate}}: </a>
+                            <a class="track-info">{{capitalize(track.genres[0].genre)}} </a>
+
+                        </div>
+                        <div *ngIf="track.speed" class="detail-element">
+                            <like (click)="onTrackFeedbackChanged()"
+                                  [(value)]="track.trackFeedback.speedFeedback"></like>
+                            <a class="track-info-att"> {{'CURRENT_TRACK.TEMPO' | translate}}: </a>
+                            <a class="track-info">{{round(track.speed) + ' BPM'}}</a>
+                        </div>
+                        <div *ngIf="track.mood" class="detail-element">
+                            <like (click)="onTrackFeedbackChanged()"
+                                  [(value)]="track.trackFeedback.moodFeedback"></like>
+                            <a class="track-info-att"> {{'CURRENT_TRACK.MOOD' | translate}}: </a>
+                            <a class="track-info">{{capitalize('MOODS.'+ track.mood.name.toUpperCase() |
+                                translate)}}</a>
+                        </div>
+                        <div *ngIf="track.dynamic" class="detail-element">
+                            <like (click)="onTrackFeedbackChanged()"
+                                  [(value)]="track.trackFeedback.dynamicsFeedback"></like>
+                            <a class="track-info-att"> {{'CURRENT_TRACK.DYNAMICS' | translate}}: </a>
+                            <a class="track-info">{{round(track.dynamic * 100, 0) + '%'}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- This div is ignoring the flex-layout set by it's parent! -->
+            <div id="action-buttons">
+            </div>
+        </div>
+    </div>
+
 </md-list-item>
+

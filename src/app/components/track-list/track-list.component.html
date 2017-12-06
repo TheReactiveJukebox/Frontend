@@ -1,6 +1,19 @@
 <md-nav-list style="overflow: hidden">
     <md-divider></md-divider>
-    <track-list-item [track]="track" (onCoverClick)="jumpToTrack(track)" (onDelete)="trackService.removeTrack(track); this.indirectFeedback(track)"
+    <track-list-item [track]="track" (onCoverClick)="jumpToTrack(track)"
+                     [showPlay]="false"
+                     [displayClass]="'historyTrack'"
+                     (onDelete)="this.historyService.deleteFromPersistentHistory(track.historyId); this.indirectFeedback(track)"
+                     *ngFor="let track of this.historyService.history"></track-list-item>
+    <track-list-item [track]="this.currentTrack" (onCoverClick)="jumpToTrack(track)"
+                     [showPlay]="false"
+                     [showDelete]="false"
+                     [displayClass]="'currentTrack'"
+    ></track-list-item>
+    <track-list-item [track]="track"
+                     [displayClass]="'upcomingTrack'"
+                     (onCoverClick)="jumpToTrack(track)"
+                     (onDelete)="trackService.removeTrack(track); this.indirectFeedback(track)"
                      *ngFor="let track of this.nextTracks"></track-list-item>
     <md-divider></md-divider>
 </md-nav-list>

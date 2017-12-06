@@ -26,9 +26,6 @@ player-control-bar {
 }
 
 .player-content {
-  margin-left: $default-margin;
-  margin-right: $default-margin;
-  width: calc(100% - #{2 * $default-margin});
   height: 100%;
 }
 
