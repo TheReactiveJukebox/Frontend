@@ -7,6 +7,7 @@
 p {
   margin: auto;
   overflow: hidden;
+  text-overflow: ellipsis;
   max-height: 48px;
   line-height: 24px;
 }
@@ -17,7 +18,7 @@ p {
 }
 
 .text {
-  width: calc(100% - 250px);
+  width: calc(100% - 186px);
   display: flex;
   justify-content: space-between;
   height: 48px;
@@ -46,16 +47,12 @@ p {
 
 .tl-date-col{
   width: 48px;
-  text-align: left;
+  text-align: center;
 }
 
 .tl-duration-col{
   width: 60px;
   text-align: center;
-}
-
-.tl-feedback-col {
-  width: 64px;
 }
 
 .tl-icon-col{
