@@ -1,10 +1,19 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 
 @Component({
     selector: 'tile',
     styleUrls: ['./tile.component.scss'],
     templateUrl: './tile.component.html',
+    animations: [
+        trigger('expand', [
+            state('true', style({'opacity': '1.0'})),
+            state('void', style({'opacity': '0.0'})),
+            transition('void => *', animate('0.3s ease-out')),
+            transition('* => void', animate('0.3s ease-out'))
+        ])
+    ]
 })
 export class TileComponent {
 

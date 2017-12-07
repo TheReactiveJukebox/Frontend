@@ -34,7 +34,6 @@ import {CookieModule, CookieService} from 'ngx-cookie';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
 import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
-import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {LikeComponent} from './components/like/like.component';
 import {MoodSelectorComponent} from './components/mood-selector/mood-selector.component';
@@ -58,7 +57,7 @@ import {RadiostationService} from './services/radiostation.service';
 import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
 import {RangeSelectorComponent} from './components/range-selector/range-selector.component';
-import {TileComponent} from "./components/create-radiostation/by-feature/tile/tile.component";
+import {TileComponent} from './components/create-radiostation/by-feature/tile/tile.component';
 
 
 /**
@@ -75,7 +74,6 @@ import {TileComponent} from "./components/create-radiostation/by-feature/tile/ti
         TrackListComponent,
         CurrentTrackComponent,
         PlayerControlBarComponent,
-        AddConstraintDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
         SimpleSearchComponent,
@@ -108,7 +106,7 @@ import {TileComponent} from "./components/create-radiostation/by-feature/tile/ti
         })
     ],
     entryComponents: [
-        AddConstraintDialogComponent
+
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.

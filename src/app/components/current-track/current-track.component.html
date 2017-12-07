@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="track-details-container right">
-                    <div *ngIf="currentTrack.genres.length > 0" class="detail-element">
+                    <div *ngIf="currentTrack.genres.length > 0 && currentTrack.genres[0]" class="detail-element">
                         <like (click)="onGenreFeedbackChanged()"
                               [(value)]="currentTrack.genres[0].feedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.GENRES' | translate}}: </a>

@@ -14,53 +14,7 @@
     overflow-y: hidden;
     height: calc(100% - 100px);
 
-    .tile {
-      width: 360px;
-      margin: 5px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      text-align: center;
-      background-color: mat-color($default-theme-accent);
-      overflow: hidden;
-
-      &.mood {
-        height: 220px;
-      }
-
-      &.genres {
-        height: 120px;
-      }
-
-      &.speed {
-        height: 140px;
-      }
-
-      &.dynamic {
-        height: 100px;
-      }
-
-      &.year {
-        height: 160px;
-      }
-
-      p {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-
-      .close-tile-button {
-        position: absolute;
-        top: -7px;
-        right: -7px;
-      }
-
-      .genre-container {
-        padding: 10px;
-      }
-
+    tile {
       .year-container {
         .slider-label {
           width: 50px;
@@ -72,20 +26,9 @@
         width: 180px;
         height: 35px;
       }
-    }
 
-    #add-button {
-      margin: $default-margin;
-      height: 120px;
-      width: 240px;
-      display: block;
-      text-align: center;
-      vertical-align: middle;
-
-      md-icon {
-        font-size: 48px;
-        margin-top: -24px;
-        margin-left: -24px;
+      .genre-container {
+        padding: 10px;
       }
     }
   }

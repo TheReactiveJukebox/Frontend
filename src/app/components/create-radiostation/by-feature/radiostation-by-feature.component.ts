@@ -8,7 +8,6 @@ import {Radiostation} from '../../../models/radiostation';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
-import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
 import {TrackService} from '../../../services/track.service';
 
 
@@ -29,8 +28,6 @@ export class RadiostationByFeatureComponent {
 
     public genres: string[] = [];
 
-    public tiles: string[] = [];
-
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
     public dynamicLowerLimit: number = Config.dynamicLowerLimit;
@@ -39,7 +36,7 @@ export class RadiostationByFeatureComponent {
     public yearUpperLimit: number = Config.yearUpperLimit;
 
     private genreApiUrl: string = Config.serverUrl + '/api/genre';  // URL to web api
-    private yearApiUrl: string = Config.serverUrl + '/api/track/oldestYear';
+    private trackParameterApiUrl: string = Config.serverUrl + '/api/track/parameter';
 
     public radiostation: Radiostation;
 
@@ -56,10 +53,8 @@ export class RadiostationByFeatureComponent {
         this.resetRadiostation();
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
-                this.tiles = [];
                 this.radiostation = radiostation;
                 console.log('Radiostation: ', radiostation);
-                this.loadRadiostation();
             }
         });
 
@@ -72,8 +67,8 @@ export class RadiostationByFeatureComponent {
         });
 
         //fetch the the releaseDate of oldest song
-        this.authHttp.get(this.yearApiUrl).subscribe((data: number) => {
-            this.yearLowerLimit = data;
+        this.authHttp.get(this.trackParameterApiUrl).subscribe((data: any) => {
+            console.log('DATA: ', data);
         }, error => {
             this.yearLowerLimit = 1800;
             console.log('It seems that the API-Endpoint /oldestYear is not working properly: ', error);
@@ -84,13 +79,10 @@ export class RadiostationByFeatureComponent {
     public resetRadiostation(): void {
         this.radiostation = new Radiostation();
         this.radiostation.algorithm = 'RANDOM';
-        this.tiles = [];
     }
 
 
     public start(): void {
-        // TODO: If we have some new algorithms, we need to change this default value
-        this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
             this.playerService.play();
@@ -98,77 +90,38 @@ export class RadiostationByFeatureComponent {
     }
 
     public update(): void {
-        // TODO: If we have some new algorithms, we need to change this default value
-        this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
         });
     }
 
-    //opens a dialog to select the constraint to specify
-    public selectConstraint(): void {
-        let dialogRef = this.dialog.open(AddConstraintDialogComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.addConstraint(result);
-            }
-        });
-    }
-
-    private loadRadiostation(): void {
-        if (this.radiostation.minSpeed  != null || this.radiostation.maxSpeed != null) {
-            this.tiles.push('speed');
-        }
-
-        if (this.radiostation.arousal != null || this.radiostation.valence != null) {
-            this.tiles.push('mood');
-        }
-
-        if (this.radiostation.startYear  != null || this.radiostation.endYear != null) {
-            this.tiles.push('year');
-        }
-
-        if (this.radiostation.genres != null && this.radiostation.genres.length > 0) {
-            this.tiles.push('genres');
-        }
-
-        if (this.radiostation.dynamic != null) {
-            this.tiles.push('dynamic');
-        }
-    }
-
     //adds an element to the gui for the keywords
     public addConstraint(result: string): void {
-        if (this.tiles.indexOf(result) != -1) {
-            this.showWarning();
-        } else {
-            this.tiles.push(result);
-            switch (result) {
-                case 'genres':
-                    this.radiostation.genres = [];
-                    break;
-                case 'year':
-                    this.radiostation.startYear = this.yearLowerLimit;
-                    this.radiostation.endYear = this.yearUpperLimit;
-                    break;
-                case 'speed':
-                    this.radiostation.minSpeed = this.speedLowerLimit;
-                    this.radiostation.maxSpeed = this.speedUpperLimit;
-                    break;
-                case 'mood':
-                    this.radiostation.arousal = 0;
-                    this.radiostation.valence = 0;
-                    break;
-                case 'dynamic':
-                    this.radiostation.dynamic = 0.5;
-            }
+        switch (result) {
+            case 'genres':
+                this.radiostation.genres = [];
+                break;
+            case 'year':
+                this.radiostation.startYear = this.yearLowerLimit;
+                this.radiostation.endYear = this.yearUpperLimit;
+                break;
+            case 'speed':
+                this.radiostation.minSpeed = this.speedLowerLimit;
+                this.radiostation.maxSpeed = this.speedUpperLimit;
+                break;
+            case 'mood':
+                this.radiostation.arousal = 0;
+                this.radiostation.valence = 0;
+                break;
+            case 'dynamic':
+                this.radiostation.dynamic = 0.5;
         }
     }
 
     public removeProperty(property: string): void {
         switch (property) {
             case 'genres':
-                this.radiostation.genres = null;
+                this.radiostation.genres = [];
                 break;
             case 'year':
                 this.radiostation.startYear = null;
@@ -185,12 +138,6 @@ export class RadiostationByFeatureComponent {
             case 'dynamic':
                 this.radiostation.dynamic = null;
         }
-    }
-
-    private showWarning(): void {
-        this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
-            duration: 2000,
-        });
     }
 
     public setSelMood(pSelMood: Mood): void {
