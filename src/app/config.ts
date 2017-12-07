@@ -4,10 +4,6 @@ export class Config {
 
     public static speedUpperLimit: number = 300;
     public static speedLowerLimit: number = 1;
-    public static speedStepsize: number = 5;
-    public static dynamicStepsize: number = 0.05;
-    public static yearStepsize: number = 5;
-    public static yearLowerLimit: number = 1800;
     public static yearUpperLimit: number = (new Date()).getFullYear();
     public static dynamicLowerLimit: number = 0;
     public static dynamicUpperLimit: number = 1;

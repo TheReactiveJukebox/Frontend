@@ -35,10 +35,11 @@ export class RadiostationByFeatureComponent {
     public speedUpperLimit: number = Config.speedUpperLimit;
     public dynamicLowerLimit: number = Config.dynamicLowerLimit;
     public dynamicUpperLimit: number = Config.dynamicUpperLimit;
-    public yearLowerLimit: number = Config.yearLowerLimit;
+    public yearLowerLimit: number;
     public yearUpperLimit: number = Config.yearUpperLimit;
 
     private genreApiUrl: string = Config.serverUrl + '/api/genre';  // URL to web api
+    private yearApiUrl: string = Config.serverUrl + '/api/track/oldestYear';
 
     public radiostation: Radiostation;
 
@@ -68,6 +69,14 @@ export class RadiostationByFeatureComponent {
         }, error => {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
+        });
+
+        //fetch the the releaseDate of oldest song
+        this.authHttp.get(this.yearApiUrl).subscribe((data: number) => {
+            this.yearLowerLimit = data;
+        }, error => {
+            this.yearLowerLimit = 1800;
+            console.log('It seems that the API-Endpoint /oldestYear is not working properly: ', error);
         });
     }
 
