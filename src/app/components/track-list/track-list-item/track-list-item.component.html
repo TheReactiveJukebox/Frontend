@@ -6,15 +6,15 @@
                'big-row' : detailView}"
               (dblclick)="onCoverClick.emit();">
     <div [ngClass]="{ 'tl-cover-col': !detailView, 'tl-cover-col-big':detailView}"
-         (click)="onCoverClick.emit(); toggleState()" [@sizeState]="detailView">
-        <div #square [ngStyle]="{'height.px': square.offsetWidth, 'background-image': 'url('+getTrackCover()+')'}"
+         (click)="onCoverClick.emit(); setDetailedView(true)" [@sizeState]="detailView">
+        <div  [ngStyle]="{ 'background-image': 'url('+getTrackCover()+')'}"
              alt="Cover" class="cover-img-thumb">
             <md-icon *ngIf=" showPlay">play_circle_outline</md-icon>
         </div>
     </div>
 
     <!-- Simple track list element view -->
-    <div class="text" (click)="toggleState()" *ngIf="!detailView">
+    <div class="text" (click)="onClick.emit(); setDetailedView(true)" *ngIf="!detailView">
         <p class="tl-title-col">{{track.title}}</p>
         <p class="tl-artist-col">{{track.artist.name}}</p>
         <p class="tl-album-col">{{track.album.title}}</p>

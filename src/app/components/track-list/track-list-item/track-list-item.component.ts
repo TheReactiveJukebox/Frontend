@@ -17,7 +17,7 @@ import {HistoryService} from '../../../services/history.service';
             transition('* => void', animate('0.5s ease-out'))
         ]),
         trigger('sizeState', [
-            state('0', style({
+            state('void', style({
                 width: '48px',
                 height: '48px'
             })),
@@ -25,8 +25,8 @@ import {HistoryService} from '../../../services/history.service';
                 width: '15%',
                 height: '15%'
             })),
-            transition('1 => 0', animate('400ms cubic-bezier(0.175, 0.885, 0.32, 1.275)')),
-            transition('0 => 1', animate('400ms cubic-bezier(0.6, -0.28, 0.735, 0.045)'))
+            transition('1 => void', animate('400ms cubic-bezier(0.175, 0.885, 0.32, 1.275)')),
+            transition('void => 1', animate('400ms cubic-bezier(0.6, -0.28, 0.735, 0.045)'))
         ]),
     ]
 })
@@ -52,8 +52,11 @@ export class TrackListItemComponent {
     @Output()
     public onCoverClick: EventEmitter<any>;
 
+    @Output()
+    public onClick: EventEmitter<any>;
+
     public showItem: boolean;
-    public detailView: boolean;
+    public detailView: boolean = this.displayClass == 'currentTrack';
 
     public historyButtonClass: string = 'reducedHistory-button-toggle-off';
 
@@ -62,6 +65,7 @@ export class TrackListItemComponent {
                 public  historyService: HistoryService) {
         this.onDelete = new EventEmitter<any>();
         this.onCoverClick = new EventEmitter<any>();
+        this.onClick = new EventEmitter<any>();
         this.showItem = true;
 
         //TODO: This doesn't work as expected
@@ -69,8 +73,8 @@ export class TrackListItemComponent {
         //this.detailView = true;
     }
 
-    public toggleState(): void {
-        this.detailView = !this.detailView;
+    setDetailedView(state: boolean): void {
+        this.detailView = state;
     }
 
     public hideItem(): void {

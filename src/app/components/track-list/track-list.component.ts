@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChildren, QueryList} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
 import {HistoryService} from '../../services/history.service';
@@ -6,6 +6,8 @@ import {IndirectFeedbackService} from '../../services/indirect-feedback.service'
 import {PlayerService} from '../../services/player.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {TrackService} from '../../services/track.service';
+import {TrackListItemComponent} from './track-list-item/track-list-item.component';
+
 
 @Component({
     selector: 'track-list',
@@ -14,9 +16,14 @@ import {TrackService} from '../../services/track.service';
 })
 export class TrackListComponent implements OnInit, OnDestroy {
 
+    @ViewChildren('hist') private historyChildcomponents: QueryList<TrackListItemComponent>;
+    @ViewChildren('curr') private currChildcomponents: QueryList<TrackListItemComponent>;
+    @ViewChildren('upcoming') private upcomingChildcomponents: QueryList<TrackListItemComponent>;
+
     private subscriptions: Subscription[];
     public nextTracks: Track[];
     public currentTrack: Track;
+    private detailedTrack: Track;
 
     constructor(public trackService: TrackService,
                 public indirectFeedbackService: IndirectFeedbackService,
@@ -38,6 +45,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
             this.trackService.currentTrack.subscribe((currentTrack: Track) => {
                 if (currentTrack != null) {
                     this.currentTrack = currentTrack;
+                    this.detailedTrack = this.currentTrack;
                 }
             })
         );
@@ -63,7 +71,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
         if (this.playerService.currentTrack != null && (this.playerService.progress / this.playerService.currentTrack.duration) > 0.9) {
             this.historyService.writeToHistory(this.playerService.currentTrack);
         }
-        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id, track.id ,
+        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id, track.id,
             this.radiostationService.getRadiostation().id, this.playerService.progress);
         this.trackService.jumpToTrack(track);
     }
@@ -71,5 +79,12 @@ export class TrackListComponent implements OnInit, OnDestroy {
     public indirectFeedback(track: Track): void {
         //Sends delete feedback with position as zero to indicate deletion from upcoming songs
         this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.getRadiostation().id, 0);
+    }
+
+    private setDetailedTrack(track: Track): void {
+        this.historyChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.currChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.upcomingChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.detailedTrack = track;
     }
 }
