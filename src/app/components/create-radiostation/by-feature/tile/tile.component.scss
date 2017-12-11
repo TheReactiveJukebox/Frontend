@@ -14,11 +14,18 @@
   background-color: mat-color($default-theme-accent);
   overflow: hidden;
 
-  .add-button {
-    height: 56px;
-    width: 56px;
-    font-size: 56px;
-    cursor: pointer;
+  .add-container {
+    height: calc(100% - 38px);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .add-button {
+      height: 56px;
+      width: 56px;
+      font-size: 56px;
+      cursor: pointer;
+    }
   }
 
   p {

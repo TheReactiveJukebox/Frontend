@@ -66,6 +66,7 @@
   },
   "RADIOSTATION_CREATE": {
     "ALGORITHM": "Algorithmus",
+    "ADD_SONGS": "Songs hinzufügen",
     "RESET": "Zurücksetzen",
     "START": "Starte neue Radiostation",
     "UPDATE": "Aktualisiere aktuelle Radiostation",

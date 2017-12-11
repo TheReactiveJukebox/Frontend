@@ -6,5 +6,7 @@
         </button>
         <ng-content></ng-content>
     </div>
-    <md-icon class="add-button" *ngIf="!showContent" (click)="onAdd.emit()">add_circle</md-icon>
+    <div *ngIf="!showContent" class="add-container">
+        <md-icon class="add-button" (click)="onAdd.emit()">add_circle</md-icon>
+    </div>
 </md-card>

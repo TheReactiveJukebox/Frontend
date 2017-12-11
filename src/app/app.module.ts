@@ -58,6 +58,7 @@ import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
 import {RangeSelectorComponent} from './components/range-selector/range-selector.component';
 import {TileComponent} from './components/create-radiostation/by-feature/tile/tile.component';
+import {StartTrackComponent} from './components/create-radiostation/by-feature/start-track/start-track.component';
 
 
 /**
@@ -83,7 +84,8 @@ import {TileComponent} from './components/create-radiostation/by-feature/tile/ti
         LikeComponent,
         MoodSelectorComponent,
         RangeSelectorComponent,
-        TileComponent
+        TileComponent,
+        StartTrackComponent
     ],
     /**
      * Import Angular's modules.
@@ -106,7 +108,7 @@ import {TileComponent} from './components/create-radiostation/by-feature/tile/ti
         })
     ],
     entryComponents: [
-
+        SimpleSearchComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.

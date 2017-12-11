@@ -5,30 +5,43 @@
   width: auto;
   height: 100%;
 
-  #feature-container {
+  #feature-area {
+    height: calc(100% - 100px);
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     align-content: center;
-    flex-flow: column wrap;
     overflow-y: hidden;
-    height: calc(100% - 100px);
 
-    tile {
-      .year-container {
-        .slider-label {
-          width: 50px;
+    .feature-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      align-content: center;
+      flex-flow: column wrap;
+      overflow-y: hidden;
+      height: 100%;
+
+      tile {
+        .year-container {
+          .slider-label {
+            width: 50px;
+          }
+
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          width: 180px;
+          height: 35px;
         }
 
-        display: flex;
-        align-items: center;
-        padding: 5px;
-        width: 180px;
-        height: 35px;
-      }
+        .genre-container {
+          padding: 10px;
 
-      .genre-container {
-        padding: 10px;
+          #add-tracks {
+            margin-top: 10px;
+          }
+        }
       }
     }
   }

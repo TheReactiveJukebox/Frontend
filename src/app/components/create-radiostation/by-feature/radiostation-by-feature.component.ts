@@ -1,6 +1,6 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, Output} from '@angular/core';
-import {MdDialog, MdSnackBar} from '@angular/material';
+import {MdDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
 import {Mood} from '../../../models/mood';
@@ -9,6 +9,8 @@ import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
 import {TrackService} from '../../../services/track.service';
+import {SimpleSearchComponent} from '../../simple-search/simple-search.component';
+import {Track} from '../../../models/track';
 
 
 @Component({
@@ -27,6 +29,8 @@ import {TrackService} from '../../../services/track.service';
 export class RadiostationByFeatureComponent {
 
     public genres: string[] = [];
+    public algorithms: string[] = [];
+    public startTracks: Track[] = null;
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
@@ -48,14 +52,23 @@ export class RadiostationByFeatureComponent {
                 private playerService: PlayerService,
                 private translateService: TranslateService,
                 public dialog: MdDialog,
-                private authHttp: AuthHttp,
-                public snackBar: MdSnackBar) {
+                private authHttp: AuthHttp) {
         this.resetRadiostation();
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
-                this.radiostation = radiostation;
-                console.log('Radiostation: ', radiostation);
+                if (radiostation.startTracks) {
+                    // fetch information about the startTracks
+                    this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
+                        this.startTracks = tracks;
+                        console.log('TRACKS: ', tracks);
+                        this.radiostation = radiostation;
+                        console.log('Radiostation: ', radiostation);
+                    });
+                }
             }
+        });
+        this.radiostationService.getAlgorithms().subscribe((algorithms: string[]) => {
+            this.algorithms = algorithms;
         });
 
         //fetch the available genres from server
@@ -68,6 +81,9 @@ export class RadiostationByFeatureComponent {
 
         //fetch the the releaseDate of oldest song
         this.authHttp.get(this.trackParameterApiUrl).subscribe((data: any) => {
+            this.yearLowerLimit = data.oldestTrack;
+            this.speedLowerLimit = Math.floor(data.minSpeed);
+            this.speedUpperLimit = Math.round(data.maxSpeed);
             console.log('DATA: ', data);
         }, error => {
             this.yearLowerLimit = 1800;
@@ -101,6 +117,13 @@ export class RadiostationByFeatureComponent {
             case 'genres':
                 this.radiostation.genres = [];
                 break;
+            case 'titles':
+                this.radiostation.startTracks = [];
+                this.startTracks = []
+                break;
+            case 'algorithm':
+                this.radiostation.algorithm = '';
+                break;
             case 'year':
                 this.radiostation.startYear = this.yearLowerLimit;
                 this.radiostation.endYear = this.yearUpperLimit;
@@ -121,7 +144,14 @@ export class RadiostationByFeatureComponent {
     public removeProperty(property: string): void {
         switch (property) {
             case 'genres':
-                this.radiostation.genres = [];
+                this.radiostation.genres = null;
+                break;
+            case 'titles':
+                this.radiostation.startTracks = null;
+                this.startTracks = null;
+                break;
+            case 'algorithm':
+                this.radiostation.algorithm = null;
                 break;
             case 'year':
                 this.radiostation.startYear = null;
@@ -138,6 +168,23 @@ export class RadiostationByFeatureComponent {
             case 'dynamic':
                 this.radiostation.dynamic = null;
         }
+    }
+
+    public openStartTracksDialog(): void {
+        let dialogRef = this.dialog.open(SimpleSearchComponent, {height: '500px'});
+        dialogRef.componentInstance.selectedTrack.subscribe(track => {
+            // avoid duplicate startTracks
+            if (!this.startTracks.some((element, index, array) => {return element.id == track.id; })) {
+                this.startTracks.push(track);
+                this.radiostation.startTracks.push(track.id);
+            }
+        });
+    }
+
+    public deleteStartTrack(track: Track): void {
+        let index: number = this.startTracks.indexOf(track);
+        this.startTracks.splice(index, 1);
+        this.radiostation.startTracks.splice(index, 1);
     }
 
     public setSelMood(pSelMood: Mood): void {

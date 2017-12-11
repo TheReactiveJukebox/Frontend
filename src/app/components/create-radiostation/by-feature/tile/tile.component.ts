@@ -8,8 +8,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     templateUrl: './tile.component.html',
     animations: [
         trigger('expand', [
-            state('true', style({'opacity': '1.0'})),
-            state('void', style({'opacity': '0.0'})),
+            state('true', style({'opacity': '1.0', 'height': '*'})),
+            state('void', style({'opacity': '0.0', 'height': '0px'})),
             transition('void => *', animate('0.3s ease-out')),
             transition('* => void', animate('0.3s ease-out'))
         ])
