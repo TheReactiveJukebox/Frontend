@@ -4,6 +4,8 @@ import {Track} from '../../../models/track';
 import {FeedbackService} from '../../../services/feedback.service';
 import {TrackService} from '../../../services/track.service';
 import {HistoryService} from '../../../services/history.service';
+import {Config} from '../../../config';
+
 
 @Component({
     selector: 'track-list-item',
@@ -129,6 +131,18 @@ export class TrackListItemComponent {
 
     public onAlbumFeedbackChanged(): void {
         this.feedbackService.postAlbumFeedback(this.track);
+
+    public getGenres(): string {
+        let genres: string = '';
+        let slicedArray = this.track.genres.slice(0, Config.genreDisplayLimit);
+        if (slicedArray) {
+            for (let genre of slicedArray) {
+                let genreStr: string = this.capitalize(genre.genre);
+                genres += genreStr + ', ';
+            }
+            genres = genres.substr(0, genres.length - 2);
+        }
+        return genres;
     }
 
     public  capitalize(s: string): string {

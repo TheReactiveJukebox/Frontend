@@ -18,7 +18,7 @@
         <p class="tl-title-col">{{track.title}}</p>
         <p class="tl-artist-col">{{track.artist.name}}</p>
         <p class="tl-album-col">{{track.album.title}}</p>
-        <p class="tl-genre-col" *ngIf="track.genres.length > 0">{{track.genres[0].genre}}</p>
+        <p class="tl-genre-col" *ngIf="track.genres.length > 0">{{getGenres()}}</p>
         <p class="tl-genre-col" *ngIf="!(track.genres.length > 0)">{{'-'}}</p>
 
         <p class="tl-date-col" *ngIf="track.releaseDate">{{track.releaseDate.getFullYear()}}</p>
