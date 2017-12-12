@@ -1,6 +1,6 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, Output} from '@angular/core';
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
 import {Mood} from '../../../models/mood';
@@ -51,6 +51,7 @@ export class RadiostationByFeatureComponent {
                 public trackService: TrackService,
                 private playerService: PlayerService,
                 private translateService: TranslateService,
+                private snackBar: MdSnackBar,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {
         this.resetRadiostation();
@@ -119,7 +120,7 @@ export class RadiostationByFeatureComponent {
                 break;
             case 'titles':
                 this.radiostation.startTracks = [];
-                this.startTracks = []
+                this.startTracks = [];
                 break;
             case 'algorithm':
                 this.radiostation.algorithm = '';
@@ -175,9 +176,23 @@ export class RadiostationByFeatureComponent {
         dialogRef.componentInstance.selectedTrack.subscribe(track => {
             // avoid duplicate startTracks
             if (!this.startTracks.some((element, index, array) => {return element.id == track.id; })) {
-                this.startTracks.push(track);
-                this.radiostation.startTracks.push(track.id);
+                if (this.startTracks.length < 5) {
+                    this.startTracks.push(track);
+                    this.radiostation.startTracks.push(track.id);
+                } else {
+                    this.showWarning(this.translateService.instant('RADIOSTATION_CREATE.SONG_LIMIT'));
+                }
+            } else {
+                this.showWarning(this.translateService.instant('RADIOSTATION_CREATE.SONG_CONTAINED'));
             }
+        });
+    }
+
+    private showWarning(text: string): void {
+        this.snackBar.open(text, '', {
+            duration: 1500,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
         });
     }
 

@@ -8,39 +8,30 @@
   #feature-area {
     height: calc(100% - 100px);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     align-content: center;
     overflow-y: hidden;
+    flex-flow: column wrap;
 
-    .feature-container {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      align-content: center;
-      flex-flow: column wrap;
-      overflow-y: hidden;
-      height: 100%;
-
-      tile {
-        .year-container {
-          .slider-label {
-            width: 50px;
-          }
-
-          display: flex;
-          align-items: center;
-          padding: 5px;
-          width: 180px;
-          height: 35px;
+    tile {
+      .year-container {
+        .slider-label {
+          width: 50px;
         }
 
-        .genre-container {
-          padding: 10px;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        width: 180px;
+        height: 35px;
+      }
 
-          #add-tracks {
-            margin-top: 10px;
-          }
+      .genre-container {
+        padding: 10px;
+
+        #add-tracks {
+          margin-top: 10px;
         }
       }
     }
