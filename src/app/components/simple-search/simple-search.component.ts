@@ -9,6 +9,7 @@ import {Track} from '../../models/track';
 import {AuthHttp} from '../../services/auth/auth-http';
 import {SearchService} from '../../services/search.service';
 import {TrackService} from '../../services/track.service';
+import {Artist} from '../../models/artist';
 
 
 @Component({
@@ -83,12 +84,14 @@ export class SimpleSearchComponent {
                 if (Object.keys(results).length > 0) {
                     let artistUrl = Config.serverUrl + '/api/artist?';
                     let artistRequests = [];
+                    let artistIds: number[] = [];
                     for (let album of results) {
+                        artistIds.push(album.artist);
                         artistRequests.push(this.authHttp.get(artistUrl + 'id=' + album.artist));
                     }
-                    Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
+                    this.trackService.getArtistsByIds(artistIds).subscribe((artists: Artist[]) => {
                         for (let i = 0; i < results.length; i++) {
-                            results[i].artist = artistResults[i][0];
+                            results[i].artist = artists[i];
                         }
                         this.albumResult = results;
                         this.albumResultCount = Object.keys(results).length;
