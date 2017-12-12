@@ -2,7 +2,6 @@
  * Created by David on 01.07.2017.
  */
 import {Component, EventEmitter, Output} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import {Config} from '../../config';
 import {Track} from '../../models/track';
