@@ -3,7 +3,6 @@
  */
 import {Component, EventEmitter, Output} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import {Config} from '../../config';
 import {Track} from '../../models/track';
 import {AuthHttp} from '../../services/auth/auth-http';
 import {SearchService} from '../../services/search.service';
@@ -81,12 +80,9 @@ export class SimpleSearchComponent {
         this.searchService.albumSearch(this.searchAlbum$)
             .subscribe(results => {
                 if (Object.keys(results).length > 0) {
-                    let artistUrl = Config.serverUrl + '/api/artist?';
-                    let artistRequests = [];
                     let artistIds: number[] = [];
                     for (let album of results) {
                         artistIds.push(album.artist);
-                        artistRequests.push(this.authHttp.get(artistUrl + 'id=' + album.artist));
                     }
                     this.trackService.getArtistsByIds(artistIds).subscribe((artists: Artist[]) => {
                         for (let i = 0; i < results.length; i++) {
