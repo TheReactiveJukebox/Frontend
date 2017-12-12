@@ -4,14 +4,14 @@
                      [showPlay]="false"
                      [displayClass]="'historyTrack'"
                      (onDelete)="this.historyService.deleteFromPersistentHistory(track.historyId); this.indirectFeedback(track)"
-                     (ongClick)="this.setDetailedTrack(this)"
+                     (onClick)="this.setDetailedTrack(track)"
                      *ngFor="let track of this.historyService.history"></track-list-item>
     <track-list-item #curr [track]="this.currentTrack" (onCoverClick)="jumpToTrack(this.currentTrack)"
                      [showPlay]="false"
                      [showDelete]="false"
                      [displayClass]="'currentTrack'"
                      (onClick)="this.setDetailedTrack(this.currentTrack)"></track-list-item>
-    <track-list-item #upcomming [track]="track"
+    <track-list-item #upcoming [track]="track"
                      [displayClass]="'upcomingTrack'"
                      (onCoverClick)="jumpToTrack(track)"
                      (onDelete)="trackService.removeTrack(track); this.indirectFeedback(track)"

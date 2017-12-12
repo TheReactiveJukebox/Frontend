@@ -131,6 +131,7 @@ export class TrackListItemComponent {
 
     public onAlbumFeedbackChanged(): void {
         this.feedbackService.postAlbumFeedback(this.track);
+    }
 
     public getGenres(): string {
         let genres: string = '';
@@ -145,7 +146,7 @@ export class TrackListItemComponent {
         return genres;
     }
 
-    public  capitalize(s: string): string {
+    public capitalize(s: string): string {
         return s[0].toUpperCase() + s.slice(1);
     }
 
