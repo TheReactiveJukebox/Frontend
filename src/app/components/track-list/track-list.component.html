@@ -5,6 +5,7 @@
                      [enableDetails]="true"
                      [displayClass]="'historyTrack'"
                      (onDelete)="this.historyService.deleteFromPersistentHistory(track.historyId); this.indirectFeedback(track)"
+                     (onDetailedDestroy)="this.setCurrentTrackDetailed()"
                      (onClick)="this.setDetailedTrack(track)"
                      *ngFor="let track of this.historyService.history"></track-list-item>
     <track-list-item #curr [track]="this.currentTrack" (onCoverClick)="jumpToTrack(this.currentTrack)"
@@ -19,6 +20,7 @@
                      (onCoverClick)="jumpToTrack(track)"
                      (onDelete)="trackService.removeTrack(track); this.indirectFeedback(track)"
                      (onClick)="this.setDetailedTrack(track)"
+                     (onDetailedDestroy)="this.setCurrentTrackDetailed()"
                      *ngFor="let track of this.nextTracks"></track-list-item>
     <md-divider></md-divider>
 </md-nav-list>

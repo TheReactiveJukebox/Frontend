@@ -54,8 +54,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
                 if (nextTracks != null) {
                     this.nextTracks = nextTracks;
                 }
-            })
-        );
+            }));
     }
 
     public ngOnDestroy(): void {
@@ -79,6 +78,12 @@ export class TrackListComponent implements OnInit, OnDestroy {
     public indirectFeedback(track: Track): void {
         //Sends delete feedback with position as zero to indicate deletion from upcoming songs
         this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.getRadiostation().id, 0);
+    }
+
+    private setCurrentTrackDetailed(): void {
+        this.historyChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.upcomingChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.currChildcomponents.forEach(trackComp => trackComp.setDetailedView(true));
     }
 
     private setDetailedTrack(track: Track): void {

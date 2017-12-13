@@ -1,5 +1,5 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Track} from '../../../models/track';
 import {TrackService} from '../../../services/track.service';
 import {HistoryService} from '../../../services/history.service';
@@ -30,7 +30,7 @@ import {Config} from '../../../config';
         ]),
     ]
 })
-export class TrackListItemComponent {
+export class TrackListItemComponent implements OnInit, OnDestroy {
 
     @Input()
     public track: Track;
@@ -51,24 +51,34 @@ export class TrackListItemComponent {
     public onDelete: EventEmitter<any>;
 
     @Output()
+    public onDetailedDestroy: EventEmitter<any>;
+
+    @Output()
     public onCoverClick: EventEmitter<any>;
 
     @Output()
     public onClick: EventEmitter<any>;
 
     public showItem: boolean;
-    public detailView: boolean = this.displayClass == 'currentTrack';
+    public detailView: boolean;
 
     constructor(public trackService: TrackService,
                 public  historyService: HistoryService) {
         this.onDelete = new EventEmitter<any>();
         this.onCoverClick = new EventEmitter<any>();
         this.onClick = new EventEmitter<any>();
+        this.onDetailedDestroy = new EventEmitter<any>();
         this.showItem = true;
+    }
 
-        //TODO: This doesn't work as expected
+    public ngOnInit(): void {
         this.detailView = this.displayClass == 'currentTrack';
-        //this.detailView = true;
+    }
+
+    public ngOnDestroy(): void {
+        if (this.detailView) {
+            this.onDetailedDestroy.emit();
+        }
     }
 
     public setDetailedView(state: boolean): void {
