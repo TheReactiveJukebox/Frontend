@@ -28,7 +28,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
     constructor(public trackService: TrackService,
                 public indirectFeedbackService: IndirectFeedbackService,
                 public radiostationService: RadiostationService,
-                private historyService: HistoryService,
+                public historyService: HistoryService,
                 public playerService: PlayerService) {
         this.subscriptions = [];
         this.nextTracks = [];
