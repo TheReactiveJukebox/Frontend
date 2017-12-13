@@ -80,13 +80,13 @@ export class TrackListComponent implements OnInit, OnDestroy {
         this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.getRadiostation().id, 0);
     }
 
-    private setCurrentTrackDetailed(): void {
+    public setCurrentTrackDetailed(): void {
         this.historyChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
         this.upcomingChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
         this.currChildcomponents.forEach(trackComp => trackComp.setDetailedView(true));
     }
 
-    private setDetailedTrack(track: Track): void {
+    public setDetailedTrack(track: Track): void {
         this.historyChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
         this.currChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
         this.upcomingChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
