@@ -1,11 +1,9 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Track} from '../../../models/track';
-import {FeedbackService} from '../../../services/feedback.service';
 import {TrackService} from '../../../services/track.service';
 import {HistoryService} from '../../../services/history.service';
 import {Config} from '../../../config';
-
 
 @Component({
     selector: 'track-list-item',
@@ -13,8 +11,8 @@ import {Config} from '../../../config';
     styleUrls: ['./track-list-item.component.scss'],
     animations: [
         trigger('expand', [
-            state('true', style({'height': '*'})),
-            state('void', style({'height': '0px'})),
+            state('true', style({'height': '*', 'opacity': '*'})),
+            state('void', style({'height': '0px', 'opacity': '0.0'})),
             transition('void => *', animate('0.5s ease-out')),
             transition('* => void', animate('0.5s ease-out'))
         ]),
@@ -36,14 +34,15 @@ export class TrackListItemComponent {
 
     @Input()
     public track: Track;
-    @Input()
-    public showFeedback: boolean = true;
 
     @Input()
     public showDelete: boolean = true;
 
     @Input()
     public showPlay: boolean = true;
+
+    @Input()
+    public enableDetails: boolean = false;
 
     @Input()
     public displayClass: string = 'upcomingTrack';
@@ -60,10 +59,7 @@ export class TrackListItemComponent {
     public showItem: boolean;
     public detailView: boolean = this.displayClass == 'currentTrack';
 
-    public historyButtonClass: string = 'reducedHistory-button-toggle-off';
-
-    constructor(public feedbackService: FeedbackService,
-                public trackService: TrackService,
+    constructor(public trackService: TrackService,
                 public  historyService: HistoryService) {
         this.onDelete = new EventEmitter<any>();
         this.onCoverClick = new EventEmitter<any>();
@@ -75,8 +71,10 @@ export class TrackListItemComponent {
         //this.detailView = true;
     }
 
-    setDetailedView(state: boolean): void {
-        this.detailView = state;
+    public setDetailedView(state: boolean): void {
+        if (this.enableDetails) {
+            this.detailView = state;
+        }
     }
 
     public hideItem(): void {
@@ -91,20 +89,6 @@ export class TrackListItemComponent {
         }
     }
 
-    public btn_history_toggle(): void {
-        if (this.historyService.historyVisible) {
-            this.historyService.historyVisible = false;
-            this.historyButtonClass = 'history-button-toggle-off';
-        } else {
-            this.historyService.historyVisible = true;
-            this.historyButtonClass = 'history-button-toggle-on';
-        }
-    }
-
-    public btn_renew(): void {
-        this.trackService.refreshUpcomingTracks();
-    }
-
     public round(value: number, digits?: number): number {
         if (digits) {
             value *= Math.pow(10, digits);
@@ -114,23 +98,6 @@ export class TrackListItemComponent {
         } else {
             return Math.round(value);
         }
-    }
-
-    // TODO add timer to avoid multiple calls
-    public onTrackFeedbackChanged(): void {
-        this.feedbackService.postTrackFeedback(this.track);
-    }
-
-    public onGenreFeedbackChanged(): void {
-        this.feedbackService.postGenreFeedback(this.track);
-    }
-
-    public onArtistFeedbackChanged(): void {
-        this.feedbackService.postArtistFeedback(this.track);
-    }
-
-    public onAlbumFeedbackChanged(): void {
-        this.feedbackService.postAlbumFeedback(this.track);
     }
 
     public getGenres(): string {

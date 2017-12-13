@@ -9,7 +9,6 @@
                 <h1 md-subheader>{{'TRACK_LIST.TITLE' | translate}}</h1>
                 <track-list-item *ngFor="let result of this.trackResult | slice:0:9"
                                  [track]="result"
-                                 [showFeedback]="false"
                                  [showDelete]="false"
                                  [showPlay]="false"
                                  (click)="this.selection(result, 'TRACK')">

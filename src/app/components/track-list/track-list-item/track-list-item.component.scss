@@ -19,7 +19,7 @@ p {
 }
 
 .text {
-  width: calc(100% - 186px);
+  width: calc(100% - 138px);
   display: flex;
   justify-content: space-between;
   height: 48px;
@@ -56,10 +56,6 @@ p {
   text-align: center;
 }
 
-.tl-feedback-col {
-  width: 64px;
-}
-
 .tl-icon-col {
   width: 30px;
   text-align: center;
@@ -74,9 +70,6 @@ p {
   box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
 }
 
-.detail-view-wrapper{
-  width: 100%;
-}
 .cover-img-thumb {
   position: relative;
   height: 100%;
@@ -121,91 +114,10 @@ p {
 
 .big-row {
   opacity: 1 !important;
-  padding: 20px 0;
-}
-
-//taken from current-track component
-
-h2 {
-  font-family: Quicksand-Regular, arial, sans-serif;
 }
 
 .detail-view-wrapper {
-  //padding: 10px;
-
-  #song-info {
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
-    position: relative;
-
-    #cover-img-table-wrapper {
-      width: 15%;
-      max-width: 400px;
-      max-height: 400px;
-      min-height: 180px;
-
-      min-width: 180px;
-
-      .cover-img {
-        width: 100%;
-
-      }
-    }
-    #text-container {
-      display: flex;
-      flex-direction: column;
-      margin: 0px 15px;
-
-      .detail-element {
-        margin: 5px 0px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-
-        .track-info {
-          margin: 0 10px 0 0;
-        }
-      }
-
-      #sub-text-container {
-        display: flex;
-        justify-content: flex-start;
-
-        .track-details-container {
-          display: flex;
-          flex-direction: column;
-          margin-right: 15px;
-
-          &.right {
-            align-items: flex-start;
-            margin-left: 100px;
-          }
-        }
-      }
-    }
-
-    #action-buttons {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      position: absolute;
-      right: 0;
-      height: 100%;
-    }
-  }
-}
-
-#history-button-toggle-off {
-  background-color: mat-color($default-theme-accent);
-}
-
-#history-button-toggle-on {
-  background-color: mat-color($default-theme-primary);
-}
-
-.track-info-att {
-  width: 80px;
+  width: 100%;
 }
 
 
