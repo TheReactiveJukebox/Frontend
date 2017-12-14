@@ -4,6 +4,8 @@ import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
 import {TrackService} from '../../services/track.service';
+import {Config} from '../../config';
+import {GenreFeedback} from '../../models/genre-feedback';
 
 @Component({
     selector: 'current-track',
@@ -57,6 +59,15 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
 
     public btn_renew(): void {
         this.trackService.refreshUpcomingTracks();
+    }
+
+    public getGenres(): GenreFeedback[] {
+        let selectedGenres: GenreFeedback[] = this.currentTrack.genres.slice(0, Config.genreDisplayLimit);
+        if (selectedGenres) {
+            return selectedGenres;
+        } else {
+            return [];
+        }
     }
 
     public round(value: number, digits?: number): number {

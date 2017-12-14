@@ -16,6 +16,7 @@ export class Config {
     public static arousalUpperLimit: number = 1;
     public static valenceLowerLimit: number = -1;
     public static valenceUpperLimit: number = 1;
+    public static genreDisplayLimit: number = 4;
 
     public static numberUpcomingSongs: number = 5;
 

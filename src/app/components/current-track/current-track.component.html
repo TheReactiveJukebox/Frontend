@@ -28,16 +28,7 @@
                             ({{currentTrack.releaseDate.getFullYear()}})
                         </a>
                     </div>
-                </div>
 
-                <div class="track-details-container right">
-                    <div *ngIf="currentTrack.genres.length > 0" class="detail-element">
-                        <like (click)="onGenreFeedbackChanged()"
-                              [(value)]="currentTrack.genres[0].feedback"></like>
-                        <a class="track-info-att"> {{'CURRENT_TRACK.GENRES' | translate}}: </a>
-                        <a class="track-info">{{capitalize(currentTrack.genres[0].genre)}} </a>
-
-                    </div>
                     <div *ngIf="currentTrack.speed" class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.speedFeedback"></like>
@@ -55,6 +46,15 @@
                               [(value)]="currentTrack.trackFeedback.dynamicsFeedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.DYNAMICS' | translate}}: </a>
                         <a class="track-info">{{round(currentTrack.dynamic * 100, 0) + '%'}}</a>
+                    </div>
+                </div>
+
+                <div class="track-details-container right">
+                    <div *ngFor="let genre of getGenres()" class="detail-element">
+                        <like (click)="onGenreFeedbackChanged()"
+                              [(value)]="genre.feedback"></like>
+                        <a class="track-info-att"> {{'CURRENT_TRACK.GENRE' | translate}}: </a>
+                        <a class="track-info">{{capitalize(genre.genre)}} </a>
                     </div>
                 </div>
             </div>

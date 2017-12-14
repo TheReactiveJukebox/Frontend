@@ -1,7 +1,8 @@
 {
   "ALGORITHMS": {
     "RANDOM": "Zufällig",
-    "SAGH": "Größte Hits des gleichen Künstlers"
+    "SAGH": "Größte Hits des gleichen Künstlers",
+    "MOOD": "Ähnliche Stimmung"
   },
   "GENERAL": {
     "INVITE_KEY": "Einladungsschlüssel",
@@ -47,7 +48,7 @@
     "NO_TRACK": "Bitte erstelle eine Radiostation um Musik zu hören",
     "HISTORY_TOOL_TIP": "Wiedergabeverlauf",
     "REFRESH": "Songliste aktualisieren",
-    "GENRES": "Genres",
+    "GENRE": "Genre",
     "DYNAMICS": "Dynamik",
     "TEMPO": "Tempo",
     "MOOD": "Stimmung"
