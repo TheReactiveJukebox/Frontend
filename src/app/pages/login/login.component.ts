@@ -3,7 +3,6 @@ import { MdTabGroup } from '@angular/material';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from '../../services/auth/auth.service';
-import {Config} from '../../config';
 
 @Component({
     selector: 'about',
@@ -27,8 +26,6 @@ export class LoginComponent {
 
     public loginData: {username?: string, password?: string} = {};
     public registerData: {username?: string, password?: string, inviteKey?: string} = {};
-
-    public study: boolean = Config.study;
 
     constructor(private authService: AuthService,
                 private translateService: TranslateService,
