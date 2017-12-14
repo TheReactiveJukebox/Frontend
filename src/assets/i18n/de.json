@@ -2,7 +2,7 @@
   "ALGORITHMS": {
     "RANDOM": "Zufällig",
     "SAGH": "Größte Hits des gleichen Künstlers",
-    "SPOTIFY": "Spotify Empfehlungssystem"
+    "SPOTIFY": "Spotify-Empfehlungssystem"
   },
   "GENERAL": {
     "INVITE_KEY": "Einladungsschlüssel",
