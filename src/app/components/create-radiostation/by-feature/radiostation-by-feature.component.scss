@@ -6,7 +6,7 @@
   height: 100%;
 
   #feature-area {
-    height: calc(100% - 100px);
+    height: calc(100% - 80px);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -27,12 +27,45 @@
         height: 35px;
       }
 
-      .genre-container {
+      .select-container {
         padding: 10px;
 
         #add-tracks {
           margin-top: 10px;
         }
+
+        #start-track-list {
+          max-height: 300px;
+          overflow-y: auto;
+        }
+      }
+
+      &.mood {
+        height: 235px;
+      }
+
+      &.year {
+        height: 190px;
+      }
+
+      &.dynamic {
+        height: 125px;
+      }
+
+      &.speed {
+        height: 170px;
+      }
+
+      &.genres {
+        height: 130px;
+      }
+
+      &.algorithm {
+        height: 130px;
+      }
+
+      &.start-track {
+        min-height: 100px;
       }
     }
   }
@@ -50,4 +83,11 @@
   #reset {
     float: right;
   }
+}
+
+::ng-deep md-dialog-container {
+  min-height: 300px;
+  min-width: 400px;
+  padding: 10px;
+  max-height: 600px;
 }

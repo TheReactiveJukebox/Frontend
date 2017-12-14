@@ -2,14 +2,14 @@
     <page-title [height]="32">{{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}</page-title>
 
     <div id="feature-area">
-        <tile style="height: 235px" [label]="'RADIOSTATION_CREATE.MOOD' | translate"
+        <tile class="mood" [label]="'RADIOSTATION_CREATE.MOOD' | translate"
               (onDelete)="removeProperty('mood')"
               (onAdd)="addConstraint('mood')"
               [showContent]="radiostation.arousal != null && radiostation.valence != null">
             <mood-selector (selMood)="setSelMood($event)"></mood-selector>
         </tile>
 
-        <tile style="height: 190px" [label]="'RADIOSTATION_CREATE.YEAR' | translate"
+        <tile class="year" [label]="'RADIOSTATION_CREATE.YEAR' | translate"
               (onDelete)="removeProperty('year')"
               (onAdd)="addConstraint('year')"
               [showContent]="radiostation.startYear != null && radiostation.endYear != null">
@@ -22,7 +22,7 @@
                             [(maxValue)]="this.radiostation.endYear"></range-selector>
         </tile>
 
-        <tile style="height: 125px" [label]="'RADIOSTATION_CREATE.DYNAMIC' | translate"
+        <tile class="dynmaic" [label]="'RADIOSTATION_CREATE.DYNAMIC' | translate"
               (onDelete)="removeProperty('dynamic')"
               (onAdd)="addConstraint('dynamic')"
               [showContent]="radiostation.dynamic != null">
@@ -32,7 +32,7 @@
             </md-card>
         </tile>
 
-        <tile style="height: 170px" [label]="'RADIOSTATION_CREATE.SPEED' | translate"
+        <tile class="speed" [label]="'RADIOSTATION_CREATE.SPEED' | translate"
               (onDelete)="removeProperty('speed')"
               (onAdd)="addConstraint('speed')"
               [showContent]="radiostation.minSpeed != null && radiostation.maxSpeed != null">
@@ -45,38 +45,38 @@
                             [(maxValue)]="this.radiostation.maxSpeed"></range-selector>
         </tile>
 
-        <tile style="height: 130px" [label]="'RADIOSTATION_CREATE.GENRES' | translate"
+        <tile class="genre" [label]="'RADIOSTATION_CREATE.GENRES' | translate"
               (onDelete)="removeProperty('genres')"
               (onAdd)="addConstraint('genres')"
               [showContent]="radiostation.genres != null">
-            <md-card class="genre-container">
+            <md-card class="select-container">
                 <md-select style="width: 300px; padding: 0" multiple [(ngModel)]="radiostation.genres">
                     <md-option *ngFor="let option of genres" [value]="option">{{option}}</md-option>
                 </md-select>
             </md-card>
         </tile>
 
-        <tile style="height: 130px" [label]="'RADIOSTATION_CREATE.SELECT_ALGORITHM' | translate"
+        <tile class="algorithm" [label]="'RADIOSTATION_CREATE.SELECT_ALGORITHM' | translate"
               (onDelete)="removeProperty('algorithm')"
               (onAdd)="addConstraint('algorithm')"
               [showContent]="radiostation.algorithm != null">
-            <md-card class="genre-container">
+            <md-card class="select-container">
                 <md-select style="width: 300px; padding: 0" [(ngModel)]="radiostation.algorithm">
                     <md-option *ngFor="let option of algorithms" [value]="option">{{'ALGORITHMS.' + option | translate}}</md-option>
                 </md-select>
             </md-card>
         </tile>
 
-        <tile style="min-height: 100px" [label]="'RADIOSTATION_CREATE.SELECT_TITLE' | translate"
+        <tile class="start-track" [label]="'RADIOSTATION_CREATE.SELECT_TITLE' | translate"
               (onDelete)="removeProperty('titles')"
               (onAdd)="addConstraint('titles'); openStartTracksDialog()"
               [showContent]="radiostation.startTracks != null && radiostation.startTracks.length > 0">
-            <md-card class="genre-container">
-                <md-nav-list>
+            <md-card class="select-container">
+                <md-nav-list id="start-track-list">
                     <md-divider></md-divider>
                     <start-track [track]="track" (onDelete)="deleteStartTrack(track)" *ngFor="let track of startTracks"></start-track>
                 </md-nav-list>
-                <button md-raised-button id="add-tracks" class="mat-accent" (click)="openStartTracksDialog()">{{'RADIOSTATION_CREATE.ADD_SONGS' | translate}}
+                <button *ngIf="canAddStartTracks()" md-raised-button id="add-tracks" class="mat-accent" (click)="openStartTracksDialog()">{{'RADIOSTATION_CREATE.ADD_SONGS' | translate}}
                 </button>
             </md-card>
         </tile>

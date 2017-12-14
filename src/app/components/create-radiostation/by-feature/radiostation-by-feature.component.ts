@@ -172,11 +172,11 @@ export class RadiostationByFeatureComponent {
     }
 
     public openStartTracksDialog(): void {
-        let dialogRef = this.dialog.open(SimpleSearchComponent, {height: '500px'});
+        let dialogRef = this.dialog.open(SimpleSearchComponent, {panelClass: 'search-dialog'});
         dialogRef.componentInstance.selectedTrack.subscribe(track => {
             // avoid duplicate startTracks
             if (!this.startTracks.some((element, index, array) => {return element.id == track.id; })) {
-                if (this.startTracks.length < 5) {
+                if (this.startTracks.length < Config.startTrackLimit) {
                     this.startTracks.push(track);
                     this.radiostation.startTracks.push(track.id);
                 } else {
@@ -205,6 +205,14 @@ export class RadiostationByFeatureComponent {
     public setSelMood(pSelMood: Mood): void {
         this.radiostation.valence = pSelMood.valence;
         this.radiostation.arousal = pSelMood.arousal;
+    }
+
+    public canAddStartTracks(): boolean {
+        if (this.startTracks) {
+            return this.startTracks.length < Config.startTrackLimit;
+        } else {
+            return false;
+        }
     }
 
 }

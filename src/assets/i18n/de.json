@@ -86,7 +86,7 @@
     "ENDSPEED": "Maximale BPM",
     "DYNAMIC": "Bestimme die Dynamik deiner Radiostation!",
     "SONG_CONTAINED": "Der Titel ist bereits ausgewählt!",
-    "SONG_LIMIT": "Du darfst maximal 5 Songs auswählen!"
+    "SONG_LIMIT": "Du darfst maximal 10 Songs auswählen!"
   },
 
   "MOOD_SELECTOR": {
