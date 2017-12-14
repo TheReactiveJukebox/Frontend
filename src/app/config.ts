@@ -12,6 +12,10 @@ export class Config {
     public static valenceLowerLimit: number = -1;
     public static valenceUpperLimit: number = 1;
     public static genreDisplayLimit: number = 4;
+    public static startTrackLimit: number = 10;
+    public static trackSearchResultLimit: number = 30;
+    public static artistSearchResultLimit: number = 15;
+    public static albumSearchResultLimit: number = 15;
 
     public static numberUpcomingSongs: number = 5;
 

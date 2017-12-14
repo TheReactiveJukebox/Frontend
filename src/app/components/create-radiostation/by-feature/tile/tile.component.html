@@ -1,6 +1,6 @@
 <md-card class="tile">
     <p>{{label}}</p>
-    <div *ngIf="showContent">
+    <div *ngIf="showContent" [@expand]="showContent">
         <button md-icon-button class="close-tile-button" (click)="onDelete.emit()">
             <md-icon>close</md-icon>
         </button>
