@@ -57,7 +57,11 @@ export class PlayerComponent implements OnInit {
     }
 
     public switchToPlayer(): void {
-        this.tabs.selectedIndex = 2;
+        if (this.study) {
+            this.tabs.selectedIndex = 1;
+        } else {
+            this.tabs.selectedIndex = 2;
+        }
     }
 
     public switchToCreate(): void {

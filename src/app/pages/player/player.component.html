@@ -7,7 +7,7 @@
             <radiostation-by-feature (onStart)="switchToPlayer()"></radiostation-by-feature>
         </md-tab>
 
-        <md-tab>
+        <md-tab *ngIf="!study">
             <ng-template md-tab-label>
                 <md-icon [mdTooltip]="'PLAYER.TABS.STARTTRACK' | translate" class="tab-icons">audiotrack</md-icon>
             </ng-template>
