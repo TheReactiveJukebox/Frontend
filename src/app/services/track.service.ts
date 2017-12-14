@@ -329,7 +329,7 @@ export class TrackService {
                 let artists: Artist[] = data[0];
                 let feedbacks: ArtistFeedback[] = data[1];
                 for (let i = 0; i < artists.length; i++) {
-                    artists[i].feedback = feedbacks[1];
+                    artists[i].feedback = feedbacks[i];
                     this.artistCache.set(artists[i].id, artists[i]);
                 }
                 let requestedArtists: Artist[] = [];
