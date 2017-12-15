@@ -31,7 +31,7 @@ export class FeedbackService {
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-                track.trackFeedback = error._body;
+                track.trackFeedback = JSON.parse(error._body);
             } else {
                 console.warn('Sending track feedback failed: ', error);
             }
@@ -44,7 +44,7 @@ export class FeedbackService {
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-                track.artist.feedback = error._body;
+                track.artist.feedback = JSON.parse(error._body);
             } else {
                 console.warn('Sending artist feedback failed: ', error);
             }
@@ -59,7 +59,7 @@ export class FeedbackService {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
                 track.genres[0] = error._body;
-                this.genreFeedbackCache.set(error._body.genre, error._body);
+                this.genreFeedbackCache.set(JSON.parse(error._body).genre, JSON.parse(error._body));
             } else {
                 console.warn('Sending genre feedback failed: ', error);
             }
@@ -72,7 +72,7 @@ export class FeedbackService {
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-                track.album.feedback = error._body;
+                track.album.feedback = JSON.parse(error._body);
             } else {
                 console.warn('Sending feedback failed: ', error);
             }
@@ -109,7 +109,7 @@ export class FeedbackService {
             }, error => {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in fetchArtistFeedback!!!');
-                    this.addGenreFeedbackToCache(error._body);
+                    this.addGenreFeedbackToCache(JSON.parse(error._body));
                     let result: any[] = [];
                     for (let trackGenres of genres) {
                         let feedbackObjects: GenreFeedback[] = [];
@@ -141,7 +141,7 @@ export class FeedbackService {
             }, error => {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in fetchArtistFeedback!!!');
-                    observer.next(error._body);
+                    observer.next(JSON.parse(error._body));
                     observer.complete();
                 } else {
                     observer.error(error);
@@ -158,7 +158,7 @@ export class FeedbackService {
             }, error => {
                 if (error.status == 500 && error.statusText == 'OK') {
                     console.warn('WARNING: UGLY CATCH OF 500 Error in fetchAlbumFeedback!!!');
-                    observer.next(error._body);
+                    observer.next(JSON.parse(error._body));
                     observer.complete();
                 } else {
                     observer.error(error);
