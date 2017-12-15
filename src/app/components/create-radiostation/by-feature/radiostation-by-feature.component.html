@@ -22,16 +22,6 @@
                             [(maxValue)]="this.radiostation.endYear"></range-selector>
         </tile>
 
-        <tile class="dynmaic" [label]="'RADIOSTATION_CREATE.DYNAMIC' | translate"
-              (onDelete)="removeProperty('dynamic')"
-              (onAdd)="addConstraint('dynamic')"
-              [showContent]="radiostation.dynamic != null">
-            <md-card class="year-container">
-                <div class="slider-label">{{sliderDynamic.displayValue}}</div>
-                <md-slider #sliderDynamic [min]="dynamicLowerLimit" [max]="dynamicUpperLimit" [step]="0.05" [(ngModel)]="radiostation.dynamic"></md-slider>
-            </md-card>
-        </tile>
-
         <tile class="speed" [label]="'RADIOSTATION_CREATE.SPEED' | translate"
               (onDelete)="removeProperty('speed')"
               (onAdd)="addConstraint('speed')"

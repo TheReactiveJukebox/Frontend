@@ -88,6 +88,8 @@ export class RadiostationByFeatureComponent {
             console.log('DATA: ', data);
         }, error => {
             this.yearLowerLimit = 1800;
+            this.speedLowerLimit = Config.speedLowerLimit;
+            this.speedUpperLimit = Config.speedUpperLimit;
             console.log('It seems that the API-Endpoint /oldestYear is not working properly: ', error);
         });
     }
@@ -137,8 +139,6 @@ export class RadiostationByFeatureComponent {
                 this.radiostation.arousal = 0;
                 this.radiostation.valence = 0;
                 break;
-            case 'dynamic':
-                this.radiostation.dynamic = 0.5;
         }
     }
 
@@ -166,8 +166,6 @@ export class RadiostationByFeatureComponent {
                 this.radiostation.arousal = null;
                 this.radiostation.valence = null;
                 break;
-            case 'dynamic':
-                this.radiostation.dynamic = null;
         }
     }
 
@@ -179,16 +177,17 @@ export class RadiostationByFeatureComponent {
                 if (this.startTracks.length < Config.startTrackLimit) {
                     this.startTracks.push(track);
                     this.radiostation.startTracks.push(track.id);
+                    this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_ADDED'));
                 } else {
-                    this.showWarning(this.translateService.instant('RADIOSTATION_CREATE.SONG_LIMIT'));
+                    this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_LIMIT'));
                 }
             } else {
-                this.showWarning(this.translateService.instant('RADIOSTATION_CREATE.SONG_CONTAINED'));
+                this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_CONTAINED'));
             }
         });
     }
 
-    private showWarning(text: string): void {
+    private showToast(text: string): void {
         this.snackBar.open(text, '', {
             duration: 1500,
             verticalPosition: 'top',
