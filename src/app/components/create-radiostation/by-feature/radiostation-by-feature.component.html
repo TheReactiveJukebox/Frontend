@@ -1,51 +1,81 @@
 <div id="component-pane">
     <page-title [height]="32">{{'RADIOSTATION_CREATE.PROP_SELECT' | translate}}</page-title>
 
-    <div id="feature-container">
-        <!-- create the tiles used to select the feature -->
-        <md-card class="tile" *ngFor="let tile of tiles; let i = index" [ngClass]="tile">
-            <button md-icon-button class="close-tile-button" (click)="removeProperty(tile, i)">
-                <md-icon>close</md-icon>
-            </button>
-            <p>{{'RADIOSTATION_CREATE.'+ tile.toUpperCase() | translate}}</p>
-            <mood-selector *ngIf="tile == 'mood'" (selMood)="setSelMood($event)"></mood-selector>
+    <div id="feature-area">
+        <tile class="mood" [label]="'RADIOSTATION_CREATE.MOOD' | translate"
+              (onDelete)="removeProperty('mood')"
+              (onAdd)="addConstraint('mood')"
+              [showContent]="radiostation.arousal != null && radiostation.valence != null">
+            <mood-selector (selMood)="setSelMood($event)"></mood-selector>
+        </tile>
 
-            <range-selector *ngIf="tile == 'year'"
-                            [maxLimit]="yearUpperLimit"
+        <tile class="year" [label]="'RADIOSTATION_CREATE.YEAR' | translate"
+              (onDelete)="removeProperty('year')"
+              (onAdd)="addConstraint('year')"
+              [showContent]="radiostation.startYear != null && radiostation.endYear != null">
+            <range-selector [maxLimit]="yearUpperLimit"
                             [minLimit]="yearLowerLimit"
                             [minLabel]="'RADIOSTATION_CREATE.STARTYEAR' | translate"
                             [maxLabel]="'RADIOSTATION_CREATE.ENDYEAR' | translate"
                             [step]="1"
                             [(minValue)]="this.radiostation.startYear"
                             [(maxValue)]="this.radiostation.endYear"></range-selector>
+        </tile>
 
-            <range-selector *ngIf="tile == 'speed'"
-                            [maxLimit]="speedUpperLimit"
+        <tile class="speed" [label]="'RADIOSTATION_CREATE.SPEED' | translate"
+              (onDelete)="removeProperty('speed')"
+              (onAdd)="addConstraint('speed')"
+              [showContent]="radiostation.minSpeed != null && radiostation.maxSpeed != null">
+            <range-selector [maxLimit]="speedUpperLimit"
                             [minLimit]="speedLowerLimit"
                             [minLabel]="'RADIOSTATION_CREATE.STARTSPEED' | translate"
                             [maxLabel]="'RADIOSTATION_CREATE.ENDSPEED' | translate"
                             [step]="1"
                             [(minValue)]="this.radiostation.minSpeed"
                             [(maxValue)]="this.radiostation.maxSpeed"></range-selector>
-            <md-card class="year-container" *ngIf="tile == 'dynamic'">
-                <div class="slider-label">{{sliderDynamic.displayValue}}</div>
-                <md-slider #sliderDynamic [min]="dynamicLowerLimit" [max]="dynamicUpperLimit" [step]="0.05" [(ngModel)]="radiostation.dynamic"></md-slider>
-            </md-card>
-            <md-card *ngIf="tile == 'genres'" [@expand]="tile">
+        </tile>
+
+        <tile class="genre" [label]="'RADIOSTATION_CREATE.GENRES' | translate"
+              (onDelete)="removeProperty('genres')"
+              (onAdd)="addConstraint('genres')"
+              [showContent]="radiostation.genres != null">
+            <md-card class="select-container">
                 <md-select style="width: 300px; padding: 0" multiple [(ngModel)]="radiostation.genres">
                     <md-option *ngFor="let option of genres" [value]="option">{{option}}</md-option>
                 </md-select>
             </md-card>
-        </md-card>
+        </tile>
+
+        <tile class="algorithm" [label]="'RADIOSTATION_CREATE.SELECT_ALGORITHM' | translate"
+              (onDelete)="removeProperty('algorithm')"
+              (onAdd)="addConstraint('algorithm')"
+              [showContent]="radiostation.algorithm != null">
+            <md-card class="select-container">
+                <md-select style="width: 300px; padding: 0" [(ngModel)]="radiostation.algorithm">
+                    <md-option *ngFor="let option of algorithms" [value]="option">{{'ALGORITHMS.' + option | translate}}</md-option>
+                </md-select>
+            </md-card>
+        </tile>
+
+        <tile class="start-track" [label]="'RADIOSTATION_CREATE.SELECT_TITLE' | translate"
+              (onDelete)="removeProperty('titles')"
+              (onAdd)="addConstraint('titles'); openStartTracksDialog()"
+              [showContent]="radiostation.startTracks != null && radiostation.startTracks.length > 0">
+            <md-card class="select-container">
+                <md-nav-list id="start-track-list">
+                    <md-divider></md-divider>
+                    <start-track [track]="track" (onDelete)="deleteStartTrack(track)" *ngFor="let track of startTracks"></start-track>
+                </md-nav-list>
+                <button *ngIf="canAddStartTracks()" md-raised-button id="add-tracks" class="mat-accent" (click)="openStartTracksDialog()">{{'RADIOSTATION_CREATE.ADD_SONGS' | translate}}
+                </button>
+            </md-card>
+        </tile>
     </div>
 
     <div id="bottom-bar">
         <button md-raised-button class="mat-accent" (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}
         </button>
         <button *ngIf="trackService.hasNextTracks()" md-raised-button class="mat-accent" (click)="update()">{{'RADIOSTATION_CREATE.UPDATE' | translate}}
-        </button>
-        <button md-raised-button class="mat-accent" (click)="selectConstraint()">
-            <md-icon>add_circle</md-icon>
         </button>
         <button md-raised-button id="reset" class="mat-accent" (click)="resetRadiostation()">{{'RADIOSTATION_CREATE.RESET' | translate}}
         </button>

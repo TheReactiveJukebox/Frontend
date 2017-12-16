@@ -5,57 +5,16 @@
   width: auto;
   height: 100%;
 
-  #feature-container {
+  #feature-area {
+    height: calc(100% - 80px);
     display: flex;
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    flex-flow: column wrap;
     overflow-y: hidden;
-    height: calc(100% - 100px);
+    flex-flow: column wrap;
 
-    .tile {
-      width: 380px;
-      margin: $default-margin;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      text-align: center;
-      background-color: mat-color($default-theme-accent);
-      overflow: hidden;
-
-      &.mood {
-        height: 220px;
-      }
-
-      &.genres {
-        height: 120px;
-      }
-
-      &.speed {
-        height: 140px;
-      }
-
-      &.dynamic {
-        height: 100px;
-      }
-
-      &.year {
-        height: 160px;
-      }
-
-      p {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-
-      .close-tile-button {
-        position: absolute;
-        top: -7px;
-        right: -7px;
-      }
-
+    tile {
       .year-container {
         .slider-label {
           width: 50px;
@@ -67,20 +26,42 @@
         width: 180px;
         height: 35px;
       }
-    }
 
-    #add-button {
-      margin: $default-margin;
-      height: 120px;
-      width: 240px;
-      display: block;
-      text-align: center;
-      vertical-align: middle;
+      .select-container {
+        padding: 10px;
 
-      md-icon {
-        font-size: 48px;
-        margin-top: -24px;
-        margin-left: -24px;
+        #add-tracks {
+          margin-top: 10px;
+        }
+
+        #start-track-list {
+          max-height: 300px;
+          overflow-y: auto;
+        }
+      }
+
+      &.mood {
+        height: 235px;
+      }
+
+      &.year {
+        height: 190px;
+      }
+
+      &.speed {
+        height: 170px;
+      }
+
+      &.genre {
+        height: 130px;
+      }
+
+      &.algorithm {
+        height: 130px;
+      }
+
+      &.start-track {
+        min-height: 100px;
       }
     }
   }
@@ -98,4 +79,11 @@
   #reset {
     float: right;
   }
+}
+
+::ng-deep md-dialog-container {
+  min-height: 300px;
+  min-width: 400px;
+  padding: 10px;
+  max-height: 600px;
 }
