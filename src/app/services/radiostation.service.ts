@@ -4,12 +4,11 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 import {Subscription} from 'rxjs/Subscription';
 import {Config} from '../config';
-import {Jukebox} from '../models/jukebox';
-import {Track} from '../models/track';
+import {Radiostation} from '../models/radiostation';
 import {AuthHttp} from './auth/auth-http';
-import {HistoryService} from './history.service';
 import {TrackService} from './track.service';
 
 
@@ -18,23 +17,21 @@ export class RadiostationService implements OnDestroy {
 
     private subscriptions: Subscription[];
     private algorithms: BehaviorSubject<string[]>;
-    private jukeboxSubject: BehaviorSubject<Jukebox>;
+    private radiostationSubject: BehaviorSubject<Radiostation>;
 
-    private radiostationApiUrl = Config.serverUrl + '/api/jukebox';  // URL to web api
-    private historyApiUrl = Config.serverUrl + '/api/history';  // URL to web api
-    private algorithmsApiUrl = Config.serverUrl + '/api/jukebox/algorithms';
+    private radiostationApiUrl: string = Config.serverUrl + '/api/jukebox';  // URL to web api
+    private algorithmsApiUrl: string = Config.serverUrl + '/api/jukebox/algorithms';
 
     constructor(private trackService: TrackService,
-                private authHttp: AuthHttp,
-                private localHistory: HistoryService) {
+                private authHttp: AuthHttp) {
         this.algorithms = new BehaviorSubject<string[]>([]);
-        this.jukeboxSubject = new BehaviorSubject<Jukebox>(null);
+        this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
         this.subscriptions = [];
         this.fetchRadiostation();
         this.fetchAlgorithms();
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
         // which can cause heavy laggs.
         for (let subscription of this.subscriptions) {
@@ -43,62 +40,63 @@ export class RadiostationService implements OnDestroy {
     }
 
     //starts a new radiostation with given creation criteria
-    public startNewRadiostation(creationParameters: any): void {
-        console.log('Starting New Radiostation');
-        this.deleteRadiostation();
-
-        this.authHttp.post(this.radiostationApiUrl, creationParameters).subscribe((data: Jukebox) => {
-            this.jukeboxSubject.next(data);
-            this.trackService.refreshTracks();
-        }, (error: any) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
-                this.jukeboxSubject.next(JSON.parse(error._body));
-                this.trackService.refreshTracks();
-            } else {
-                console.log('Creating new Radiostation failed!', error);
-            }
+    public startNewRadiostation(radiostation: Radiostation): Observable<Radiostation> {
+        return Observable.create((observer: Observer<any>) => {
+            console.log('Starting New Radiostation');
+            // set ids to null, to indicate server, that we want a new radiostation
+            radiostation.userId = null;
+            radiostation.id = null;
+            this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                this.radiostationSubject.next(data);
+                console.log('NEW RADIOSTATION: ', data);
+                this.trackService.refreshCurrentAndUpcomingTracks();
+                observer.next(data);
+                observer.complete();
+            }, (error: any) => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
+                    this.radiostationSubject.next(JSON.parse(error._body));
+                    this.trackService.refreshCurrentAndUpcomingTracks();
+                    observer.next(error._body);
+                    observer.complete();
+                } else {
+                    console.log('Creating new Radiostation failed!', error);
+                    observer.error(error);
+                }
+            });
         });
     }
 
-    //deletes the current radiostation - currently not in use
-    public deleteRadiostation(): void {
-        this.jukeboxSubject.next(null);
-        this.localHistory.clearLocalHistory();
-    }
-
-    //saves the song to the history by sending its id to the corresponding api endpoint
-    public writeToHistory(track: Track): void {
-        if (this.localHistory.history.length > 0 && this.localHistory.history.slice(-1)[0].id == track.id) {
-            return;
-        }
-        this.localHistory.writeToLocalHistory(track);
-        let reqBody = {
-            trackId: track.id,
-            radioId: this.getJukebox().id
-        };
-
-        this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
-            track.historyId = data.id;
-        }, (error: any) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
-                console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
-                track.historyId = JSON.parse(error._body).id;
-            } else {
-                console.log('Writing "' + track.title + '" to history failed!', error);
-            }
+    public updateRadiostation(radiostation: Radiostation): Observable<Radiostation> {
+        return Observable.create((observer: Observer<any>) => {
+            console.log('Update Radiostation');
+            this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                this.radiostationSubject.next(data);
+                this.refreshTrackList();
+                observer.next(data);
+                observer.complete();
+            }, (error: any) => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    console.warn('WARNING: UGLY CATCH OF 500 Error in updateRadiostation!!!');
+                    this.radiostationSubject.next(JSON.parse(error._body));
+                    this.refreshTrackList();
+                    observer.next(error._body);
+                    observer.complete();
+                } else {
+                    console.log('Updating Radiostation failed!', error);
+                    observer.error(error);
+                }
+            });
         });
-
     }
 
     public fetchRadiostation(): void {
-        this.authHttp.get(this.radiostationApiUrl).subscribe((jukebox: Jukebox) => {
-            this.jukeboxSubject.next(jukebox);
+        this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
+            this.radiostationSubject.next(radiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                this.jukeboxSubject.next(JSON.parse(error._body));
+                this.radiostationSubject.next(JSON.parse(error._body));
             } else {
                 console.log('Error fetching radiostation: ', error);
             }
@@ -116,16 +114,44 @@ export class RadiostationService implements OnDestroy {
         });
     }
 
-    public hasJukebox(): boolean {
-        return this.jukeboxSubject.getValue() != null;
+    // TODO what should be done, if there is no current value?
+    public faster(increment?: number): void {
+        let radiostation: Radiostation = this.radiostationSubject.getValue();
+        if (!increment) {
+            increment = 10;
+        }
+        radiostation.minSpeed = radiostation.minSpeed + increment > Config.speedUpperLimit ?
+                Config.speedUpperLimit : radiostation.minSpeed + increment;
+
+        radiostation.maxSpeed = radiostation.maxSpeed + increment > Config.speedUpperLimit ?
+            Config.speedUpperLimit : radiostation.maxSpeed + increment;
+        this.updateRadiostation(radiostation);
     }
 
-    public getJukeboxSubject(): BehaviorSubject<Jukebox> {
-        return this.jukeboxSubject;
+    // TODO what should be done, if there is no current value?
+    public slower(decrement?: number): void {
+        let radiostation: Radiostation = this.radiostationSubject.getValue();
+        if (!decrement) {
+            decrement = 10;
+        }
+        radiostation.minSpeed = radiostation.minSpeed - decrement < Config.speedLowerLimit ?
+                Config.speedLowerLimit : radiostation.minSpeed - decrement;
+
+        radiostation.maxSpeed = radiostation.maxSpeed - decrement < Config.speedLowerLimit ?
+            Config.speedLowerLimit : radiostation.maxSpeed - decrement;
+        this.updateRadiostation(radiostation);
     }
 
-    public getJukebox(): Jukebox {
-        return this.jukeboxSubject.getValue();
+    public hasRadiostation(): boolean {
+        return this.radiostationSubject.getValue() != null;
+    }
+
+    public getRadiostationSubject(): BehaviorSubject<Radiostation> {
+        return this.radiostationSubject;
+    }
+
+    public getRadiostation(): Radiostation {
+        return this.radiostationSubject.getValue();
     }
 
     public getAlgorithms(): Observable<string[]> {
@@ -133,7 +159,7 @@ export class RadiostationService implements OnDestroy {
     }
 
     public refreshTrackList(): void {
-        this.trackService.refreshTrackList();
+        this.trackService.refreshUpcomingTracks();
     }
 
 }

@@ -34,10 +34,9 @@ import {CookieModule, CookieService} from 'ngx-cookie';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
 import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
-import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
-import {SpecialFeedbackDialogComponent} from './components/dialogs/special-feedback/special-feedback-dialog.component';
-import {TendencyFeedbackDialogComponent} from './components/dialogs/tendency-feedback/tendency-feedback-dialog.component';
 import {HistoryListComponent} from './components/history-list/history-list.component';
+import {LikeComponent} from './components/like/like.component';
+import {MoodSelectorComponent} from './components/mood-selector/mood-selector.component';
 import {PageTitleComponent} from './components/page-title/page-title.component';
 import {PlayerControlBarComponent} from './components/player-control-bar/player-control-bar.component';
 import {SimpleSearchComponent} from './components/simple-search/simple-search.component';
@@ -57,6 +56,9 @@ import {PlayerService} from './services/player.service';
 import {RadiostationService} from './services/radiostation.service';
 import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
+import {RangeSelectorComponent} from './components/range-selector/range-selector.component';
+import {TileComponent} from './components/create-radiostation/by-feature/tile/tile.component';
+import {StartTrackComponent} from './components/create-radiostation/by-feature/start-track/start-track.component';
 
 
 /**
@@ -73,15 +75,17 @@ import {TrackService} from './services/track.service';
         TrackListComponent,
         CurrentTrackComponent,
         PlayerControlBarComponent,
-        SpecialFeedbackDialogComponent,
-        TendencyFeedbackDialogComponent,
-        AddConstraintDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
         SimpleSearchComponent,
         HistoryListComponent,
         TrackListItemComponent,
-        PageTitleComponent
+        PageTitleComponent,
+        LikeComponent,
+        MoodSelectorComponent,
+        RangeSelectorComponent,
+        TileComponent,
+        StartTrackComponent
     ],
     /**
      * Import Angular's modules.
@@ -104,9 +108,7 @@ import {TrackService} from './services/track.service';
         })
     ],
     entryComponents: [
-        SpecialFeedbackDialogComponent,
-        TendencyFeedbackDialogComponent,
-        AddConstraintDialogComponent
+        SimpleSearchComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
@@ -130,6 +132,6 @@ export class AppModule {
 
 }
 
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: Http): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

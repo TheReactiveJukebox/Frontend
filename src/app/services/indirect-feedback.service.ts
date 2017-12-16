@@ -6,7 +6,7 @@ import {AuthHttp} from './auth/auth-http';
 @Injectable()
 export class IndirectFeedbackService {
 
-    private indirectFeedbackURI = Config.serverUrl + '/api/track/indirect-feedback';
+    private indirectFeedbackURI: string = Config.serverUrl + '/api/track/indirect-feedback';
 
     constructor(private authHttp: AuthHttp) {}
 
@@ -18,7 +18,11 @@ export class IndirectFeedbackService {
 
                 },
                 error => {
-                    console.log('postIndirectFeedback failed: ', error);
+                    if (error.status == 500 && error.statusText == 'OK') {
+                        console.warn('WARNING: UGLY CATCH OF 500 Error in postIndirectFeedback!!!');
+                    } else {
+                        console.warn('Sending feedback failed: ', error);
+                    }
                 }
             );
         }

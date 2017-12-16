@@ -2,13 +2,13 @@
  * Created by David on 01.07.2017.
  */
 import {Component, EventEmitter, Output} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import {Config} from '../../config';
 import {Track} from '../../models/track';
 import {AuthHttp} from '../../services/auth/auth-http';
 import {SearchService} from '../../services/search.service';
 import {TrackService} from '../../services/track.service';
+import {Artist} from '../../models/artist';
+import {Config} from '../../config';
 
 
 @Component({
@@ -21,39 +21,43 @@ export class SimpleSearchComponent {
 
     // emits every clicked item
     @Output()
-    selectedItem: EventEmitter<any> = new EventEmitter<any>();
+    public selectedItem: EventEmitter<any> = new EventEmitter<any>();
 
     // emits every clicked item
     @Output()
-    selectedAlbum: EventEmitter<any> = new EventEmitter<any>();
+    public selectedAlbum: EventEmitter<any> = new EventEmitter<any>();
 
     // emits every clicked item
     @Output()
-    selectedArtist: EventEmitter<any> = new EventEmitter<any>();
+    public selectedArtist: EventEmitter<any> = new EventEmitter<any>();
 
     // emits every clicked item
     @Output()
-    selectedTrack: EventEmitter<any> = new EventEmitter<any>();
+    public selectedTrack: EventEmitter<any> = new EventEmitter<any>();
 
     //The search result jsons and their length are stored here by category
-    trackResult: Object;
-    trackResultCount: number;
+    public trackResult: Object;
+    public trackResultCount: number;
 
-    artistResult: Object;
-    artistResultCount: number;
+    public artistResult: Object;
+    public artistResultCount: number;
 
-    albumResult: Object;
-    albumResultCount: number;
+    public albumResult: Object;
+    public albumResultCount: number;
+
+    public trackLimit: number = Config.trackSearchResultLimit;
+    public albumLimit: number = Config.albumSearchResultLimit;
+    public artistLimit: number = Config.artistSearchResultLimit;
 
     //The trimmed searchTerm
-    searchTerm: string;
+    public searchTerm: string;
 
     //Subjects to send the search terms to the service and to fetch results
-    searchTrack$ = new Subject<string>();
-    searchArtist$= new Subject<string>();
-    searchAlbum$ = new Subject<string>();
-    getArtistSongs$ = new Subject<string>();
-    getAlbumSongs$ = new Subject<string>();
+    private searchTrack$: Subject<string> = new Subject<string>();
+    private searchArtist$: Subject<string> = new Subject<string>();
+    private searchAlbum$: Subject<string> = new Subject<string>();
+    private getArtistSongs$: Subject<string> = new Subject<string>();
+    private getAlbumSongs$: Subject<string> = new Subject<string>();
 
     //Subscribing to the search result observables
     constructor(private searchService: SearchService,
@@ -81,14 +85,13 @@ export class SimpleSearchComponent {
         this.searchService.albumSearch(this.searchAlbum$)
             .subscribe(results => {
                 if (Object.keys(results).length > 0) {
-                    let artistUrl = Config.serverUrl + '/api/artist?';
-                    let artistRequests = [];
+                    let artistIds: number[] = [];
                     for (let album of results) {
-                        artistRequests.push(this.authHttp.get(artistUrl + 'id=' + album.artist));
+                        artistIds.push(album.artist);
                     }
-                    Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
+                    this.trackService.getArtistsByIds(artistIds).subscribe((artists: Artist[]) => {
                         for (let i = 0; i < results.length; i++) {
-                            results[i].artist = artistResults[i][0];
+                            results[i].artist = artists[i];
                         }
                         this.albumResult = results;
                         this.albumResultCount = Object.keys(results).length;
@@ -131,7 +134,7 @@ export class SimpleSearchComponent {
     }
 
     //Invoked on keyup in search field search API is called when a query with more than two characters is send
-    public searches(value): void {
+    public searches(value: string): void {
         this.searchTerm = value.replace(/\s+/g, ''); //Remove whitespaces
 
         this.searchTrack$.next(this.searchTerm);
@@ -139,11 +142,11 @@ export class SimpleSearchComponent {
         this.searchAlbum$.next(this.searchTerm);
     }
 
-    public discography(value): void {
+    public discography(value: string): void {
         this.getArtistSongs$.next(value);
     }
 
-    public album(value): void {
+    public album(value: string): void {
         this.getAlbumSongs$.next(value);
     }
 

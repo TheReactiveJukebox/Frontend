@@ -2,10 +2,10 @@
 
 export class IndirectFeedback {
 
-    feedbackName: string; //Type of indirect feedback
-    id: number;  // Id in database for this entry
-    userId: number;
-    position: number;
+    public feedbackName: string; //Type of indirect feedback
+    public id: number;  // Id in database for this entry
+    public userId: number;
+    public position: number;
 
     constructor(
         public radioId: number, //Radio context the feedback was given in

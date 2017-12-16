@@ -1,88 +1,91 @@
 @import "../../../../theme.scss";
 
+::ng-deep .mat-list-item-content {
+  padding: 0 10px !important;
+}
+
+p {
+  margin: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 48px;
+  line-height: 24px;
+}
+
 .tl-cover-col{
-  width: 5%;
+  width: 48px;
   text-align: left;
 }
 
-.tl-title-col{
-  width: 22%;
-  text-align: left;
-}
+.text {
+  width: calc(100% - 186px);
+  display: flex;
+  justify-content: space-between;
+  height: 48px;
+  padding-left: 10px;
 
-.tl-artist-col{
-  width: 22%;
-  text-align: left;
-}
+  .tl-title-col{
+    width: 29%;
+    text-align: left;
+  }
 
-.tl-album-col{
-  width: 17%;
-  text-align: left;
-}
+  .tl-artist-col{
+    width: 29%;
+    text-align: left;
+  }
 
-.tl-genre-col{
-  width: 8%;
-  text-align: left;
+  .tl-album-col{
+    width: 27%;
+    text-align: left;
+  }
+
+  .tl-genre-col{
+    width: 15%;
+    text-align: left;
+  }
 }
 
 .tl-date-col{
-  width: 6%;
-  text-align: left;
-}
-
-.tl-duration-col{
-  width: 5%;
+  width: 48px;
   text-align: center;
 }
 
-.t1-like-col{
-  width: 4%;
-  text-align: right;
-}
-
-.t1-dislike-col{
-  width: 4%;
-  text-align: left;
+.tl-duration-col{
+  width: 60px;
+  text-align: center;
 }
 
 .tl-icon-col{
-  width: 5%;
+  width: 30px;
   text-align: center;
 }
 
 .cover-img {
   position: relative;
-  top: 2px;
-  max-width: 44px;
-  max-height: 44px;
+  max-width: 48px;
+  max-height: 48px;
   width: 100%;
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 48px;
+  min-width: 48px;
   align: left;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  md-icon {
+    visibility: hidden;
+  }
+
+  &:hover {
+    position: relative;
+
+    md-icon {
+      visibility: visible;
+    }
+  }
 }
 
 ::ng-deep .mat-list-item-content {
   justify-content: space-between;
-}
-
-.cover-img:hover {
-  position: relative;
-  z-index: 5;
-  -webkit-transform: scale(1.4);
-  transform: scale(1.4);
-}
-
-.feedback-button-wrapper {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  position: relative;
-  left: 0;
-  bottom: 0;
-  margin: $default-margin;
-}
-
-.feedback-md-icon-wrapper {
-  margin-top: -12px;
-  font-size: 21px;
 }

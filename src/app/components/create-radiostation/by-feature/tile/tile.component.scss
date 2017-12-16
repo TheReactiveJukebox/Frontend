@@ -1,0 +1,42 @@
+@import '~@angular/material/theming';
+@import '../../../../../theme.scss';
+
+.tile {
+  width: 360px;
+  height: calc(100% - 35px);
+  margin: 5px;
+  padding: 15px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  border-radius: 5px;
+  background-color: mat-color($default-theme-accent);
+  overflow: hidden;
+
+  .add-container {
+    height: calc(100% - 38px);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .add-button {
+      height: 56px;
+      width: 56px;
+      font-size: 56px;
+      cursor: pointer;
+    }
+  }
+
+  p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .close-tile-button {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+  }
+}

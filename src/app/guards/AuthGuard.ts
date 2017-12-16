@@ -7,7 +7,7 @@ export class AuthGuard implements CanActivate {
 
     constructor(private authService: AuthService, private router: Router) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         // user is logged in and has rights to access
         if (this.authService.isLoggedIn()) {
             return true;

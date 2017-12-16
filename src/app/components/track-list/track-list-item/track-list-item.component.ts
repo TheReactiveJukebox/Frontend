@@ -2,6 +2,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Track} from '../../../models/track';
 import {FeedbackService} from '../../../services/feedback.service';
+import {Config} from '../../../config';
 
 @Component({
     selector: 'track-list-item',
@@ -19,38 +20,62 @@ import {FeedbackService} from '../../../services/feedback.service';
 export class TrackListItemComponent {
 
     @Input()
-    track: Track;
+    public track: Track;
 
     @Input()
-    showFeedback: boolean = true;
+    public showFeedback: boolean = true;
 
     @Input()
-    showDelete: boolean = true;
+    public showDelete: boolean = true;
+
+    @Input()
+    public showPlay: boolean = true;
 
     @Output()
-    onDelete: EventEmitter<any>;
+    public onDelete: EventEmitter<any>;
+
+    @Output()
+    public onCoverClick: EventEmitter<any>;
 
     public showItem: boolean;
 
     constructor(public feedbackService: FeedbackService) {
         this.onDelete = new EventEmitter<any>();
+        this.onCoverClick = new EventEmitter<any>();
         this.showItem = true;
     }
 
-    btn_like() {
-        this.feedbackService.postSimpleFeedback(this.track, true);
-    }
-
-    btn_dislike() {
-        this.feedbackService.postSimpleFeedback(this.track, false);
-    }
-
-    public round(value: number): number {
-        return Math.round(value);
+    public btn_like(): void {
+        this.feedbackService.postTrackFeedback(this.track);
     }
 
     public hideItem(): void {
         this.showItem = false;
+    }
+
+    public getTrackCover(): string {
+        if (this.track.cover) {
+            return this.track.cover;
+        } else {
+            return '../../../../assets/img/album_cover.png';
+        }
+    }
+
+    public getGenres(): string {
+        let genres: string = '';
+        let slicedArray = this.track.genres.slice(0, Config.genreDisplayLimit);
+        if (slicedArray) {
+            for (let genre of slicedArray) {
+                let genreStr: string = this.capitalize(genre.genre);
+                genres += genreStr + ', ';
+            }
+            genres = genres.substr(0, genres.length - 2);
+        }
+        return genres;
+    }
+
+    public  capitalize(s: string): string {
+        return s[0].toUpperCase() + s.slice(1);
     }
 
 }

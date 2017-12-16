@@ -1,13 +1,17 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Config} from '../../../config';
-import {Jukebox} from '../../../models/jukebox';
+import {Mood} from '../../../models/mood';
+import {Radiostation} from '../../../models/radiostation';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
-import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
+import {TrackService} from '../../../services/track.service';
+import {SimpleSearchComponent} from '../../simple-search/simple-search.component';
+import {Track} from '../../../models/track';
+
 
 @Component({
     selector: 'radiostation-by-feature',
@@ -15,50 +19,57 @@ import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-con
     templateUrl: './radiostation-by-feature.component.html',
     animations: [
         trigger('expand', [
-            state('true', style({'width': '*'})),
-            state('void', style({'width': '0px'})),
+            state('true', style({'opacity': '1.0', 'width': '*', 'top': '0px'})),
+            state('void', style({'opacity': '0.0', 'width': '0px', 'top': '100px'})),
             transition('void => *', animate('0.3s ease-out')),
             transition('* => void', animate('0.3s ease-out'))
         ])
     ]
 })
-export class RadiostationByFeatureComponent implements OnInit {
+export class RadiostationByFeatureComponent {
 
-    creationParameters:
-        {
-            id?: number,
-            genres?: string[],
-            mood?: string,
-            startYear?: number,
-            endYear?: number,
-            algorithm?: string
-        } = {};
+    public genres: string[] = [];
+    public algorithms: string[] = [];
+    public startTracks: Track[] = null;
 
-    //keys should hold all identifing strings for the feature tiles
-    keys = {genre: 'genre', mood: 'mood', endYear: 'year-end', startYear: 'year-start'};
+    public speedLowerLimit: number = Config.speedLowerLimit;
+    public speedUpperLimit: number = Config.speedUpperLimit;
+    public dynamicLowerLimit: number = Config.dynamicLowerLimit;
+    public dynamicUpperLimit: number = Config.dynamicUpperLimit;
+    public yearLowerLimit: number;
+    public yearUpperLimit: number = Config.yearUpperLimit;
 
-    /* tiles should be filled with
-    {type: key of the feature to set,
-    value: default value and the field to store the selection,
-    id: automatic id to identify the tile e.g. for deletion} */
-    tiles = [];
-    genres = [];
-    //mocked moods
-    moods = ['crazy', 'happy', 'sad'];
-    tileId: number = 0;
+    private genreApiUrl: string = Config.serverUrl + '/api/genre';  // URL to web api
+    private trackParameterApiUrl: string = Config.serverUrl + '/api/track/parameter';
+
+    public radiostation: Radiostation;
 
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
-    private genreApiUrl = Config.serverUrl + '/api/genre';  // URL to web api
 
     constructor(public radiostationService: RadiostationService,
+                public trackService: TrackService,
                 private playerService: PlayerService,
                 private translateService: TranslateService,
+                private snackBar: MdSnackBar,
                 public dialog: MdDialog,
-                private authHttp: AuthHttp,
-                public snackBar: MdSnackBar) {
-        this.radiostationService.getJukeboxSubject().subscribe((jukebox: Jukebox) => {
-            this.refresh(jukebox);
+                private authHttp: AuthHttp) {
+        this.resetRadiostation();
+        this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
+            if (radiostation != null) {
+                if (radiostation.startTracks) {
+                    // fetch information about the startTracks
+                    this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
+                        this.startTracks = tracks;
+                        console.log('TRACKS: ', tracks);
+                        this.radiostation = radiostation;
+                        console.log('Radiostation: ', radiostation);
+                    });
+                }
+            }
+        });
+        this.radiostationService.getAlgorithms().subscribe((algorithms: string[]) => {
+            this.algorithms = algorithms;
         });
 
         //fetch the available genres from server
@@ -68,126 +79,139 @@ export class RadiostationByFeatureComponent implements OnInit {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
-        //TODO: load available moods
-    }
 
-    ngOnInit(): void {
-
-    }
-
-    private refresh(jukebox: Jukebox): void {
-        if (jukebox) {
-            this.tiles = [];
-            this.tileId = 0;
-            if (jukebox.genres) {
-                for (let genre of jukebox.genres) {
-                    this.tiles.push({type: this.keys.genre, value: genre, id: this.tileId++});
-                }
-            }
-            if (jukebox.mood) {
-                this.tiles.push({type: this.keys.mood, value: jukebox.mood, id: this.tileId++});
-            }
-            if (jukebox.startYear) {
-                this.tiles.push({type: this.keys.startYear, value: jukebox.startYear, id: this.tileId++});
-            }
-            if (jukebox.endYear) {
-                this.tiles.push({type: this.keys.endYear, value: jukebox.endYear, id: this.tileId++});
-            }
-        }
+        //fetch the the releaseDate of oldest song
+        this.authHttp.get(this.trackParameterApiUrl).subscribe((data: any) => {
+            this.yearLowerLimit = data.oldestTrack;
+            this.speedLowerLimit = Math.floor(data.minSpeed);
+            this.speedUpperLimit = Math.round(data.maxSpeed);
+            console.log('DATA: ', data);
+        }, error => {
+            this.yearLowerLimit = 1800;
+            this.speedLowerLimit = Config.speedLowerLimit;
+            this.speedUpperLimit = Config.speedUpperLimit;
+            console.log('It seems that the API-Endpoint /oldestYear is not working properly: ', error);
+        });
     }
 
     //resets the gui
-    reset() {
-        this.tiles = [];
+    public resetRadiostation(): void {
+        this.radiostation = new Radiostation();
+        this.radiostation.algorithm = 'RANDOM';
     }
 
 
-    start() {
-        //remove the creationparameters from the last call
-        this.resetCreationParameters();
-        //set the corresponding parameter
-        for (let tile of this.tiles) {
-            if (tile.type == this.keys.genre) {
-                if (this.creationParameters.genres == null) {
-                    this.creationParameters.genres = [tile.value];
-                } else {
-                    this.creationParameters.genres.push(tile.value);
-                }
-            }
-            if (tile.type == this.keys.mood) {
-                this.creationParameters.mood = tile.value;
-            }
-            if (tile.type == this.keys.endYear) {
-                this.creationParameters.endYear = +tile.value;
-            }
-            if (tile.type == this.keys.startYear) {
-                this.creationParameters.startYear = +tile.value;
-            }
-        }
-        //call server for radio
-        this.creationParameters.algorithm = 'RANDOM';
-        this.radiostationService.startNewRadiostation(this.creationParameters);
-        //start playing
-        this.playerService.play();
-        this.onStart.emit();
+    public start(): void {
+        this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
+            this.onStart.emit();
+            this.playerService.play();
+        });
     }
 
-    //opens a dialog to select the constraint to specify
-    selectConstraint(): void {
-        let dialogRef = this.dialog.open(AddConstraintDialogComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            this.addConstraint(result);
+    public update(): void {
+        this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
+            this.onStart.emit();
         });
     }
 
     //adds an element to the gui for the keywords
-    addConstraint(result: string): void {
-        //there can be an unlimetd number of genre elements
-        if (result == this.keys.genre) {
-            this.tiles.push({type: this.keys.genre, value: this.genres[0], id: this.tileId++});
-        } else {
-            //check if the other elements already contained
-            let contained = false;
-            for (let entry of this.tiles) {
-                if (entry.type == result) {
-                    contained = true;
-                }
-            }
-            //create the element
-            if (!contained) {
-                if (result == this.keys.mood) {
-                    this.tiles.push({type: this.keys.mood, value: this.moods[0], id: this.tileId++});
-                }
-                if (result == this.keys.endYear) {
-                    this.tiles.push({type: this.keys.endYear, value: 2000, id: this.tileId++});
-                }
-                if (result == this.keys.startYear) {
-                    this.tiles.push({type: this.keys.startYear, value: 2000, id: this.tileId++});
+    public addConstraint(result: string): void {
+        switch (result) {
+            case 'genres':
+                this.radiostation.genres = [];
+                break;
+            case 'titles':
+                this.radiostation.startTracks = [];
+                this.startTracks = [];
+                break;
+            case 'algorithm':
+                this.radiostation.algorithm = '';
+                break;
+            case 'year':
+                this.radiostation.startYear = this.yearLowerLimit;
+                this.radiostation.endYear = this.yearUpperLimit;
+                break;
+            case 'speed':
+                this.radiostation.minSpeed = this.speedLowerLimit;
+                this.radiostation.maxSpeed = this.speedUpperLimit;
+                break;
+            case 'mood':
+                this.radiostation.arousal = 0;
+                this.radiostation.valence = 0;
+                break;
+        }
+    }
+
+    public removeProperty(property: string): void {
+        switch (property) {
+            case 'genres':
+                this.radiostation.genres = null;
+                break;
+            case 'titles':
+                this.radiostation.startTracks = null;
+                this.startTracks = null;
+                break;
+            case 'algorithm':
+                this.radiostation.algorithm = null;
+                break;
+            case 'year':
+                this.radiostation.startYear = null;
+                this.radiostation.endYear = null;
+                break;
+            case 'speed':
+                this.radiostation.minSpeed = null;
+                this.radiostation.maxSpeed = null;
+                break;
+            case 'mood':
+                this.radiostation.arousal = null;
+                this.radiostation.valence = null;
+                break;
+        }
+    }
+
+    public openStartTracksDialog(): void {
+        let dialogRef = this.dialog.open(SimpleSearchComponent, {panelClass: 'search-dialog'});
+        dialogRef.componentInstance.selectedTrack.subscribe(track => {
+            // avoid duplicate startTracks
+            if (!this.startTracks.some((element, index, array) => {return element.id == track.id; })) {
+                if (this.startTracks.length < Config.startTrackLimit) {
+                    this.startTracks.push(track);
+                    this.radiostation.startTracks.push(track.id);
+                    this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_ADDED'));
+                } else {
+                    this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_LIMIT'));
                 }
             } else {
-                this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
-                    duration: 2000,
-                });
+                this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_CONTAINED'));
             }
+        });
+    }
+
+    private showToast(text: string): void {
+        this.snackBar.open(text, '', {
+            duration: 1500,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+        });
+    }
+
+    public deleteStartTrack(track: Track): void {
+        let index: number = this.startTracks.indexOf(track);
+        this.startTracks.splice(index, 1);
+        this.radiostation.startTracks.splice(index, 1);
+    }
+
+    public setSelMood(pSelMood: Mood): void {
+        this.radiostation.valence = pSelMood.valence;
+        this.radiostation.arousal = pSelMood.arousal;
+    }
+
+    public canAddStartTracks(): boolean {
+        if (this.startTracks) {
+            return this.startTracks.length < Config.startTrackLimit;
+        } else {
+            return false;
         }
     }
 
-    //removes the tile with the specified key from the tiles array
-    remove(key: number): void {
-        let tmpTiles = [];
-        for (let tile of this.tiles) {
-            if (tile.id != key) {
-                tmpTiles.push(tile);
-            }
-        }
-        this.tiles = tmpTiles;
-    }
-
-    //resets the creation parameters to avoid, that old parameters will be used
-    resetCreationParameters(): void {
-        this.creationParameters.genres = null;
-        this.creationParameters.mood = null;
-        this.creationParameters.startYear = 0;
-        this.creationParameters.endYear = 2099;
-    }
 }
