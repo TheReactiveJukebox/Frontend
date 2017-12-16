@@ -2,13 +2,12 @@
  * Created by David on 01.07.2017.
  */
 import {Component, EventEmitter, Output} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import {Config} from '../../config';
 import {Track} from '../../models/track';
 import {AuthHttp} from '../../services/auth/auth-http';
 import {SearchService} from '../../services/search.service';
 import {TrackService} from '../../services/track.service';
+import {Artist} from '../../models/artist';
 
 
 @Component({
@@ -81,14 +80,13 @@ export class SimpleSearchComponent {
         this.searchService.albumSearch(this.searchAlbum$)
             .subscribe(results => {
                 if (Object.keys(results).length > 0) {
-                    let artistUrl = Config.serverUrl + '/api/artist?';
-                    let artistRequests = [];
+                    let artistIds: number[] = [];
                     for (let album of results) {
-                        artistRequests.push(this.authHttp.get(artistUrl + 'id=' + album.artist));
+                        artistIds.push(album.artist);
                     }
-                    Observable.forkJoin(artistRequests).subscribe((artistResults: any[]) => {
+                    this.trackService.getArtistsByIds(artistIds).subscribe((artists: Artist[]) => {
                         for (let i = 0; i < results.length; i++) {
-                            results[i].artist = artistResults[i][0];
+                            results[i].artist = artists[i];
                         }
                         this.albumResult = results;
                         this.albumResultCount = Object.keys(results).length;
