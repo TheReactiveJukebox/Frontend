@@ -2,6 +2,7 @@
   "ALGORITHMS": {
     "RANDOM": "Random",
     "SAGH": "Same Artist Greatest Hits",
+    "SPOTIFY": "Spotify",
     "MOOD": "Similar Mood",
     "SPEED": "Similar Tempo"
   },

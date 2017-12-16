@@ -2,6 +2,7 @@
   "ALGORITHMS": {
     "RANDOM": "Zufällig",
     "SAGH": "Größte Hits des gleichen Künstlers",
+    "SPOTIFY": "Spotify-Empfehlungssystem",
     "MOOD": "Ähnliche Stimmung",
     "SPEED": "Ähnliches Tempo"
   },
