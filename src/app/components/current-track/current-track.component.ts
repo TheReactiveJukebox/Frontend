@@ -38,10 +38,6 @@ export class CurrentTrackComponent implements OnInit {
         }
     }
 
-    public btn_renew(): void {
-        this.trackService.refreshUpcomingTracks();
-    }
-
     public getGenres(): GenreFeedback[] {
         let selectedGenres: GenreFeedback[] = this.currentTrack.genres.slice(0, Config.genreDisplayLimit);
         if (selectedGenres) {

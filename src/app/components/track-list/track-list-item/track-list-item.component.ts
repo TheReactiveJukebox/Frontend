@@ -82,7 +82,7 @@ export class TrackListItemComponent implements OnInit, OnDestroy {
     }
 
     public setDetailedView(state: boolean): void {
-        if (this.enableDetails) {
+        if (this.enableDetails && this.detailView != state) {
             this.detailView = state;
         }
     }
@@ -126,5 +126,4 @@ export class TrackListItemComponent implements OnInit, OnDestroy {
     public capitalize(s: string): string {
         return s[0].toUpperCase() + s.slice(1);
     }
-
 }

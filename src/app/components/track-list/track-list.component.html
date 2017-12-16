@@ -1,6 +1,6 @@
 <md-nav-list style="overflow: hidden">
     <md-divider></md-divider>
-    <track-list-item #hist [track]="track" (onCoverClick)="jumpToTrack(track)"
+    <track-list-item #hist [track]="track"
                      [showPlay]="false"
                      [enableDetails]="true"
                      [displayClass]="'historyTrack'"
@@ -8,12 +8,13 @@
                      (onDetailedDestroy)="this.setCurrentTrackDetailed()"
                      (onClick)="this.setDetailedTrack(track)"
                      *ngFor="let track of this.historyService.history"></track-list-item>
-    <track-list-item #curr [track]="this.currentTrack" (onCoverClick)="jumpToTrack(this.currentTrack)"
+    <track-list-item #curr [track]="this.currentTrack"
                      [showPlay]="false"
                      [enableDetails]="true"
                      [showDelete]="false"
                      [displayClass]="'currentTrack'"
                      (onClick)="this.setDetailedTrack(this.currentTrack)"></track-list-item>
+
     <track-list-item #upcoming [track]="track"
                      [enableDetails]="true"
                      [displayClass]="'upcomingTrack'"
