@@ -28,7 +28,6 @@
                             ({{currentTrack.releaseDate.getFullYear()}})
                         </a>
                     </div>
-
                     <div *ngIf="currentTrack.speed" class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.speedFeedback"></like>

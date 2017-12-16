@@ -8,6 +8,7 @@ import {AuthHttp} from '../../services/auth/auth-http';
 import {SearchService} from '../../services/search.service';
 import {TrackService} from '../../services/track.service';
 import {Artist} from '../../models/artist';
+import {Config} from '../../config';
 
 
 @Component({
@@ -43,6 +44,10 @@ export class SimpleSearchComponent {
 
     public albumResult: Object;
     public albumResultCount: number;
+
+    public trackLimit: number = Config.trackSearchResultLimit;
+    public albumLimit: number = Config.albumSearchResultLimit;
+    public artistLimit: number = Config.artistSearchResultLimit;
 
     //The trimmed searchTerm
     public searchTerm: string;

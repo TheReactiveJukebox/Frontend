@@ -67,31 +67,28 @@
   },
   "RADIOSTATION_CREATE": {
     "ALGORITHM": "Algorithmus",
+    "SELECT_ALGORITHM": "Wähle einen Algorithmus!",
+    "ADD_SONGS": "Songs hinzufügen",
     "RESET": "Zurücksetzen",
     "START": "Starte neue Radiostation",
     "UPDATE": "Aktualisiere aktuelle Radiostation",
     "BY_FEATURE": "Nach Merkmalen",
     "BY_SONG": "Nach Startsong",
     "TITLE": "Beginne die Wiedergabe mit folgendem Song",
+    "SELECT_TITLE": "Wähle Startsongs für die Radiostation!",
     "PROP_SELECT": "Wähle die Eigenschaften deiner Radiostation!",
-    "GENRES": "Welche Genres willst du hören?",
-    "MOOD": "Beschreibe die Stimmung der gewünschten Musik",
+    "GENRES": "Wähle Genres für deine Radiostation!",
+    "MOOD": "Beschreibe die Stimmung der gewünschten Musik!",
     "YEAR": "Wähle einen Veröffentlichungszeitraum!",
     "STARTYEAR": "Wie alt sollen die Lieder höchtens sein?",
     "ENDYEAR": "Wie neu dürfen die Lieder sein?",
-    "SPEED": "Wähle das Tempo der Radiostation aus!",
+    "SPEED": "Bestimme das Tempo der Radiostation!",
     "STARTSPEED": "Minimale BPM",
     "ENDSPEED": "Maximale BPM",
-    "DYNAMIC": "Wie dynamisch soll dein Radio sein?"
-  },
-  "ADD_CONSTRAINT": {
-    "ALREADY_CONTAINED": "Dieses Merkmal ist bereits vorhanden!",
-    "TITLE": "Welche Eigenschaften willst du bestimmen?",
-    "GENRE": "Genre",
-    "MOOD": "Stimmung",
-    "YEAR": "Veröffentlichungsjahr",
-    "SPEED": "Tempo",
-    "DYNAMIC": "Dynamik"
+    "DYNAMIC": "Bestimme die Dynamik deiner Radiostation!",
+    "SONG_CONTAINED": "Der Titel ist bereits ausgewählt!",
+    "SONG_LIMIT": "Du darfst maximal 10 Songs auswählen!",
+    "SONG_ADDED": "Startsong hinzugefügt!"
   },
 
   "MOOD_SELECTOR": {

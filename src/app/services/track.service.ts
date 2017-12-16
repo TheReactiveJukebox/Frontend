@@ -32,6 +32,7 @@ export class TrackService {
     private trackListUrl: string = Config.serverUrl + '/api/jukebox/next';  // URL to web api
     private artistUrl: string = Config.serverUrl + '/api/artist';
     private albumUrl: string = Config.serverUrl + '/api/album';
+    private trackUrl: string = Config.serverUrl + '/api/track';
 
     constructor(private authHttp: AuthHttp,
                 private feedbackService: FeedbackService,
@@ -316,6 +317,17 @@ export class TrackService {
         return track;
     }
 
+    public loadTracksByIds(ids: number[]): Observable<Track[]> {
+        return Observable.create(observer => {
+            this.requestEntities(this.trackUrl , ids).subscribe(rawTracks => {
+                this.fillMetaData(rawTracks).subscribe((tracks: Track[]) => {
+                    observer.next(tracks);
+                    observer.complete();
+                });
+            });
+        });
+    }
+    
     public getArtistsByIds(ids: number[]): Observable<Artist[]> {
         return Observable.create(observer => {
             let missingArtists: number[] = [];
