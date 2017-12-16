@@ -8,6 +8,7 @@ import {AuthHttp} from '../../services/auth/auth-http';
 import {SearchService} from '../../services/search.service';
 import {TrackService} from '../../services/track.service';
 import {Artist} from '../../models/artist';
+import {Config} from "../../config";
 
 
 @Component({
