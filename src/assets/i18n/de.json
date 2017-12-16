@@ -2,7 +2,8 @@
   "ALGORITHMS": {
     "RANDOM": "Zufällig",
     "SAGH": "Größte Hits des gleichen Künstlers",
-    "MOOD": "Ähnliche Stimmung"
+    "MOOD": "Ähnliche Stimmung",
+    "SPEED": "Ähnliches Tempo"
   },
   "GENERAL": {
     "INVITE_KEY": "Einladungsschlüssel",
