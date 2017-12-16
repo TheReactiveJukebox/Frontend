@@ -93,6 +93,7 @@ export class RadiostationService implements OnDestroy {
     public fetchRadiostation(): void {
         this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
             this.radiostationSubject.next(radiostation);
+            console.log('FETCHED RADIO: ', radiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');

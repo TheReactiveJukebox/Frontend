@@ -57,12 +57,12 @@ export class RadiostationByFeatureComponent {
         this.resetRadiostation();
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
+                this.radiostation = radiostation;
                 if (radiostation.startTracks) {
                     // fetch information about the startTracks
                     this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
                         this.startTracks = tracks;
                         console.log('TRACKS: ', tracks);
-                        this.radiostation = radiostation;
                         console.log('Radiostation: ', radiostation);
                     });
                 }
