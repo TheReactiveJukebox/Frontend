@@ -1,0 +1,71 @@
+@import "../../../../../theme.scss";
+
+::ng-deep .mat-list-item-content {
+  padding: 0 10px !important;
+}
+
+p {
+  margin: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 48px;
+  line-height: 24px;
+}
+
+.tl-cover-col{
+  width: 48px;
+  text-align: left;
+}
+
+.text {
+  width: calc(100% - 78px);
+  display: flex;
+  justify-content: space-between;
+  height: 48px;
+  padding-left: 10px;
+
+  .tl-title-col{
+    width: 50%;
+    text-align: left;
+  }
+
+  .tl-artist-col{
+    width: 50%;
+    text-align: left;
+  }
+}
+
+.tl-icon-col{
+  width: 30px;
+  text-align: center;
+}
+
+.cover-img {
+  position: relative;
+  max-width: 48px;
+  max-height: 48px;
+  width: 100%;
+  min-height: 48px;
+  min-width: 48px;
+  align: left;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  md-icon {
+    visibility: hidden;
+  }
+
+  &:hover {
+    position: relative;
+
+    md-icon {
+      visibility: visible;
+    }
+  }
+}
+
+::ng-deep .mat-list-item-content {
+  justify-content: space-between;
+}

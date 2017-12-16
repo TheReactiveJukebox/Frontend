@@ -8,8 +8,9 @@ import {Radiostation} from '../../../models/radiostation';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {PlayerService} from '../../../services/player.service';
 import {RadiostationService} from '../../../services/radiostation.service';
-import {AddConstraintDialogComponent} from '../../dialogs/add-constraint/add-constraint-dialog.component';
 import {TrackService} from '../../../services/track.service';
+import {SimpleSearchComponent} from '../../simple-search/simple-search.component';
+import {Track} from '../../../models/track';
 
 
 @Component({
@@ -28,17 +29,18 @@ import {TrackService} from '../../../services/track.service';
 export class RadiostationByFeatureComponent {
 
     public genres: string[] = [];
-
-    public tiles: string[] = [];
+    public algorithms: string[] = [];
+    public startTracks: Track[] = null;
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
     public dynamicLowerLimit: number = Config.dynamicLowerLimit;
     public dynamicUpperLimit: number = Config.dynamicUpperLimit;
-    public yearLowerLimit: number = Config.yearLowerLimit;
+    public yearLowerLimit: number;
     public yearUpperLimit: number = Config.yearUpperLimit;
 
     private genreApiUrl: string = Config.serverUrl + '/api/genre';  // URL to web api
+    private trackParameterApiUrl: string = Config.serverUrl + '/api/track/parameter';
 
     public radiostation: Radiostation;
 
@@ -49,17 +51,25 @@ export class RadiostationByFeatureComponent {
                 public trackService: TrackService,
                 private playerService: PlayerService,
                 private translateService: TranslateService,
+                private snackBar: MdSnackBar,
                 public dialog: MdDialog,
-                private authHttp: AuthHttp,
-                public snackBar: MdSnackBar) {
+                private authHttp: AuthHttp) {
         this.resetRadiostation();
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
-                this.tiles = [];
-                this.radiostation = radiostation;
-                console.log('Radiostation: ', radiostation);
-                this.loadRadiostation();
+                if (radiostation.startTracks) {
+                    // fetch information about the startTracks
+                    this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
+                        this.startTracks = tracks;
+                        console.log('TRACKS: ', tracks);
+                        this.radiostation = radiostation;
+                        console.log('Radiostation: ', radiostation);
+                    });
+                }
             }
+        });
+        this.radiostationService.getAlgorithms().subscribe((algorithms: string[]) => {
+            this.algorithms = algorithms;
         });
 
         //fetch the available genres from server
@@ -69,19 +79,29 @@ export class RadiostationByFeatureComponent {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
         });
+
+        //fetch the the releaseDate of oldest song
+        this.authHttp.get(this.trackParameterApiUrl).subscribe((data: any) => {
+            this.yearLowerLimit = data.oldestTrack;
+            this.speedLowerLimit = Math.floor(data.minSpeed);
+            this.speedUpperLimit = Math.round(data.maxSpeed);
+            console.log('DATA: ', data);
+        }, error => {
+            this.yearLowerLimit = 1800;
+            this.speedLowerLimit = Config.speedLowerLimit;
+            this.speedUpperLimit = Config.speedUpperLimit;
+            console.log('It seems that the API-Endpoint /oldestYear is not working properly: ', error);
+        });
     }
 
     //resets the gui
     public resetRadiostation(): void {
         this.radiostation = new Radiostation();
         this.radiostation.algorithm = 'RANDOM';
-        this.tiles = [];
     }
 
 
     public start(): void {
-        // TODO: If we have some new algorithms, we need to change this default value
-        this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
             this.playerService.play();
@@ -89,77 +109,50 @@ export class RadiostationByFeatureComponent {
     }
 
     public update(): void {
-        // TODO: If we have some new algorithms, we need to change this default value
-        this.radiostation.algorithm = 'RANDOM';
         this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
         });
     }
 
-    //opens a dialog to select the constraint to specify
-    public selectConstraint(): void {
-        let dialogRef = this.dialog.open(AddConstraintDialogComponent);
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.addConstraint(result);
-            }
-        });
-    }
-
-    private loadRadiostation(): void {
-        if (this.radiostation.minSpeed  != null || this.radiostation.maxSpeed != null) {
-            this.tiles.push('speed');
-        }
-
-        if (this.radiostation.arousal != null || this.radiostation.valence != null) {
-            this.tiles.push('mood');
-        }
-
-        if (this.radiostation.startYear  != null || this.radiostation.endYear != null) {
-            this.tiles.push('year');
-        }
-
-        if (this.radiostation.genres != null && this.radiostation.genres.length > 0) {
-            this.tiles.push('genres');
-        }
-
-        if (this.radiostation.dynamic != null) {
-            this.tiles.push('dynamic');
-        }
-    }
-
     //adds an element to the gui for the keywords
     public addConstraint(result: string): void {
-        if (this.tiles.indexOf(result) != -1) {
-            this.showWarning();
-        } else {
-            this.tiles.push(result);
-            switch (result) {
-                case 'genres':
-                    this.radiostation.genres = [];
-                    break;
-                case 'year':
-                    this.radiostation.startYear = this.yearLowerLimit;
-                    this.radiostation.endYear = this.yearUpperLimit;
-                    break;
-                case 'speed':
-                    this.radiostation.minSpeed = this.speedLowerLimit;
-                    this.radiostation.maxSpeed = this.speedUpperLimit;
-                    break;
-                case 'mood':
-                    this.radiostation.arousal = 0;
-                    this.radiostation.valence = 0;
-                    break;
-                case 'dynamic':
-                    this.radiostation.dynamic = 0.5;
-            }
+        switch (result) {
+            case 'genres':
+                this.radiostation.genres = [];
+                break;
+            case 'titles':
+                this.radiostation.startTracks = [];
+                this.startTracks = [];
+                break;
+            case 'algorithm':
+                this.radiostation.algorithm = '';
+                break;
+            case 'year':
+                this.radiostation.startYear = this.yearLowerLimit;
+                this.radiostation.endYear = this.yearUpperLimit;
+                break;
+            case 'speed':
+                this.radiostation.minSpeed = this.speedLowerLimit;
+                this.radiostation.maxSpeed = this.speedUpperLimit;
+                break;
+            case 'mood':
+                this.radiostation.arousal = 0;
+                this.radiostation.valence = 0;
+                break;
         }
     }
 
-    public removeProperty(property: string, index: number): void {
+    public removeProperty(property: string): void {
         switch (property) {
             case 'genres':
                 this.radiostation.genres = null;
+                break;
+            case 'titles':
+                this.radiostation.startTracks = null;
+                this.startTracks = null;
+                break;
+            case 'algorithm':
+                this.radiostation.algorithm = null;
                 break;
             case 'year':
                 this.radiostation.startYear = null;
@@ -173,21 +166,52 @@ export class RadiostationByFeatureComponent {
                 this.radiostation.arousal = null;
                 this.radiostation.valence = null;
                 break;
-            case 'dynamic':
-                this.radiostation.dynamic = null;
         }
-        this.tiles.splice(index, 1);
     }
 
-    private showWarning(): void {
-        this.snackBar.open(this.translateService.instant('ADD_CONSTRAINT.ALREADY_CONTAINED'), '', {
-            duration: 2000,
+    public openStartTracksDialog(): void {
+        let dialogRef = this.dialog.open(SimpleSearchComponent, {panelClass: 'search-dialog'});
+        dialogRef.componentInstance.selectedTrack.subscribe(track => {
+            // avoid duplicate startTracks
+            if (!this.startTracks.some((element, index, array) => {return element.id == track.id; })) {
+                if (this.startTracks.length < Config.startTrackLimit) {
+                    this.startTracks.push(track);
+                    this.radiostation.startTracks.push(track.id);
+                    this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_ADDED'));
+                } else {
+                    this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_LIMIT'));
+                }
+            } else {
+                this.showToast(this.translateService.instant('RADIOSTATION_CREATE.SONG_CONTAINED'));
+            }
         });
+    }
+
+    private showToast(text: string): void {
+        this.snackBar.open(text, '', {
+            duration: 1500,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+        });
+    }
+
+    public deleteStartTrack(track: Track): void {
+        let index: number = this.startTracks.indexOf(track);
+        this.startTracks.splice(index, 1);
+        this.radiostation.startTracks.splice(index, 1);
     }
 
     public setSelMood(pSelMood: Mood): void {
         this.radiostation.valence = pSelMood.valence;
         this.radiostation.arousal = pSelMood.arousal;
+    }
+
+    public canAddStartTracks(): boolean {
+        if (this.startTracks) {
+            return this.startTracks.length < Config.startTrackLimit;
+        } else {
+            return false;
+        }
     }
 
 }

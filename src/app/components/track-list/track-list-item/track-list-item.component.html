@@ -1,24 +1,49 @@
-<md-list-item *ngIf="track" [@expand]="showItem">
-    <div class="tl-cover-col" (click)="onCoverClick.emit()">
-        <div [ngStyle]="{'background-image': 'url('+getTrackCover()+')'}" alt="Cover" class="cover-img">
-            <md-icon *ngIf="showPlay">play_circle_outline</md-icon>
+<md-card *ngIf="!track">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
+<!-- Simple track list element -->
+<md-list-item *ngIf="track && !detailView" [@expand]="showItem" style="overflow: hidden"
+              [ngClass]="{ 'currentTrack': this.displayClass == 'currentTrack',
+              'historyTrack':this.displayClass == 'historyTrack',
+               'big-row' : detailView}"
+              (dblclick)="onCoverClick.emit();">
+    <!-- Simple track list element view -->
+    <div class="tl-cover-col" *ngIf="!detailView"
+         (click)="onCoverClick.emit(); setDetailedView(true)" [@sizeState]="detailView">
+        <div  [ngStyle]="{ 'background-image': 'url('+getTrackCover()+')'}"
+              alt="Cover" class="cover-img-thumb">
+            <md-icon *ngIf=" showPlay">play_circle_outline</md-icon>
         </div>
     </div>
-    <div class="text">
+    <div class="text" (click)="onClick.emit(); setDetailedView(true)" *ngIf="!detailView">
         <p class="tl-title-col">{{track.title}}</p>
         <p class="tl-artist-col">{{track.artist.name}}</p>
         <p class="tl-album-col">{{track.album.title}}</p>
+
         <p class="tl-genre-col" *ngIf="track.genres.length > 0">{{getGenres()}}</p>
+
         <p class="tl-genre-col" *ngIf="!(track.genres.length > 0)">{{'-'}}</p>
     </div>
     <p class="tl-date-col" *ngIf="track.releaseDate">{{track.releaseDate.getFullYear()}}</p>
     <p class="tl-date-col" *ngIf="!track.releaseDate">{{'-'}}</p>
     <p class="tl-duration-col">{{track.duration | mySecondsToDate | date:'mm:ss'}}</p>
-
     <button *ngIf="showDelete"
             class="tl-icon-col"
             md-icon-button
             (click)="onDelete.emit($event); $event.stopPropagation(); hideItem()">
         <md-icon>delete</md-icon>
     </button>
+    <div *ngIf="!showDelete" class="tl-icon-col">
+        <!-- PLACEHOLDER -->
+    </div>
+
 </md-list-item>
+
+<md-list-item *ngIf="track && detailView" [@expand]="showItem" style="overflow: hidden"
+              [ngClass]="{ 'currentTrack': this.displayClass == 'currentTrack',
+              'historyTrack':this.displayClass == 'historyTrack',
+               'big-row' : detailView}"
+              (dblclick)="onCoverClick.emit();">
+    <div *ngIf="detailView" class="detail-view-wrapper" [@expand]="detailView">
+        <current-track [currentTrack]="track"></current-track>
+    </div>
+</md-list-item>
+

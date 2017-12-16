@@ -28,7 +28,6 @@
                             ({{currentTrack.releaseDate.getFullYear()}})
                         </a>
                     </div>
-
                     <div *ngIf="currentTrack.speed" class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
                               [(value)]="currentTrack.trackFeedback.speedFeedback"></like>
@@ -62,17 +61,6 @@
 
         <!-- This div is ignoring the flex-layout set by it's parent! -->
         <div id="action-buttons">
-            <button md-fab disableRipple="true"
-                    id="{{historyButtonClass}}"
-                    (click)="btn_history_toggle()"
-                    mdTooltip="{{'CURRENT_TRACK.HISTORY_TOOL_TIP' | translate}}">
-                <md-icon>history</md-icon>
-            </button>
-            <button md-fab disableRipple="true"
-                    (click)="btn_renew()"
-                    mdTooltip="{{'CURRENT_TRACK.REFRESH' | translate}}">
-                <md-icon>autorenew</md-icon>
-            </button>
         </div>
     </div>
 </div>

@@ -32,6 +32,7 @@ export class TrackService {
     private trackListUrl: string = Config.serverUrl + '/api/jukebox/next';  // URL to web api
     private artistUrl: string = Config.serverUrl + '/api/artist';
     private albumUrl: string = Config.serverUrl + '/api/album';
+    private trackUrl: string = Config.serverUrl + '/api/track';
 
     constructor(private authHttp: AuthHttp,
                 private feedbackService: FeedbackService,
@@ -317,5 +318,42 @@ export class TrackService {
             });
         }
         return track;
+    }
+
+    public loadTracksByIds(ids: number[]): Observable<Track[]> {
+        return Observable.create(observer => {
+            this.requestEntities(this.trackUrl , ids).subscribe(rawTracks => {
+                this.fillMetaData(rawTracks).subscribe((tracks: Track[]) => {
+                    observer.next(tracks);
+                    observer.complete();
+                });
+            });
+        });
+    }
+    
+    public getArtistsByIds(ids: number[]): Observable<Artist[]> {
+        return Observable.create(observer => {
+            let missingArtists: number[] = [];
+            for (let id of ids) {
+                if (!this.artistCache.has(id)) {
+                    missingArtists.push(id);
+                }
+            }
+            let requests = [this.requestEntities(this.artistUrl, missingArtists), this.feedbackService.fetchArtistFeedback(missingArtists)];
+            Observable.forkJoin(requests).subscribe((data: any[]) => {
+                let artists: Artist[] = data[0];
+                let feedbacks: ArtistFeedback[] = data[1];
+                for (let i = 0; i < artists.length; i++) {
+                    artists[i].feedback = feedbacks[i];
+                    this.artistCache.set(artists[i].id, artists[i]);
+                }
+                let requestedArtists: Artist[] = [];
+                for (let id of ids) {
+                    requestedArtists.push(this.artistCache.get(id));
+                }
+                observer.next(requestedArtists);
+                observer.complete();
+            });
+        });
     }
 }

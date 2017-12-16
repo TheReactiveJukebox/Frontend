@@ -5,10 +5,6 @@ export class Config {
 
     public static speedUpperLimit: number = 300;
     public static speedLowerLimit: number = 1;
-    public static speedStepsize: number = 5;
-    public static dynamicStepsize: number = 0.05;
-    public static yearStepsize: number = 5;
-    public static yearLowerLimit: number = 1800;
     public static yearUpperLimit: number = (new Date()).getFullYear();
     public static dynamicLowerLimit: number = 0;
     public static dynamicUpperLimit: number = 1;
@@ -17,14 +13,18 @@ export class Config {
     public static valenceLowerLimit: number = -1;
     public static valenceUpperLimit: number = 1;
     public static genreDisplayLimit: number = 4;
+    public static startTrackLimit: number = 10;
+    public static trackSearchResultLimit: number = 30;
+    public static artistSearchResultLimit: number = 15;
+    public static albumSearchResultLimit: number = 15;
 
     public static numberUpcomingSongs: number = 5;
 
     public static config: any = {
 
         development: {
-            serverUrl: 'https://192.168.99.100',
-            //serverUrl: 'https://localhost',
+            // serverUrl: 'https://192.168.99.100',
+            serverUrl: 'https://localhost',
             dev: true,
             study: true
         },

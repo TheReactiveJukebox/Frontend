@@ -7,9 +7,8 @@
         <div *ngIf="this.trackResultCount > 0">
             <md-nav-list class="tl">
                 <h1 md-subheader>{{'TRACK_LIST.TITLE' | translate}}</h1>
-                <track-list-item *ngFor="let result of this.trackResult | slice:0:9"
+                <track-list-item *ngFor="let result of this.trackResult | slice:0:trackLimit"
                                  [track]="result"
-                                 [showFeedback]="false"
                                  [showDelete]="false"
                                  [showPlay]="false"
                                  (click)="this.selection(result, 'TRACK')">
@@ -22,7 +21,7 @@
         <div *ngIf="this.artistResultCount > 0">
             <md-nav-list class="tl">
                 <h1 md-subheader>{{'TRACK_LIST.ARTIST' | translate}}</h1>
-                <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:4"
+                <md-list-item class="tl-row" *ngFor="let result of this.artistResult | slice:0:artistLimit"
                               (click)="this.selection(result, 'ARTIST'); this.discography(result.id)">
                     <p class="tl-name-col">{{result.name}}</p>
                 </md-list-item>
@@ -34,7 +33,7 @@
         <div *ngIf="this.albumResultCount > 0">
             <md-nav-list class="tl">
                 <h1 md-subheader>{{'TRACK_LIST.ALBUM' | translate}}</h1>
-                <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:4"
+                <md-list-item class="tl-row" *ngFor="let result of this.albumResult| slice:0:albumLimit"
                               (click)="this.selection(result, 'ALBUM'); this.album(result.id)">
                     <p class="tl-title-col">{{result.title}}</p>
                     <p class="tl-artist-col">{{result.artist.name}}</p>

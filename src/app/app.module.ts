@@ -34,7 +34,6 @@ import {CookieModule, CookieService} from 'ngx-cookie';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
 import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
-import {AddConstraintDialogComponent} from './components/dialogs/add-constraint/add-constraint-dialog.component';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {LikeComponent} from './components/like/like.component';
 import {MoodSelectorComponent} from './components/mood-selector/mood-selector.component';
@@ -61,7 +60,8 @@ import {RangeSelectorComponent} from './components/range-selector/range-selector
 import {WelcomeComponent} from './components/welcome/welcome.component';
 import {SurveyService} from './services/survey.service';
 import {OpenSurveyComponent} from './components/dialogs/open-survey/open-survey.component';
-
+import {TileComponent} from './components/create-radiostation/by-feature/tile/tile.component';
+import {StartTrackComponent} from './components/create-radiostation/by-feature/start-track/start-track.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -77,7 +77,6 @@ import {OpenSurveyComponent} from './components/dialogs/open-survey/open-survey.
         TrackListComponent,
         CurrentTrackComponent,
         PlayerControlBarComponent,
-        AddConstraintDialogComponent,
         SpeechSearchFieldComponent,
         SecondsToDatePipe,
         SimpleSearchComponent,
@@ -88,7 +87,9 @@ import {OpenSurveyComponent} from './components/dialogs/open-survey/open-survey.
         MoodSelectorComponent,
         RangeSelectorComponent,
         WelcomeComponent,
-        OpenSurveyComponent
+        OpenSurveyComponent,
+        TileComponent,
+        StartTrackComponent
     ],
     /**
      * Import Angular's modules.
@@ -111,8 +112,8 @@ import {OpenSurveyComponent} from './components/dialogs/open-survey/open-survey.
         })
     ],
     entryComponents: [
-        AddConstraintDialogComponent,
-        OpenSurveyComponent
+        OpenSurveyComponent,
+        SimpleSearchComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.

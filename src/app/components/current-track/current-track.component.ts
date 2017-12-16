@@ -1,5 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Component, Input, OnInit} from '@angular/core';
 import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
@@ -12,39 +11,21 @@ import {GenreFeedback} from '../../models/genre-feedback';
     templateUrl: './current-track.component.html',
     styleUrls: ['./current-track.component.scss']
 })
-export class CurrentTrackComponent implements OnInit, OnDestroy {
+export class CurrentTrackComponent implements OnInit {
 
+    @Input()
     public currentTrack: Track;
+
     public btnVisible: boolean = false;
-    private subscriptions: Subscription[];
     public historyButtonClass: string = 'reducedHistory-button-toggle-off';
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
                 public historyService: HistoryService) {
-
-        this.subscriptions = [];
     }
 
     public ngOnInit(): void {
 
-        // subscribe to the currentTrack BehaviorSubject in trackService. If it get's changed, it will be automatically
-        // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
-        // gets destroyed.
-        this.subscriptions.push(
-            this.trackService.currentTrack.subscribe((currentTrack: Track) => {
-                this.currentTrack = currentTrack;
-            })
-        );
-
-    }
-
-    public ngOnDestroy(): void {
-        // VERY IMPORTANT!!! Clean up, after this component is unused. Otherwise you will left lots of unused subscriptions,
-        // which can cause heavy laggs.
-        for (let subscription of this.subscriptions) {
-            subscription.unsubscribe();
-        }
     }
 
     public btn_history_toggle(): void {
@@ -55,10 +36,6 @@ export class CurrentTrackComponent implements OnInit, OnDestroy {
             this.historyService.historyVisible = true;
             this.historyButtonClass = 'history-button-toggle-on';
         }
-    }
-
-    public btn_renew(): void {
-        this.trackService.refreshUpcomingTracks();
     }
 
     public getGenres(): GenreFeedback[] {

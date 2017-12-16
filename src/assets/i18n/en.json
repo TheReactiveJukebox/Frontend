@@ -2,7 +2,9 @@
   "ALGORITHMS": {
     "RANDOM": "Random",
     "SAGH": "Same Artist Greatest Hits",
-    "MOOD": "Similar Mood"
+    "SPOTIFY": "Spotify",
+    "MOOD": "Similar Mood",
+    "SPEED": "Similar Tempo"
   },
   "GENERAL": {
     "INVITE_KEY": "Invite Key",
@@ -46,7 +48,6 @@
   "CURRENT_TRACK": {
     "SPECIALFEEDBACK": "Explain your Feedback",
     "NO_TRACK": "Please create a radiostation to listen to!",
-    "HISTORY_TOOL_TIP": "Toggle History",
     "REFRESH": "Refresh Tracklist",
     "GENRE": "Genre",
     "DYNAMICS": "Dynamics",
@@ -66,31 +67,28 @@
   },
   "RADIOSTATION_CREATE": {
     "ALGORITHM": "Algorithm",
+    "SELECT_ALGORITHM": "Choose an Algorithm!",
+    "ADD_SONGS": "Add Songs",
     "RESET": "Reset",
     "START": "Start new Radiostation",
     "UPDATE": "Update current Radiostation",
     "BY_FEATURE": "By Features",
     "BY_SONG": "By Song",
     "TITLE": "Start playback with the following song",
+    "SELECT_TITLE": "Choose start tracks for the Radiostation!",
     "PROP_SELECT": "Select the properties of your Radiostation!",
-    "GENRES": "Which genre do you want to listen to?",
-    "MOOD": "Describe the mood of your desired music?",
+    "GENRES": "Choose genres for your radiostation!",
+    "MOOD": "Describe the mood of your desired music!",
     "YEAR": "Choose a release period!",
     "STARTYEAR": "What should be the earliest release year?",
     "ENDYEAR": "What should be the latest release year?",
     "SPEED": "Select your radiostation's speed!",
     "STARTSPEED": "Minimum BPM",
     "ENDSPEED": "Maximum BPM",
-    "DYNAMIC": "How dynmaic should your radio be?"
-  },
-  "ADD_CONSTRAINT": {
-    "ALREADY_CONTAINED": "This feature already exists!",
-    "TITLE": "Which feature do you want to specify?",
-    "GENRE": "Genre",
-    "MOOD": "Mood",
-    "YEAR": "Release date",
-    "SPEED": "Speed",
-    "DYNAMIC": "Dynamic"
+    "DYNAMIC": "How dynmaic should your radio be?",
+    "SONG_CONTAINED": "This track is already selected!",
+    "SONG_LIMIT": "You can choose a maximum of 10 songs!",
+    "SONG_ADDED": "Added start song!"
   },
 
   "MOOD_SELECTOR": {

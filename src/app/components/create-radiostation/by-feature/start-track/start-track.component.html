@@ -1,0 +1,17 @@
+<md-list-item *ngIf="track" [@expand]="showItem">
+    <div class="tl-cover-col">
+        <div [ngStyle]="{'background-image': 'url('+getTrackCover()+')'}" alt="Cover" class="cover-img">
+
+        </div>
+    </div>
+    <div class="text">
+        <p>{{track.artist.name + ' - ' + track.title}}</p>
+    </div>
+
+    <button class="tl-icon-col"
+            md-icon-button
+            (click)="onDelete.emit($event); $event.stopPropagation(); hideItem()">
+        <md-icon>delete</md-icon>
+    </button>
+</md-list-item>
+<md-divider></md-divider>

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChildren, QueryList} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../../models/track';
 import {HistoryService} from '../../services/history.service';
@@ -7,6 +7,7 @@ import {PlayerService} from '../../services/player.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {TrackService} from '../../services/track.service';
 import {SurveyService} from '../../services/survey.service';
+import {TrackListItemComponent} from './track-list-item/track-list-item.component';
 
 @Component({
     selector: 'track-list',
@@ -15,17 +16,24 @@ import {SurveyService} from '../../services/survey.service';
 })
 export class TrackListComponent implements OnInit, OnDestroy {
 
+    @ViewChildren('hist') private historyChildcomponents: QueryList<TrackListItemComponent>;
+    @ViewChildren('curr') private currChildcomponents: QueryList<TrackListItemComponent>;
+    @ViewChildren('upcoming') private upcomingChildcomponents: QueryList<TrackListItemComponent>;
+
     private subscriptions: Subscription[];
     public nextTracks: Track[];
+    public currentTrack: Track;
+    private detailedTrack: Track;
 
     constructor(public trackService: TrackService,
                 public indirectFeedbackService: IndirectFeedbackService,
                 public radiostationService: RadiostationService,
                 private surveyService: SurveyService,
-                private historyService: HistoryService,
+                public historyService: HistoryService,
                 public playerService: PlayerService) {
         this.subscriptions = [];
         this.nextTracks = [];
+
     }
 
     public ngOnInit(): void {
@@ -35,13 +43,19 @@ export class TrackListComponent implements OnInit, OnDestroy {
         // set to our component. The Subscription returned by subscribe() is stored, to unsubscribe, when our component
         // gets destroyed.
         this.subscriptions.push(
+            this.trackService.currentTrack.subscribe((currentTrack: Track) => {
+                if (currentTrack != null) {
+                    this.currentTrack = currentTrack;
+                    this.detailedTrack = this.currentTrack;
+                }
+            })
+        );
+        this.subscriptions.push(
             this.trackService.nextTracks.subscribe((nextTracks: Track[]) => {
                 if (nextTracks != null) {
                     this.nextTracks = nextTracks;
                 }
-            })
-        );
-
+            }));
     }
 
     public ngOnDestroy(): void {
@@ -58,7 +72,7 @@ export class TrackListComponent implements OnInit, OnDestroy {
             this.historyService.writeToHistory(this.playerService.currentTrack);
             this.surveyService.countUp();
         }
-        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id, track.id ,
+        this.indirectFeedbackService.sendMultiSkipFeedback(this.playerService.currentTrack.id, track.id,
             this.radiostationService.getRadiostation().id, this.playerService.progress);
         this.trackService.jumpToTrack(track);
     }
@@ -66,5 +80,18 @@ export class TrackListComponent implements OnInit, OnDestroy {
     public indirectFeedback(track: Track): void {
         //Sends delete feedback with position as zero to indicate deletion from upcoming songs
         this.indirectFeedbackService.sendDeleteFeedback(track.id, this.radiostationService.getRadiostation().id, 0);
+    }
+
+    public setCurrentTrackDetailed(): void {
+        this.historyChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.upcomingChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.currChildcomponents.forEach(trackComp => trackComp.setDetailedView(true));
+    }
+
+    public setDetailedTrack(track: Track): void {
+        this.historyChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.currChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.upcomingChildcomponents.forEach(trackComp => trackComp.setDetailedView(false));
+        this.detailedTrack = track;
     }
 }
