@@ -7,7 +7,7 @@
               (dblclick)="onCoverClick.emit();">
     <!-- Simple track list element view -->
     <div class="tl-cover-col" *ngIf="!detailView"
-         (click)="onCoverClick.emit(); setDetailedView(true)" [@sizeState]="detailView">
+         (click)="onCoverClick.emit(); setDetailedView(true)">
         <div  [ngStyle]="{ 'background-image': 'url('+getTrackCover()+')'}"
               alt="Cover" class="cover-img-thumb">
             <md-icon *ngIf=" showPlay">play_circle_outline</md-icon>

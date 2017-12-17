@@ -11,6 +11,7 @@ import {RadiostationService} from '../../../services/radiostation.service';
 import {TrackService} from '../../../services/track.service';
 import {SimpleSearchComponent} from '../../simple-search/simple-search.component';
 import {Track} from '../../../models/track';
+import {Utils} from '../../../utils';
 
 
 @Component({
@@ -74,7 +75,9 @@ export class RadiostationByFeatureComponent {
 
         //fetch the available genres from server
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
-            this.genres = genreList;
+            this.genres = genreList.sort().map((genre: string) => {
+               return Utils.capitalize(genre);
+            });
         }, error => {
             //should not happen since this was a static request
             console.log('It seems that the API-Endpoint /genre is not working properly: ', error);

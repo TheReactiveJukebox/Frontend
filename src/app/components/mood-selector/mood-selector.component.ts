@@ -1,16 +1,13 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Config} from '../../config';
-import {Mood} from '../../models/mood';
 import {Moods} from '../../models/moods';
 import {TranslateService} from '@ngx-translate/core';
-
 
 @Component({
     selector: 'mood-selector',
     styleUrls: ['./mood-selector.component.scss'],
     templateUrl: './mood-selector.component.html',
 })
-
 export class MoodSelectorComponent implements OnChanges {
 
     public arousalLowerLimit: number = Config.arousalLowerLimit;
