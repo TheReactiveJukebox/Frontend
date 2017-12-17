@@ -36,11 +36,12 @@ export class StartTrackComponent {
     }
 
     public getTrackCover(): string {
+        let coverUrls: string = '';
         if (this.track.cover) {
-            return this.track.cover;
-        } else {
-            return '../../../../assets/img/album_cover.png';
+            coverUrls += 'url(' + this.track.cover + '), ';
         }
+        coverUrls += 'url(../../../../assets/img/album_cover.png)';
+        return coverUrls;
     }
 
 }

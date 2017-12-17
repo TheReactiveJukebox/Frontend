@@ -195,7 +195,7 @@ module.exports = function (env) {
         // comments: true, //debug
 
 
-        beautify: false, //prod
+        beautify: true, //should be set false, but for clear logs we set it to true
         output: {
           comments: false
         }, //prod
