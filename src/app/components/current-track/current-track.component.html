@@ -40,12 +40,6 @@
                         <a class="track-info-att"> {{'CURRENT_TRACK.MOOD' | translate}}: </a>
                         <a class="track-info">{{capitalize('MOODS.'+ currentTrack.mood.name.toUpperCase() | translate)}}</a>
                     </div>
-                    <div *ngIf="currentTrack.dynamic" class="detail-element">
-                        <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.trackFeedback.dynamicsFeedback"></like>
-                        <a class="track-info-att"> {{'CURRENT_TRACK.DYNAMICS' | translate}}: </a>
-                        <a class="track-info">{{round(currentTrack.dynamic * 100, 0) + '%'}}</a>
-                    </div>
                 </div>
 
                 <div class="track-details-container right">

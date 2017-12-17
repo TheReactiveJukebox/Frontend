@@ -15,7 +15,6 @@ export class Track {
     public data?: any;
     public historyId: number;
     public speed: number;
-    public dynamic: number;
     public genres: GenreFeedback[];
     public valence?: number;
     public arousal?: number;
