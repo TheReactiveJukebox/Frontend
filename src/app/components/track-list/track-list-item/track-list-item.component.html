@@ -1,5 +1,3 @@
-<md-card *ngIf="!track">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
-<!-- Simple track list element -->
 <md-list-item *ngIf="track && !detailView" [@expand]="showItem" style="overflow: hidden"
               [ngClass]="{ 'currentTrack': this.displayClass == 'currentTrack',
               'historyTrack':this.displayClass == 'historyTrack',
@@ -40,10 +38,11 @@
 <md-list-item *ngIf="track && detailView" [@expand]="showItem" style="overflow: hidden"
               [ngClass]="{ 'currentTrack': this.displayClass == 'currentTrack',
               'historyTrack':this.displayClass == 'historyTrack',
-               'big-row' : detailView}"
-              (dblclick)="onCoverClick.emit();">
-    <div *ngIf="detailView" class="detail-view-wrapper" [@expand]="detailView">
-        <current-track [currentTrack]="track"></current-track>
+               'big-row' : detailView}">
+    <div class="detail-view-wrapper" [@expand]="detailView">
+        <current-track [currentTrack]="track"
+                       [canCoverClick]="this.displayClass != 'historyTrack' && this.displayClass != 'currentTrack'"
+                       (onCoverClick)="onCoverClick.emit()"></current-track>
     </div>
 </md-list-item>
 

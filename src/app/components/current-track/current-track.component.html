@@ -1,25 +1,28 @@
 <div [class]="'themeClass'" id="content-wrapper">
-    <md-card *ngIf="!currentTrack">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
-    <div id="song-info" *ngIf="currentTrack">
-        <div id="cover-img-table-wrapper">
-            <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
-            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
+    <div id="song-info">
+        <div id="container">
+            <div id="dummy"></div>
+            <div id="cover-img-table-wrapper"
+                 [ngStyle]="{ 'background-image': 'url('+getTrackCover()+')'}"
+                 (click)="this.onCoverClick.emit()">
+                <md-icon *ngIf="canCoverClick">play_circle_outline</md-icon>
+            </div>
         </div>
 
         <div id="text-container">
             <div class="detail-element">
                 <like (click)="onTrackFeedbackChanged()" [(value)]="currentTrack.trackFeedback.songFeedback"></like>
                 <h1 class="track-info">{{currentTrack.title}}</h1>
-
             </div>
+
             <div id="sub-text-container">
                 <div class="track-details-container">
                     <div class="detail-element">
                         <like (click)="onArtistFeedbackChanged()"
                               [(value)]="currentTrack.artist.feedback.feedback"></like>
                         <h3 class="track-info">{{currentTrack.artist.name}}</h3>
-
                     </div>
+
                     <div class="detail-element">
                         <like (click)="onAlbumFeedbackChanged()"
                               [(value)]="currentTrack.album.feedback.feedback"></like>

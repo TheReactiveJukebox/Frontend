@@ -15,16 +15,30 @@ h2 {
     position: relative;
 
     #cover-img-table-wrapper {
-      width: 15%;
-      max-width: 400px;
-      max-height: 400px;
-      min-height: 180px;
-      min-width: 180px;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-size: cover;
+      box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
 
-      .cover-img {
-        width: 100%;
-        box-shadow: 5px 5px 18px -5px rgb(0, 0, 0);
+      md-icon {
+        visibility: hidden;
+        font-size: 64px;
+        height: 64px;
+        width: 64px;
       }
+
+      &:hover {
+        md-icon {
+          visibility: visible;
+        }
+      }
+
     }
 
     #text-container {
@@ -64,4 +78,18 @@ h2 {
 
 .track-info-att {
   width: 80px;
+}
+
+/* DONT TOUCH THIS NICE MAGIC :O */
+#container {
+  display: inline-block;
+  position: relative;
+  width: 15%;
+  max-width: 400px;
+  max-height: 400px;
+  min-height: 180px;
+  min-width: 180px;
+}
+#dummy {
+  margin-top: 100%; /* 1:1 aspect ratio */
 }

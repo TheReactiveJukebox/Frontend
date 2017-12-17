@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
@@ -16,6 +16,12 @@ export class CurrentTrackComponent implements OnInit {
 
     @Input()
     public currentTrack: Track;
+
+    @Input()
+    public canCoverClick: boolean = false;
+
+    @Output()
+    public onCoverClick: EventEmitter<any> = new EventEmitter();
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
@@ -58,5 +64,13 @@ export class CurrentTrackComponent implements OnInit {
 
     public capitalize(s: string): string {
         return Utils.capitalize(s);
+    }
+
+    public getTrackCover(): string {
+        if (this.currentTrack.cover) {
+            return this.currentTrack.cover;
+        } else {
+            return '../../../../assets/img/album_cover.png';
+        }
     }
 }
