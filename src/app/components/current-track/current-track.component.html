@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div id="text-container">
+        <div id="text-container" [ngClass]="{'currentTrack': isCurrentTrack}">
             <div class="detail-element">
                 <like (click)="onTrackFeedbackChanged()" [(value)]="currentTrack.trackFeedback.songFeedback"></like>
                 <h1 class="track-info">{{currentTrack.title}}</h1>

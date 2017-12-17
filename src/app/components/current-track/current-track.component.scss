@@ -80,6 +80,12 @@ h2 {
   width: 80px;
 }
 
+.currentTrack {
+  h1,h3,a {
+    color: mat-color($default-theme-primary);
+  }
+}
+
 /* DONT TOUCH THIS NICE MAGIC :O */
 #container {
   display: inline-block;

@@ -20,6 +20,9 @@ export class CurrentTrackComponent implements OnInit {
     @Input()
     public canCoverClick: boolean = false;
 
+    @Input()
+    public isCurrentTrack: boolean = false;
+
     @Output()
     public onCoverClick: EventEmitter<any> = new EventEmitter();
 

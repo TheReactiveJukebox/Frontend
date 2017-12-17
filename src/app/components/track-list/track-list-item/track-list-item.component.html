@@ -41,6 +41,7 @@
                'big-row' : detailView}">
     <div class="detail-view-wrapper" [@expand]="detailView">
         <current-track [currentTrack]="track"
+                       [isCurrentTrack]="this.displayClass == 'currentTrack'"
                        [canCoverClick]="this.displayClass != 'historyTrack' && this.displayClass != 'currentTrack'"
                        (onCoverClick)="onCoverClick.emit()"></current-track>
     </div>
