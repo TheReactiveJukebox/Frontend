@@ -63,8 +63,6 @@ export class RadiostationByFeatureComponent {
                     // fetch information about the startTracks
                     this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
                         this.startTracks = tracks;
-                        console.log('TRACKS: ', tracks);
-                        console.log('Radiostation: ', radiostation);
                     });
                 }
             }
@@ -88,7 +86,6 @@ export class RadiostationByFeatureComponent {
             this.yearLowerLimit = data.oldestTrack;
             this.speedLowerLimit = Math.floor(data.minSpeed);
             this.speedUpperLimit = Math.round(data.maxSpeed);
-            console.log('DATA: ', data);
         }, error => {
             this.yearLowerLimit = 1800;
             this.speedLowerLimit = Config.speedLowerLimit;

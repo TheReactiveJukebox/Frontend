@@ -94,7 +94,6 @@ export class TrackService {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                     }
                     this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
-                        console.log('FILLED TRACKS:!!!! ', filledTracks);
                         tracks = filledTracks;
                         observer.next(filledTracks);
                         this.fillMusicData(tracks).subscribe((dataFilledTracks: Track[]) => {
@@ -112,7 +111,6 @@ export class TrackService {
                             tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                         }
                         this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
-                            console.log('FILLED TRACKS:!!!! ', filledTracks);
                             observer.next(filledTracks);
                             observer.complete();
                         });
@@ -151,7 +149,6 @@ export class TrackService {
                 this.requestEntities(this.albumUrl, missingAlbums),
                 this.feedbackService.fetchGenreFeedback(genres)]).subscribe((data: any[]) => {
                 // data[0] = requested artists, data[1] = requested albums
-                console.log('DATA: ', data);
                 let artists: Artist[] = data[0];
                 let albums: Album[] = data[1];
                 let genreFeedbacks: GenreFeedback[][] = data[2];

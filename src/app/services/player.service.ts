@@ -113,7 +113,6 @@ export class PlayerService implements OnDestroy {
     public play(): void {
         if (this.currentTrack != null) {
             this.isPlaying = true;
-            console.log('Now playing: ' + this.currentTrack.title);
             this.audioPlayer.play();
         } else {
             console.error('Playerservice: There is no track to play');
@@ -172,7 +171,6 @@ export class PlayerService implements OnDestroy {
 
 //set the volume if valid
     public setVolume(v: number): void {
-        console.log('Set volume to: ' + v);
         if (v < 0 || v > 1) {
             throw new Error('Invalid volume format');
         } else {

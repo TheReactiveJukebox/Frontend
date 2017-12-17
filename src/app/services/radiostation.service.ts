@@ -36,7 +36,6 @@ export class RadiostationService implements OnDestroy {
     }
 
     public init(): void {
-        console.log('INIT CALL');
         this.algorithms = new BehaviorSubject<string[]>([]);
         this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
         this.subscriptions = [];
@@ -47,13 +46,11 @@ export class RadiostationService implements OnDestroy {
     //starts a new radiostation with given creation criteria
     public startNewRadiostation(radiostation: Radiostation): Observable<Radiostation> {
         return Observable.create((observer: Observer<any>) => {
-            console.log('Starting New Radiostation');
             // set ids to null, to indicate server, that we want a new radiostation
             radiostation.userId = null;
             radiostation.id = null;
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.radiostationSubject.next(data);
-                console.log('NEW RADIOSTATION: ', data);
                 this.trackService.refreshCurrentAndUpcomingTracks();
                 observer.next(data);
                 observer.complete();
@@ -74,7 +71,6 @@ export class RadiostationService implements OnDestroy {
 
     public updateRadiostation(radiostation: Radiostation): Observable<Radiostation> {
         return Observable.create((observer: Observer<any>) => {
-            console.log('Update Radiostation');
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.radiostationSubject.next(data);
                 this.refreshTrackList();
@@ -98,7 +94,6 @@ export class RadiostationService implements OnDestroy {
     public fetchRadiostation(): void {
         this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
             this.radiostationSubject.next(radiostation);
-            console.log('FETCHED RADIO: ', radiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
                 console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
