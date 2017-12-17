@@ -10,7 +10,6 @@ import {Config} from '../config';
 import {Radiostation} from '../models/radiostation';
 import {AuthHttp} from './auth/auth-http';
 import {TrackService} from './track.service';
-import {AuthService} from './auth/auth.service';
 import {LoggingService} from './logging.service';
 
 

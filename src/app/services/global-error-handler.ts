@@ -8,7 +8,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     }
 
-    public handleError(error): void {
+    public handleError(error: any): void {
         const loggingService = this.injector.get(LoggingService);
         loggingService.error(this, 'UNHANDLED ERROR', error);
     }
