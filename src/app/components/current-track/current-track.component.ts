@@ -53,8 +53,8 @@ export class CurrentTrackComponent implements OnInit {
         this.feedbackService.postTrackFeedback(this.currentTrack);
     }
 
-    public onGenreFeedbackChanged(): void {
-        this.feedbackService.postGenreFeedback(this.currentTrack);
+    public onGenreFeedbackChanged(genre: GenreFeedback): void {
+        this.feedbackService.postGenreFeedback(genre);
     }
 
     public onArtistFeedbackChanged(): void {

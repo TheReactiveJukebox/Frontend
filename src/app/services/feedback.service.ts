@@ -56,15 +56,12 @@ export class FeedbackService {
         });
     }
 
-    public postGenreFeedback(track: Track): void {
-        this.authHttp.post(this.genreFeedbackUrl, track.genres[0]).subscribe((data: GenreFeedback) => {
-            track.genres[0] = data;
-            this.genreFeedbackCache.set(data.genre, data);
+    public postGenreFeedback(genre: GenreFeedback): void {
+        this.authHttp.post(this.genreFeedbackUrl, genre).subscribe((data: GenreFeedback) => {
+
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postGenreFeedback!');
-                track.genres[0] = JSON.parse(error._body);
-                this.genreFeedbackCache.set(JSON.parse(error._body).genre, JSON.parse(error._body));
+                
             } else {
                 this.loggingService.error(this, 'Sending genre feedback failed!', error);
             }
