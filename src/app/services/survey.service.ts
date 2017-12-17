@@ -28,6 +28,9 @@ export class SurveyService {
         this.trackService.currentTrack.asObservable().subscribe((track: Track) => {
             if (track != null) {
                 this.startedSongs++;
+                if (this.startedSongs >= this.startedSongsTarget) {
+                    this.showPopup();
+                }
             }
         });
     }
