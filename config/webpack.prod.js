@@ -195,12 +195,13 @@ module.exports = function (env) {
         // comments: true, //debug
 
 
-        beautify: true, //should be set false, but for clear logs we set it to true
+        beautify: false, //prod
         output: {
           comments: false
         }, //prod
         mangle: {
-          screw_ie8: true
+          screw_ie8: true,
+          keep_fnames: true
         }, //prod
         compress: {
           screw_ie8: true,
