@@ -3,6 +3,10 @@ import { MdTabGroup } from '@angular/material';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from '../../services/auth/auth.service';
+import {RadiostationService} from '../../services/radiostation.service';
+import {TrackService} from '../../services/track.service';
+import {HistoryService} from '../../services/history.service';
+import {FeedbackService} from '../../services/feedback.service';
 
 @Component({
     selector: 'about',
@@ -29,10 +33,18 @@ export class LoginComponent {
 
     constructor(private authService: AuthService,
                 private translateService: TranslateService,
+                private radiostationService: RadiostationService,
+                private feedbackService: FeedbackService,
+                private historyService: HistoryService,
+                private trackService: TrackService,
                 private router: Router) {}
 
     public login(): void {
         this.authService.login(this.loginData).subscribe(() => {
+            this.radiostationService.init();
+            this.trackService.init();
+            this.historyService.clearLocalHistory();
+            this.feedbackService.init();
             this.router.navigate(['/player']);
         }, (error: Response) => {
             if (error.status == 442) {

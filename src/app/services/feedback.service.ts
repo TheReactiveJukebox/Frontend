@@ -22,6 +22,10 @@ export class FeedbackService {
     private genreFeedbackCache: Map<string, GenreFeedback>;
 
     constructor(private authHttp: AuthHttp) {
+        this.init();
+    }
+
+    public init(): void {
         this.genreFeedbackCache = new Map<string, GenreFeedback>();
     }
 

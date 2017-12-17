@@ -37,7 +37,11 @@ export class TrackService {
     constructor(private authHttp: AuthHttp,
                 private feedbackService: FeedbackService,
                 private translateService: TranslateService) {
-        this.moods = new Moods(translateService);
+        this.init();
+    }
+
+    public init(): void {
+        this.moods = new Moods(this.translateService);
         this.currentTrack = new BehaviorSubject<Track>(null);
         this.nextTracks = new BehaviorSubject<Track[]>([]);
         this.artistCache = new Map<number, Artist>();

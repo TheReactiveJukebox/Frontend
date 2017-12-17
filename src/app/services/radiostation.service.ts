@@ -24,11 +24,7 @@ export class RadiostationService implements OnDestroy {
 
     constructor(private trackService: TrackService,
                 private authHttp: AuthHttp) {
-        this.algorithms = new BehaviorSubject<string[]>([]);
-        this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
-        this.subscriptions = [];
-        this.fetchRadiostation();
-        this.fetchAlgorithms();
+        this.init();
     }
 
     public ngOnDestroy(): void {
@@ -37,6 +33,15 @@ export class RadiostationService implements OnDestroy {
         for (let subscription of this.subscriptions) {
             subscription.unsubscribe();
         }
+    }
+
+    public init(): void {
+        console.log('INIT CALL');
+        this.algorithms = new BehaviorSubject<string[]>([]);
+        this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
+        this.subscriptions = [];
+        this.fetchRadiostation();
+        this.fetchAlgorithms();
     }
 
     //starts a new radiostation with given creation criteria
