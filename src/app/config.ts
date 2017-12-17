@@ -22,13 +22,12 @@ export class Config {
     public static config: any = {
 
         development: {
-            //serverUrl: 'https://192.168.99.100',
-            serverUrl: 'https://localhost',
+            serverUrl: window.location.origin,
             dev: true
         },
 
         production: {
-            serverUrl: 'https://pg.netz1984.de:4799',
+            serverUrl: window.location.origin,
             dev: false
         }
     };
