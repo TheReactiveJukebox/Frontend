@@ -7,6 +7,7 @@ import {RadiostationService} from '../../services/radiostation.service';
 import {TrackService} from '../../services/track.service';
 import {HistoryService} from '../../services/history.service';
 import {FeedbackService} from '../../services/feedback.service';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'about',
@@ -35,6 +36,7 @@ export class LoginComponent {
                 private translateService: TranslateService,
                 private radiostationService: RadiostationService,
                 private feedbackService: FeedbackService,
+                private loggingService: LoggingService,
                 private historyService: HistoryService,
                 private trackService: TrackService,
                 private router: Router) {}
@@ -52,11 +54,16 @@ export class LoginComponent {
             } else {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_LOGIN'));
             }
+            this.loggingService.error(this, 'Register failed!', error);
         });
     }
 
     public register(): void {
         this.authService.registerUser(this.registerData).subscribe(data => {
+            this.radiostationService.init();
+            this.trackService.init();
+            this.historyService.clearLocalHistory();
+            this.feedbackService.init();
             this.router.navigate(['/player']);
         }, (error: Response) => {
             if (error.status == 440) {
@@ -66,7 +73,7 @@ export class LoginComponent {
             } else {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_REGISTER'));
             }
-            console.log('Register failed: ', error);
+            this.loggingService.error(this, 'Register failed!', error);
         });
     }
 

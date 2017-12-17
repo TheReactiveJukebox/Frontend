@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
@@ -59,6 +59,8 @@ import {TrackService} from './services/track.service';
 import {RangeSelectorComponent} from './components/range-selector/range-selector.component';
 import {TileComponent} from './components/create-radiostation/by-feature/tile/tile.component';
 import {StartTrackComponent} from './components/create-radiostation/by-feature/start-track/start-track.component';
+import {GlobalErrorHandler} from './services/global-error-handler';
+import {LoggingService} from './services/logging.service';
 
 
 /**
@@ -125,7 +127,12 @@ import {StartTrackComponent} from './components/create-radiostation/by-feature/s
         FeedbackService,
         PlayerService,
         HistoryService,
-        IndirectFeedbackService
+        IndirectFeedbackService,
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler
+        },
+        LoggingService
     ]
 })
 export class AppModule {

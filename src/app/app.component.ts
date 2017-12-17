@@ -5,6 +5,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { OverlayContainer } from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from './services/auth/auth.service';
+import {LoggingService} from './services/logging.service';
 
 /**
  * App Component
@@ -25,12 +26,13 @@ export class AppComponent implements OnInit {
 
     constructor(private authService: AuthService,
                 private translateService: TranslateService,
+                private loggingService: LoggingService,
                 private overlayContainer: OverlayContainer) {
 
         // set the default lang as fall-back and current device lang.
         this.translateService.setDefaultLang('en');
 
-        console.debug('LANG: ' + this.translateService.getBrowserLang());
+        this.loggingService.log(this, 'LANG: ' + this.translateService.getBrowserLang());
         // if browser's default lang is available for this app, use  the lang in translateService
         let contain: boolean = this.availableLangs.some((lang: string): boolean => {
             return this.translateService.getBrowserLang() === lang;
@@ -41,9 +43,9 @@ export class AppComponent implements OnInit {
 
         // try to perform autologin and navigate to player, if it was successful
         this.authService.performAutoLogin().subscribe(() => {
-            console.log('Autologin Success!');
+            this.loggingService.log(this, 'Autologin Success!');
         }, error => {
-            console.log('Autologin failed: ', error);
+            this.loggingService.error(this, 'Autologin failed!', error);
         });
     }
 

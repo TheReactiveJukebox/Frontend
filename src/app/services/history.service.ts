@@ -7,6 +7,7 @@ import {Radiostation} from '../models/radiostation';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {RadiostationService} from './radiostation.service';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class HistoryService {
@@ -18,6 +19,7 @@ export class HistoryService {
     private historyApiUrl: string = Config.serverUrl + '/api/history';
 
     constructor(private authHttp: AuthHttp,
+                private loggingService: LoggingService,
                 private radiostationService: RadiostationService) {
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
@@ -45,9 +47,9 @@ export class HistoryService {
         }
         // Then remove item from database
         this.authHttp.http_delete(this.historyApiUrl + '?id=' + historyId).subscribe(() => {
-            console.log('Delete from history was successful');
+            this.loggingService.log(this, 'Delete from history was successful!');
         }, error => {
-            console.log('Delete from history failed: ', error);
+            this.loggingService.error(this, 'Delete from history failed!', error);
         });
     }
 
@@ -66,11 +68,10 @@ export class HistoryService {
             track.historyId = data.id;
         }, (error: any) => {
             if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in writeToHistory!!!');
-                console.log('HISTORY RETURN DATA: ', JSON.parse(error._body));
-                track.historyId = JSON.parse(error._body).id;
+                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in writeToHistory!');
+                track.historyId = error._body;
             } else {
-                console.log('Writing "' + track.title + '" to history failed!', error);
+                this.loggingService.error(this, 'Writing "' + track.title + '" to history failed!', error);
             }
         });
 

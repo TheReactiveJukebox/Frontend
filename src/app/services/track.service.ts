@@ -15,6 +15,7 @@ import {AlbumFeedback} from '../models/album-feedback';
 import {Moods} from '../models/moods';
 import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class TrackService {
@@ -36,12 +37,13 @@ export class TrackService {
 
     constructor(private authHttp: AuthHttp,
                 private feedbackService: FeedbackService,
+                private loggingService: LoggingService,
                 private translateService: TranslateService) {
         this.init();
     }
 
     public init(): void {
-        this.moods = new Moods(this.translateService);
+        this.moods = new Moods(this.translateService, this.loggingService);
         this.currentTrack = new BehaviorSubject<Track>(null);
         this.nextTracks = new BehaviorSubject<Track[]>([]);
         this.artistCache = new Map<number, Artist>();
@@ -61,7 +63,7 @@ export class TrackService {
              });
              */
         }, error => {
-            console.log('Error fetching new songs: ', error);
+            this.loggingService.error(this, 'Error fetching new songs!', error);
         });
     }
 
@@ -71,7 +73,7 @@ export class TrackService {
         this.fetchNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
             this.nextTracks.next(tracks.slice(1));
         }, error => {
-            console.log('Error refreshing tracklist: ', error);
+            this.loggingService.error(this, 'Error refreshing tracklist!', error);
         });
     }
 
@@ -104,7 +106,7 @@ export class TrackService {
                 }
             }, error => {
                 if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchNewSongs!!!');
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchNewSongs!');
                     let tracks: any[] = JSON.parse(error._body);
                     if (tracks.length > 0) {
                         for (let i = 0; i < tracks.length; i++) {
@@ -225,7 +227,7 @@ export class TrackService {
                 observer.next(tracks);
                 observer.complete();
             }, err => {
-                console.log('GET TRACK ERROR: ', err);
+                this.loggingService.error(this, 'Error downloading tracks!', err);
             });
         });
     }
@@ -244,7 +246,7 @@ export class TrackService {
             }
             this.nextTracks.next(tempTracks);
         }, error => {
-            console.log('Error in nextSong(): ', error);
+            this.loggingService.error(this, 'Error in nextSong!', error);
         });
         return nextTrack;
     }
@@ -276,7 +278,7 @@ export class TrackService {
             newTracks.push(tracks[0]);
             this.nextTracks.next(newTracks);
         }, error => {
-            console.log('Error in removeTrack(): ', error);
+            this.loggingService.error(this, 'Error in removeTrack!', error);
         });
     }
 
@@ -312,7 +314,7 @@ export class TrackService {
                 });
                 this.nextTracks.next(newTracks);
             }, error => {
-                console.log('Error in jumpToTrack(): ', error);
+                this.loggingService.error(this, 'Error in jumpToTrack!', error);
             });
         }
         return track;

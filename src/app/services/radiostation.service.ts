@@ -10,6 +10,8 @@ import {Config} from '../config';
 import {Radiostation} from '../models/radiostation';
 import {AuthHttp} from './auth/auth-http';
 import {TrackService} from './track.service';
+import {AuthService} from './auth/auth.service';
+import {LoggingService} from './logging.service';
 
 
 @Injectable()
@@ -23,8 +25,11 @@ export class RadiostationService implements OnDestroy {
     private algorithmsApiUrl: string = Config.serverUrl + '/api/jukebox/algorithms';
 
     constructor(private trackService: TrackService,
+                private loggingService: LoggingService,
                 private authHttp: AuthHttp) {
-        this.init();
+        this.algorithms = new BehaviorSubject<string[]>([]);
+        this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
+        this.subscriptions = [];
     }
 
     public ngOnDestroy(): void {
@@ -56,13 +61,13 @@ export class RadiostationService implements OnDestroy {
                 observer.complete();
             }, (error: any) => {
                 if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in startNewRadiostation!!!');
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in startNewRadiostation!');
                     this.radiostationSubject.next(JSON.parse(error._body));
                     this.trackService.refreshCurrentAndUpcomingTracks();
                     observer.next(error._body);
                     observer.complete();
                 } else {
-                    console.log('Creating new Radiostation failed!', error);
+                    this.loggingService.error(this, 'Creating new Radiostation failed!', error);
                     observer.error(error);
                 }
             });
@@ -78,13 +83,13 @@ export class RadiostationService implements OnDestroy {
                 observer.complete();
             }, (error: any) => {
                 if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in updateRadiostation!!!');
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in updateRadiostation!!!');
                     this.radiostationSubject.next(JSON.parse(error._body));
                     this.refreshTrackList();
                     observer.next(error._body);
                     observer.complete();
                 } else {
-                    console.log('Updating Radiostation failed!', error);
+                    this.loggingService.error(this, 'Updating Radiostation failed!', error);
                     observer.error(error);
                 }
             });
@@ -96,10 +101,10 @@ export class RadiostationService implements OnDestroy {
             this.radiostationSubject.next(radiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in fetchRadiostation!!!');
+                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchRadiostation!!!');
                 this.radiostationSubject.next(JSON.parse(error._body));
             } else {
-                console.log('Error fetching radiostation: ', error);
+                this.loggingService.error(this, 'Error fetching radiostation!', error);
             }
         });
     }
@@ -111,7 +116,7 @@ export class RadiostationService implements OnDestroy {
         this.authHttp.get(this.algorithmsApiUrl).subscribe((algorithms: string[]) => {
             this.algorithms.next(algorithms);
         }, error => {
-            console.log('Error fetching algorithms: ', error);
+            this.loggingService.error(this, 'Error fetching algorithms!', error);
         });
     }
 

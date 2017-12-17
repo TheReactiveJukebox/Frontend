@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {Config} from '../../config';
 import {Moods} from '../../models/moods';
 import {TranslateService} from '@ngx-translate/core';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'mood-selector',
@@ -32,8 +33,8 @@ export class MoodSelectorComponent implements OnChanges {
 
     public selMoodName: string;
 
-    constructor(translateService: TranslateService) {
-        this.moods = new Moods(translateService);
+    constructor(translateService: TranslateService, private loggingService: LoggingService) {
+        this.moods = new Moods(translateService, loggingService);
         this.arousal = 0;
         this.valence = 0;
         this.selMoodName = this.moods.getMood(this.arousal, this.valence).name;

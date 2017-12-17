@@ -9,6 +9,7 @@ import {HistoryService} from './history.service';
 import {IndirectFeedbackService} from './indirect-feedback.service';
 import {RadiostationService} from './radiostation.service';
 import {TrackService} from './track.service';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class PlayerService implements OnDestroy {
@@ -25,6 +26,7 @@ export class PlayerService implements OnDestroy {
                 private radiostationService: RadiostationService,
                 private historyService: HistoryService,
                 private indirectFeedbackService: IndirectFeedbackService,
+                private loggingService: LoggingService,
                 private authHttp: AuthHttp) {
         //set the default player settings
         this.audioPlayer.type = 'audio/mpeg';
@@ -43,12 +45,6 @@ export class PlayerService implements OnDestroy {
             this.trackService.currentTrack.subscribe(
                 (currentTrack: Track) => {
                     this.currentTrack = currentTrack;
-
-                    /* Use this for testing, if backend doesn't return tracks
-                     *this.currentTrack = new Track();
-                     * */
-                    /*this.currentTrack.file = 'https://192.168.99.100/music/f/5/' +
-                     '4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';*/
 
                     this.trackUpdated();
                 }
@@ -100,7 +96,7 @@ export class PlayerService implements OnDestroy {
                         this.play();
                     }
                 }, err => {
-                    console.log('GET TRACK ERROR: ', err);
+                    this.loggingService.error(this, 'Failed to load track!', err);
                 });
 
             }
@@ -115,14 +111,14 @@ export class PlayerService implements OnDestroy {
             this.isPlaying = true;
             this.audioPlayer.play();
         } else {
-            console.error('Playerservice: There is no track to play');
+            this.loggingService.error(this, 'There is no track to play!');
         }
     }
 
 //pause playing
     public pause(): void {
         this.isPlaying = false;
-        console.log('Paused');
+        this.loggingService.log(this, 'Paused');
         this.audioPlayer.pause();
     }
 
