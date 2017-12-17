@@ -70,10 +70,12 @@ export class CurrentTrackComponent implements OnInit {
     }
 
     public getTrackCover(): string {
+        let coverUrls: string = '';
         if (this.currentTrack.cover) {
-            return this.currentTrack.cover;
-        } else {
-            return '../../../../assets/img/album_cover.png';
+            coverUrls += 'url(' + this.currentTrack.cover + '), ';
         }
+        coverUrls += 'url(../../../../assets/img/album_cover.png)';
+        return coverUrls;
     }
+
 }

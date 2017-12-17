@@ -3,7 +3,7 @@
         <div id="container">
             <div id="dummy"></div>
             <div id="cover-img-table-wrapper"
-                 [ngStyle]="{ 'background-image': 'url('+getTrackCover()+')'}"
+                 [ngStyle]="{ 'background-image': getTrackCover()}"
                  (click)="this.onCoverClick.emit()">
                 <md-icon *ngIf="canCoverClick">play_circle_outline</md-icon>
             </div>
