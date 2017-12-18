@@ -89,7 +89,7 @@ export class SimpleSearchComponent {
                     for (let album of results) {
                         artistIds.push(album.artist);
                     }
-                    this.trackService.getArtistsByIds(artistIds).subscribe((artists: Artist[]) => {
+                    this.trackService.getArtistsByIdsFromCache(artistIds).subscribe((artists: Artist[]) => {
                         for (let i = 0; i < results.length; i++) {
                             results[i].artist = artists[i];
                         }

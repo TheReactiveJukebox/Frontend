@@ -52,7 +52,7 @@ export class TrackService {
         this.albumCache = new Map<number, Album>();
     }
 
-    private fetchTracksFromServer(count: number, withCurrent: boolean): Observable<Track[]> {
+    private getTracksFromCache(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
             if (this.fetchedSongs.length - count < 5) {
                 let url = this.trackListUrl + '?count=' + count;
@@ -65,7 +65,26 @@ export class TrackService {
                         url += '&upcoming=' + track.id;
                     }
                 }
-                //TODO
+                for (let track of this.fetchedSongs) {
+                    url += '&upcoming=' + track.id;
+                }
+
+                this.authHttp.get(url).subscribe((tracks: Track[]) => {
+                    if (tracks.length > 0) {
+                        for (let i = 0; i < tracks.length; i++) {
+                            tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
+                        }
+                        this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
+                            this.fetchedSongs = this.fetchedSongs.concat(filledTracks);
+                            observer.next(this.fetchedSongs.splice(0, count));
+                            observer.complete();
+                        });
+                    } else {
+                        //TODO kann es passieren, dass das backend keine songs schickt?
+                    }
+                }, error => {
+                    //TODO HANDLE THIS
+                });
 
             } else {
                 observer.next(this.fetchedSongs.splice(0, count));
@@ -76,64 +95,22 @@ export class TrackService {
 
     //Refreshes current track and track preview according to current radiostation
     public refreshCurrentAndUpcomingTracks(): void {
-        this.fetchNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
+        this.getNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
-            /*
-             this.fillMusicData(tracks).subscribe((filledTracks: Track[]) => {
-             for (let i = 0; i < tracks.length; i++) {
-             tracks[i].data = filledTracks[i].data;
-             }
-             });
-             */
         }, error => {
             this.loggingService.error(this, 'Error fetching new songs!', error);
         });
     }
 
-
-    //Refreshes current Tracklist
-    public refreshUpcomingTracks(): void {
-        this.fetchNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
-            this.nextTracks.next(tracks.slice(1));
-        }, error => {
-            this.loggingService.error(this, 'Error refreshing tracklist!', error);
-        });
-    }
-
-    public fetchNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
+    public getNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
-            //TODO
-            this.fetchTracksFromServer(count, withCurrent).subscribe((tracks: Track[]) => {
+            this.getTracksFromCache(count, withCurrent).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
-                    for (let i = 0; i < tracks.length; i++) {
-                        tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
-                    }
-                    this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
-                        tracks = filledTracks;
-                        observer.next(filledTracks);
-                        this.fillMusicData(tracks).subscribe((dataFilledTracks: Track[]) => {
-                            filledTracks = dataFilledTracks;
-                            observer.complete();
-                        });
+                    this.fillMusicData(tracks).subscribe((dataFilledTracks: Track[]) => {
+                        observer.next(dataFilledTracks);
+                        observer.complete();
                     });
-                }
-            }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchNewSongs!');
-                    let tracks: any[] = JSON.parse(error._body);
-                    if (tracks.length > 0) {
-                        for (let i = 0; i < tracks.length; i++) {
-                            tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
-                        }
-                        this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
-                            observer.next(filledTracks);
-                            observer.complete();
-                        });
-                    }
-                } else {
-                    observer.error(error);
-                    observer.complete();
                 }
             });
         });
@@ -157,8 +134,8 @@ export class TrackService {
             }
             // get missing artists and albums from server
             Observable.forkJoin([
-                this.getArtistsByIds(artistIds),
-                this.getAlbumsByIds(albumIds),
+                this.getArtistsByIdsFromCache(artistIds),
+                this.getAlbumsByIdsFromCache(albumIds),
                 this.feedbackService.fetchGenreFeedback(genres)]).subscribe((data: any[]) => {
                 // data[0] = requested artists, data[1] = requested albums
                 let artists: Artist[] = data[0];
@@ -202,8 +179,6 @@ export class TrackService {
             }
             Observable.forkJoin(dataRequests).subscribe((dataResults: any[]) => {
                 for (let i = 0; i < tracks.length; i++) {
-                    //simulate Download Delay
-                    //setTimeout(() => console.log('Music data loaded:' + tracks[i].file), 2000);
                     tracks[i].data = dataResults[i];
                 }
                 observer.next(tracks);
@@ -222,7 +197,7 @@ export class TrackService {
         tempTracks = tempTracks.slice(1);
         this.nextTracks.next(tempTracks);
         //Get new Track
-        this.fetchNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true).subscribe((tracks: Track[]) => {
+        this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true).subscribe((tracks: Track[]) => {
             for (let t of tracks) {
                 tempTracks.push(t);
             }
@@ -256,7 +231,7 @@ export class TrackService {
         }
 
         //Get new Track
-        this.fetchNewSongs(removed, true).subscribe((tracks: Track[]) => {
+        this.getNewSongs(removed, true).subscribe((tracks: Track[]) => {
             newTracks.push(tracks[0]);
             this.nextTracks.next(newTracks);
         }, error => {
@@ -286,7 +261,7 @@ export class TrackService {
         //Get #removed + 1 new tracks, +1 because current track is skipped
         if (removed >= 0) {
 
-            this.fetchNewSongs(removed + 1, true).subscribe((tracks: Track[]) => {
+            this.getNewSongs(removed + 1, true).subscribe((tracks: Track[]) => {
                 let newTracks: Track[] = this.nextTracks.getValue();
                 newTracks.splice(0, removed);
                 this.currentTrack.next(newTracks[0]);
@@ -313,7 +288,7 @@ export class TrackService {
         });
     }
     
-    public getArtistsByIds(ids: number[]): Observable<Artist[]> {
+    public getArtistsByIdsFromCache(ids: number[]): Observable<Artist[]> {
         return Observable.create(observer => {
             let missingArtists: number[] = [];
             for (let id of ids) {
@@ -336,7 +311,7 @@ export class TrackService {
         });
     }
 
-    public getAlbumsByIds(ids: number[]): Observable<Album[]> {
+    public getAlbumsByIdsFromCache(ids: number[]): Observable<Album[]> {
         return Observable.create(observer => {
             let missingAlbums: number[] = [];
             for (let id of ids) {
