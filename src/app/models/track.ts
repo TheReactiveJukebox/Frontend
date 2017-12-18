@@ -20,5 +20,5 @@ export class Track {
     public arousal?: number;
     public mood?: Mood;
     public releaseDate?: Date;
-    public trackFeedback?: TrackFeedback;
+    public feedback?: TrackFeedback;
 }

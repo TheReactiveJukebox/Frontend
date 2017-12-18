@@ -35,6 +35,8 @@ export class TrackService {
     private albumUrl: string = Config.serverUrl + '/api/album';
     private trackUrl: string = Config.serverUrl + '/api/track';
 
+    private fetchedSongs: Track[] = [];
+
     constructor(private authHttp: AuthHttp,
                 private feedbackService: FeedbackService,
                 private loggingService: LoggingService,
@@ -48,6 +50,28 @@ export class TrackService {
         this.nextTracks = new BehaviorSubject<Track[]>([]);
         this.artistCache = new Map<number, Artist>();
         this.albumCache = new Map<number, Album>();
+    }
+
+    private fetchTracksFromServer(count: number, withCurrent: boolean): Observable<Track[]> {
+        return Observable.create(observer => {
+            if (this.fetchedSongs.length - count < 5) {
+                let url = this.trackListUrl + '?count=' + count;
+                //inculde tracks that are in the current listening queue
+                if (withCurrent) {
+                    if (this.currentTrack.getValue()) {
+                        url += '&upcoming=' + this.currentTrack.getValue().id;
+                    }
+                    for (let track of this.nextTracks.getValue()) {
+                        url += '&upcoming=' + track.id;
+                    }
+                }
+                //TODO
+
+            } else {
+                observer.next(this.fetchedSongs.splice(0, count));
+                observer.complete();
+            }
+        });
     }
 
     //Refreshes current track and track preview according to current radiostation
@@ -79,18 +103,8 @@ export class TrackService {
 
     public fetchNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
-            let url = this.trackListUrl + '?count=' + count;
-            //inculde tracks that are in the current listening queue
-            if (withCurrent) {
-                if (this.currentTrack.getValue()) {
-                    url += '&upcoming=' + this.currentTrack.getValue().id;
-                }
-                for (let track of this.nextTracks.getValue()) {
-                    url += '&upcoming=' + track.id;
-                }
-            }
-
-            this.authHttp.get(url).subscribe((tracks: Track[]) => {
+            //TODO
+            this.fetchTracksFromServer(count, withCurrent).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
                     for (let i = 0; i < tracks.length; i++) {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
@@ -127,19 +141,15 @@ export class TrackService {
 
     public fillMetaData(rawTracks: any): Observable<Track[]> {
         return Observable.create(observer => {
-            let missingArtists: number[] = [];
-            let missingAlbums: number[] = [];
+            let artistIds: number[] = [];
+            let albumIds: number[] = [];
             let genres: string[][] = [];
             for (let rawTrack of rawTracks) {
                 if (rawTrack.releaseDate) {
                     rawTrack.releaseDate = new Date(rawTrack.releaseDate);
                 }
-                if (!this.artistCache.has(rawTrack.artist)) {
-                    missingArtists.push(rawTrack.artist);
-                }
-                if (!this.albumCache.has(rawTrack.album)) {
-                    missingAlbums.push(rawTrack.album);
-                }
+                artistIds.push(rawTrack.artist);
+                albumIds.push(rawTrack.album);
                 if (rawTrack.arousal && rawTrack.valence) {
                     rawTrack.mood = this.moods.getMood(rawTrack.arousal, rawTrack.valence);
                 }
@@ -147,51 +157,23 @@ export class TrackService {
             }
             // get missing artists and albums from server
             Observable.forkJoin([
-                this.requestEntities(this.artistUrl, missingArtists),
-                this.requestEntities(this.albumUrl, missingAlbums),
+                this.getArtistsByIds(artistIds),
+                this.getAlbumsByIds(albumIds),
                 this.feedbackService.fetchGenreFeedback(genres)]).subscribe((data: any[]) => {
                 // data[0] = requested artists, data[1] = requested albums
                 let artists: Artist[] = data[0];
                 let albums: Album[] = data[1];
                 let genreFeedbacks: GenreFeedback[][] = data[2];
 
-                let newArtistIds: number[] = this.getObjectIds(artists);
-                let newAlbumIds: number[] = this.getObjectIds(albums);
+                for (let i = 0; i < rawTracks.length; i++) {
+                    rawTracks[i].artist = artists[i];
+                    rawTracks[i].album = albums[i];
+                    rawTracks[i].genres = genreFeedbacks[i];
+                }
 
-                // fetch feedback for new artists and albums
-                Observable.forkJoin([
-                    this.feedbackService.fetchArtistFeedback(newArtistIds),
-                    this.feedbackService.fetchAlbumFeedback(newAlbumIds),
-                ]).subscribe((feedbackData: any[]) => {
-                    let artistFeedbacks: ArtistFeedback[] = feedbackData[0];
-                    let albumFeedbacks: AlbumFeedback[] = feedbackData[1];
-
-                    for (let i = 0; i < artists.length; i++) {
-                        artists[i].feedback = artistFeedbacks[i];
-                        this.artistCache.set(artists[i].id, artists[i]);
-                    }
-
-                    for (let i = 0; i < albums.length; i++) {
-                        albums[i].feedback = albumFeedbacks[i];
-                        this.albumCache.set(albums[i].id, albums[i]);
-                    }
-
-                    for (let i = 0; i < rawTracks.length; i++) {
-                        rawTracks[i].artist = this.artistCache.get(rawTracks[i].artist);
-                        rawTracks[i].album = this.albumCache.get(rawTracks[i].album);
-                        rawTracks[i].genres = genreFeedbacks[i];
-                    }
-
-                    observer.next(rawTracks);
-                    observer.complete();
-                });
+                observer.next(rawTracks);
+                observer.complete();
             });
-        });
-    }
-
-    private getObjectIds(objects: any[]): number[] {
-        return objects.map(function (obj: any): number {
-            return obj.id;
         });
     }
 
@@ -339,12 +321,9 @@ export class TrackService {
                     missingArtists.push(id);
                 }
             }
-            let requests = [this.requestEntities(this.artistUrl, missingArtists), this.feedbackService.fetchArtistFeedback(missingArtists)];
-            Observable.forkJoin(requests).subscribe((data: any[]) => {
-                let artists: Artist[] = data[0];
-                let feedbacks: ArtistFeedback[] = data[1];
+            this.requestEntities(this.artistUrl, missingArtists).subscribe((data: any[]) => {
+                let artists: Artist[] = data;
                 for (let i = 0; i < artists.length; i++) {
-                    artists[i].feedback = feedbacks[i];
                     this.artistCache.set(artists[i].id, artists[i]);
                 }
                 let requestedArtists: Artist[] = [];
@@ -352,6 +331,29 @@ export class TrackService {
                     requestedArtists.push(this.artistCache.get(id));
                 }
                 observer.next(requestedArtists);
+                observer.complete();
+            });
+        });
+    }
+
+    public getAlbumsByIds(ids: number[]): Observable<Album[]> {
+        return Observable.create(observer => {
+            let missingAlbums: number[] = [];
+            for (let id of ids) {
+                if (!this.albumCache.has(id)) {
+                    missingAlbums.push(id);
+                }
+            }
+            this.requestEntities(this.albumUrl, missingAlbums).subscribe((data: any[]) => {
+                let albums: Album[] = data;
+                for (let i = 0; i < albums.length; i++) {
+                    this.albumCache.set(albums[i].id, albums[i]);
+                }
+                let requestedAlbums: Artist[] = [];
+                for (let id of ids) {
+                    requestedAlbums.push(this.artistCache.get(id));
+                }
+                observer.next(requestedAlbums);
                 observer.complete();
             });
         });

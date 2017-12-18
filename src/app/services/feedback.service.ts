@@ -31,12 +31,12 @@ export class FeedbackService {
     }
 
     public postTrackFeedback(track: Track): void {
-        this.authHttp.post(this.feedbackUrl, track.trackFeedback).subscribe((data: TrackFeedback) => {
-            track.trackFeedback = data;
+        this.authHttp.post(this.feedbackUrl, track.feedback).subscribe((data: TrackFeedback) => {
+            track.feedback = data;
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
                 this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postTrackFeedback!');
-                track.trackFeedback = JSON.parse(error._body);
+                track.feedback = JSON.parse(error._body);
             } else {
                 this.loggingService.error(this, 'Sending track feedback failed!', error);
             }
@@ -133,40 +133,6 @@ export class FeedbackService {
         for (let feedback of feedbacks) {
             this.genreFeedbackCache.set(feedback.genre, feedback);
         }
-    }
-
-    public fetchArtistFeedback(artistIds: number[]):  Observable<ArtistFeedback[]> {
-        return Observable.create(observer => {
-            this.requestEntities(this.artistFeedbackUrl, artistIds).subscribe((data: ArtistFeedback[]) => {
-                observer.next(data);
-                observer.complete();
-            }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchArtistFeedback!');
-                    observer.next(JSON.parse(error._body));
-                    observer.complete();
-                } else {
-                    observer.error(error);
-                }
-            });
-        });
-    }
-
-    public fetchAlbumFeedback(albumIds: number[]):  Observable<AlbumFeedback[]> {
-        return Observable.create(observer => {
-            this.requestEntities(this.albumFeedbackUrl, albumIds).subscribe((data: AlbumFeedback[]) => {
-                observer.next(data);
-                observer.complete();
-            }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchAlbumFeedback!');
-                    observer.next(JSON.parse(error._body));
-                    observer.complete();
-                } else {
-                    observer.error(error);
-                }
-            });
-        });
     }
 
     private requestEntities(url: string, ids: any[]): Observable<any[]> {

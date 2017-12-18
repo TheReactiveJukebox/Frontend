@@ -18,6 +18,7 @@ export class Config {
     public static albumSearchResultLimit: number = 15;
 
     public static numberUpcomingSongs: number = 5;
+    public static numberFetchedSongs: number = 20;
 
     public static config: any = {
 
