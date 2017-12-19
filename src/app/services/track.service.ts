@@ -10,8 +10,6 @@ import {Artist} from '../models/artist';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
 import {FeedbackService} from './feedback.service';
-import {ArtistFeedback} from '../models/artist-feedback';
-import {AlbumFeedback} from '../models/album-feedback';
 import {Moods} from '../models/moods';
 import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
@@ -55,7 +53,8 @@ export class TrackService {
     private getTracksFromCache(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
             if (this.fetchedSongs.length - count < 5) {
-                let url = this.trackListUrl + '?count=' + count;
+                let countToFetch = count < Config.numberFetchedSongs ? Config.numberFetchedSongs : count;
+                let url = this.trackListUrl + '?count=' + countToFetch;
                 //inculde tracks that are in the current listening queue
                 if (withCurrent) {
                     if (this.currentTrack.getValue()) {
@@ -87,6 +86,7 @@ export class TrackService {
                 });
 
             } else {
+                console.log('GET TRACKS FROM CACHE!');
                 observer.next(this.fetchedSongs.splice(0, count));
                 observer.complete();
             }
@@ -102,6 +102,16 @@ export class TrackService {
             this.loggingService.error(this, 'Error fetching new songs!', error);
         });
     }
+
+    //Refreshes current Tracklist
+    public refreshUpcomingTracks(): void {
+        this.getNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
+            this.nextTracks.next(tracks.slice(1));
+        }, error => {
+            this.loggingService.error(this, 'Error refreshing tracklist!', error);
+        });
+    }
+
 
     public getNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
@@ -138,6 +148,8 @@ export class TrackService {
                 this.getAlbumsByIdsFromCache(albumIds),
                 this.feedbackService.fetchGenreFeedback(genres)]).subscribe((data: any[]) => {
                 // data[0] = requested artists, data[1] = requested albums
+
+                console.log('FETCHED DATA IN FILL META DATA: ', data);
                 let artists: Artist[] = data[0];
                 let albums: Album[] = data[1];
                 let genreFeedbacks: GenreFeedback[][] = data[2];
@@ -324,9 +336,9 @@ export class TrackService {
                 for (let i = 0; i < albums.length; i++) {
                     this.albumCache.set(albums[i].id, albums[i]);
                 }
-                let requestedAlbums: Artist[] = [];
+                let requestedAlbums: Album[] = [];
                 for (let id of ids) {
-                    requestedAlbums.push(this.artistCache.get(id));
+                    requestedAlbums.push(this.albumCache.get(id));
                 }
                 observer.next(requestedAlbums);
                 observer.complete();
