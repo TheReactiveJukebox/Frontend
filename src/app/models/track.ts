@@ -3,6 +3,8 @@ import {Artist} from './artist';
 import {TrackFeedback} from './track-feedback';
 import {Mood} from './mood';
 import {GenreFeedback} from './genre-feedback';
+import {Subscription} from 'rxjs/Subscription';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 export class Track {
     public id: number;
@@ -11,8 +13,6 @@ export class Track {
     public album: Album;
     public cover: string;
     public duration: number;
-    public file: string;
-    public data?: any;
     public historyId: number;
     public speed: number;
     public genres: GenreFeedback[];
@@ -21,4 +21,9 @@ export class Track {
     public mood?: Mood;
     public releaseDate?: Date;
     public feedback?: TrackFeedback;
+
+    public file: string;
+    public data?: any;
+    public downloadSub: Subscription;
+    public readyToPlay: BehaviorSubject<boolean>;
 }

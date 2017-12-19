@@ -117,10 +117,8 @@ export class TrackService {
         return Observable.create(observer => {
             this.getTracksFromCache(count, withCurrent).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
-                    this.fillMusicData(tracks).subscribe((dataFilledTracks: Track[]) => {
-                        observer.next(dataFilledTracks);
-                        observer.complete();
-                    });
+                    observer.next(this.fillMusicData(tracks));
+                    observer.complete();
                 }
             });
         });
@@ -183,41 +181,38 @@ export class TrackService {
     }
 
     //Fetches music files of tracks from the server
-    public fillMusicData(tracks: Track[]): Observable<Track[]> {
-        return Observable.create(observer => {
-            let dataRequests = [];
-            for (let track of tracks) {
-                dataRequests.push(this.authHttp.getTrack(track.file));
-            }
-            Observable.forkJoin(dataRequests).subscribe((dataResults: any[]) => {
-                for (let i = 0; i < tracks.length; i++) {
-                    tracks[i].data = dataResults[i];
-                }
-                observer.next(tracks);
-                observer.complete();
-            }, err => {
-                this.loggingService.error(this, 'Error downloading tracks!', err);
+    public fillMusicData(tracks: Track[]): Track[] {
+        for (let track of tracks) {
+            track.readyToPlay = new BehaviorSubject(false);
+            track.downloadSub = this.authHttp.getTrack(track.file).subscribe((data) => {
+                track.data = data;
+                track.readyToPlay.next(true);
             });
-        });
+        }
+        return tracks;
     }
 
     //Gets the next track from the preview and adds the next track to the preview list
     public nextSong(): Track {
-        let tempTracks: Track[] = this.nextTracks.getValue();
-        this.currentTrack.next(tempTracks[0]);
-        let nextTrack: Track = tempTracks[0];
-        tempTracks = tempTracks.slice(1);
-        this.nextTracks.next(tempTracks);
-        //Get new Track
-        this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true).subscribe((tracks: Track[]) => {
-            for (let t of tracks) {
-                tempTracks.push(t);
-            }
+        if (this.nextTracks.getValue().length > 0) {
+            let tempTracks: Track[] = this.nextTracks.getValue();
+            this.currentTrack.next(tempTracks[0]);
+            let nextTrack: Track = tempTracks[0];
+            tempTracks = tempTracks.slice(1);
             this.nextTracks.next(tempTracks);
-        }, error => {
-            this.loggingService.error(this, 'Error in nextSong!', error);
-        });
-        return nextTrack;
+            //Get new Track
+            this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true).subscribe((tracks: Track[]) => {
+                for (let t of tracks) {
+                    tempTracks.push(t);
+                }
+                this.nextTracks.next(tempTracks);
+            }, error => {
+                this.loggingService.error(this, 'Error in nextSong!', error);
+            });
+            return nextTrack;
+        } else {
+            return null;
+        }
     }
 
     public hasNextTracks(): boolean {

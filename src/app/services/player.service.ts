@@ -85,20 +85,17 @@ export class PlayerService implements OnDestroy {
                     this.play();
                 }
             } else {
-                this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
+                this.currentTrack.readyToPlay.subscribe(value => {
+                    if (value == true) {
+                        this.audioPlayer.src = this.currentTrack.data;
+                        this.audioPlayer.load();
 
-                    this.currentTrack.data = data;
-                    this.audioPlayer.src = this.currentTrack.data;
-                    this.audioPlayer.load();
-
-                    //was the player in playing state when the file file arrived?
-                    if (this.isPlaying) {
-                        this.play();
+                        //was the player in playing state when the file file arrived?
+                        if (this.isPlaying) {
+                            this.play();
+                        }
                     }
-                }, err => {
-                    this.loggingService.error(this, 'Failed to load track!', err);
                 });
-
             }
         } else {
             this.isPlaying = false;
@@ -144,7 +141,7 @@ export class PlayerService implements OnDestroy {
 
         let nextTrack: Track = this.trackService.nextSong();
 
-        if (!addToHistory) { //Check if legitimate skip
+        if (!addToHistory && nextTrack) { //Check if legitimate skip
             this.indirectFeedbackService.sendSkipFeedback(currentID, nextTrack.id,
                 this.radiostationService.getRadiostation().id, currentProgress); //Skip feedback
         }
