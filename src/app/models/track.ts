@@ -25,5 +25,6 @@ export class Track {
     public file: string;
     public data?: any;
     public downloadSub: Subscription;
+    public xhrRequest: XMLHttpRequest;
     public readyToPlay: BehaviorSubject<boolean>;
 }

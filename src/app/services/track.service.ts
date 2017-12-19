@@ -55,6 +55,7 @@ export class TrackService {
         this.currentTrack.subscribe((track: Track) => {
            if (this.currTrack && this.currTrack.downloadSub) {
                this.currTrack.downloadSub.unsubscribe();
+               this.currTrack.xhrRequest.abort();
            }
            this.currTrack = track;
         });
@@ -194,7 +195,9 @@ export class TrackService {
     public fillMusicData(tracks: Track[]): Track[] {
         for (let track of tracks) {
             track.readyToPlay = new BehaviorSubject(false);
-            track.downloadSub = this.authHttp.getTrack(track.file).subscribe((data) => {
+            let requestData = this.authHttp.getTrack(track.file);
+            track.xhrRequest = requestData[1];
+            track.downloadSub = requestData[0].subscribe((data) => {
                 track.data = data;
                 track.readyToPlay.next(true);
             });
