@@ -35,6 +35,9 @@ export class TrackService {
 
     private fetchedSongs: Track[] = [];
 
+    //DON'T TOUCH THIS VARIABLE! Use always the BehaviorSubject!
+    private currTrack: Track = null;
+
     constructor(private authHttp: AuthHttp,
                 private feedbackService: FeedbackService,
                 private loggingService: LoggingService,
@@ -48,6 +51,13 @@ export class TrackService {
         this.nextTracks = new BehaviorSubject<Track[]>([]);
         this.artistCache = new Map<number, Artist>();
         this.albumCache = new Map<number, Album>();
+
+        this.currentTrack.subscribe((track: Track) => {
+           if (this.currTrack && this.currTrack.downloadSub) {
+               this.currTrack.downloadSub.unsubscribe();
+           }
+           this.currTrack = track;
+        });
     }
 
     private getTracksFromCache(count: number, withCurrent: boolean): Observable<Track[]> {
