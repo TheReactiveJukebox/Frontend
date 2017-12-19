@@ -106,6 +106,7 @@ export class TrackService {
 
     //Refreshes current track and track preview according to current radiostation
     public refreshCurrentAndUpcomingTracks(): void {
+        this.fetchedSongs = [];
         this.getNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
@@ -116,6 +117,7 @@ export class TrackService {
 
     //Refreshes current Tracklist
     public refreshUpcomingTracks(): void {
+        this.fetchedSongs = [];
         this.getNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
             this.nextTracks.next(tracks.slice(1));
         }, error => {
