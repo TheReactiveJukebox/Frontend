@@ -108,7 +108,7 @@ export class PlayerService implements OnDestroy {
             this.isPlaying = true;
             this.audioPlayer.play();
         } else {
-            this.loggingService.error(this, 'There is no track to play!');
+            this.loggingService.log(this, 'There is no track to play!');
         }
     }
 

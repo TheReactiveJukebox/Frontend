@@ -53,8 +53,8 @@ export class LoginComponent {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.WRONG_PW_OR_USER'));
             } else {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_LOGIN'));
+                this.loggingService.error(this, 'Login failed!', error);
             }
-            this.loggingService.log(this, 'Login failed!', error);
         });
     }
 
@@ -72,8 +72,8 @@ export class LoginComponent {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.WRONG_KEY'));
             } else {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_REGISTER'));
+                this.loggingService.error(this, 'Register failed!', error);
             }
-            this.loggingService.error(this, 'Register failed!', error);
         });
     }
 

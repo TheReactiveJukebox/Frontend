@@ -76,7 +76,7 @@ export class LoggingService {
             let backendPayload = {
                 message: text
             };
-            this.http.post(this.loggingApiUrl, backendPayload).subscribe(() => {
+            this.authHttp.post(this.loggingApiUrl, backendPayload).subscribe(() => {
 
             }, error => {
                 console.error('[LoggingService] Cant scream for help at backend. A bad disaster must have happened!', error);

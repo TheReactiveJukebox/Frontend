@@ -106,6 +106,8 @@ export class RadiostationService implements OnDestroy {
                 } catch (e) {
                     this.loggingService.error(this, 'Tried to perform ungly 500-fix, but failed!', error);
                 }
+            } else if (error.status == 404) {
+                this.loggingService.log(this, 'Fetched radiostation, but there is no one available!');
             } else {
                 this.loggingService.error(this, 'Error fetching radiostation!', error);
             }
