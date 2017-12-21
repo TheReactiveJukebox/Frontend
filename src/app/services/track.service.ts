@@ -35,6 +35,8 @@ export class TrackService {
 
     private fetchedSongs: Track[] = [];
 
+    private isFetchingSongs: boolean = false;
+
     //DON'T TOUCH THIS VARIABLE! Use always the BehaviorSubject!
     private currTrack: Track = null;
 
@@ -63,7 +65,8 @@ export class TrackService {
 
     private getTracksFromCache(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
-            if (this.fetchedSongs.length - count < 5) {
+            if (this.fetchedSongs.length - count < 5 && !this.isFetchingSongs) {
+                this.isFetchingSongs = true;
                 let countToFetch = count < Config.numberFetchedSongs ? Config.numberFetchedSongs : count;
                 let url = this.trackListUrl + '?count=' + countToFetch;
                 //inculde tracks that are in the current listening queue
@@ -86,17 +89,24 @@ export class TrackService {
                         }
                         this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
                             this.fetchedSongs = this.fetchedSongs.concat(filledTracks);
+                            this.isFetchingSongs = false;
                             observer.next(this.fetchedSongs.splice(0, count));
                             observer.complete();
                         });
                     } else {
-                        //TODO kann es passieren, dass das backend keine songs schickt?
+                        this.isFetchingSongs = false;
+                        observer.next(this.fetchedSongs.splice(0, count));
+                        observer.complete();
                     }
                 }, error => {
+                    this.isFetchingSongs = false;
                     //TODO HANDLE THIS
                 });
 
             } else {
+                if (this.isFetchingSongs) {
+                    this.loggingService.warn(this, 'We are running out of tracks');
+                }
                 observer.next(this.fetchedSongs.splice(0, count));
                 observer.complete();
             }
