@@ -54,7 +54,7 @@ export class LoginComponent {
             } else {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.GENERAL_LOGIN'));
             }
-            this.loggingService.error(this, 'Register failed!', error);
+            this.loggingService.log(this, 'Login failed!', error);
         });
     }
 

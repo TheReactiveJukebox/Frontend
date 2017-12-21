@@ -1,6 +1,7 @@
 export class Config {
     public static serverUrl: string;
     public static dev: boolean;
+    public static slackUrl: string;
 
     public static speedUpperLimit: number = 300;
     public static speedLowerLimit: number = 1;
@@ -20,16 +21,20 @@ export class Config {
     public static numberUpcomingSongs: number = 5;
     public static numberFetchedSongs: number = 20;
 
+    public static backendLogLimit: number = 100;
+
     public static config: any = {
 
         development: {
             serverUrl: window.location.origin,
-            dev: true
+            dev: true,
+            slackUrl: '' //for local development dont push to slack. check your console!
         },
 
         production: {
             serverUrl: window.location.origin,
-            dev: false
+            dev: false,
+            slackUrl: 'https://hooks.slack.com/services/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'
         }
     };
 
@@ -39,6 +44,7 @@ export class Config {
         }
         Config.serverUrl = Config.config[env].serverUrl;
         Config.dev = Config.config[env].dev;
+        Config.slackUrl = Config.config[env].slackUrl;
     }
 
 }

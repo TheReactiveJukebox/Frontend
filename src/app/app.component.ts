@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
         this.authService.performAutoLogin().subscribe(() => {
             this.loggingService.log(this, 'Autologin Success!');
         }, error => {
-            this.loggingService.error(this, 'Autologin failed!', error);
+            this.loggingService.log(this, 'Autologin failed!', error);
         });
     }
 

@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
                 this.feedbackService.init();
                 this.router.navigate([state.url]);
             }, err => {
-                this.loggingService.error(this, 'Autologin failed!', err);
+                this.loggingService.log(this, 'Autologin failed!', err);
                 this.router.navigate(['/login']);
             });
             return false;

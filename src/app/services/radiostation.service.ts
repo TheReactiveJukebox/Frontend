@@ -100,8 +100,12 @@ export class RadiostationService implements OnDestroy {
             this.radiostationSubject.next(radiostation);
         }, error => {
             if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                this.radiostationSubject.next(JSON.parse(error._body));
+                try {
+                    this.radiostationSubject.next(JSON.parse(error._body));
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchRadiostation!!!');
+                } catch (e) {
+                    this.loggingService.error(this, 'Tried to perform ungly 500-fix, but failed!', error);
+                }
             } else {
                 this.loggingService.error(this, 'Error fetching radiostation!', error);
             }
