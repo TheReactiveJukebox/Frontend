@@ -99,7 +99,7 @@ export class TrackService {
                         observer.complete();
                     }
                 }, error => {
-                    this.loggingService.error(this, '', error);
+                    this.loggingService.error(this, 'Cant fetch new songs!', error);
                     this.isFetchingSongs = false;
                     observer.next(this.fetchedSongs.splice(0, count));
                     observer.complete();
