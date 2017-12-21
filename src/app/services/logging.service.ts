@@ -59,13 +59,13 @@ export class LoggingService {
             header.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             let text = message + '\n';
             if (object) {
-                text += JSON.stringify(object);
+                text += JSON.stringify(object, null, 2);
             }
             let slackPayload = {
                 text: text
             };
             this.http.post(Config.slackUrl,
-                'payload=' + JSON.stringify(slackPayload), {
+                'payload=' + JSON.stringify(slackPayload, null, 2), {
                     headers: header
                 }).subscribe(() => {
 
