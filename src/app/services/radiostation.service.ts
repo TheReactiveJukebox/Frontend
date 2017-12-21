@@ -40,8 +40,8 @@ export class RadiostationService implements OnDestroy {
     }
 
     public init(): void {
-        this.algorithms = new BehaviorSubject<string[]>([]);
-        this.radiostationSubject = new BehaviorSubject<Radiostation>(null);
+        this.algorithms.next([]);
+        this.radiostationSubject.next(null);
         this.subscriptions = [];
         this.fetchRadiostation();
         this.fetchAlgorithms();
