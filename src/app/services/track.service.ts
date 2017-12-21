@@ -99,13 +99,15 @@ export class TrackService {
                         observer.complete();
                     }
                 }, error => {
+                    this.loggingService.error(this, '', error);
                     this.isFetchingSongs = false;
-                    //TODO HANDLE THIS
+                    observer.next(this.fetchedSongs.splice(0, count));
+                    observer.complete();
                 });
 
             } else {
                 if (this.isFetchingSongs) {
-                    this.loggingService.warn(this, 'We are running out of tracks');
+                    this.loggingService.log(this, 'We are running out of tracks... waiting for server response');
                 }
                 observer.next(this.fetchedSongs.splice(0, count));
                 observer.complete();

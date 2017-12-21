@@ -3,7 +3,7 @@
     <progress id="progress_bar" value="{{this.playerService.progress}}" max="{{duration}}"
               (click)="onProgressBarClick($event)"></progress>
 
-    <md-card id="controls_wrapper">
+    <div id="controls_wrapper">
         <button md-icon-button class="controlls" id="stop_button" (click)="this.playerService.stop()">
             <md-icon class="controlls-icons">stop_circle_outline</md-icon>
         </button>
@@ -18,30 +18,25 @@
         <button md-icon-button class="controlls" id="skip_button" (click)="this.playerService.skipForward(false)">
             <md-icon class="controlls-icons">skip_next</md-icon>
         </button>
-    </md-card>
+    </div>
 
-    <table id="feedback_current_song_wrapper">
-        <tr>
-            <td>
-                <div id="player_current_song_desc">
-                    <a class="title_wrapper"> {{title}} </a>
-                    -
-                    <a class="artist_wrapper"> {{artist}} </a>
-                    <a class="position_wrapper">
-                        ({{this.playerService.progress
-                        | mySecondsToDate |
-                        date:'mm:ss'}}/{{duration | mySecondsToDate | date:'mm:ss'}})
-                    </a>
-                </div>
-            </td>
-            <td>
-                <div id="feedback">
-                    <like [(value)]="currentTrack.feedback.songFeedback" (click)="feedback()"></like>
-                </div>
-            </td>
-        </tr>
-    </table>
-
+    <div style="display: flex; justify-content: space-around; height: 40px; position: absolute; top: 4px; left: 130px; width: calc(100% - 130px - 180px)">
+        <div id="feedback_current_song_wrapper">
+            <div id="player_current_song_desc">
+                <a class="title_wrapper"> {{title}} </a>
+                -
+                <a class="artist_wrapper"> {{artist}} </a>
+                <a class="position_wrapper">
+                    ({{this.playerService.progress
+                    | mySecondsToDate |
+                    date:'mm:ss'}}/{{duration | mySecondsToDate | date:'mm:ss'}})
+                </a>
+            </div>
+            <div id="feedback">
+                <like [(value)]="currentTrack.feedback.songFeedback" (click)="feedback()"></like>
+            </div>
+        </div>
+    </div>
 
     <div id="sound_wrapper">
         <button md-icon-button *ngIf="this.playerService.audioPlayer.volume != 0"
