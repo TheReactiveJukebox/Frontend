@@ -97,7 +97,6 @@ export class TrackService {
                 });
 
             } else {
-                console.log('GET TRACKS FROM CACHE!');
                 observer.next(this.fetchedSongs.splice(0, count));
                 observer.complete();
             }
@@ -160,7 +159,6 @@ export class TrackService {
                 this.feedbackService.fetchGenreFeedback(genres)]).subscribe((data: any[]) => {
                 // data[0] = requested artists, data[1] = requested albums
 
-                console.log('FETCHED DATA IN FILL META DATA: ', data);
                 let artists: Artist[] = data[0];
                 let albums: Album[] = data[1];
                 let genreFeedbacks: GenreFeedback[][] = data[2];

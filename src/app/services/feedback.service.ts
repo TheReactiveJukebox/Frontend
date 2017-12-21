@@ -61,7 +61,7 @@ export class FeedbackService {
 
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
-                
+                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postGenreFeedback!');
             } else {
                 this.loggingService.error(this, 'Sending genre feedback failed!', error);
             }
