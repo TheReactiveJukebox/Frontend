@@ -178,19 +178,31 @@ export class TrackService {
     }
 
     private requestEntities(url: string, ids: number[]): Observable<any[]> {
-        if (ids.length > 0) {
-            let reqUrl = url + '?';
-            for (let id of ids) {
-                reqUrl += 'id=' + id + '&';
-            }
-            reqUrl = reqUrl.substring(0, reqUrl.length - 1);
-            return this.authHttp.get(reqUrl);
-        } else {
-            return Observable.create(observer => {
+        return Observable.create(observer => {
+            if (ids.length > 0) {
+                let reqUrl = url + '?';
+                for (let id of ids) {
+                    reqUrl += 'id=' + id + '&';
+                }
+                reqUrl = reqUrl.substring(0, reqUrl.length - 1);
+                this.authHttp.get(reqUrl).subscribe((entities: any[]) => {
+                    observer.next(entities);
+                    observer.complete();
+                }, error => {
+                    if (error.status == 500 && error.statusText == 'OK') {
+                        this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in requestEntities!');
+                        observer.next(JSON.parse(error._body));
+                        observer.complete();
+                    } else {
+                        observer.error(error);
+                        observer.complete();
+                    }
+                });
+            } else {
                 observer.next([]);
                 observer.complete();
-            });
-        }
+            }
+        });
     }
 
     //Fetches music files of tracks from the server
