@@ -25,8 +25,7 @@
   "PLAYER": {
     "TABS": {
       "PLAYER": "Your Radiostation",
-      "RADIOSTATION": "Create a Radiostation",
-      "STARTTRACK": "Choose a Startsong"
+      "RADIOSTATION": "Create a Radiostation"
     }
   },
   "TRACK_LIST": {

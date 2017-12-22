@@ -7,13 +7,6 @@
             <radiostation-by-feature (onStart)="switchToPlayer()"></radiostation-by-feature>
         </md-tab>
 
-        <md-tab>
-            <ng-template md-tab-label>
-                <md-icon [mdTooltip]="'PLAYER.TABS.STARTTRACK' | translate" class="tab-icons">audiotrack</md-icon>
-            </ng-template>
-            <my-radiostation-by-song (onStart)="switchToPlayer()"></my-radiostation-by-song>
-        </md-tab>
-
         <md-tab [disabled]="!trackService.hasNextTracks()">
             <ng-template md-tab-label>
                 <md-icon svgIcon="img:sprites" [mdTooltip]="'PLAYER.TABS.PLAYER' | translate"

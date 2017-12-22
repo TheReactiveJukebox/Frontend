@@ -53,7 +53,7 @@ export class PlayerComponent implements OnInit {
 
     public switchToPlayer(): void {
         if (this.tabs) {
-            this.tabs.selectedIndex = 2;
+            this.tabs.selectedIndex = 1;
         }
     }
 

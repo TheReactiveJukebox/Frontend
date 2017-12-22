@@ -32,7 +32,6 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CookieModule, CookieService} from 'ngx-cookie';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
-import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {LikeComponent} from './components/like/like.component';
@@ -72,7 +71,6 @@ import {LoggingService} from './services/logging.service';
         AppComponent,
         LoginComponent,
         RadiostationByFeatureComponent,
-        RadiostationBySongComponent,
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
