@@ -83,23 +83,21 @@ export class TrackService {
                 }
 
                 this.authHttp.get(url).subscribe((tracks: Track[]) => {
-                    if (tracks.length > 0) {
-                        for (let i = 0; i < tracks.length; i++) {
-                            tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
-                        }
-                        this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
-                            this.fetchedSongs = this.fetchedSongs.concat(filledTracks);
-                            this.isFetchingSongs = false;
-                            observer.next(this.fetchedSongs.splice(0, count));
-                            observer.complete();
-                        });
-                    } else {
+                    for (let i = 0; i < tracks.length; i++) {
+                        tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
+                    }
+                    this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
+                        this.fetchedSongs = this.fetchedSongs.concat(filledTracks);
                         this.isFetchingSongs = false;
                         observer.next(this.fetchedSongs.splice(0, count));
                         observer.complete();
-                    }
+                    });
                 }, error => {
-                    this.loggingService.error(this, 'Cant fetch new songs!', error);
+                    if (error.status == 404) {
+                        this.loggingService.log(this, 'Tried to fetch new songs, but there are no available!');
+                    } else {
+                        this.loggingService.error(this, 'Cant fetch new songs!', error);
+                    }
                     this.isFetchingSongs = false;
                     observer.next(this.fetchedSongs.splice(0, count));
                     observer.complete();

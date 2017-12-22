@@ -2,6 +2,7 @@ import {Component, Injectable} from '@angular/core';
 import { AuthHttp } from './auth/auth-http';
 import {Headers, Http} from '@angular/http';
 import {Config} from '../config';
+import {AuthService} from './auth/auth.service';
 
 @Injectable()
 export class LoggingService {
@@ -11,6 +12,7 @@ export class LoggingService {
     private loggingApiUrl: string = Config.serverUrl + '/api/logging';
 
     constructor(private authHttp: AuthHttp,
+                private authService: AuthService,
                 private http: Http) {
         this.backendLogAmount = 0;
     }
@@ -43,11 +45,13 @@ export class LoggingService {
         if (object) {
             console.error(message, object);
             if (this.backendLogAmount < Config.backendLogLimit) {
+                this.backendLogAmount++;
                 this.screamForHelp(message, object);
             }
         } else {
             console.error(message);
             if (this.backendLogAmount < Config.backendLogLimit) {
+                this.backendLogAmount++;
                 this.screamForHelp(message);
             }
         }
@@ -73,14 +77,16 @@ export class LoggingService {
                 console.error('[LoggingService] Cant scream for help at slack. A bad disaster must have happened!', error);
             });
 
-            let backendPayload = {
-                message: text
-            };
-            this.authHttp.post(this.loggingApiUrl, backendPayload).subscribe(() => {
+            if (this.authService.isLoggedIn()) {
+                let backendPayload = {
+                    message: text
+                };
+                this.authHttp.post(this.loggingApiUrl, backendPayload).subscribe(() => {
 
-            }, error => {
-                console.error('[LoggingService] Cant scream for help at backend. A bad disaster must have happened!', error);
-            });
+                }, error => {
+                    console.error('[LoggingService] Cant scream for help at backend. A bad disaster must have happened!', error);
+                });
+            }
         }
     }
 
