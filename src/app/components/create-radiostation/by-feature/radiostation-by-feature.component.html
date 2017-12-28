@@ -46,7 +46,7 @@
             </md-card>
         </tile>
 
-        <tile class="algorithm" [label]="'RADIOSTATION_CREATE.SELECT_ALGORITHM' | translate"
+        <tile *ngIf="!study" class="algorithm" [label]="'RADIOSTATION_CREATE.SELECT_ALGORITHM' | translate"
               (onDelete)="removeProperty('algorithm')"
               (onAdd)="addConstraint('algorithm')"
               [showContent]="radiostation.algorithm != null">
