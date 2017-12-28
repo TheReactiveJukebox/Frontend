@@ -5,5 +5,5 @@ export class Album {
     public id: number;
     public artist: Artist;
     public title: string;
-    public feedback?: AlbumFeedback;
+    public feedback: AlbumFeedback;
 }

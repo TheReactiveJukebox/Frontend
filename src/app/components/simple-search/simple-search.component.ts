@@ -67,6 +67,7 @@ export class SimpleSearchComponent {
         this.searchService.trackSearch(this.searchTrack$)
             .subscribe(results => {
                 if (Object.keys(results).length > 0) {
+                    results = results.slice(0, Config.trackSearchResultLimit);
                     this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
                         this.trackResult = filledTracks;
                         this.trackResultCount = Object.keys(filledTracks).length;
@@ -85,11 +86,12 @@ export class SimpleSearchComponent {
         this.searchService.albumSearch(this.searchAlbum$)
             .subscribe(results => {
                 if (Object.keys(results).length > 0) {
+                    results = results.slice(0, Config.albumSearchResultLimit);
                     let artistIds: number[] = [];
                     for (let album of results) {
                         artistIds.push(album.artist);
                     }
-                    this.trackService.getArtistsByIds(artistIds).subscribe((artists: Artist[]) => {
+                    this.trackService.getArtistsByIdsFromCache(artistIds).subscribe((artists: Artist[]) => {
                         for (let i = 0; i < results.length; i++) {
                             results[i].artist = artists[i];
                         }
@@ -105,6 +107,7 @@ export class SimpleSearchComponent {
         this.searchService.getArtistSongs(this.getArtistSongs$)
             .subscribe(results => {
                 if (Object.keys(results).length > 0) {
+                    results = results.slice(0, Config.trackSearchResultLimit);
                     this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
                         this.trackResult = filledTracks;
                         this.trackResultCount = Object.keys(filledTracks).length;

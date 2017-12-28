@@ -4,6 +4,7 @@ import {Track} from '../../../models/track';
 import {TrackService} from '../../../services/track.service';
 import {HistoryService} from '../../../services/history.service';
 import {Config} from '../../../config';
+import {Utils} from '../../../utils';
 
 @Component({
     selector: 'track-list-item',
@@ -15,19 +16,7 @@ import {Config} from '../../../config';
             state('void', style({'height': '0px', 'opacity': '0.0'})),
             transition('void => *', animate('0.5s ease-out')),
             transition('* => void', animate('0.5s ease-out'))
-        ]),
-        trigger('sizeState', [
-            state('void', style({
-                width: '48px',
-                height: '48px'
-            })),
-            state('1', style({
-                width: '15%',
-                height: '15%'
-            })),
-            transition('1 => void', animate('400ms cubic-bezier(0.175, 0.885, 0.32, 1.275)')),
-            transition('void => 1', animate('400ms cubic-bezier(0.6, -0.28, 0.735, 0.045)'))
-        ]),
+        ])
     ]
 })
 export class TrackListItemComponent implements OnInit, OnDestroy {
@@ -92,22 +81,12 @@ export class TrackListItemComponent implements OnInit, OnDestroy {
     }
 
     public getTrackCover(): string {
+        let coverUrls: string = '';
         if (this.track.cover) {
-            return this.track.cover;
-        } else {
-            return '../../../../assets/img/album_cover.png';
+             coverUrls += 'url(' + this.track.cover + '), ';
         }
-    }
-
-    public round(value: number, digits?: number): number {
-        if (digits) {
-            value *= Math.pow(10, digits);
-            value = Math.round(value);
-            value /= Math.pow(10, digits);
-            return value;
-        } else {
-            return Math.round(value);
-        }
+        coverUrls += 'url(../../../../assets/img/album_cover.png)';
+        return coverUrls;
     }
 
     public getGenres(): string {
@@ -115,7 +94,7 @@ export class TrackListItemComponent implements OnInit, OnDestroy {
         let slicedArray = this.track.genres.slice(0, Config.genreDisplayLimit);
         if (slicedArray) {
             for (let genre of slicedArray) {
-                let genreStr: string = this.capitalize(genre.genre);
+                let genreStr: string = Utils.capitalize(genre.genre);
                 genres += genreStr + ', ';
             }
             genres = genres.substr(0, genres.length - 2);
@@ -123,7 +102,4 @@ export class TrackListItemComponent implements OnInit, OnDestroy {
         return genres;
     }
 
-    public capitalize(s: string): string {
-        return s[0].toUpperCase() + s.slice(1);
-    }
 }

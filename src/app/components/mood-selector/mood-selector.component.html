@@ -5,7 +5,7 @@
             <md-card class="av-container">
                 <div class="slider-label">{{sliderArousal.displayValue}}</div>
                 <md-slider #sliderArousal [min]="arousalLowerLimit" [max]="arousalUpperLimit"
-                           [step]="0.01" [(ngModel)]="selArousal" (ngModelChange)="updateSelecter()"></md-slider>
+                           [step]="0.01" [(ngModel)]="arousal" (ngModelChange)="updateSelector()"></md-slider>
             </md-card>
         </td>
         <td class="slider-td">
@@ -13,7 +13,7 @@
             <md-card class="av-container">
                 <div class="slider-label">{{sliderValence.displayValue}}</div>
                 <md-slider #sliderValence [min]="valencelLowerLimit" [max]="valenceUpperLimit"
-                           [step]="0.01" [(ngModel)]="selValence" (ngModelChange)="updateSelecter()"></md-slider>
+                           [step]="0.01" [(ngModel)]="valence" (ngModelChange)="updateSelector()"></md-slider>
             </md-card>
         </td>
     </tr>

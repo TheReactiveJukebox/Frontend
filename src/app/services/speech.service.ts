@@ -1,6 +1,7 @@
 import {Injectable, NgZone} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import {LoggingService} from './logging.service';
 
 /**
  * webkitSpeechRecognition is still experimental and not covered by TypeScript definitions. To avoid TypeScript errors, declare it as
@@ -20,11 +21,12 @@ export class SpeechService {
     // indicates if the service is initialized
     private initialized: boolean;
 
-    constructor(private zone: NgZone) {
+    constructor(private zone: NgZone,
+                private loggingService: LoggingService) {
         this.listening = new BehaviorSubject(false);
         // check, if wektiSpeechRecognition is available
         if (('webkitSpeechRecognition' in window)) {
-            console.log('webkitSpeechRecognition is available!');
+            this.loggingService.log(this, 'webkitSpeechRecognition is available!');
             this.recognition = new webkitSpeechRecognition();
 
             // false = when user stops talking, browser will stop listening
@@ -42,7 +44,7 @@ export class SpeechService {
             this.initialized = true;
         } else {
             //no webkitSpeechRecognition, we can't use SpeechRecognition
-            console.log('webkitSpeechRecognition not available!');
+            this.loggingService.warn(this, 'webkitSpeechRecognition not available!');
             this.initialized = false;
         }
     }

@@ -96,7 +96,12 @@ p {
 }
 
 .currentTrack {
-  background: mat-color($default-theme-primary);
+  p {
+    color: mat-color($default-theme-primary);
+  }
+  a {
+    color: mat-color($default-theme-primary);
+  }
 }
 
 .historyTrack {

@@ -179,6 +179,8 @@ module.exports = function (env) {
        *
        * NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
        */
+
+      /*
       new UglifyJsPlugin({
         // beautify: true, //debug
         // mangle: false, //debug
@@ -200,7 +202,8 @@ module.exports = function (env) {
           comments: false
         }, //prod
         mangle: {
-          screw_ie8: true
+          screw_ie8: true,
+          keep_fnames: true
         }, //prod
         compress: {
           screw_ie8: true,
@@ -215,7 +218,7 @@ module.exports = function (env) {
           join_vars: true,
           negate_iife: false // we need this for lazy v8
         },
-      }),
+      }), */
 
       /**
        * Plugin: NormalModuleReplacementPlugin

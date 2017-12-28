@@ -52,7 +52,9 @@ export class PlayerComponent implements OnInit {
     }
 
     public switchToPlayer(): void {
-        this.tabs.selectedIndex = 2;
+        if (this.tabs) {
+            this.tabs.selectedIndex = 1;
+        }
     }
 
     public getOffsetHeight(): number {

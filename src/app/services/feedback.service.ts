@@ -10,6 +10,7 @@ import {ArtistFeedback} from '../models/artist-feedback';
 import {AlbumFeedback} from '../models/album-feedback';
 import {GenreFeedback} from '../models/genre-feedback';
 import {Observable} from 'rxjs/Observable';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class FeedbackService {
@@ -21,19 +22,23 @@ export class FeedbackService {
 
     private genreFeedbackCache: Map<string, GenreFeedback>;
 
-    constructor(private authHttp: AuthHttp) {
+    constructor(private authHttp: AuthHttp, private loggingService: LoggingService) {
+        this.init();
+    }
+
+    public init(): void {
         this.genreFeedbackCache = new Map<string, GenreFeedback>();
     }
 
     public postTrackFeedback(track: Track): void {
-        this.authHttp.post(this.feedbackUrl, track.trackFeedback).subscribe((data: TrackFeedback) => {
-            track.trackFeedback = data;
+        this.authHttp.post(this.feedbackUrl, track.feedback).subscribe((data: TrackFeedback) => {
+            track.feedback = data;
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-                track.trackFeedback = JSON.parse(error._body);
+                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postTrackFeedback!');
+                track.feedback = JSON.parse(error._body);
             } else {
-                console.warn('Sending track feedback failed: ', error);
+                this.loggingService.error(this, 'Sending track feedback failed!', error);
             }
         });
     }
@@ -43,25 +48,22 @@ export class FeedbackService {
             track.artist.feedback = data;
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postArtistFeedback!');
                 track.artist.feedback = JSON.parse(error._body);
             } else {
-                console.warn('Sending artist feedback failed: ', error);
+                this.loggingService.error(this, 'Sending artist feedback failed!', error);
             }
         });
     }
 
-    public postGenreFeedback(track: Track): void {
-        this.authHttp.post(this.genreFeedbackUrl, track.genres[0]).subscribe((data: GenreFeedback) => {
-            track.genres[0] = data;
-            this.genreFeedbackCache.set(data.genre, data);
+    public postGenreFeedback(genre: GenreFeedback): void {
+        this.authHttp.post(this.genreFeedbackUrl, genre).subscribe((data: GenreFeedback) => {
+
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
-                track.genres[0] = error._body;
-                this.genreFeedbackCache.set(JSON.parse(error._body).genre, JSON.parse(error._body));
+                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postGenreFeedback!');
             } else {
-                console.warn('Sending genre feedback failed: ', error);
+                this.loggingService.error(this, 'Sending genre feedback failed!', error);
             }
         });
     }
@@ -71,10 +73,10 @@ export class FeedbackService {
             track.album.feedback = data;
         }, (error) => {
             if (error.status == 500 && error.statusText == 'OK') {
-                console.warn('WARNING: UGLY CATCH OF 500 Error in postTrackFeedback!!!');
+                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postAlbumFeedback!');
                 track.album.feedback = JSON.parse(error._body);
             } else {
-                console.warn('Sending feedback failed: ', error);
+                this.loggingService.error(this, 'Sending feedback failed!', error);
             }
         });
     }
@@ -108,7 +110,7 @@ export class FeedbackService {
                 observer.complete();
             }, error => {
                 if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchArtistFeedback!!!');
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchGenreFeedback!');
                     this.addGenreFeedbackToCache(JSON.parse(error._body));
                     let result: any[] = [];
                     for (let trackGenres of genres) {
@@ -131,40 +133,6 @@ export class FeedbackService {
         for (let feedback of feedbacks) {
             this.genreFeedbackCache.set(feedback.genre, feedback);
         }
-    }
-
-    public fetchArtistFeedback(artistIds: number[]):  Observable<ArtistFeedback[]> {
-        return Observable.create(observer => {
-            this.requestEntities(this.artistFeedbackUrl, artistIds).subscribe((data: ArtistFeedback[]) => {
-                observer.next(data);
-                observer.complete();
-            }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchArtistFeedback!!!');
-                    observer.next(JSON.parse(error._body));
-                    observer.complete();
-                } else {
-                    observer.error(error);
-                }
-            });
-        });
-    }
-
-    public fetchAlbumFeedback(albumIds: number[]):  Observable<AlbumFeedback[]> {
-        return Observable.create(observer => {
-            this.requestEntities(this.albumFeedbackUrl, albumIds).subscribe((data: AlbumFeedback[]) => {
-                observer.next(data);
-                observer.complete();
-            }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    console.warn('WARNING: UGLY CATCH OF 500 Error in fetchAlbumFeedback!!!');
-                    observer.next(JSON.parse(error._body));
-                    observer.complete();
-                } else {
-                    observer.error(error);
-                }
-            });
-        });
     }
 
     private requestEntities(url: string, ids: any[]): Observable<any[]> {

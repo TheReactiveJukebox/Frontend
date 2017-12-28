@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {Config} from '../config';
 import {IndirectFeedback} from '../models/indirect-feedback';
 import {AuthHttp} from './auth/auth-http';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class IndirectFeedbackService {
 
     private indirectFeedbackURI: string = Config.serverUrl + '/api/track/indirect-feedback';
 
-    constructor(private authHttp: AuthHttp) {}
+    constructor(private authHttp: AuthHttp,
+                private loggingService: LoggingService) {}
 
     //HTTP post of the checked feedback object to API
     private postIndirectFeedback(body: IndirectFeedback): void {
@@ -19,9 +21,9 @@ export class IndirectFeedbackService {
                 },
                 error => {
                     if (error.status == 500 && error.statusText == 'OK') {
-                        console.warn('WARNING: UGLY CATCH OF 500 Error in postIndirectFeedback!!!');
+                        this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postIndirectFeedback!');
                     } else {
-                        console.warn('Sending feedback failed: ', error);
+                        this.loggingService.error(this, 'Sending indirect feedback failed!', error);
                     }
                 }
             );

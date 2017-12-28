@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
 import {HistoryService} from '../../services/history.service';
 import {TrackService} from '../../services/track.service';
 import {Config} from '../../config';
 import {GenreFeedback} from '../../models/genre-feedback';
+import {Utils} from '../../utils';
 
 @Component({
     selector: 'current-track',
@@ -16,8 +17,14 @@ export class CurrentTrackComponent implements OnInit {
     @Input()
     public currentTrack: Track;
 
-    public btnVisible: boolean = false;
-    public historyButtonClass: string = 'reducedHistory-button-toggle-off';
+    @Input()
+    public canCoverClick: boolean = false;
+
+    @Input()
+    public isCurrentTrack: boolean = false;
+
+    @Output()
+    public onCoverClick: EventEmitter<any> = new EventEmitter();
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
@@ -26,16 +33,6 @@ export class CurrentTrackComponent implements OnInit {
 
     public ngOnInit(): void {
 
-    }
-
-    public btn_history_toggle(): void {
-        if (this.historyService.historyVisible) {
-            this.historyService.historyVisible = false;
-            this.historyButtonClass = 'history-button-toggle-off';
-        } else {
-            this.historyService.historyVisible = true;
-            this.historyButtonClass = 'history-button-toggle-on';
-        }
     }
 
     public getGenres(): GenreFeedback[] {
@@ -48,14 +45,7 @@ export class CurrentTrackComponent implements OnInit {
     }
 
     public round(value: number, digits?: number): number {
-        if (digits) {
-            value *= Math.pow(10, digits);
-            value = Math.round(value);
-            value /= Math.pow(10, digits);
-            return value;
-        } else {
-            return Math.round(value);
-        }
+        return Utils.round(value, digits);
     }
 
     // TODO add timer to avoid multiple calls
@@ -63,8 +53,8 @@ export class CurrentTrackComponent implements OnInit {
         this.feedbackService.postTrackFeedback(this.currentTrack);
     }
 
-    public onGenreFeedbackChanged(): void {
-        this.feedbackService.postGenreFeedback(this.currentTrack);
+    public onGenreFeedbackChanged(genre: GenreFeedback): void {
+        this.feedbackService.postGenreFeedback(genre);
     }
 
     public onArtistFeedbackChanged(): void {
@@ -75,7 +65,17 @@ export class CurrentTrackComponent implements OnInit {
         this.feedbackService.postAlbumFeedback(this.currentTrack);
     }
 
-    public  capitalize(s: string): string {
-        return s[0].toUpperCase() + s.slice(1);
+    public capitalize(s: string): string {
+        return Utils.capitalize(s);
     }
+
+    public getTrackCover(): string {
+        let coverUrls: string = '';
+        if (this.currentTrack.cover) {
+            coverUrls += 'url(' + this.currentTrack.cover + '), ';
+        }
+        coverUrls += 'url(../../../../assets/img/album_cover.png)';
+        return coverUrls;
+    }
+
 }

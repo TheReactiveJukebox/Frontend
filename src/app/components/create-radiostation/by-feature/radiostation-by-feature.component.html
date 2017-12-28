@@ -6,7 +6,7 @@
               (onDelete)="removeProperty('mood')"
               (onAdd)="addConstraint('mood')"
               [showContent]="radiostation.arousal != null && radiostation.valence != null">
-            <mood-selector (selMood)="setSelMood($event)"></mood-selector>
+            <mood-selector  [(arousal)]="radiostation.arousal" [(valence)]="radiostation.valence"></mood-selector>
         </tile>
 
         <tile class="year" [label]="'RADIOSTATION_CREATE.YEAR' | translate"

@@ -11,6 +11,8 @@ import {RadiostationService} from '../../../services/radiostation.service';
 import {TrackService} from '../../../services/track.service';
 import {SimpleSearchComponent} from '../../simple-search/simple-search.component';
 import {Track} from '../../../models/track';
+import {Utils} from '../../../utils';
+import {LoggingService} from '../../../services/logging.service';
 
 
 @Component({
@@ -51,19 +53,18 @@ export class RadiostationByFeatureComponent {
                 public trackService: TrackService,
                 private playerService: PlayerService,
                 private translateService: TranslateService,
+                private loggingService: LoggingService,
                 private snackBar: MdSnackBar,
                 public dialog: MdDialog,
                 private authHttp: AuthHttp) {
         this.resetRadiostation();
         this.radiostationService.getRadiostationSubject().subscribe((radiostation: Radiostation) => {
             if (radiostation != null) {
+                this.radiostation = radiostation;
                 if (radiostation.startTracks) {
                     // fetch information about the startTracks
                     this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
                         this.startTracks = tracks;
-                        console.log('TRACKS: ', tracks);
-                        this.radiostation = radiostation;
-                        console.log('Radiostation: ', radiostation);
                     });
                 }
             }
@@ -74,10 +75,13 @@ export class RadiostationByFeatureComponent {
 
         //fetch the available genres from server
         this.authHttp.get(this.genreApiUrl).subscribe((genreList: string[]) => {
-            this.genres = genreList;
+            this.genres = genreList.sort().map((genre: string) => {
+               return Utils.capitalize(genre);
+            });
         }, error => {
             //should not happen since this was a static request
-            console.log('It seems that the API-Endpoint /genre is not working properly: ', error);
+            this.genres = [];
+            this.loggingService.error(this, 'Failed to fetch available genres!', error);
         });
 
         //fetch the the releaseDate of oldest song
@@ -85,12 +89,11 @@ export class RadiostationByFeatureComponent {
             this.yearLowerLimit = data.oldestTrack;
             this.speedLowerLimit = Math.floor(data.minSpeed);
             this.speedUpperLimit = Math.round(data.maxSpeed);
-            console.log('DATA: ', data);
         }, error => {
             this.yearLowerLimit = 1800;
             this.speedLowerLimit = Config.speedLowerLimit;
             this.speedUpperLimit = Config.speedUpperLimit;
-            console.log('It seems that the API-Endpoint /oldestYear is not working properly: ', error);
+            this.loggingService.error(this, 'Failed to fetch available track parameters!', error);
         });
     }
 
