@@ -1,5 +1,3 @@
-<md-card *ngIf="!track">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
-<!-- Simple track list element -->
 <md-list-item *ngIf="track && !detailView" [@expand]="showItem" style="overflow: hidden"
               [ngClass]="{ 'currentTrack': this.displayClass == 'currentTrack',
               'historyTrack':this.displayClass == 'historyTrack',
@@ -7,8 +5,8 @@
               (dblclick)="onCoverClick.emit();">
     <!-- Simple track list element view -->
     <div class="tl-cover-col" *ngIf="!detailView"
-         (click)="onCoverClick.emit(); setDetailedView(true)" [@sizeState]="detailView">
-        <div  [ngStyle]="{ 'background-image': 'url('+getTrackCover()+')'}"
+         (click)="onCoverClick.emit(); setDetailedView(true)">
+        <div  [ngStyle]="{ 'background-image': getTrackCover()}"
               alt="Cover" class="cover-img-thumb">
             <md-icon *ngIf=" showPlay">play_circle_outline</md-icon>
         </div>
@@ -40,10 +38,12 @@
 <md-list-item *ngIf="track && detailView" [@expand]="showItem" style="overflow: hidden"
               [ngClass]="{ 'currentTrack': this.displayClass == 'currentTrack',
               'historyTrack':this.displayClass == 'historyTrack',
-               'big-row' : detailView}"
-              (dblclick)="onCoverClick.emit();">
-    <div *ngIf="detailView" class="detail-view-wrapper" [@expand]="detailView">
-        <current-track [currentTrack]="track"></current-track>
+               'big-row' : detailView}">
+    <div class="detail-view-wrapper" [@expand]="detailView">
+        <current-track [currentTrack]="track"
+                       [isCurrentTrack]="this.displayClass == 'currentTrack'"
+                       [canCoverClick]="this.displayClass != 'historyTrack' && this.displayClass != 'currentTrack'"
+                       (onCoverClick)="onCoverClick.emit()"></current-track>
     </div>
 </md-list-item>
 

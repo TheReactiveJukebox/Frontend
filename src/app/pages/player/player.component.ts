@@ -49,7 +49,7 @@ export class PlayerComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.study) {
-            this.tabs.selectedIndex = 3;
+            this.tabs.selectedIndex = 2;
         }
 
         this.mdIconRegistry.addSvgIconInNamespace('img', 'sprites',
@@ -57,10 +57,8 @@ export class PlayerComponent implements OnInit {
     }
 
     public switchToPlayer(): void {
-        if (this.study) {
+        if (this.tabs) {
             this.tabs.selectedIndex = 1;
-        } else {
-            this.tabs.selectedIndex = 2;
         }
     }
 

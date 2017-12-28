@@ -2,6 +2,7 @@
 @import '../../../theme.scss';
 
 #player_bar_wrapper {
+  position: relative;
   height: 44px;
   width: 100vw;
   padding: 0px;
@@ -39,7 +40,8 @@ progress::-moz-progress-bar {
 #controls_wrapper {
   position: absolute;
   left: 0px;
-  bottom: 0px;
+  top: 4px;
+  width: 130px;
   flex-flow: row;
   padding: 0px !important;
   -webkit-box-shadow: none;
@@ -56,8 +58,6 @@ progress::-moz-progress-bar {
 }
 
 #feedback_current_song_wrapper {
-  bottom: 0px;
-  height: 40px;
   color: white;
   padding: 0px !important;
   -webkit-box-shadow: none;
@@ -65,10 +65,13 @@ progress::-moz-progress-bar {
   box-shadow: none;
   background: mat-color($default-theme-accent);
   border: none;
+  display: flex;
+  flex-wrap: nowrap;
   margin: 0 auto;
   border-spacing: 0px;
-  margin-top: 4px;
   z-index: 1;
+  height: 100%;
+  overflow: hidden;
 }
 
 #player_current_song_desc {
@@ -94,17 +97,18 @@ progress::-moz-progress-bar {
 #feedback {
   position: relative;
   top: 4px;
-  padding-left: 30px;
+  padding-left: 20px;
   height: 36px;
+  width: 76px;
   display: flex;
   align-items: center;
 }
 
 #sound_wrapper {
-  position: absolute;
-  right: 40px;
-  bottom: 0px;
   width: 180px;
+  position: absolute;
+  top: 4px;
+  right: 0px;
   color: white;
   float: right;
   vertical-align: middle;

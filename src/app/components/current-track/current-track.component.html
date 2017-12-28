@@ -1,25 +1,28 @@
 <div [class]="'themeClass'" id="content-wrapper">
-    <md-card *ngIf="!currentTrack">{{'CURRENT_TRACK.NO_TRACK' | translate}}</md-card>
-    <div id="song-info" *ngIf="currentTrack">
-        <div id="cover-img-table-wrapper">
-            <img *ngIf="currentTrack.cover" src="{{currentTrack.cover}}" alt="Cover" class="cover-img">
-            <img *ngIf="!currentTrack.cover" src="../../../assets/img/album_cover.png" alt="Cover" class="cover-img">
+    <div id="song-info">
+        <div id="container">
+            <div id="dummy"></div>
+            <div id="cover-img-table-wrapper"
+                 [ngStyle]="{ 'background-image': getTrackCover()}"
+                 (click)="this.onCoverClick.emit()">
+                <md-icon *ngIf="canCoverClick">play_circle_outline</md-icon>
+            </div>
         </div>
 
-        <div id="text-container">
+        <div id="text-container" [ngClass]="{'currentTrack': isCurrentTrack}">
             <div class="detail-element">
-                <like (click)="onTrackFeedbackChanged()" [(value)]="currentTrack.trackFeedback.songFeedback"></like>
+                <like (click)="onTrackFeedbackChanged()" [(value)]="currentTrack.feedback.songFeedback"></like>
                 <h1 class="track-info">{{currentTrack.title}}</h1>
-
             </div>
+
             <div id="sub-text-container">
                 <div class="track-details-container">
                     <div class="detail-element">
                         <like (click)="onArtistFeedbackChanged()"
                               [(value)]="currentTrack.artist.feedback.feedback"></like>
                         <h3 class="track-info">{{currentTrack.artist.name}}</h3>
-
                     </div>
+
                     <div class="detail-element">
                         <like (click)="onAlbumFeedbackChanged()"
                               [(value)]="currentTrack.album.feedback.feedback"></like>
@@ -30,37 +33,27 @@
                     </div>
                     <div *ngIf="currentTrack.speed" class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.trackFeedback.speedFeedback"></like>
+                              [(value)]="currentTrack.feedback.speedFeedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.TEMPO' | translate}}: </a>
                         <a class="track-info">{{round(currentTrack.speed) + ' BPM'}}</a>
                     </div>
                     <div *ngIf="currentTrack.mood" class="detail-element">
                         <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.trackFeedback.moodFeedback"></like>
+                              [(value)]="currentTrack.feedback.moodFeedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.MOOD' | translate}}: </a>
                         <a class="track-info">{{capitalize('MOODS.'+ currentTrack.mood.name.toUpperCase() | translate)}}</a>
-                    </div>
-                    <div *ngIf="currentTrack.dynamic" class="detail-element">
-                        <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.trackFeedback.dynamicsFeedback"></like>
-                        <a class="track-info-att"> {{'CURRENT_TRACK.DYNAMICS' | translate}}: </a>
-                        <a class="track-info">{{round(currentTrack.dynamic * 100, 0) + '%'}}</a>
                     </div>
                 </div>
 
                 <div class="track-details-container right">
                     <div *ngFor="let genre of getGenres()" class="detail-element">
-                        <like (click)="onGenreFeedbackChanged()"
+                        <like (click)="onGenreFeedbackChanged(genre)"
                               [(value)]="genre.feedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.GENRE' | translate}}: </a>
                         <a class="track-info">{{capitalize(genre.genre)}} </a>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- This div is ignoring the flex-layout set by it's parent! -->
-        <div id="action-buttons">
         </div>
     </div>
 </div>

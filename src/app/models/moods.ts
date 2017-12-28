@@ -1,17 +1,16 @@
 import {Mood} from './mood';
 import {MoodGroups} from './mood-groups';
 import {TranslateService} from '@ngx-translate/core';
+import {LoggingService} from '../services/logging.service';
 
 
 export class Moods {
-
-
 
     private _moodlist: Mood[] = [];
     public _moodGroups: MoodGroups[] = [];
 
 
-    constructor(translationService: TranslateService) {
+    constructor(translationService: TranslateService, private loggingService: LoggingService) {
         //define moods
         this._moodlist.push(new Mood( 0, 'neutral', 0, 0));
         this._moodlist.push(new Mood( 1, 'happy', 0.15, 0.9));
@@ -223,7 +222,7 @@ export class Moods {
                 return mood;
             }
         }
-        console.log('There is no Mood: ' + pName);
+        this.loggingService.error(this, 'There is no Mood: ' + pName);
         return this._moodlist[0];
     }
 }

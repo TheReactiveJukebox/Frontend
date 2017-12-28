@@ -7,7 +7,7 @@
         <div *ngIf="this.trackResultCount > 0">
             <md-nav-list class="tl">
                 <h1 md-subheader>{{'TRACK_LIST.TITLE' | translate}}</h1>
-                <track-list-item *ngFor="let result of this.trackResult | slice:0:trackLimit"
+                <track-list-item *ngFor="let result of this.trackResult"
                                  [track]="result"
                                  [showDelete]="false"
                                  [showPlay]="false"

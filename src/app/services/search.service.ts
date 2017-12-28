@@ -62,7 +62,6 @@ export class SearchService {
             count = 'xxtzt?count=0';
         }
         const url = Config.serverUrl + endpoint + term + count;
-        console.log('Get API call: ' + url);
         return this.authHttp.get(url);
     }
 }

@@ -4,6 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {PlayerService} from '../../services/player.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {SpeechService} from '../../services/speech.service';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'speech-search-field',
@@ -29,6 +30,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
     constructor(public speechService: SpeechService,
                 public playerService: PlayerService,
                 private radiostationService: RadiostationService,
+                private loggingService: LoggingService,
                 private translateService: TranslateService) {
         this.detectedText = '';
         this.ngUnsubscribe = new Subject<void>();
@@ -99,8 +101,8 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
          5:  Louder
          6:  Quieter
          7:  Mute
-         8:  More Dynamic
-         9:  Less Dynamic
+         8:  UNUSED!
+         9:  UNUSED!
          10: Faster
          11: Slower
          12: Older
@@ -134,9 +136,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         this.controlTerms.set('mute', 7);
         this.controlTerms.set('stumm', 7);
 
-        this.controlTerms.set('dynamischer', 8);
-        this.controlTerms.set('undynamischer', 9);
-
         this.controlTerms.set('schneller', 10);
         this.controlTerms.set('faster', 10);
 
@@ -153,7 +152,7 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
 
     //Function to handle incoming speech. If no recognized term is in speech query the term will be send to the search bar
     private handleSpeech(speech: string): void {
-        console.log('Recognized speech: ', speech);
+        this.loggingService.log(this, 'Recognized speech: ' + speech);
 
         //Tokenization to find functional term in a sentence of recognized speech.
         let tokens: string[] = speech.toLocaleLowerCase().split(' ');
@@ -162,17 +161,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
         for (let i of tokens) {
             if (this.controlTerms.has(i)) {
                 action = this.controlTerms.get(i);
-            }
-            //special casees for more than one keyword
-            if ((i.includes('more') || i.includes('mehr')) && tokens.length > j + 1 ) {
-                if (tokens[j + 1].includes('dynamic') || tokens[j + 1].includes('dynamik')) {
-                    action = 8;
-                }
-            }
-            if ((i.includes('less') || i.includes('les')) && tokens.length > j + 1 ) {
-                if (tokens[j + 1].includes('dynamic') || tokens[j + 1].includes('dynamik')) {
-                    action = 9;
-                }
             }
             j++;
         }
@@ -217,14 +205,6 @@ export class SpeechSearchFieldComponent implements OnInit, OnDestroy {
             }
             case 7: {
                 this.playerService.volumeOff();
-                break;
-            }
-            case 8: {
-                // TODO this.radiostationService.moreDynamic();
-                break;
-            }
-            case 9: {
-                // TODO this.radiostationService.lessDynamic();
                 break;
             }
             case 10: {

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
@@ -32,7 +32,6 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CookieModule, CookieService} from 'ngx-cookie';
 import {RadiostationByFeatureComponent} from './components/create-radiostation/by-feature/radiostation-by-feature.component';
-import {RadiostationBySongComponent} from './components/create-radiostation/by-song/radiostation-by-song.component';
 import {CurrentTrackComponent} from './components/current-track/current-track.component';
 import {HistoryListComponent} from './components/history-list/history-list.component';
 import {LikeComponent} from './components/like/like.component';
@@ -62,6 +61,8 @@ import {SurveyService} from './services/survey.service';
 import {OpenSurveyComponent} from './components/dialogs/open-survey/open-survey.component';
 import {TileComponent} from './components/create-radiostation/by-feature/tile/tile.component';
 import {StartTrackComponent} from './components/create-radiostation/by-feature/start-track/start-track.component';
+import {GlobalErrorHandler} from './services/global-error-handler';
+import {LoggingService} from './services/logging.service';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -72,7 +73,6 @@ import {StartTrackComponent} from './components/create-radiostation/by-feature/s
         AppComponent,
         LoginComponent,
         RadiostationByFeatureComponent,
-        RadiostationBySongComponent,
         PlayerComponent,
         TrackListComponent,
         CurrentTrackComponent,
@@ -131,7 +131,12 @@ import {StartTrackComponent} from './components/create-radiostation/by-feature/s
         PlayerService,
         HistoryService,
         IndirectFeedbackService,
-        SurveyService
+        SurveyService,
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler
+        },
+        LoggingService
     ]
 })
 export class AppModule {

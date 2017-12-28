@@ -10,6 +10,7 @@ import {IndirectFeedbackService} from './indirect-feedback.service';
 import {RadiostationService} from './radiostation.service';
 import {TrackService} from './track.service';
 import {SurveyService} from './survey.service';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class PlayerService implements OnDestroy {
@@ -27,6 +28,7 @@ export class PlayerService implements OnDestroy {
                 private historyService: HistoryService,
                 private surveyService: SurveyService,
                 private indirectFeedbackService: IndirectFeedbackService,
+                private loggingService: LoggingService,
                 private authHttp: AuthHttp) {
         //set the default player settings
         this.audioPlayer.type = 'audio/mpeg';
@@ -45,12 +47,6 @@ export class PlayerService implements OnDestroy {
             this.trackService.currentTrack.subscribe(
                 (currentTrack: Track) => {
                     this.currentTrack = currentTrack;
-
-                    /* Use this for testing, if backend doesn't return tracks
-                     *this.currentTrack = new Track();
-                     * */
-                    /*this.currentTrack.file = 'https://192.168.99.100/music/f/5/' +
-                     '4019b526351166dc5654e963a9aabe552f0d27b69b373fbbb62b084eefd30d.mp3';*/
 
                     this.trackUpdated();
                 }
@@ -91,20 +87,17 @@ export class PlayerService implements OnDestroy {
                     this.play();
                 }
             } else {
-                this.authHttp.getTrack(this.currentTrack.file).subscribe(data => {
+                this.currentTrack.readyToPlay.subscribe(value => {
+                    if (value == true) {
+                        this.audioPlayer.src = this.currentTrack.data;
+                        this.audioPlayer.load();
 
-                    this.currentTrack.data = data;
-                    this.audioPlayer.src = this.currentTrack.data;
-                    this.audioPlayer.load();
-
-                    //was the player in playing state when the file file arrived?
-                    if (this.isPlaying) {
-                        this.play();
+                        //was the player in playing state when the file file arrived?
+                        if (this.isPlaying) {
+                            this.play();
+                        }
                     }
-                }, err => {
-                    console.log('GET TRACK ERROR: ', err);
                 });
-
             }
         } else {
             this.isPlaying = false;
@@ -115,17 +108,16 @@ export class PlayerService implements OnDestroy {
     public play(): void {
         if (this.currentTrack != null) {
             this.isPlaying = true;
-            console.log('Now playing: ' + this.currentTrack.title);
             this.audioPlayer.play();
         } else {
-            console.error('Playerservice: There is no track to play');
+            this.loggingService.log(this, 'There is no track to play!');
         }
     }
 
 //pause playing
     public pause(): void {
         this.isPlaying = false;
-        console.log('Paused');
+        this.loggingService.log(this, 'Paused');
         this.audioPlayer.pause();
     }
 
@@ -152,7 +144,7 @@ export class PlayerService implements OnDestroy {
 
         let nextTrack: Track = this.trackService.nextSong();
 
-        if (!addToHistory) { //Check if legitimate skip
+        if (!addToHistory && nextTrack) { //Check if legitimate skip
             this.indirectFeedbackService.sendSkipFeedback(currentID, nextTrack.id,
                 this.radiostationService.getRadiostation().id, currentProgress); //Skip feedback
         }
@@ -175,7 +167,6 @@ export class PlayerService implements OnDestroy {
 
 //set the volume if valid
     public setVolume(v: number): void {
-        console.log('Set volume to: ' + v);
         if (v < 0 || v > 1) {
             throw new Error('Invalid volume format');
         } else {

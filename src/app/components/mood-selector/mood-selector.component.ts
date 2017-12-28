@@ -1,17 +1,15 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Config} from '../../config';
-import {Mood} from '../../models/mood';
 import {Moods} from '../../models/moods';
 import {TranslateService} from '@ngx-translate/core';
-
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'mood-selector',
     styleUrls: ['./mood-selector.component.scss'],
     templateUrl: './mood-selector.component.html',
 })
-
-export class MoodSelectorComponent {
+export class MoodSelectorComponent implements OnChanges {
 
     public arousalLowerLimit: number = Config.arousalLowerLimit;
     public arousalUpperLimit: number = Config.arousalUpperLimit;
@@ -19,30 +17,44 @@ export class MoodSelectorComponent {
     public valenceUpperLimit: number = Config.valenceUpperLimit;
 
     public moods: Moods;
-    public selArousal: number;
-    public selValence: number;
-    public selMoodName: string;
 
+    @Input()
+    public arousal: number;
+
+    @Input()
+    public valence: number;
 
     @Output()
-    public selMood: EventEmitter<Mood> = new EventEmitter<Mood>();
+    public valenceChange: EventEmitter<number> = new EventEmitter();
 
-    constructor(translateService: TranslateService) {
-        this.moods = new Moods(translateService);
-        this.selArousal = 0;
-        this.selValence = 0;
-        this.selMoodName = this.moods.getMood(this.selArousal, this.selValence).name;
+    @Output()
+    public arousalChange: EventEmitter<number> = new EventEmitter();
+
+
+    public selMoodName: string;
+
+    constructor(translateService: TranslateService, private loggingService: LoggingService) {
+        this.moods = new Moods(translateService, loggingService);
+        this.arousal = 0;
+        this.valence = 0;
+        this.selMoodName = this.moods.getMood(this.arousal, this.valence).name;
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.selMoodName = this.moods.getMood(this.arousal, this.valence).name;
     }
 
     public updateSlider(): void {
-        this.selArousal = this.moods.getAV(this.selMoodName).arousal;
-        this.selValence = this.moods.getAV(this.selMoodName).valence;
-        this.selMood.emit(this.moods.getAV(this.selMoodName));
+        this.arousal = this.moods.getAV(this.selMoodName).arousal;
+        this.valence = this.moods.getAV(this.selMoodName).valence;
+        this.valenceChange.emit(this.valence);
+        this.arousalChange.emit(this.arousal);
     }
 
-    public updateSelecter(): void {
-        this.selMoodName = this.moods.getMood(this.selArousal, this.selValence).name;
-        this.selMood.emit(this.moods.getMood(this.selArousal, this.selValence));
+    public updateSelector(): void {
+        this.selMoodName = this.moods.getMood(this.arousal, this.valence).name;
+        this.valenceChange.emit(this.valence);
+        this.arousalChange.emit(this.arousal);
     }
 }
 

@@ -25,8 +25,7 @@
   "PLAYER": {
     "TABS": {
       "PLAYER": "Your Radiostation",
-      "RADIOSTATION": "Create a Radiostation",
-      "STARTTRACK": "Choose a Startsong"
+      "RADIOSTATION": "Create a Radiostation"
     }
   },
   "TRACK_LIST": {
@@ -36,7 +35,6 @@
     "ALBUM": "Album",
     "DURATION": "Duration",
     "MOOD": "Mood",
-    "DYNAMICS": "Dynamics",
     "SPEED": "Speed",
     "PERIOD": "Period",
     "GENRE": "Genre"
@@ -50,7 +48,6 @@
     "NO_TRACK": "Please create a radiostation to listen to!",
     "REFRESH": "Refresh Tracklist",
     "GENRE": "Genre",
-    "DYNAMICS": "Dynamics",
     "TEMPO": "Tempo",
     "MOOD": "Mood"
   },
@@ -85,7 +82,6 @@
     "SPEED": "Select your radiostation's speed!",
     "STARTSPEED": "Minimum BPM",
     "ENDSPEED": "Maximum BPM",
-    "DYNAMIC": "How dynmaic should your radio be?",
     "SONG_CONTAINED": "This track is already selected!",
     "SONG_LIMIT": "You can choose a maximum of 10 songs!",
     "SONG_ADDED": "Added start song!"
