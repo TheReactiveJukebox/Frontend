@@ -65,7 +65,7 @@ export class TrackService {
 
     private getTracksFromCache(count: number, withCurrent: boolean): Observable<Track[]> {
         return Observable.create(observer => {
-            if (this.fetchedSongs.length - count < 5 && !this.isFetchingSongs) {
+            if (this.fetchedSongs.length - count < 10 && !this.isFetchingSongs) {
                 this.isFetchingSongs = true;
                 let countToFetch = count < Config.numberFetchedSongs ? Config.numberFetchedSongs : count;
                 let url = this.trackListUrl + '?count=' + countToFetch;
