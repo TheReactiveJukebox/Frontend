@@ -181,6 +181,10 @@ export class TrackService {
 
                 observer.next(rawTracks);
                 observer.complete();
+            }, error => {
+                    observer.error(error);
+                    observer.complete();
+                    this.loggingService.error(this, 'Failed to fill Meta-Data!', error);
             });
         });
     }
@@ -348,6 +352,10 @@ export class TrackService {
                     requestedArtists.push(this.artistCache.get(id));
                 }
                 observer.next(requestedArtists);
+                observer.complete();
+            }, error => {
+                this.loggingService.error(this, 'Failed to load Artists from Cache!', error);
+                observer.error(error);
                 observer.complete();
             });
         });

@@ -63,7 +63,7 @@ export class RadiostationService implements OnDestroy {
                     this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in startNewRadiostation!');
                     this.radiostationSubject.next(JSON.parse(error._body));
                     this.trackService.refreshCurrentAndUpcomingTracks();
-                    observer.next(error._body);
+                    observer.next(JSON.parse(error._body));
                     observer.complete();
                 } else {
                     this.loggingService.error(this, 'Creating new Radiostation failed!', error);
@@ -85,7 +85,7 @@ export class RadiostationService implements OnDestroy {
                     this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in updateRadiostation!!!');
                     this.radiostationSubject.next(JSON.parse(error._body));
                     this.refreshTrackList();
-                    observer.next(error._body);
+                    observer.next(JSON.parse(error._body));
                     observer.complete();
                 } else {
                     this.loggingService.error(this, 'Updating Radiostation failed!', error);
@@ -136,7 +136,7 @@ export class RadiostationService implements OnDestroy {
 
         radiostation.maxSpeed = radiostation.maxSpeed + increment > Config.speedUpperLimit ?
             Config.speedUpperLimit : radiostation.maxSpeed + increment;
-        this.updateRadiostation(radiostation);
+        this.updateRadiostation(radiostation).subscribe();
     }
 
     // TODO what should be done, if there is no current value?
@@ -150,7 +150,7 @@ export class RadiostationService implements OnDestroy {
 
         radiostation.maxSpeed = radiostation.maxSpeed - decrement < Config.speedLowerLimit ?
             Config.speedLowerLimit : radiostation.maxSpeed - decrement;
-        this.updateRadiostation(radiostation);
+        this.updateRadiostation(radiostation).subscribe();
     }
 
     public hasRadiostation(): boolean {
