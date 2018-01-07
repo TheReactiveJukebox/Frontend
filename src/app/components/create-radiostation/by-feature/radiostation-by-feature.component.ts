@@ -63,6 +63,8 @@ export class RadiostationByFeatureComponent {
                     // fetch information about the startTracks
                     this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
                         this.startTracks = tracks;
+                    }, error => {
+                        this.loggingService.error(this, 'Failed to loadTracksByIds for start Tracks!', error);
                     });
                 }
             }

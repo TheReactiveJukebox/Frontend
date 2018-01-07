@@ -91,6 +91,8 @@ export class TrackService {
                         this.isFetchingSongs = false;
                         observer.next(this.fetchedSongs.splice(0, count));
                         observer.complete();
+                    }, error => {
+                        observer.error(error);
                     });
                 }, error => {
                     if (error.status == 404) {
@@ -141,7 +143,12 @@ export class TrackService {
                 if (tracks.length > 0) {
                     observer.next(this.fillMusicData(tracks));
                     observer.complete();
+                } else {
+                    observer.next([]);
+                    observer.complete();
                 }
+            }, error => {
+                observer.error(error);
             });
         });
     }
@@ -226,6 +233,10 @@ export class TrackService {
             track.downloadSub = requestData[0].subscribe((data) => {
                 track.data = data;
                 track.readyToPlay.next(true);
+            }, error => {
+                track.readyToPlay.next(false);
+                track.readyToPlay.complete();
+                this.loggingService.error(this, 'Filed to load mp3 from server!', error);
             });
         }
         return tracks;
@@ -329,7 +340,13 @@ export class TrackService {
                 this.fillMetaData(rawTracks).subscribe((tracks: Track[]) => {
                     observer.next(tracks);
                     observer.complete();
+                }, error => {
+                    observer.error(error);
+                    this.loggingService.error(this, 'Failed to fillMetaData fpr loadTracksByIds!');
                 });
+            }, error => {
+                observer.error(error);
+                this.loggingService.error(this, 'Failed to call requestEntities in loadTracksByIds!');
             });
         });
     }
@@ -349,7 +366,12 @@ export class TrackService {
                 }
                 let requestedArtists: Artist[] = [];
                 for (let id of ids) {
-                    requestedArtists.push(this.artistCache.get(id));
+                    if (this.artistCache.get(id)) {
+                        requestedArtists.push(this.artistCache.get(id));
+                    } else {
+                        observer.error('Cache miss for artist with id ' + id + '! This should not happen!');
+                        this.loggingService.error(this, 'Cache miss for artist with id ' + id + '!');
+                    }
                 }
                 observer.next(requestedArtists);
                 observer.complete();
@@ -376,9 +398,18 @@ export class TrackService {
                 }
                 let requestedAlbums: Album[] = [];
                 for (let id of ids) {
-                    requestedAlbums.push(this.albumCache.get(id));
+                    if (this.albumCache.get(id)) {
+                        requestedAlbums.push(this.albumCache.get(id));
+                    } else {
+                        observer.error('Cache miss for album with id ' + id + '! This should not happen!');
+                        this.loggingService.error(this, 'Cache miss for album with id ' + id + '!');
+                    }
                 }
                 observer.next(requestedAlbums);
+                observer.complete();
+            }, error => {
+                this.loggingService.error(this, 'Failed to load Albums from Cache!', error);
+                observer.error(error);
                 observer.complete();
             });
         });

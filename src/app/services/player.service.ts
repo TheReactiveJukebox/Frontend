@@ -45,12 +45,10 @@ export class PlayerService implements OnDestroy {
             this.trackService.currentTrack.subscribe(
                 (currentTrack: Track) => {
                     this.currentTrack = currentTrack;
-
                     this.trackUpdated();
                 }
             )
-        )
-        ;
+        );
         this.trackService.refreshCurrentAndUpcomingTracks();
         this.isPlaying = false;
     }

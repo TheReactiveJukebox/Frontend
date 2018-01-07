@@ -102,7 +102,12 @@ export class FeedbackService {
                 for (let trackGenres of genres) {
                     let feedbackObjects: GenreFeedback[] = [];
                     for (let genre of trackGenres) {
-                        feedbackObjects.push(this.genreFeedbackCache.get(genre));
+                        if (this.genreFeedbackCache.get(genre)) {
+                            feedbackObjects.push(this.genreFeedbackCache.get(genre));
+                        } else {
+                            observer.error('Cache miss for genre ' + genre + '! This should not happen!');
+                            this.loggingService.error(this, 'Cache miss for genre ' + genre + '!');
+                        }
                     }
                     result.push(feedbackObjects);
                 }
@@ -123,6 +128,7 @@ export class FeedbackService {
                     observer.next(result);
                     observer.complete();
                 } else {
+                    this.loggingService.error(this, 'Failed to request Entities for fetchGenreFeedback!', error);
                     observer.error(error);
                 }
             });

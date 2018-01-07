@@ -136,7 +136,10 @@ export class RadiostationService implements OnDestroy {
 
         radiostation.maxSpeed = radiostation.maxSpeed + increment > Config.speedUpperLimit ?
             Config.speedUpperLimit : radiostation.maxSpeed + increment;
-        this.updateRadiostation(radiostation).subscribe();
+
+        this.updateRadiostation(radiostation).subscribe(null, error => {
+            this.loggingService.error(this, 'Failed to call updateRadiostation!');
+        });
     }
 
     // TODO what should be done, if there is no current value?
@@ -150,7 +153,9 @@ export class RadiostationService implements OnDestroy {
 
         radiostation.maxSpeed = radiostation.maxSpeed - decrement < Config.speedLowerLimit ?
             Config.speedLowerLimit : radiostation.maxSpeed - decrement;
-        this.updateRadiostation(radiostation).subscribe();
+        this.updateRadiostation(radiostation).subscribe(null, error => {
+            this.loggingService.error(this, 'Failed to call updateRadiostation!');
+        });
     }
 
     public hasRadiostation(): boolean {
@@ -166,7 +171,7 @@ export class RadiostationService implements OnDestroy {
     }
 
     public getAlgorithms(): Observable<string[]> {
-        return this.algorithms.asObservable();
+        return this.algorithms;
     }
 
     public refreshTrackList(): void {
