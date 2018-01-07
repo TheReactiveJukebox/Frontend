@@ -1,38 +1,46 @@
 <page-title>The Reactive Jukebox</page-title>
 <div id="main">
-    <p>Willkommen zur unserer Studie!</p>
-    <p>
-        An dieser Stelle schon mal ein Dankeschön dafür, das du dich für unsere Studie etwas Zeit nimmst. Keine Sorge, es dauert
-        nicht lange und du kannst dabei sogar deine Lieblingsmusik hören!
-    </p>
-    <p>
-        In unserer Studie wollen wir heraus finden, wie man Musik-Empfehlungen generieren kann. Dazu haben wir ein Feedback-System
-        entwickelt, das auf detailierte Kriterien reagieren kann. In dieser Studie möchten wir dich bitten, dieses System
-        einmal auszuprobieren und uns am Ende zu sagen, was du davon hälst.
-    </p>
-    <p>
-        Dazu erstellst du zunächst eine sog. Radiostation nach deinen persönlichen Präferenzen.
-        Es gibt eine Reihe von Optionen, die du bei der Erstellung angeben kannst.
-        <!-- TODO: Bild einfügen-->
-    </p>
-    <p>
-        Dann geht's auch schon los mit der Musik!
-        Die Radiostation startet mit ersten Vorschlägen.
-        Wenn dir ein Song gefällt kannst du angeben, was diesen Song für dich so gut macht.
-        Die Radiostation wird dann mehr Songs in dieser Art empfehlen.
-        Und wenn dir ein Song nicht gefällt: Kein Problem.
-        Lass es uns wissen, und deine Radiostation wird nicht mehr solche Lieder spielen.
-        <!-- TODO: Bild einfügen -->
-    </p>
-    <p>
-        Am Ende haben wir dann noch eine paar Fragen an dich.
-        Hier kannst du deine Meinung zu dem System abgeben, damit wir es verbessern können.
-    </p>
+    <div id="left-pane">
+        <h1>Hallo,</h1>
 
-    <button md-raised-button class="mat-accent" (click)="onStart.emit($event);">Los geht's!</button>
+        <p>
+            Willkommen zur Studie der Projektgruppe 607!
+            Danke für deine Teilnahme
+        </p>
+        <p>
+            In dieser Studie wollen wir herausfinden, wie sich Empfehlungen für Musik maschniell generieren lassen.
+            Speziell soll es um die Möglichkeit gehen, Feedback zu Musik geben zu können, die gerade abgespielt wird.
+            Dazu haben wir die Software "Reactive Jukebox" entwickelt, in der Songs abgespielt werden und
+            das Feedback des Benutzers entgegen genommen wird.
+        </p>
+        <p>
+            Wir möchten dich bitten, unsere Software auszuprobieren und uns anschließend deine Meinung dazu zu sagen.
+        </p>
+        <p>
+            Zunächst erstellst du eine Radiostation.
+            Das ist so etwas wie eine Playlist, die dynamisch auf dein Feedback reagiert und dir neue Songs vorschlägt.
+            Zu Beginn kannst du einstellen, welche Art von Songs du hören willst.
+            Du musst aber nicht zu jeder Option etwas einstellen.
+        </p>
+        <p>
+            Wenn du deine Radiostation erstellt hast, gelangst du zur Wiedergabe-Ansicht.
+            Die Radiostation beginnt mit einer Reihe von Songs, die zu deinen Einstellungen passen.
+            Nach und nach kommen immer mehr Songs hinzu.
+            Ein cooles Feature der Reactive Jukebox: Du kannst bei jedem Song genau angeben, warum dir dieser gefällt (oder nicht gefällt).
+            Dadurch passt sic die Radiostation immer mehr an deine Vorlieben an.
+        </p>
+        <p>
+            Nach 20 Songs wird ein Link angezeigt, der dich zu einem Fragebogen weiterleitet.
+            Hier kannst du deine Meinung zur "Reactive Jukebox" abgeben, damit wir sie verbessern können.
+            Dadurch ist deine Studienteilnahme abgeschlossen!
+        </p>
 
-</div>
-
-<div id="footer">
-    <a style="color: white; float: right" href="http://www.cs.tu-dortmund.de/nps/de/Home/_system/impressum.html" target="_blank">Impressum</a>
+        <button md-raised-button class="mat-accent" (click)="onStart.emit($event);">Los geht's!</button>
+        <a style="color: white; float: right" href="http://www.cs.tu-dortmund.de/nps/de/Home/_system/impressum.html"
+           target="_blank">Impressum</a>
+    </div>
+    <div id="right-pane">
+        <img src="/assets/img/screen_1.png" width="500px" alt="Radiostation erstellen">
+        <img src="/assets/img/screen_2.png" width="500px" style="margin-top: 80px;" alt="Wiedergabe-Ansicht">
+    </div>
 </div>

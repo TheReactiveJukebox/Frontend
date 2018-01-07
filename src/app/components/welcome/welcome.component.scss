@@ -11,8 +11,19 @@
 
 #main {
   margin: auto;
+  max-width: 1050px;
+}
+
+#left-pane {
   max-width: 500px;
   padding: 10px;
+  float: left;
+}
+
+#right-pane {
+  max-width: 500px;
+  padding: 10px;
+  float: right;
 }
 
 #start_button {
