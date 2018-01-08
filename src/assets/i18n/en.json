@@ -88,8 +88,8 @@
   },
 
   "MOOD_SELECTOR": {
-    "AROUSAL": "How active or aroused should the it be?",
-    "VALENCE": "How pleasant should the music be?",
+    "AROUSAL": "How active or aroused should the music be?",
+    "VALENCE": "How positive or negative should the music be?",
     "MOOD_TAG": "Your selected mood is:"
   },
 

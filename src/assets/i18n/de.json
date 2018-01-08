@@ -89,7 +89,7 @@
 
   "MOOD_SELECTOR": {
     "AROUSAL": "Wie anregend soll die Musik sein?",
-    "VALENCE": "Welche Grundstimmung soll die Musik haben?",
+    "VALENCE": "Wie positiv oder negativ soll die Musik sein?",
     "MOOD_TAG": "Deine ausgewählte Stimmung:"
   },
 
