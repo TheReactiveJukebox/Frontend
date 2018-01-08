@@ -61,7 +61,7 @@ export class SearchService {
         if (term.length < SearchService.MIN_QUERY_LENGTH) {
             count = 'xxtzt?count=0';
         }
-        const url = Config.serverUrl + endpoint + term + count;
+        const url = Config.serverUrl + endpoint + encodeURIComponent(term) + count;
         return this.authHttp.get(url);
     }
 }

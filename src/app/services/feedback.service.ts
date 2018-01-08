@@ -145,7 +145,7 @@ export class FeedbackService {
         if (ids.length > 0) {
             let reqUrl = url + '?';
             for (let id of ids) {
-                reqUrl += 'id=' + id + '&';
+                reqUrl += 'id=' + encodeURIComponent(id) + '&';
             }
             reqUrl = reqUrl.substring(0, reqUrl.length - 1);
             return this.authHttp.get(reqUrl);
