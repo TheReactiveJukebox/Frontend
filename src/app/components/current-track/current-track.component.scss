@@ -69,6 +69,11 @@ h2 {
           &.right {
             align-items: flex-start;
             margin-left: 100px;
+
+            .genre-label-container {
+              height: 24px;
+              margin: 5px 0px;
+            }
           }
         }
       }
