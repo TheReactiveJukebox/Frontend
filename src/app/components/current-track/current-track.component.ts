@@ -6,6 +6,7 @@ import {TrackService} from '../../services/track.service';
 import {Config} from '../../config';
 import {GenreFeedback} from '../../models/genre-feedback';
 import {Utils} from '../../utils';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'current-track',
@@ -28,6 +29,7 @@ export class CurrentTrackComponent implements OnInit {
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
+                private loggingService: LoggingService,
                 public historyService: HistoryService) {
     }
 
@@ -54,11 +56,19 @@ export class CurrentTrackComponent implements OnInit {
     }
 
     public onGenreFeedbackChanged(genre: GenreFeedback): void {
-        this.feedbackService.postGenreFeedback(genre);
+        this.feedbackService.postGenreFeedback(genre).subscribe(() => {
+            this.trackService.refreshUpcomingTracks();
+        }, error => {
+            this.loggingService.error(this, 'Post genre feedback failed. Cant fetch new songs!');
+        });
     }
 
     public onArtistFeedbackChanged(): void {
-        this.feedbackService.postArtistFeedback(this.currentTrack);
+        this.feedbackService.postArtistFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.refreshUpcomingTracks();
+        }, error => {
+            this.loggingService.error(this, 'Post artist feedback failed. Cant fetch new songs!');
+        });
     }
 
     public onAlbumFeedbackChanged(): void {

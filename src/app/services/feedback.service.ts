@@ -43,28 +43,41 @@ export class FeedbackService {
         });
     }
 
-    public postArtistFeedback(track: Track): void {
-        this.authHttp.post(this.artistFeedbackUrl, track.artist.feedback).subscribe((data: ArtistFeedback) => {
-            track.artist.feedback = data;
-        }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postArtistFeedback!');
-                track.artist.feedback = JSON.parse(error._body);
-            } else {
-                this.loggingService.error(this, 'Sending artist feedback failed!', error);
-            }
+    public postArtistFeedback(track: Track): Observable<any> {
+        return Observable.create(observer => {
+            this.authHttp.post(this.artistFeedbackUrl, track.artist.feedback).subscribe((data: ArtistFeedback) => {
+                track.artist.feedback = data;
+                observer.next();
+                observer.complete();
+            }, (error) => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postArtistFeedback!');
+                    track.artist.feedback = JSON.parse(error._body);
+                    observer.next();
+                    observer.complete();
+                } else {
+                    this.loggingService.error(this, 'Sending artist feedback failed!', error);
+                    observer.error(error);
+                }
+            });
         });
     }
 
-    public postGenreFeedback(genre: GenreFeedback): void {
-        this.authHttp.post(this.genreFeedbackUrl, genre).subscribe((data: GenreFeedback) => {
-
-        }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postGenreFeedback!');
-            } else {
-                this.loggingService.error(this, 'Sending genre feedback failed!', error);
-            }
+    public postGenreFeedback(genre: GenreFeedback): Observable<any> {
+        return Observable.create(observer => {
+            this.authHttp.post(this.genreFeedbackUrl, genre).subscribe((data: GenreFeedback) => {
+                observer.next();
+                observer.complete();
+            }, (error) => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postGenreFeedback!');
+                    observer.next();
+                    observer.complete();
+                } else {
+                    this.loggingService.error(this, 'Sending genre feedback failed!', error);
+                    observer.error(error);
+                }
+            });
         });
     }
 
