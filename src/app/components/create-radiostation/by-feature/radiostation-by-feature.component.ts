@@ -39,6 +39,8 @@ export class RadiostationByFeatureComponent {
     public yearLowerLimit: number;
     public yearUpperLimit: number = Config.yearUpperLimit;
 
+    public study: boolean = Config.study;
+
     private genreApiUrl: string = Config.serverUrl + '/api/genre';  // URL to web api
     private trackParameterApiUrl: string = Config.serverUrl + '/api/track/parameter';
 
@@ -100,7 +102,11 @@ export class RadiostationByFeatureComponent {
     //resets the gui
     public resetRadiostation(): void {
         this.radiostation = new Radiostation();
-        this.radiostation.algorithm = 'RANDOM';
+        if (this.study) {
+            this.radiostation.algorithm = 'RANDOM';
+        } else {
+            this.radiostation.algorithm = 'HYBRID';
+        }
     }
 
 

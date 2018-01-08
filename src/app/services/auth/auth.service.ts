@@ -19,8 +19,12 @@ export class AuthService {
     // contains true, if user is logged in, otherwise it contains false
     private loggedIn: BehaviorSubject<any>;
 
+    // this is needed for study-mode. in other cases we don't need a username
+    private authorizedUserName: BehaviorSubject<string>;
+
     constructor(private http: Http, private cookieService: CookieService) {
         this.loggedIn = new BehaviorSubject(false);
+        this.authorizedUserName = new BehaviorSubject(null);
     }
 
     // returns user's loggedin status as Observable
@@ -36,9 +40,11 @@ export class AuthService {
     //performs an autologin with stored session-cookie.
     public performAutoLogin(): Observable<any> {
         return new Observable(observer => {
-            this.token = this.cookieService.get('rjb-sessionToken');
-            if (this.token) { // check if there is any token to send to the server, otherwise abort the autologin
-                this.loginWithToken(this.token).subscribe(result => {
+            let data: string = this.cookieService.get('rjb-sessionToken');
+            if (data) { // check if there is any token to send to the server, otherwise abort the autologin
+                let parts: string[] = data.split(',');
+                this.token = parts[0];
+                this.loginWithToken(this.token, parts[1]).subscribe(result => {
                     observer.next(result);
                     observer.complete();
                 }, error => {
@@ -53,7 +59,7 @@ export class AuthService {
     }
 
     // Send the token to the server to check, if it is valid
-    private loginWithToken (token: String): Observable<any> {
+    private loginWithToken (token: String, name: string): Observable<any> {
         let basicOptions: RequestOptionsArgs = {
             url: Config.serverUrl + '/api/user/autologin',
             method: RequestMethod.Post,
@@ -68,7 +74,7 @@ export class AuthService {
         return this.http.request(req, reqOptions).
         map((res: Response) =>  res.json()).
         map((result: any) => {
-            this.authorize(result);
+            this.authorize(result, name);
             return result;
         });
     }
@@ -89,7 +95,7 @@ export class AuthService {
         return this.http.request(req, reqOptions).
             map((res: Response) => res.json()).
             map((token: any) => {
-                this.authorize(token);
+                this.authorize(token, userData.username);
                 return token;
         });
     }
@@ -132,21 +138,26 @@ export class AuthService {
         return this.http.request(req, reqOptions).
         map((res: Response) =>  res.json()).
         map((token: any) => {
-          this.authorize(token);
+          this.authorize(token, userData.username);
           return token;
         });
     }
 
     // store the token in app and store it as cookie
-    public authorize(tokenObject: any): void {
+    public authorize(tokenObject: any, name: string): void {
         this.token = tokenObject.token;
+        this.authorizedUserName.next(name);
         this.loggedIn.next(true);
-        this.cookieService.put('rjb-sessionToken', this.token);
+        this.cookieService.put('rjb-sessionToken', [this.token, name].toString());
     }
 
     // returns user's current session token.
     public getToken(): string {
         return this.token;
+    }
+
+    public getUsername(): string {
+        return this.authorizedUserName.getValue();
     }
 
 }

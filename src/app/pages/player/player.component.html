@@ -16,6 +16,15 @@
                 <track-list></track-list>
             </div>
         </md-tab>
+
+        <!-- This is a special tab for study-mode-->
+        <md-tab *ngIf="study">
+            <ng-template md-tab-label>
+                <md-icon [mdTooltip]="'Hilfe'" class="tab-icons">info</md-icon>
+            </ng-template>
+            <welcome (onStart)="switchToCreate()"></welcome>
+        </md-tab>
+
     </md-tab-group>
     <player-control-bar *ngIf="trackService.currentTrack.getValue()"></player-control-bar>
     <div class="header-button-container">
@@ -23,5 +32,8 @@
             <md-icon>exit_to_app</md-icon>
         </a>
         <speech-search-field class="header-button" [minimal]="true"></speech-search-field>
+        <a *ngIf="this.surveyService.canOpenSurvey()" md-icon-button class="header-button" (click)="this.surveyService.openSurvey()">
+            <md-icon>comment</md-icon>
+        </a>
     </div>
 </md-card>
