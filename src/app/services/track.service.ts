@@ -160,6 +160,9 @@ export class TrackService {
                 if (rawTrack.arousal && rawTrack.valence) {
                     rawTrack.mood = this.moods.getMood(rawTrack.arousal, rawTrack.valence);
                 }
+                if (Config.study) {
+                    rawTrack.duration = 30;
+                }
                 genres.push(rawTrack.genres);
             }
             // get missing artists and albums from server

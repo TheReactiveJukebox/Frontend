@@ -56,11 +56,13 @@ import {RadiostationService} from './services/radiostation.service';
 import {SpeechService} from './services/speech.service';
 import {TrackService} from './services/track.service';
 import {RangeSelectorComponent} from './components/range-selector/range-selector.component';
+import {WelcomeComponent} from './components/welcome/welcome.component';
+import {SurveyService} from './services/survey.service';
+import {OpenSurveyComponent} from './components/dialogs/open-survey/open-survey.component';
 import {TileComponent} from './components/create-radiostation/by-feature/tile/tile.component';
 import {StartTrackComponent} from './components/create-radiostation/by-feature/start-track/start-track.component';
 import {GlobalErrorHandler} from './services/global-error-handler';
 import {LoggingService} from './services/logging.service';
-
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -84,6 +86,8 @@ import {LoggingService} from './services/logging.service';
         LikeComponent,
         MoodSelectorComponent,
         RangeSelectorComponent,
+        WelcomeComponent,
+        OpenSurveyComponent,
         TileComponent,
         StartTrackComponent
     ],
@@ -108,6 +112,7 @@ import {LoggingService} from './services/logging.service';
         })
     ],
     entryComponents: [
+        OpenSurveyComponent,
         SimpleSearchComponent
     ],
     /**
@@ -126,6 +131,7 @@ import {LoggingService} from './services/logging.service';
         PlayerService,
         HistoryService,
         IndirectFeedbackService,
+        SurveyService,
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler

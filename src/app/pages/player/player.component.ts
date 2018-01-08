@@ -7,6 +7,8 @@ import {PlayerService} from '../../services/player.service';
 import {TrackService} from '../../services/track.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {Radiostation} from '../../models/radiostation';
+import {Config} from '../../config';
+import {SurveyService} from '../../services/survey.service';
 
 
 @Component({
@@ -22,10 +24,13 @@ export class PlayerComponent implements OnInit {
 
     public showPlayerBar: boolean = false;
 
+    public study: boolean = Config.study;
+
     constructor(public authService: AuthService,
                 public trackService: TrackService,
                 public radiostationService: RadiostationService,
                 private mdIconRegistry: MdIconRegistry,
+                public surveyService: SurveyService,
                 private sanitizer: DomSanitizer) {
         this.trackService.currentTrack.subscribe((track: Track) => {
             if (track) {
@@ -35,7 +40,7 @@ export class PlayerComponent implements OnInit {
             }
         });
         this.radiostationService.getRadiostationSubject().subscribe((radio: Radiostation) => {
-            if (radio != null) {
+            if (radio != null && !this.study) {
                 this.switchToPlayer();
             }
         });
@@ -43,9 +48,9 @@ export class PlayerComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-
-
-        this.tabs.selectedIndex = 0;
+        if (this.study) {
+            this.tabs.selectedIndex = 2;
+        }
 
         this.mdIconRegistry.addSvgIconInNamespace('img', 'sprites',
             this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/img/sprites.svg'));
@@ -55,6 +60,10 @@ export class PlayerComponent implements OnInit {
         if (this.tabs) {
             this.tabs.selectedIndex = 1;
         }
+    }
+
+    public switchToCreate(): void {
+        this.tabs.selectedIndex = 0;
     }
 
     public getOffsetHeight(): number {
