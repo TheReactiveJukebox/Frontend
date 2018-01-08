@@ -73,11 +73,11 @@
     </div>
 
     <div id="bottom-bar">
-        <button md-raised-button class="mat-accent" (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}
+        <button md-raised-button class="mat-accent" (click)="resetRadiostation()">{{'RADIOSTATION_CREATE.RESET' | translate}}
         </button>
-        <button *ngIf="trackService.hasNextTracks()" md-raised-button class="mat-accent" (click)="update()">{{'RADIOSTATION_CREATE.UPDATE' | translate}}
+        <button md-raised-button class="mat-accent right" (click)="start()">{{'RADIOSTATION_CREATE.START' | translate}}
         </button>
-        <button md-raised-button id="reset" class="mat-accent" (click)="resetRadiostation()">{{'RADIOSTATION_CREATE.RESET' | translate}}
+        <button *ngIf="trackService.hasNextTracks()" md-raised-button class="mat-accent right" (click)="update()">{{'RADIOSTATION_CREATE.UPDATE' | translate}}
         </button>
     </div>
 </div>
