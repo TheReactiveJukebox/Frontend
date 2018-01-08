@@ -4,7 +4,9 @@
     "SAGH": "Größte Hits des gleichen Künstlers",
     "SPOTIFY": "Spotify-Empfehlungssystem",
     "MOOD": "Ähnliche Stimmung",
-    "SPEED": "Ähnliches Tempo"
+    "SPEED": "Ähnliches Tempo",
+    "HYBRID": "Hybrid",
+    "FEATURES": "Merkmalsalgorithmus"
   },
   "GENERAL": {
     "INVITE_KEY": "Einladungsschlüssel",

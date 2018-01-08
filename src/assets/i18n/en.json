@@ -4,7 +4,9 @@
     "SAGH": "Same Artist Greatest Hits",
     "SPOTIFY": "Spotify",
     "MOOD": "Similar Mood",
-    "SPEED": "Similar Tempo"
+    "SPEED": "Similar Tempo",
+    "HYBRID": "Hybrid",
+    "FEATURES": "Features"
   },
   "GENERAL": {
     "INVITE_KEY": "Invite Key",
