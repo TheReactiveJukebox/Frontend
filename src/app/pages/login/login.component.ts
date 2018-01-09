@@ -9,6 +9,10 @@ import {HistoryService} from '../../services/history.service';
 import {FeedbackService} from '../../services/feedback.service';
 import {LoggingService} from '../../services/logging.service';
 
+declare var safari;
+declare var window;
+declare var document;
+
 @Component({
     selector: 'about',
     templateUrl: './login.component.html',
@@ -27,6 +31,8 @@ export class LoginComponent {
         }
     }
 
+    public isNiceBrowser: boolean = true;
+
     @ViewChild('tabGroup') private tabGroup: MdTabGroup;
 
     public loginData: {username?: string, password?: string} = {};
@@ -39,7 +45,9 @@ export class LoginComponent {
                 private loggingService: LoggingService,
                 private historyService: HistoryService,
                 private trackService: TrackService,
-                private router: Router) {}
+                private router: Router) {
+        this.isNiceBrowser = this.getBrowserInfo();
+    }
 
     public login(): void {
         this.authService.login(this.loginData).subscribe(() => {
@@ -75,6 +83,21 @@ export class LoginComponent {
                 this.loggingService.error(this, 'Register failed!', error);
             }
         });
+    }
+
+    private getBrowserInfo(): boolean {
+        // Safari 3.0+ "[object HTMLElementConstructor]"
+        let isSafari = /constructor/i.test(window.HTMLElement) ||
+            (function (p: any): any { return p.toString() === '[object SafariRemoteNotification]'; })(!window['safari'] ||
+                (typeof safari !== 'undefined' && safari.pushNotification));
+
+        // Internet Explorer 6-11
+        let isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+        // Edge 20+
+        let isEdge = !isIE && !!window.StyleMedia;
+
+        return !(isSafari || isIE || isEdge);
     }
 
 }

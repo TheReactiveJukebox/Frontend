@@ -22,7 +22,8 @@
       "GENERAL_REGISTER": "Register failed. Please try again!",
       "GENERAL_LOGIN": "Login failed. Please try again!",
       "WRONG_PW_OR_USER": "Login failed! Username or password are incorrect!"
-    }
+    },
+    "BROWSER": "Your browser is not supported! Please use Google Chrome or Mozilla Firefox!"
   },
   "PLAYER": {
     "TABS": {

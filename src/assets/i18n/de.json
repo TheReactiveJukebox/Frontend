@@ -22,7 +22,8 @@
       "GENERAL_REGISTER": "Registrierung fehlgeschlagen. Versuche es erneut!",
       "GENERAL_LOGIN": "Login fehlgeschlagen. Versuche es erneut!",
       "WRONG_PW_OR_USER": "Login fehlgeschlagen! Benutzername oder Passwort ist falsch!"
-    }
+    },
+    "BROWSER": "Dein Browser wird leider nicht unterstützt. Bitte verwende Google Chrome oder Mozilla Firefox!"
   },
   "PLAYER": {
     "TABS": {
