@@ -32,10 +32,8 @@ export class LoggingService {
         message = prefix + message;
         if (object) {
             console.warn(message, object);
-            this.screamForHelp(message, object);
         } else {
             console.warn(message);
-            this.screamForHelp(message);
         }
     }
 
@@ -84,7 +82,11 @@ export class LoggingService {
                 this.authHttp.post(this.loggingApiUrl, backendPayload).subscribe(() => {
 
                 }, error => {
-                    console.error('[LoggingService] Cant scream for help at backend. A bad disaster must have happened!', error);
+                    if (error.status == 500 && error.statusText == 'OK') {
+
+                    } else {
+                        console.error('[LoggingService] Cant scream for help at backend. A bad disaster must have happened!', error);
+                    }
                 });
             }
         }

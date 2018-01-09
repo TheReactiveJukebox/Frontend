@@ -68,25 +68,16 @@ export class SimpleSearchComponent {
         this.searchTerm = '';
         this.searchService.trackSearch(this.searchTrack$)
             .subscribe(results => {
-                if (Object.keys(results).length > 0) {
-                    results = results.slice(0, Config.trackSearchResultLimit);
-                    this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
-                        this.trackResult = filledTracks;
-                        this.trackResultCount = Object.keys(filledTracks).length;
-                    }, error => {
-                        // We don't need to handle the error-object. This is done in fillMetaData method!
-                        this.loggingService.log(this, 'Failed to fill searchTracks with Meta-Data!');
-                        this.trackResult = [];
-                        this.trackResultCount = 0;
-                    });
+                this.handleSearchedSongs(results);
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in trackSearch!');
+                    this.handleSearchedSongs(JSON.parse(error._body));
                 } else {
-                    this.trackResult = results;
+                    this.loggingService.error(this, 'Failed to subscribe to trackSearch!', error);
+                    this.trackResult = [];
                     this.trackResultCount = 0;
                 }
-            }, error => {
-                this.loggingService.error(this, 'Failed to subscribe to trackSearch!', error);
-                this.trackResult = [];
-                this.trackResultCount = 0;
             });
 
         this.searchService.artistSearch(this.searchArtist$)
@@ -94,99 +85,62 @@ export class SimpleSearchComponent {
                 this.artistResult = results;
                 this.artistResultCount = Object.keys(results).length;
             }, error => {
-                this.loggingService.error(this, 'Failed to subscribe to artistSearch!', error);
-                this.artistResult = [];
-                this.artistResultCount = 0;
+                if (error.status == 500 && error.statusText == 'OK') {
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in artistSearch!');
+                    this.artistResult = JSON.parse(error._body);
+                    this.artistResultCount = Object.keys(this.artistResult).length;
+                } else {
+                    this.loggingService.error(this, 'Failed to subscribe to artistSearch!', error);
+                    this.artistResult = [];
+                    this.artistResultCount = 0;
+                }
             });
 
         this.searchService.albumSearch(this.searchAlbum$)
             .subscribe(results => {
-                if (Object.keys(results).length > 0) {
-                    results = results.slice(0, Config.albumSearchResultLimit);
-                    let artistIds: number[] = [];
-                    for (let album of results) {
-                        artistIds.push(album.artist);
-                    }
-                    this.trackService.getArtistsByIdsFromCache(artistIds).subscribe((artists: Artist[]) => {
-                        for (let i = 0; i < results.length; i++) {
-                            results[i].artist = artists[i];
-                        }
-                        this.albumResult = results;
-                        this.albumResultCount = Object.keys(results).length;
-                    }, error => {
-                        // We don't need to handle the error-object. This is done in getArtistsByIdsFromCache method!
-                        this.loggingService.log(this, 'Failed to fill Artists into searchAlbums!');
-                        this.albumResult = [];
-                        this.albumResultCount = 0;
-                    });
+                this.handleSearchedAlbums(results);
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in albumSearch!');
+                    this.handleSearchedAlbums(JSON.parse(error._body));
                 } else {
-                    this.albumResult = results;
+                    this.loggingService.error(this, 'Failed to subscribe to albumSearch!', error);
+                    this.albumResult = [];
                     this.albumResultCount = 0;
                 }
-            }, error => {
-                this.loggingService.error(this, 'Failed to subscribe to albumSearch!', error);
-                this.albumResult = [];
-                this.albumResultCount = 0;
             });
 
         //Gets songs for an artist
         this.searchService.getArtistSongs(this.getArtistSongs$)
             .subscribe(results => {
-                if (Object.keys(results).length > 0) {
-                    results = results.slice(0, Config.trackSearchResultLimit);
-                    this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
-                        this.trackResult = filledTracks;
-                        this.trackResultCount = Object.keys(filledTracks).length;
-                        this.artistResultCount = 0;
-                        this.albumResultCount = 0;
-                    }, error => {
-                        // We don't need to handle the error-object. This is done in fillMetaData method!
-                        this.loggingService.log(this, 'Failed to fill ArtistSongs with Meta-Data!');
-                        this.trackResult = [];
-                        this.trackResultCount = 0;
-                        this.artistResultCount = 0;
-                        this.albumResultCount = 0;
-                    });
+                this.handleSearchedArtistSongs(results);
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in getArtistSongs!');
+                    this.handleSearchedArtistSongs(JSON.parse(error._body));
                 } else {
-                    this.trackResult = results;
+                    this.loggingService.error(this, 'Failed to subscribe to artistSongSearch!', error);
+                    this.trackResult = [];
                     this.trackResultCount = 0;
                     this.artistResultCount = 0;
                     this.albumResultCount = 0;
                 }
-            }, error => {
-                this.loggingService.error(this, 'Failed to subscribe to artistSongSearch!', error);
-                this.trackResult = [];
-                this.trackResultCount = 0;
-                this.artistResultCount = 0;
-                this.albumResultCount = 0;
             });
 
         this.searchService.getAlbumSongs(this.getAlbumSongs$)
             .subscribe(results => {
-                if (Object.keys(results).length > 0) {
-                    this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
-                        this.trackResult = filledTracks;
-                        this.trackResultCount = Object.keys(filledTracks).length;
-                        this.artistResultCount = 0;
-                        this.albumResultCount = 0;
-                    }, error => {
-                        // We don't need to handle the error-object. This is done in fillMetaData method!
-                        this.loggingService.log(this, 'Failed to fill AlbumSongs with Meta-Data!');
-                        this.trackResult = [];
-                        this.trackResultCount = 0;
-                        this.artistResultCount = 0;
-                        this.albumResultCount = 0;
-                    });
-                } else {
-                    this.trackResult = results;
-                    this.trackResultCount = 0;
-                }
+                this.handleSearchedAlbumSongs(results);
             }, error => {
-                this.loggingService.error(this, 'Failed to subscribe to albumSongSearch!', error);
-                this.trackResult = [];
-                this.trackResultCount = 0;
-                this.artistResultCount = 0;
-                this.albumResultCount = 0;
+                if (error.status == 500 && error.statusText == 'OK') {
+                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in getAlbumSongs!');
+                    this.handleSearchedAlbumSongs(JSON.parse(error._body));
+                } else {
+                    this.loggingService.error(this, 'Failed to subscribe to albumSongSearch!', error);
+                    this.trackResult = [];
+                    this.trackResultCount = 0;
+                    this.artistResultCount = 0;
+                    this.albumResultCount = 0;
+                }
             });
     }
 
@@ -224,4 +178,93 @@ export class SimpleSearchComponent {
     public hasResults(): boolean {
         return (this.trackResultCount + this.albumResultCount + this.artistResultCount) > 0;
     }
+
+    public handleSearchedSongs(results: any[]): void {
+        if (Object.keys(results).length > 0) {
+            results = results.slice(0, Config.trackSearchResultLimit);
+            this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
+                this.trackResult = filledTracks;
+                this.trackResultCount = Object.keys(filledTracks).length;
+            }, error => {
+                // We don't need to handle the error-object. This is done in fillMetaData method!
+                this.loggingService.log(this, 'Failed to fill searchTracks with Meta-Data!');
+                this.trackResult = [];
+                this.trackResultCount = 0;
+            });
+        } else {
+            this.trackResult = results;
+            this.trackResultCount = 0;
+        }
+    }
+
+    public handleSearchedAlbums(results: any[]): void {
+        if (Object.keys(results).length > 0) {
+            results = results.slice(0, Config.albumSearchResultLimit);
+            let artistIds: number[] = [];
+            for (let album of results) {
+                artistIds.push(album.artist);
+            }
+            this.trackService.getArtistsByIdsFromCache(artistIds).subscribe((artists: Artist[]) => {
+                for (let i = 0; i < results.length; i++) {
+                    results[i].artist = artists[i];
+                }
+                this.albumResult = results;
+                this.albumResultCount = Object.keys(results).length;
+            }, error => {
+                // We don't need to handle the error-object. This is done in getArtistsByIdsFromCache method!
+                this.loggingService.log(this, 'Failed to fill Artists into searchAlbums!');
+                this.albumResult = [];
+                this.albumResultCount = 0;
+            });
+        } else {
+            this.albumResult = results;
+            this.albumResultCount = 0;
+        }
+    }
+
+    public handleSearchedArtistSongs(results: any[]): void {
+        if (Object.keys(results).length > 0) {
+            results = results.slice(0, Config.trackSearchResultLimit);
+            this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
+                this.trackResult = filledTracks;
+                this.trackResultCount = Object.keys(filledTracks).length;
+                this.artistResultCount = 0;
+                this.albumResultCount = 0;
+            }, error => {
+                // We don't need to handle the error-object. This is done in fillMetaData method!
+                this.loggingService.log(this, 'Failed to fill ArtistSongs with Meta-Data!');
+                this.trackResult = [];
+                this.trackResultCount = 0;
+                this.artistResultCount = 0;
+                this.albumResultCount = 0;
+            });
+        } else {
+            this.trackResult = results;
+            this.trackResultCount = 0;
+            this.artistResultCount = 0;
+            this.albumResultCount = 0;
+        }
+    }
+
+    public handleSearchedAlbumSongs(results: any[]): void {
+        if (Object.keys(results).length > 0) {
+            this.trackService.fillMetaData(results).subscribe((filledTracks: Track[]) => {
+                this.trackResult = filledTracks;
+                this.trackResultCount = Object.keys(filledTracks).length;
+                this.artistResultCount = 0;
+                this.albumResultCount = 0;
+            }, error => {
+                // We don't need to handle the error-object. This is done in fillMetaData method!
+                this.loggingService.log(this, 'Failed to fill AlbumSongs with Meta-Data!');
+                this.trackResult = [];
+                this.trackResultCount = 0;
+                this.artistResultCount = 0;
+                this.albumResultCount = 0;
+            });
+        } else {
+            this.trackResult = results;
+            this.trackResultCount = 0;
+        }
+    }
+
 }
