@@ -55,8 +55,25 @@ export class AuthHttp {
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
 
-        return this.request(req, reqOptions).
-        map((res: Response) => res.json());
+        return Observable.create((observer: Observer<any>) => {
+            this.request(req, reqOptions).subscribe((res: Response) => {
+                observer.next(res.json());
+                observer.complete();
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    try {
+                        let object = JSON.parse(error._body);
+                        console.warn('[AuthHttp] UGLY CATCH OF 500 ERROR in get!');
+                        observer.next(object);
+                        observer.complete();
+                    } catch (e) {
+                        observer.error(error);
+                    }
+                } else {
+                    observer.error(error);
+                }
+            });
+        });
     }
 
     /**
@@ -76,8 +93,25 @@ export class AuthHttp {
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
 
-        return this.request(req, reqOptions).
-        map((res: Response) => res.json());
+        return Observable.create((observer: Observer<any>) => {
+            this.request(req, reqOptions).subscribe((res: Response) => {
+                observer.next(res.json());
+                observer.complete();
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    try {
+                        let object = JSON.parse(error._body);
+                        console.warn('[AuthHttp] UGLY CATCH OF 500 ERROR in post!');
+                        observer.next(object);
+                        observer.complete();
+                    } catch (e) {
+                        observer.error(error);
+                    }
+                } else {
+                    observer.error(error);
+                }
+            });
+        });
     }
 
     /**
@@ -97,8 +131,25 @@ export class AuthHttp {
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
 
-        return this.request(req, reqOptions).
-        map((res: Response) => res.json());
+        return Observable.create((observer: Observer<any>) => {
+            this.request(req, reqOptions).subscribe((res: Response) => {
+                observer.next(res.json());
+                observer.complete();
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    try {
+                        let object = JSON.parse(error._body);
+                        console.warn('[AuthHttp] UGLY CATCH OF 500 ERROR in put!');
+                        observer.next(object);
+                        observer.complete();
+                    } catch (e) {
+                        observer.error(error);
+                    }
+                } else {
+                    observer.error(error);
+                }
+            });
+        });
     }
 
     /**
