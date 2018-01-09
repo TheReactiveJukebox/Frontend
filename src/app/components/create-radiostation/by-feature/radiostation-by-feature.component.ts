@@ -102,11 +102,7 @@ export class RadiostationByFeatureComponent {
     //resets the gui
     public resetRadiostation(): void {
         this.radiostation = new Radiostation();
-        if (this.study) {
-            this.radiostation.algorithm = 'RANDOM';
-        } else {
-            this.radiostation.algorithm = 'HYBRID';
-        }
+        this.radiostation.algorithm = 'HYBRID';
     }
 
 
