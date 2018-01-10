@@ -50,9 +50,16 @@ export class CurrentTrackComponent implements OnInit {
         return Utils.round(value, digits);
     }
 
-    // TODO add timer to avoid multiple calls
     public onTrackFeedbackChanged(): void {
         this.feedbackService.postTrackFeedback(this.currentTrack);
+    }
+
+    public onSpeedFeedbackChanged(): void {
+        this.feedbackService.postSpeedFeedback(this.currentTrack);
+    }
+
+    public onMoodFeedbackChanged(): void {
+        this.feedbackService.postMoodFeedback(this.currentTrack);
     }
 
     public onGenreFeedbackChanged(genre: GenreFeedback): void {

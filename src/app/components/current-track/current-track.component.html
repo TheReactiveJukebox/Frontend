@@ -32,14 +32,14 @@
                         </a>
                     </div>
                     <div *ngIf="currentTrack.speed" class="detail-element">
-                        <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.feedback.speedFeedback"></like>
+                        <like (click)="onSpeedFeedbackChanged()"
+                              [(value)]="currentTrack.speedFeedback.feedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.TEMPO' | translate}}: </a>
                         <a class="track-info">{{round(currentTrack.speed) + ' BPM'}}</a>
                     </div>
                     <div *ngIf="currentTrack.mood" class="detail-element">
-                        <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.feedback.moodFeedback"></like>
+                        <like (click)="onMoodFeedbackChanged()"
+                              [(value)]="currentTrack.moodFeedback.feedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.MOOD' | translate}}: </a>
                         <a class="track-info">{{capitalize('MOODS.'+ currentTrack.mood.name.toUpperCase() | translate)}}</a>
                     </div>

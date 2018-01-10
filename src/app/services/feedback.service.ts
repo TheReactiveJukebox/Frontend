@@ -57,40 +57,39 @@ export class FeedbackService {
 
     public postTrackFeedback(track: Track): void {
         this.authHttp.post(this.feedbackUrl, track.feedback).subscribe((data: TrackFeedback) => {
-            track.feedback = data;
+
         }, (error) => {
             this.loggingService.error(this, 'Sending track feedback failed!', error);
         });
     }
 
-    public postArtistFeedback(track: Track): Observable<any> {
-        return Observable.create(observer => {
-            this.authHttp.post(this.artistFeedbackUrl, track.artist.feedback).subscribe((data: ArtistFeedback) => {
-                track.artist.feedback = data;
-                observer.next();
-                observer.complete();
-            }, (error) => {
-                this.loggingService.error(this, 'Sending artist feedback failed!', error);
-                observer.error(error);
-            });
+    public postSpeedFeedback(track: Track): void {
+        this.authHttp.post(this.speedFeedbackUrl, track.speedFeedback).subscribe((data: SpeedFeedback) => {
+
+        }, (error) => {
+            this.loggingService.error(this, 'Sending speed feedback failed!', error);
         });
     }
 
-    public postGenreFeedback(genre: GenreFeedback): Observable<any> {
-        return Observable.create(observer => {
-            this.authHttp.post(this.genreFeedbackUrl, genre).subscribe((data: GenreFeedback) => {
-                observer.next();
-                observer.complete();
-            }, (error) => {
-                this.loggingService.error(this, 'Sending genre feedback failed!', error);
-                observer.error(error);
-            });
+    public postMoodFeedback(track: Track): void {
+        this.authHttp.post(this.moodFeedbackUrl, track.moodFeedback).subscribe((data: TrackFeedback) => {
+
+        }, (error) => {
+            this.loggingService.error(this, 'Sending mood feedback failed!', error);
         });
+    }
+
+    public postArtistFeedback(track: Track): Observable<any> {
+        return this.authHttp.post(this.artistFeedbackUrl, track.artist.feedback);
+    }
+
+    public postGenreFeedback(genre: GenreFeedback): Observable<any> {
+        return this.authHttp.post(this.genreFeedbackUrl, genre);
     }
 
     public postAlbumFeedback(track: Track): void {
         this.authHttp.post(this.albumFeedbackUrl, track.album.feedback).subscribe((data: AlbumFeedback) => {
-            track.album.feedback = data;
+
         }, (error) => {
             this.loggingService.error(this, 'Sending feedback failed!', error);
         });
