@@ -59,16 +59,8 @@ export class RadiostationService implements OnDestroy {
                 observer.next(data);
                 observer.complete();
             }, (error: any) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in startNewRadiostation!');
-                    this.radiostationSubject.next(JSON.parse(error._body));
-                    this.trackService.refreshCurrentAndUpcomingTracks();
-                    observer.next(JSON.parse(error._body));
-                    observer.complete();
-                } else {
-                    this.loggingService.error(this, 'Creating new Radiostation failed!', error);
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Creating new Radiostation failed!', error);
+                observer.error(error);
             });
         });
     }
@@ -81,16 +73,8 @@ export class RadiostationService implements OnDestroy {
                 observer.next(data);
                 observer.complete();
             }, (error: any) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in updateRadiostation!!!');
-                    this.radiostationSubject.next(JSON.parse(error._body));
-                    this.refreshTrackList();
-                    observer.next(JSON.parse(error._body));
-                    observer.complete();
-                } else {
-                    this.loggingService.error(this, 'Updating Radiostation failed!', error);
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Updating Radiostation failed!', error);
+                observer.error(error);
             });
         });
     }
@@ -99,14 +83,7 @@ export class RadiostationService implements OnDestroy {
         this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
             this.radiostationSubject.next(radiostation);
         }, error => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                try {
-                    this.radiostationSubject.next(JSON.parse(error._body));
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                } catch (e) {
-                    this.loggingService.error(this, 'Tried to perform ungly 500-fix, but failed!', error);
-                }
-            } else if (error.status == 404) {
+            if (error.status == 404) {
                 this.loggingService.log(this, 'Fetched radiostation, but there is no one available!');
             } else {
                 this.loggingService.error(this, 'Error fetching radiostation!', error);

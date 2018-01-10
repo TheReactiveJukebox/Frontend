@@ -70,14 +70,9 @@ export class SimpleSearchComponent {
             .subscribe(results => {
                 this.handleSearchedSongs(results);
             }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in trackSearch!');
-                    this.handleSearchedSongs(JSON.parse(error._body));
-                } else {
-                    this.loggingService.error(this, 'Failed to subscribe to trackSearch!', error);
-                    this.trackResult = [];
-                    this.trackResultCount = 0;
-                }
+                this.loggingService.error(this, 'Failed to subscribe to trackSearch!', error);
+                this.trackResult = [];
+                this.trackResultCount = 0;
             });
 
         this.searchService.artistSearch(this.searchArtist$)
@@ -85,29 +80,18 @@ export class SimpleSearchComponent {
                 this.artistResult = results;
                 this.artistResultCount = Object.keys(results).length;
             }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in artistSearch!');
-                    this.artistResult = JSON.parse(error._body);
-                    this.artistResultCount = Object.keys(this.artistResult).length;
-                } else {
-                    this.loggingService.error(this, 'Failed to subscribe to artistSearch!', error);
-                    this.artistResult = [];
-                    this.artistResultCount = 0;
-                }
+                this.loggingService.error(this, 'Failed to subscribe to artistSearch!', error);
+                this.artistResult = [];
+                this.artistResultCount = 0;
             });
 
         this.searchService.albumSearch(this.searchAlbum$)
             .subscribe(results => {
                 this.handleSearchedAlbums(results);
             }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in albumSearch!');
-                    this.handleSearchedAlbums(JSON.parse(error._body));
-                } else {
-                    this.loggingService.error(this, 'Failed to subscribe to albumSearch!', error);
-                    this.albumResult = [];
-                    this.albumResultCount = 0;
-                }
+                this.loggingService.error(this, 'Failed to subscribe to albumSearch!', error);
+                this.albumResult = [];
+                this.albumResultCount = 0;
             });
 
         //Gets songs for an artist
@@ -115,32 +99,22 @@ export class SimpleSearchComponent {
             .subscribe(results => {
                 this.handleSearchedArtistSongs(results);
             }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in getArtistSongs!');
-                    this.handleSearchedArtistSongs(JSON.parse(error._body));
-                } else {
-                    this.loggingService.error(this, 'Failed to subscribe to artistSongSearch!', error);
-                    this.trackResult = [];
-                    this.trackResultCount = 0;
-                    this.artistResultCount = 0;
-                    this.albumResultCount = 0;
-                }
+                this.loggingService.error(this, 'Failed to subscribe to artistSongSearch!', error);
+                this.trackResult = [];
+                this.trackResultCount = 0;
+                this.artistResultCount = 0;
+                this.albumResultCount = 0;
             });
 
         this.searchService.getAlbumSongs(this.getAlbumSongs$)
             .subscribe(results => {
                 this.handleSearchedAlbumSongs(results);
             }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in getAlbumSongs!');
-                    this.handleSearchedAlbumSongs(JSON.parse(error._body));
-                } else {
-                    this.loggingService.error(this, 'Failed to subscribe to albumSongSearch!', error);
-                    this.trackResult = [];
-                    this.trackResultCount = 0;
-                    this.artistResultCount = 0;
-                    this.albumResultCount = 0;
-                }
+                this.loggingService.error(this, 'Failed to subscribe to albumSongSearch!', error);
+                this.trackResult = [];
+                this.trackResultCount = 0;
+                this.artistResultCount = 0;
+                this.albumResultCount = 0;
             });
     }
 

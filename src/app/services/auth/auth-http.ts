@@ -168,7 +168,24 @@ export class AuthHttp {
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
 
-        return this.request(req, reqOptions);
+        return Observable.create((observer: Observer<any>) => {
+            this.request(req, reqOptions).subscribe((res: Response) => {
+                observer.next(null);
+                observer.complete();
+            }, error => {
+                if (error.status == 500 && error.statusText == 'OK') {
+                    try {
+                        console.warn('[AuthHttp] UGLY CATCH OF 500 ERROR in http_delete!');
+                        observer.next(null);
+                        observer.complete();
+                    } catch (e) {
+                        observer.error(error);
+                    }
+                } else {
+                    observer.error(error);
+                }
+            });
+        });
     }
 
 }

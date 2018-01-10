@@ -34,12 +34,7 @@ export class FeedbackService {
         this.authHttp.post(this.feedbackUrl, track.feedback).subscribe((data: TrackFeedback) => {
             track.feedback = data;
         }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postTrackFeedback!');
-                track.feedback = JSON.parse(error._body);
-            } else {
-                this.loggingService.error(this, 'Sending track feedback failed!', error);
-            }
+            this.loggingService.error(this, 'Sending track feedback failed!', error);
         });
     }
 
@@ -50,15 +45,8 @@ export class FeedbackService {
                 observer.next();
                 observer.complete();
             }, (error) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postArtistFeedback!');
-                    track.artist.feedback = JSON.parse(error._body);
-                    observer.next();
-                    observer.complete();
-                } else {
-                    this.loggingService.error(this, 'Sending artist feedback failed!', error);
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Sending artist feedback failed!', error);
+                observer.error(error);
             });
         });
     }
@@ -69,14 +57,8 @@ export class FeedbackService {
                 observer.next();
                 observer.complete();
             }, (error) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postGenreFeedback!');
-                    observer.next();
-                    observer.complete();
-                } else {
-                    this.loggingService.error(this, 'Sending genre feedback failed!', error);
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Sending genre feedback failed!', error);
+                observer.error(error);
             });
         });
     }
@@ -85,12 +67,7 @@ export class FeedbackService {
         this.authHttp.post(this.albumFeedbackUrl, track.album.feedback).subscribe((data: AlbumFeedback) => {
             track.album.feedback = data;
         }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postAlbumFeedback!');
-                track.album.feedback = JSON.parse(error._body);
-            } else {
-                this.loggingService.error(this, 'Sending feedback failed!', error);
-            }
+            this.loggingService.error(this, 'Sending feedback failed!', error);
         });
     }
 
@@ -127,23 +104,8 @@ export class FeedbackService {
                 observer.next(result);
                 observer.complete();
             }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchGenreFeedback!');
-                    this.addGenreFeedbackToCache(JSON.parse(error._body));
-                    let result: any[] = [];
-                    for (let trackGenres of genres) {
-                        let feedbackObjects: GenreFeedback[] = [];
-                        for (let genre of trackGenres) {
-                            feedbackObjects.push(this.genreFeedbackCache.get(genre));
-                        }
-                        result.push(feedbackObjects);
-                    }
-                    observer.next(result);
-                    observer.complete();
-                } else {
-                    this.loggingService.error(this, 'Failed to request Entities for fetchGenreFeedback!', error);
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Failed to request Entities for fetchGenreFeedback!', error);
+                observer.error(error);
             });
         });
     }

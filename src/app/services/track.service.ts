@@ -211,14 +211,8 @@ export class TrackService {
                     observer.next(entities);
                     observer.complete();
                 }, error => {
-                    if (error.status == 500 && error.statusText == 'OK') {
-                        this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in requestEntities!');
-                        observer.next(JSON.parse(error._body));
-                        observer.complete();
-                    } else {
-                        observer.error(error);
-                        observer.complete();
-                    }
+                    observer.error(error);
+                    observer.complete();
                 });
             } else {
                 observer.next([]);

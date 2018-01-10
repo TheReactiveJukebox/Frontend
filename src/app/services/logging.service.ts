@@ -82,11 +82,7 @@ export class LoggingService {
                 this.authHttp.post(this.loggingApiUrl, backendPayload).subscribe(() => {
 
                 }, error => {
-                    if (error.status == 500 && error.statusText == 'OK') {
-
-                    } else {
-                        console.error('[LoggingService] Cant scream for help at backend. A bad disaster must have happened!', error);
-                    }
+                    console.error('[LoggingService] Cant scream for help at backend. A bad disaster must have happened!', error);
                 });
             }
         }
