@@ -61,11 +61,6 @@ export class SurveyService {
         if (!this.popupOpened) {
             this.popupOpened = true;
             let dialogRef = this.dialog.open(OpenSurveyComponent);
-            dialogRef.afterClosed().subscribe(result => {
-                if (result && result == 'survey') {
-                    this.openSurvey();
-                }
-            });
         }
     }
 
