@@ -6,7 +6,6 @@ import {Config} from '../config';
 import {Track} from '../models/track';
 import {TrackFeedback} from '../models/track-feedback';
 import {AuthHttp} from './auth/auth-http';
-import {ArtistFeedback} from '../models/artist-feedback';
 import {AlbumFeedback} from '../models/album-feedback';
 import {GenreFeedback} from '../models/genre-feedback';
 import {Observable} from 'rxjs/Observable';

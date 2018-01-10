@@ -60,7 +60,7 @@ export class SurveyService {
     private showPopup(): void {
         if (!this.popupOpened) {
             this.popupOpened = true;
-            let dialogRef = this.dialog.open(OpenSurveyComponent);
+            this.dialog.open(OpenSurveyComponent);
         }
     }
 

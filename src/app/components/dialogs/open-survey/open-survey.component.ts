@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthHttp} from '../../../services/auth/auth-http';
 import {AuthService} from '../../../services/auth/auth.service';
-import {Config} from "../../../config";
+import {Config} from '../../../config';
 
 @Component({
     selector: 'open-survey',
