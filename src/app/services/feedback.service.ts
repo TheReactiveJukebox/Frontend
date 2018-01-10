@@ -11,6 +11,8 @@ import {AlbumFeedback} from '../models/album-feedback';
 import {GenreFeedback} from '../models/genre-feedback';
 import {Observable} from 'rxjs/Observable';
 import {LoggingService} from './logging.service';
+import {SpeedFeedback} from '../models/speed-feedback';
+import {MoodFeedback} from '../models/mood-feedback';
 
 @Injectable()
 export class FeedbackService {
@@ -19,15 +21,38 @@ export class FeedbackService {
     private artistFeedbackUrl: string = Config.serverUrl + '/api/artist/feedback';
     private albumFeedbackUrl: string = Config.serverUrl + '/api/album/feedback';
     private genreFeedbackUrl: string = Config.serverUrl + '/api/genre/feedback';
+    private speedFeedbackUrl: string = Config.serverUrl + '/api/tempo/feedback';
+    private moodFeedbackUrl: string = Config.serverUrl + '/api/mood/feedback';
 
     private genreFeedbackCache: Map<string, GenreFeedback>;
+    private speedFeedbackCache: Map<number, SpeedFeedback>;
+    private moodFeedbackCache: Map<number, MoodFeedback>;
 
     constructor(private authHttp: AuthHttp, private loggingService: LoggingService) {
-        this.init();
+
     }
 
     public init(): void {
         this.genreFeedbackCache = new Map<string, GenreFeedback>();
+        this.speedFeedbackCache = new Map<number, SpeedFeedback>();
+        this.moodFeedbackCache = new Map<number, MoodFeedback>();
+        this.authHttp.get(this.speedFeedbackUrl).subscribe((data: SpeedFeedback[]) => {
+           for (let feedback of data) {
+               this.speedFeedbackCache.set(feedback.fSpeed, feedback);
+               console.log('FEEDBACK: ', feedback);
+           }
+        }, error => {
+            this.loggingService.error(this, 'Fetching speed feedback failed!', error);
+        });
+
+        this.authHttp.get(this.moodFeedbackUrl).subscribe((data: MoodFeedback[]) => {
+            for (let feedback of data) {
+                this.moodFeedbackCache.set(feedback.fMood, feedback);
+                console.log('FEEDBACK: ', feedback);
+            }
+        }, error => {
+            this.loggingService.error(this, 'Fetching speed feedback failed!', error);
+        });
     }
 
     public postTrackFeedback(track: Track): void {
@@ -129,6 +154,34 @@ export class FeedbackService {
                 observer.next([]);
                 observer.complete();
             });
+        }
+    }
+
+    public getSpeedFeedback(fSpeed: number): SpeedFeedback {
+        let cachedFeedback = this.speedFeedbackCache.get(fSpeed);
+        if (cachedFeedback) {
+            return cachedFeedback;
+        } else {
+            let newFeedback: SpeedFeedback = {
+                feedback: 0,
+                fSpeed: fSpeed
+            };
+            this.speedFeedbackCache.set(fSpeed, newFeedback);
+            return newFeedback;
+        }
+    }
+
+    public getMoodFeedback(fMood: number): MoodFeedback {
+        let cachedFeedback = this.moodFeedbackCache.get(fMood);
+        if (cachedFeedback) {
+            return cachedFeedback;
+        } else {
+            let newFeedback: MoodFeedback = {
+                feedback: 0,
+                fMood: fMood
+            };
+            this.moodFeedbackCache.set(fMood, newFeedback);
+            return newFeedback;
         }
     }
 }

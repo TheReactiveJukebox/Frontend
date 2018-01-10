@@ -5,6 +5,8 @@ import {Mood} from './mood';
 import {GenreFeedback} from './genre-feedback';
 import {Subscription} from 'rxjs/Subscription';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {MoodFeedback} from './mood-feedback';
+import {SpeedFeedback} from './speed-feedback';
 
 export class Track {
     public id: number;
@@ -21,6 +23,10 @@ export class Track {
     public mood?: Mood;
     public releaseDate?: Date;
     public feedback?: TrackFeedback;
+    public moodFeedback: MoodFeedback;
+    public speedFeedback: SpeedFeedback;
+    public fMood: number;
+    public fSpeed: number;
 
     public file: string;
     public data?: any;

@@ -44,7 +44,7 @@ export class TrackService {
                 private feedbackService: FeedbackService,
                 private loggingService: LoggingService,
                 private translateService: TranslateService) {
-        this.init();
+
     }
 
     public init(): void {
@@ -187,6 +187,8 @@ export class TrackService {
                     rawTracks[i].artist = artists[i];
                     rawTracks[i].album = albums[i];
                     rawTracks[i].genres = genreFeedbacks[i];
+                    rawTracks[i].speedFeedback = this.feedbackService.getSpeedFeedback(rawTracks[i].fSpeed);
+                    rawTracks[i].moodFeedback = this.feedbackService.getMoodFeedback(rawTracks[i].fMood);
                 }
 
                 observer.next(rawTracks);
