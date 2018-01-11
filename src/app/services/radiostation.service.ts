@@ -55,7 +55,7 @@ export class RadiostationService implements OnDestroy {
             radiostation.id = null;
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.radiostationSubject.next(data);
-                this.trackService.refreshCurrentAndUpcomingTracks();
+                this.trackService.refreshCurrentAndUpcomingTracks(true);
                 observer.next(data);
                 observer.complete();
             }, (error: any) => {
