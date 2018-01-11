@@ -82,6 +82,7 @@ export class RadiostationService implements OnDestroy {
     public fetchRadiostation(): void {
         this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
             this.radiostationSubject.next(radiostation);
+            this.trackService.refreshCurrentAndUpcomingTracks(false);
         }, error => {
             if (error.status == 404) {
                 this.loggingService.log(this, 'Fetched radiostation, but there is no one available!');

@@ -38,7 +38,6 @@ export class FeedbackService {
         this.authHttp.get(this.speedFeedbackUrl).subscribe((data: SpeedFeedback[]) => {
            for (let feedback of data) {
                this.speedFeedbackCache.set(feedback.fSpeed, feedback);
-               console.log('FEEDBACK: ', feedback);
            }
         }, error => {
             this.loggingService.error(this, 'Fetching speed feedback failed!', error);
@@ -47,7 +46,6 @@ export class FeedbackService {
         this.authHttp.get(this.moodFeedbackUrl).subscribe((data: MoodFeedback[]) => {
             for (let feedback of data) {
                 this.moodFeedbackCache.set(feedback.fMood, feedback);
-                console.log('FEEDBACK: ', feedback);
             }
         }, error => {
             this.loggingService.error(this, 'Fetching speed feedback failed!', error);

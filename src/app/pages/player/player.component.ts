@@ -3,7 +3,6 @@ import {MdIconRegistry, MdTabGroup} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Track} from '../../models/track';
 import {AuthService} from '../../services/auth/auth.service';
-import {PlayerService} from '../../services/player.service';
 import {TrackService} from '../../services/track.service';
 import {RadiostationService} from '../../services/radiostation.service';
 import {Radiostation} from '../../models/radiostation';
@@ -14,8 +13,7 @@ import {SurveyService} from '../../services/survey.service';
 @Component({
     selector: 'player',
     styleUrls: ['./player.component.scss'],
-    templateUrl: './player.component.html',
-    providers: [PlayerService]
+    templateUrl: './player.component.html'
 })
 export class PlayerComponent implements OnInit {
 
