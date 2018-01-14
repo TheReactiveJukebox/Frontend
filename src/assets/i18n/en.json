@@ -199,5 +199,6 @@
     "PASSIVE": "passive",
     "NEGATIVE": "negative",
     "POSITIVE": "positive"
-  }
+  },
+  "LOADING": "Loading..."
 }

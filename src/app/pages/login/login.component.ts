@@ -8,6 +8,7 @@ import {TrackService} from '../../services/track.service';
 import {HistoryService} from '../../services/history.service';
 import {FeedbackService} from '../../services/feedback.service';
 import {LoggingService} from '../../services/logging.service';
+import {LoadingService} from '../../services/loading.service';
 
 declare var safari;
 declare var window;
@@ -45,18 +46,22 @@ export class LoginComponent {
                 private loggingService: LoggingService,
                 private historyService: HistoryService,
                 private trackService: TrackService,
+                private loadingService: LoadingService,
                 private router: Router) {
         this.isNiceBrowser = this.getBrowserInfo();
     }
 
     public login(): void {
+        this.loadingService.show();
         this.authService.login(this.loginData).subscribe(() => {
             this.radiostationService.init();
             this.trackService.init();
             this.historyService.clearLocalHistory();
             this.feedbackService.init();
+            this.loadingService.hide();
             this.router.navigate(['/player']);
         }, (error: Response) => {
+            this.loadingService.hide();
             if (error.status == 442) {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.WRONG_PW_OR_USER'));
             } else {
@@ -67,13 +72,16 @@ export class LoginComponent {
     }
 
     public register(): void {
+        this.loadingService.show();
         this.authService.registerUser(this.registerData).subscribe(data => {
             this.radiostationService.init();
             this.trackService.init();
             this.historyService.clearLocalHistory();
             this.feedbackService.init();
+            this.loadingService.hide();
             this.router.navigate(['/player']);
         }, (error: Response) => {
+            this.loadingService.hide();
             if (error.status == 440) {
                 alert(this.translateService.instant('LOGIN_PAGE.ERROR.USERNAME_IN_USE'));
             } else if (error.status == 441) {

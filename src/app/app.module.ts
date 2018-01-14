@@ -23,7 +23,7 @@ import {
     MdListModule, MdProgressSpinnerModule,
     MdSelectModule,
     MdSliderModule,
-    MdSnackBarModule,
+    MdSnackBarModule, MdSpinner,
     MdTabsModule,
     MdTooltipModule
 } from '@angular/material';
@@ -63,6 +63,8 @@ import {TileComponent} from './components/create-radiostation/by-feature/tile/ti
 import {StartTrackComponent} from './components/create-radiostation/by-feature/start-track/start-track.component';
 import {GlobalErrorHandler} from './services/global-error-handler';
 import {LoggingService} from './services/logging.service';
+import {LoadingService} from './services/loading.service';
+import {LoadingComponent} from './components/loading/loading.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -89,7 +91,8 @@ import {LoggingService} from './services/logging.service';
         WelcomeComponent,
         OpenSurveyComponent,
         TileComponent,
-        StartTrackComponent
+        StartTrackComponent,
+        LoadingComponent
     ],
     /**
      * Import Angular's modules.
@@ -113,7 +116,8 @@ import {LoggingService} from './services/logging.service';
     ],
     entryComponents: [
         OpenSurveyComponent,
-        SimpleSearchComponent
+        SimpleSearchComponent,
+        LoadingComponent
     ],
     /**
      * Expose our Services and Providers into Angular's dependency injection.
@@ -136,7 +140,8 @@ import {LoggingService} from './services/logging.service';
             provide: ErrorHandler,
             useClass: GlobalErrorHandler
         },
-        LoggingService
+        LoggingService,
+        LoadingService
     ]
 })
 export class AppModule {
