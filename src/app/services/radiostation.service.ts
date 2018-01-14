@@ -69,7 +69,7 @@ export class RadiostationService implements OnDestroy {
         return Observable.create((observer: Observer<any>) => {
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.radiostationSubject.next(data);
-                this.refreshTrackList();
+                this.trackService.refreshUpcomingTracks();
                 observer.next(data);
                 observer.complete();
             }, (error: any) => {
@@ -150,10 +150,6 @@ export class RadiostationService implements OnDestroy {
 
     public getAlgorithms(): Observable<string[]> {
         return this.algorithms;
-    }
-
-    public refreshTrackList(): void {
-        this.trackService.refreshUpcomingTracks();
     }
 
 }

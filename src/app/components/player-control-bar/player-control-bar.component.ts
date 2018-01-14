@@ -4,6 +4,7 @@ import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
 import {PlayerService} from '../../services/player.service';
 import {TrackService} from '../../services/track.service';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'player-control-bar',
@@ -20,6 +21,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
     constructor(public trackService: TrackService,
                 public playerService: PlayerService,
+                private loggingService: LoggingService,
                 public feedbackService: FeedbackService) {
         this.subscriptions = [];
     }
@@ -62,7 +64,11 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     public feedback(): void {
-        this.feedbackService.postTrackFeedback(this.currentTrack);
+        this.feedbackService.postTrackFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Failed to post trackFeedback!', error);
+        });
     }
 
 }

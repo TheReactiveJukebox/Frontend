@@ -14,6 +14,7 @@ import {Moods} from '../models/moods';
 import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
 import {LoggingService} from './logging.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
 export class TrackService {
@@ -22,6 +23,7 @@ export class TrackService {
     public nextTracks: BehaviorSubject<Track[]>;
     public moods: Moods;
     private numberUpcomingSongs: number = Config.numberUpcomingSongs;
+    private updateTrackCacheSubscription: Subscription;
 
     // dataCache for artists and albums. Before requesting any data from server, check if it's still here. if not, store
     // it here to reduce waiting for backend
@@ -134,8 +136,8 @@ export class TrackService {
     //Refreshes current Tracklist
     public refreshUpcomingTracks(): void {
         this.fetchedSongs = [];
-        this.getNewSongs(this.numberUpcomingSongs + 1, false, false).subscribe((tracks: Track[]) => {
-            this.nextTracks.next(tracks.slice(1));
+        this.getNewSongs(this.numberUpcomingSongs, false, false).subscribe((tracks: Track[]) => {
+            this.nextTracks.next(tracks);
         }, error => {
             this.loggingService.error(this, 'Error refreshing tracklist!', error);
         });
@@ -416,6 +418,18 @@ export class TrackService {
                 observer.error(error);
                 observer.complete();
             });
+        });
+    }
+
+    public updateTrackCache(): void {
+        if (this.updateTrackCacheSubscription) {
+            this.updateTrackCacheSubscription.unsubscribe();
+        }
+        this.fetchedSongs = [];
+        this.updateTrackCacheSubscription = this.getTracksFromCache(0, false, false).subscribe(() => {
+
+        }, error => {
+
         });
     }
 }
