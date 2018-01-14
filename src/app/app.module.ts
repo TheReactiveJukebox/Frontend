@@ -23,7 +23,7 @@ import {
     MdListModule, MdProgressSpinnerModule,
     MdSelectModule,
     MdSliderModule,
-    MdSnackBarModule, MdSpinner,
+    MdSnackBarModule,
     MdTabsModule,
     MdTooltipModule
 } from '@angular/material';
