@@ -20,7 +20,7 @@ import {
     MdDialogModule,
     MdIconModule,
     MdInputModule,
-    MdListModule,
+    MdListModule, MdProgressSpinnerModule,
     MdSelectModule,
     MdSliderModule,
     MdSnackBarModule,
@@ -100,7 +100,7 @@ import {LoggingService} from './services/logging.service';
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
-        MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule,
+        MdButtonModule, MdCheckboxModule, MdInputModule, MdCardModule, MdTabsModule, MdListModule, MdProgressSpinnerModule,
         MdDialogModule, MdIconModule, MdSelectModule, MdSnackBarModule, MdSliderModule, MdTooltipModule,
         RouterModule.forRoot(ROUTES),
         TranslateModule.forRoot({
