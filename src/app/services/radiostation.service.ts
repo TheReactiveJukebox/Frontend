@@ -112,7 +112,7 @@ export class RadiostationService implements OnDestroy {
             increment = 10;
         }
         radiostation.minSpeed = radiostation.minSpeed + increment > Config.speedUpperLimit ?
-                Config.speedUpperLimit : radiostation.minSpeed + increment;
+            Config.speedUpperLimit : radiostation.minSpeed + increment;
 
         radiostation.maxSpeed = radiostation.maxSpeed + increment > Config.speedUpperLimit ?
             Config.speedUpperLimit : radiostation.maxSpeed + increment;
@@ -129,7 +129,7 @@ export class RadiostationService implements OnDestroy {
             decrement = 10;
         }
         radiostation.minSpeed = radiostation.minSpeed - decrement < Config.speedLowerLimit ?
-                Config.speedLowerLimit : radiostation.minSpeed - decrement;
+            Config.speedLowerLimit : radiostation.minSpeed - decrement;
 
         radiostation.maxSpeed = radiostation.maxSpeed - decrement < Config.speedLowerLimit ?
             Config.speedLowerLimit : radiostation.maxSpeed - decrement;
@@ -155,9 +155,12 @@ export class RadiostationService implements OnDestroy {
     }
 
     public toLowerCase(genres: string[]): string[] {
-        return genres.map((value) => {
-           return value.toLowerCase();
-        });
+        if (genres != null) {
+            return genres.map((value) => {
+                return value.toLowerCase();
+            });
+        }
+        return null;
     }
 
 }
