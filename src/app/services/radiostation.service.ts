@@ -50,6 +50,7 @@ export class RadiostationService implements OnDestroy {
     //starts a new radiostation with given creation criteria
     public startNewRadiostation(radiostation: Radiostation): Observable<Radiostation> {
         return Observable.create((observer: Observer<any>) => {
+            radiostation.genres = this.toLowerCase(radiostation.genres);
             // set ids to null, to indicate server, that we want a new radiostation
             radiostation.userId = null;
             radiostation.id = null;
@@ -67,6 +68,7 @@ export class RadiostationService implements OnDestroy {
 
     public updateRadiostation(radiostation: Radiostation): Observable<Radiostation> {
         return Observable.create((observer: Observer<any>) => {
+            radiostation.genres = this.toLowerCase(radiostation.genres);
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 this.radiostationSubject.next(data);
                 this.trackService.refreshUpcomingTracks();
@@ -150,6 +152,12 @@ export class RadiostationService implements OnDestroy {
 
     public getAlgorithms(): Observable<string[]> {
         return this.algorithms;
+    }
+
+    public toLowerCase(genres: string[]): string[] {
+        return genres.map((value) => {
+           return value.toLowerCase();
+        });
     }
 
 }
