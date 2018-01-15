@@ -12,7 +12,8 @@ export class LoadingService {
     public show(): void {
         this.dialogRef = this.dialog.open(LoadingComponent, {
             width: '200px',
-            height: '200px'
+            height: '200px',
+            disableClose: true
         });
     }
 
