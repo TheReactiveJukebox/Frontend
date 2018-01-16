@@ -11,6 +11,7 @@ import {Radiostation} from '../models/radiostation';
 import {AuthHttp} from './auth/auth-http';
 import {TrackService} from './track.service';
 import {LoggingService} from './logging.service';
+import {Utils} from '../utils';
 
 
 @Injectable()
@@ -55,6 +56,7 @@ export class RadiostationService implements OnDestroy {
             radiostation.userId = null;
             radiostation.id = null;
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                data.genres = this.toUpperCase(data.genres);
                 this.radiostationSubject.next(data);
                 this.trackService.refreshCurrentAndUpcomingTracks(true);
                 observer.next(data);
@@ -70,6 +72,7 @@ export class RadiostationService implements OnDestroy {
         return Observable.create((observer: Observer<any>) => {
             radiostation.genres = this.toLowerCase(radiostation.genres);
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                data.genres = this.toUpperCase(data.genres);
                 this.radiostationSubject.next(data);
                 this.trackService.refreshUpcomingTracks();
                 observer.next(data);
@@ -83,6 +86,7 @@ export class RadiostationService implements OnDestroy {
 
     public fetchRadiostation(): void {
         this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
+            radiostation.genres = this.toUpperCase(radiostation.genres);
             this.radiostationSubject.next(radiostation);
             this.trackService.refreshCurrentAndUpcomingTracks(false);
         }, error => {
@@ -158,6 +162,15 @@ export class RadiostationService implements OnDestroy {
         if (genres != null) {
             return genres.map((value) => {
                 return value.toLowerCase();
+            });
+        }
+        return null;
+    }
+
+    public toUpperCase(genres: string[]): string[] {
+        if (genres != null) {
+            return genres.map((value) => {
+                return Utils.capitalize(value);
             });
         }
         return null;
