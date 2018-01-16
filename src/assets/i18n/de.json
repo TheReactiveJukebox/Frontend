@@ -29,7 +29,8 @@
     "TABS": {
       "PLAYER": "Deine Radiostation",
       "RADIOSTATION": "Radiostation erstellen"
-    }
+    },
+    "ISSUES": "Problem melden"
   },
   "TRACK_LIST": {
     "ID": "ID",

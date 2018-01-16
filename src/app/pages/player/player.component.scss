@@ -19,6 +19,11 @@
 
   .header-button {
     float: right;
+
+    &.help {
+      top: 2px;
+      padding: 0 8px;
+    }
   }
 }
 
