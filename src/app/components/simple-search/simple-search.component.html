@@ -1,7 +1,10 @@
 <div id="search-pane">
     <speech-search-field (keyup)="searches($event.target.value)" (searchCall)="searches($event)"></speech-search-field>
+    <div style="width: 100%; display: flex; justify-content: space-around">
+        <md-spinner *ngIf="isSearching()"></md-spinner>
+    </div>
     <div id="results">
-        <h3 md-subheader="" *ngIf="!hasResults() && this.searchTerm != ''">
+        <h3 md-subheader="" *ngIf="!hasResults() && this.searchTerm != '' && !isSearching()">
             {{'SEARCH.NO_RESULTS' | translate}}
         </h3>
         <div *ngIf="this.trackResultCount > 0">

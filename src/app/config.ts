@@ -7,8 +7,6 @@ export class Config {
     public static speedUpperLimit: number = 300;
     public static speedLowerLimit: number = 1;
     public static yearUpperLimit: number = (new Date()).getFullYear();
-    public static dynamicLowerLimit: number = 0;
-    public static dynamicUpperLimit: number = 1;
     public static arousalLowerLimit: number = -1;
     public static arousalUpperLimit: number = 1;
     public static valenceLowerLimit: number = -1;
@@ -20,7 +18,7 @@ export class Config {
     public static albumSearchResultLimit: number = 15;
 
     public static numberUpcomingSongs: number = 5;
-    public static numberFetchedSongs: number = 20;
+    public static numberFetchedSongs: number = 40;
 
     public static backendLogLimit: number = 100;
 

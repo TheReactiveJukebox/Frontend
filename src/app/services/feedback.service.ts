@@ -6,11 +6,13 @@ import {Config} from '../config';
 import {Track} from '../models/track';
 import {TrackFeedback} from '../models/track-feedback';
 import {AuthHttp} from './auth/auth-http';
-import {ArtistFeedback} from '../models/artist-feedback';
 import {AlbumFeedback} from '../models/album-feedback';
 import {GenreFeedback} from '../models/genre-feedback';
 import {Observable} from 'rxjs/Observable';
 import {LoggingService} from './logging.service';
+import {SpeedFeedback} from '../models/speed-feedback';
+import {MoodFeedback} from '../models/mood-feedback';
+import {ArtistFeedback} from '../models/artist-feedback';
 
 @Injectable()
 export class FeedbackService {
@@ -19,66 +21,60 @@ export class FeedbackService {
     private artistFeedbackUrl: string = Config.serverUrl + '/api/artist/feedback';
     private albumFeedbackUrl: string = Config.serverUrl + '/api/album/feedback';
     private genreFeedbackUrl: string = Config.serverUrl + '/api/genre/feedback';
+    private speedFeedbackUrl: string = Config.serverUrl + '/api/tempo/feedback';
+    private moodFeedbackUrl: string = Config.serverUrl + '/api/mood/feedback';
 
     private genreFeedbackCache: Map<string, GenreFeedback>;
+    private speedFeedbackCache: Map<number, SpeedFeedback>;
+    private moodFeedbackCache: Map<number, MoodFeedback>;
 
     constructor(private authHttp: AuthHttp, private loggingService: LoggingService) {
-        this.init();
+
     }
 
     public init(): void {
         this.genreFeedbackCache = new Map<string, GenreFeedback>();
-    }
+        this.speedFeedbackCache = new Map<number, SpeedFeedback>();
+        this.moodFeedbackCache = new Map<number, MoodFeedback>();
+        this.authHttp.get(this.speedFeedbackUrl).subscribe((data: SpeedFeedback[]) => {
+           for (let feedback of data) {
+               this.speedFeedbackCache.set(feedback.fSpeed, feedback);
+           }
+        }, error => {
+            this.loggingService.error(this, 'Fetching speed feedback failed!', error);
+        });
 
-    public postTrackFeedback(track: Track): void {
-        this.authHttp.post(this.feedbackUrl, track.feedback).subscribe((data: TrackFeedback) => {
-            track.feedback = data;
-        }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postTrackFeedback!');
-                track.feedback = JSON.parse(error._body);
-            } else {
-                this.loggingService.error(this, 'Sending track feedback failed!', error);
+        this.authHttp.get(this.moodFeedbackUrl).subscribe((data: MoodFeedback[]) => {
+            for (let feedback of data) {
+                this.moodFeedbackCache.set(feedback.fMood, feedback);
             }
+        }, error => {
+            this.loggingService.error(this, 'Fetching speed feedback failed!', error);
         });
     }
 
-    public postArtistFeedback(track: Track): void {
-        this.authHttp.post(this.artistFeedbackUrl, track.artist.feedback).subscribe((data: ArtistFeedback) => {
-            track.artist.feedback = data;
-        }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postArtistFeedback!');
-                track.artist.feedback = JSON.parse(error._body);
-            } else {
-                this.loggingService.error(this, 'Sending artist feedback failed!', error);
-            }
-        });
+    public postTrackFeedback(track: Track): Observable<TrackFeedback> {
+        return this.authHttp.post(this.feedbackUrl, track.feedback);
     }
 
-    public postGenreFeedback(genre: GenreFeedback): void {
-        this.authHttp.post(this.genreFeedbackUrl, genre).subscribe((data: GenreFeedback) => {
-
-        }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postGenreFeedback!');
-            } else {
-                this.loggingService.error(this, 'Sending genre feedback failed!', error);
-            }
-        });
+    public postSpeedFeedback(track: Track): Observable<SpeedFeedback> {
+        return this.authHttp.post(this.speedFeedbackUrl, track.speedFeedback);
     }
 
-    public postAlbumFeedback(track: Track): void {
-        this.authHttp.post(this.albumFeedbackUrl, track.album.feedback).subscribe((data: AlbumFeedback) => {
-            track.album.feedback = data;
-        }, (error) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postAlbumFeedback!');
-                track.album.feedback = JSON.parse(error._body);
-            } else {
-                this.loggingService.error(this, 'Sending feedback failed!', error);
-            }
-        });
+    public postMoodFeedback(track: Track): Observable<MoodFeedback> {
+        return this.authHttp.post(this.moodFeedbackUrl, track.moodFeedback);
+    }
+
+    public postArtistFeedback(track: Track): Observable<ArtistFeedback> {
+        return this.authHttp.post(this.artistFeedbackUrl, track.artist.feedback);
+    }
+
+    public postGenreFeedback(genre: GenreFeedback): Observable<GenreFeedback> {
+        return this.authHttp.post(this.genreFeedbackUrl, genre);
+    }
+
+    public postAlbumFeedback(track: Track): Observable<AlbumFeedback> {
+        return this.authHttp.post(this.albumFeedbackUrl, track.album.feedback);
     }
 
     public fetchGenreFeedback(genres: string[][]):  Observable<GenreFeedback[][]> {
@@ -102,29 +98,20 @@ export class FeedbackService {
                 for (let trackGenres of genres) {
                     let feedbackObjects: GenreFeedback[] = [];
                     for (let genre of trackGenres) {
-                        feedbackObjects.push(this.genreFeedbackCache.get(genre));
+                        if (this.genreFeedbackCache.get(genre)) {
+                            feedbackObjects.push(this.genreFeedbackCache.get(genre));
+                        } else {
+                            observer.error('Cache miss for genre ' + genre + '! This should not happen!');
+                            this.loggingService.error(this, 'Cache miss for genre ' + genre + '!');
+                        }
                     }
                     result.push(feedbackObjects);
                 }
                 observer.next(result);
                 observer.complete();
             }, error => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchGenreFeedback!');
-                    this.addGenreFeedbackToCache(JSON.parse(error._body));
-                    let result: any[] = [];
-                    for (let trackGenres of genres) {
-                        let feedbackObjects: GenreFeedback[] = [];
-                        for (let genre of trackGenres) {
-                            feedbackObjects.push(this.genreFeedbackCache.get(genre));
-                        }
-                        result.push(feedbackObjects);
-                    }
-                    observer.next(result);
-                    observer.complete();
-                } else {
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Failed to request Entities for fetchGenreFeedback!', error);
+                observer.error(error);
             });
         });
     }
@@ -139,7 +126,7 @@ export class FeedbackService {
         if (ids.length > 0) {
             let reqUrl = url + '?';
             for (let id of ids) {
-                reqUrl += 'id=' + id + '&';
+                reqUrl += 'id=' + encodeURIComponent(id) + '&';
             }
             reqUrl = reqUrl.substring(0, reqUrl.length - 1);
             return this.authHttp.get(reqUrl);
@@ -148,6 +135,34 @@ export class FeedbackService {
                 observer.next([]);
                 observer.complete();
             });
+        }
+    }
+
+    public getSpeedFeedback(fSpeed: number): SpeedFeedback {
+        let cachedFeedback = this.speedFeedbackCache.get(fSpeed);
+        if (cachedFeedback) {
+            return cachedFeedback;
+        } else {
+            let newFeedback: SpeedFeedback = {
+                feedback: 0,
+                fSpeed: fSpeed
+            };
+            this.speedFeedbackCache.set(fSpeed, newFeedback);
+            return newFeedback;
+        }
+    }
+
+    public getMoodFeedback(fMood: number): MoodFeedback {
+        let cachedFeedback = this.moodFeedbackCache.get(fMood);
+        if (cachedFeedback) {
+            return cachedFeedback;
+        } else {
+            let newFeedback: MoodFeedback = {
+                feedback: 0,
+                fMood: fMood
+            };
+            this.moodFeedbackCache.set(fMood, newFeedback);
+            return newFeedback;
         }
     }
 }

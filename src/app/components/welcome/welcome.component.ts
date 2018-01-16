@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
+import {LoadingService} from '../../services/loading.service';
 
 @Component({
     selector: 'welcome',
@@ -10,7 +11,7 @@ export class WelcomeComponent {
     @Output()
     public onStart: EventEmitter<any> = new EventEmitter();
 
-    constructor() {
+    constructor(public loadingService: LoadingService) {
 
     }
 }

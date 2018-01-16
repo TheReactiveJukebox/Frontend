@@ -1,6 +1,6 @@
 <md-card id="base-pane">
     <md-card class="login-card">
-        <md-tab-group [dynamicHeight]="true" #tabGroup>
+        <md-tab-group *ngIf="isNiceBrowser" [dynamicHeight]="true" #tabGroup>
             <md-tab [label]="'LOGIN_PAGE.LOGIN' | translate">
                 <h1>{{'LOGIN_PAGE.LOGIN' | translate}}</h1>
                 <md-input-container class="login-input">
@@ -38,5 +38,6 @@
                 </button>
             </md-tab>
         </md-tab-group>
+        <h2 *ngIf="!isNiceBrowser">{{'LOGIN_PAGE.BROWSER' | translate}}</h2>
     </md-card>
 </md-card>

@@ -4,7 +4,9 @@
     "SAGH": "Same Artist Greatest Hits",
     "SPOTIFY": "Spotify",
     "MOOD": "Similar Mood",
-    "SPEED": "Similar Tempo"
+    "SPEED": "Similar Tempo",
+    "HYBRID": "Hybrid",
+    "FEATURES": "Features"
   },
   "GENERAL": {
     "INVITE_KEY": "Invite Key",
@@ -20,13 +22,15 @@
       "GENERAL_REGISTER": "Register failed. Please try again!",
       "GENERAL_LOGIN": "Login failed. Please try again!",
       "WRONG_PW_OR_USER": "Login failed! Username or password are incorrect!"
-    }
+    },
+    "BROWSER": "Your browser is not supported! Please use Google Chrome or Mozilla Firefox!"
   },
   "PLAYER": {
     "TABS": {
       "PLAYER": "Your Radiostation",
       "RADIOSTATION": "Create a Radiostation"
-    }
+    },
+    "ISSUES": "Report issue"
   },
   "TRACK_LIST": {
     "ID": "ID",
@@ -47,7 +51,7 @@
     "SPECIALFEEDBACK": "Explain your Feedback",
     "NO_TRACK": "Please create a radiostation to listen to!",
     "REFRESH": "Refresh Tracklist",
-    "GENRE": "Genre",
+    "GENRE": "Genres",
     "TEMPO": "Tempo",
     "MOOD": "Mood"
   },
@@ -88,8 +92,8 @@
   },
 
   "MOOD_SELECTOR": {
-    "AROUSAL": "How active or aroused should the it be?",
-    "VALENCE": "How pleasant should the music be?",
+    "AROUSAL": "How active or aroused should the music be?",
+    "VALENCE": "How positive or negative should the music be?",
     "MOOD_TAG": "Your selected mood is:"
   },
 
@@ -150,5 +154,6 @@
     "PASSIVE": "passive",
     "NEGATIVE": "negative",
     "POSITIVE": "positive"
-  }
+  },
+  "LOADING": "Loading..."
 }

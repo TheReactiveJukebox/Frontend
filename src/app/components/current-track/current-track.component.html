@@ -32,24 +32,26 @@
                         </a>
                     </div>
                     <div *ngIf="currentTrack.speed" class="detail-element">
-                        <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.feedback.speedFeedback"></like>
+                        <like (click)="onSpeedFeedbackChanged()"
+                              [(value)]="currentTrack.speedFeedback.feedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.TEMPO' | translate}}: </a>
                         <a class="track-info">{{round(currentTrack.speed) + ' BPM'}}</a>
                     </div>
                     <div *ngIf="currentTrack.mood" class="detail-element">
-                        <like (click)="onTrackFeedbackChanged()"
-                              [(value)]="currentTrack.feedback.moodFeedback"></like>
+                        <like (click)="onMoodFeedbackChanged()"
+                              [(value)]="currentTrack.moodFeedback.feedback"></like>
                         <a class="track-info-att"> {{'CURRENT_TRACK.MOOD' | translate}}: </a>
                         <a class="track-info">{{capitalize('MOODS.'+ currentTrack.mood.name.toUpperCase() | translate)}}</a>
                     </div>
                 </div>
 
-                <div class="track-details-container right">
+                <div *ngIf="getGenres().length > 0" class="track-details-container right">
+                    <div class="genre-label-container">
+                        <a class="track-info-att"> {{'CURRENT_TRACK.GENRE' | translate}}: </a>
+                    </div>
                     <div *ngFor="let genre of getGenres()" class="detail-element">
                         <like (click)="onGenreFeedbackChanged(genre)"
                               [(value)]="genre.feedback"></like>
-                        <a class="track-info-att"> {{'CURRENT_TRACK.GENRE' | translate}}: </a>
                         <a class="track-info">{{capitalize(genre.genre)}} </a>
                     </div>
                 </div>

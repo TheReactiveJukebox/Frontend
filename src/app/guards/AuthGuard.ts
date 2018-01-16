@@ -6,6 +6,7 @@ import {HistoryService} from '../services/history.service';
 import {TrackService} from '../services/track.service';
 import {RadiostationService} from '../services/radiostation.service';
 import {FeedbackService} from '../services/feedback.service';
+import {LoadingService} from '../services/loading.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,6 +15,7 @@ export class AuthGuard implements CanActivate {
                 private radiostationService: RadiostationService,
                 private feedbackService: FeedbackService,
                 private loggingService: LoggingService,
+                private loadingService: LoadingService,
                 private historyService: HistoryService,
                 private trackService: TrackService,
                 private router: Router) {}
@@ -23,14 +25,17 @@ export class AuthGuard implements CanActivate {
         if (this.authService.isLoggedIn()) {
             return true;
         } else { // user isn't logged in and has no rights to access. redirect to login page
+            this.loadingService.show();
             this.loggingService.log(this, 'Performing autologin!');
             this.authService.performAutoLogin().subscribe(() => {
                 this.radiostationService.init();
                 this.trackService.init();
                 this.historyService.clearLocalHistory();
                 this.feedbackService.init();
+                this.loadingService.hide();
                 this.router.navigate([state.url]);
             }, err => {
+                this.loadingService.hide();
                 this.loggingService.log(this, 'Autologin failed!', err);
                 this.router.navigate(['/login']);
             });

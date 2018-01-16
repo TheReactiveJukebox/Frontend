@@ -6,7 +6,7 @@ h2 {
 }
 
 #content-wrapper {
-  padding: 10px;
+  padding: 10px 0px;
 
   #song-info {
     display: flex;
@@ -69,6 +69,11 @@ h2 {
           &.right {
             align-items: flex-start;
             margin-left: 100px;
+
+            .genre-label-container {
+              height: 24px;
+              margin: 5px 0px;
+            }
           }
         }
       }
@@ -90,9 +95,9 @@ h2 {
 #container {
   display: inline-block;
   position: relative;
-  width: 15%;
-  max-width: 400px;
-  max-height: 400px;
+  width: 20%;
+  max-width: 300px;
+  max-height: 300px;
   min-height: 180px;
   min-width: 180px;
 }

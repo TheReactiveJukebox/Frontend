@@ -31,6 +31,10 @@
         <a md-icon-button class="header-button" routerLink="/login" (click)="this.authService.logout()">
             <md-icon>exit_to_app</md-icon>
         </a>
+        <a href="mailto:reactivejukebox@gmail.com" md-button class="header-button help">
+            <md-icon>feedback</md-icon>
+            {{'PLAYER.ISSUES' | translate}}
+        </a>
         <speech-search-field class="header-button" [minimal]="true"></speech-search-field>
         <a *ngIf="this.surveyService.canOpenSurvey()" md-icon-button class="header-button" (click)="this.surveyService.openSurvey()">
             <md-icon>comment</md-icon>

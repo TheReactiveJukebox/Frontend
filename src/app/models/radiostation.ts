@@ -18,7 +18,7 @@ export class Radiostation {
         this.userId = null;
         this.genres = null;
         this.startTracks = null;
-        this.algorithm = null;
+        this.algorithm = 'HYBRID';
         this.startYear = null;
         this.endYear = null;
         this.minSpeed = null;
