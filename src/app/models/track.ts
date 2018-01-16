@@ -33,4 +33,5 @@ export class Track {
     public downloadSub: Subscription;
     public xhrRequest: XMLHttpRequest;
     public readyToPlay: BehaviorSubject<boolean>;
+    public brokenFile?: boolean;
 }
