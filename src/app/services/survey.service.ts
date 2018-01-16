@@ -62,7 +62,9 @@ export class SurveyService {
     private showPopup(): void {
         if (!this.popupOpened) {
             this.popupOpened = true;
-            this.dialog.open(OpenSurveyComponent);
+            this.dialog.open(OpenSurveyComponent, {
+                disableClose: true
+            });
         }
     }
 
