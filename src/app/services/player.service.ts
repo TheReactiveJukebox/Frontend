@@ -4,7 +4,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Track} from '../models/track';
-import {AuthHttp} from './auth/auth-http';
 import {HistoryService} from './history.service';
 import {IndirectFeedbackService} from './indirect-feedback.service';
 import {RadiostationService} from './radiostation.service';
@@ -28,8 +27,7 @@ export class PlayerService implements OnDestroy {
                 private historyService: HistoryService,
                 private surveyService: SurveyService,
                 private indirectFeedbackService: IndirectFeedbackService,
-                private loggingService: LoggingService,
-                private authHttp: AuthHttp) {
+                private loggingService: LoggingService) {
         //set the default player settings
         this.audioPlayer.type = 'audio/mpeg';
         this.audioPlayer.volume = this._volume;
@@ -47,13 +45,10 @@ export class PlayerService implements OnDestroy {
             this.trackService.currentTrack.subscribe(
                 (currentTrack: Track) => {
                     this.currentTrack = currentTrack;
-
                     this.trackUpdated();
                 }
             )
-        )
-        ;
-        this.trackService.refreshCurrentAndUpcomingTracks();
+        );
         this.isPlaying = false;
     }
 

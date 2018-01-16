@@ -6,6 +6,7 @@ import {TrackService} from '../../services/track.service';
 import {Config} from '../../config';
 import {GenreFeedback} from '../../models/genre-feedback';
 import {Utils} from '../../utils';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'current-track',
@@ -28,6 +29,7 @@ export class CurrentTrackComponent implements OnInit {
 
     constructor(public trackService: TrackService,
                 public feedbackService: FeedbackService,
+                private loggingService: LoggingService,
                 public historyService: HistoryService) {
     }
 
@@ -48,21 +50,52 @@ export class CurrentTrackComponent implements OnInit {
         return Utils.round(value, digits);
     }
 
-    // TODO add timer to avoid multiple calls
     public onTrackFeedbackChanged(): void {
-        this.feedbackService.postTrackFeedback(this.currentTrack);
+        this.feedbackService.postTrackFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Failed to post trackFeedback!', error);
+        });
+    }
+
+    public onSpeedFeedbackChanged(): void {
+        this.feedbackService.postSpeedFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Failed to post speedFeedback!', error);
+        });
+    }
+
+    public onMoodFeedbackChanged(): void {
+        this.feedbackService.postMoodFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Failed to post moodFeedback!', error);
+        });
     }
 
     public onGenreFeedbackChanged(genre: GenreFeedback): void {
-        this.feedbackService.postGenreFeedback(genre);
+        this.feedbackService.postGenreFeedback(genre).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Post genre feedback failed. Cant fetch new songs!');
+        });
     }
 
     public onArtistFeedbackChanged(): void {
-        this.feedbackService.postArtistFeedback(this.currentTrack);
+        this.feedbackService.postArtistFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Post artist feedback failed. Cant fetch new songs!');
+        });
     }
 
     public onAlbumFeedbackChanged(): void {
-        this.feedbackService.postAlbumFeedback(this.currentTrack);
+        this.feedbackService.postAlbumFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Failed to post albumFeedback!', error);
+        });
     }
 
     public capitalize(s: string): string {

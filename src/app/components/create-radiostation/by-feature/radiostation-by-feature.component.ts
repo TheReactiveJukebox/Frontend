@@ -36,8 +36,6 @@ export class RadiostationByFeatureComponent {
 
     public speedLowerLimit: number = Config.speedLowerLimit;
     public speedUpperLimit: number = Config.speedUpperLimit;
-    public dynamicLowerLimit: number = Config.dynamicLowerLimit;
-    public dynamicUpperLimit: number = Config.dynamicUpperLimit;
     public yearLowerLimit: number;
     public yearUpperLimit: number = Config.yearUpperLimit;
 
@@ -67,6 +65,8 @@ export class RadiostationByFeatureComponent {
                     // fetch information about the startTracks
                     this.trackService.loadTracksByIds(radiostation.startTracks).subscribe((tracks: Track[]) => {
                         this.startTracks = tracks;
+                    }, error => {
+                        this.loggingService.error(this, 'Failed to loadTracksByIds for start Tracks!', error);
                     });
                 }
             }
@@ -90,7 +90,7 @@ export class RadiostationByFeatureComponent {
         this.authHttp.get(this.trackParameterApiUrl).subscribe((data: any) => {
             this.yearLowerLimit = data.oldestTrack;
             this.speedLowerLimit = Math.floor(data.minSpeed);
-            this.speedUpperLimit = Math.round(data.maxSpeed);
+            this.speedUpperLimit = Math.floor(data.maxSpeed) + 1;
         }, error => {
             this.yearLowerLimit = 1800;
             this.speedLowerLimit = Config.speedLowerLimit;
@@ -102,11 +102,7 @@ export class RadiostationByFeatureComponent {
     //resets the gui
     public resetRadiostation(): void {
         this.radiostation = new Radiostation();
-        if (this.study) {
-            this.radiostation.algorithm = 'RANDOM';
-        } else {
-            this.radiostation.algorithm = 'HYBRID';
-        }
+        this.radiostation.algorithm = 'HYBRID';
     }
 
 
@@ -114,12 +110,18 @@ export class RadiostationByFeatureComponent {
         this.radiostationService.startNewRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
             this.playerService.play();
+        }, error => {
+            // We don't need to handle the error-object. This is done in startNewRadiostation method!
+            this.loggingService.log(this, 'Failed to start new Radiostation!');
         });
     }
 
     public update(): void {
         this.radiostationService.updateRadiostation(this.radiostation).subscribe(() => {
             this.onStart.emit();
+        }, error => {
+            // We don't need to handle the error-object. This is done in startNewRadiostation method!
+            this.loggingService.log(this, 'Failed to update Radiostation!');
         });
     }
 

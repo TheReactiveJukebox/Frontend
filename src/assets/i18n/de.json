@@ -4,7 +4,9 @@
     "SAGH": "Größte Hits des gleichen Künstlers",
     "SPOTIFY": "Spotify-Empfehlungssystem",
     "MOOD": "Ähnliche Stimmung",
-    "SPEED": "Ähnliches Tempo"
+    "SPEED": "Ähnliches Tempo",
+    "HYBRID": "Hybrid",
+    "FEATURES": "Merkmalsalgorithmus"
   },
   "GENERAL": {
     "INVITE_KEY": "Einladungsschlüssel",
@@ -20,13 +22,15 @@
       "GENERAL_REGISTER": "Registrierung fehlgeschlagen. Versuche es erneut!",
       "GENERAL_LOGIN": "Login fehlgeschlagen. Versuche es erneut!",
       "WRONG_PW_OR_USER": "Login fehlgeschlagen! Benutzername oder Passwort ist falsch!"
-    }
+    },
+    "BROWSER": "Dein Browser wird leider nicht unterstützt. Bitte verwende Google Chrome oder Mozilla Firefox!"
   },
   "PLAYER": {
     "TABS": {
       "PLAYER": "Deine Radiostation",
       "RADIOSTATION": "Radiostation erstellen"
-    }
+    },
+    "ISSUES": "Problem melden"
   },
   "TRACK_LIST": {
     "ID": "ID",
@@ -47,7 +51,7 @@
     "SPECIALFEEDBACK": "Grund angeben",
     "NO_TRACK": "Bitte erstelle eine Radiostation um Musik zu hören",
     "REFRESH": "Songliste aktualisieren",
-    "GENRE": "Genre",
+    "GENRE": "Genres",
     "TEMPO": "Tempo",
     "MOOD": "Stimmung"
   },
@@ -89,7 +93,7 @@
 
   "MOOD_SELECTOR": {
     "AROUSAL": "Wie anregend soll die Musik sein?",
-    "VALENCE": "Welche Grundstimmung soll die Musik haben?",
+    "VALENCE": "Wie positiv oder negativ soll die Musik sein?",
     "MOOD_TAG": "Deine ausgewählte Stimmung:"
   },
 
@@ -196,5 +200,6 @@
     "PASSIVE": "passiv",
     "NEGATIVE": "negativ",
     "POSITIVE": "positiv"
-  }
+  },
+  "LOADING": "Lade..."
 }

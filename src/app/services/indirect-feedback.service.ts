@@ -20,11 +20,7 @@ export class IndirectFeedbackService {
 
                 },
                 error => {
-                    if (error.status == 500 && error.statusText == 'OK') {
-                        this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in postIndirectFeedback!');
-                    } else {
-                        this.loggingService.error(this, 'Sending indirect feedback failed!', error);
-                    }
+                    this.loggingService.error(this, 'Sending indirect feedback failed!', error);
                 }
             );
         }

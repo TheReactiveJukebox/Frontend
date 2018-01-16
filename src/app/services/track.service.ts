@@ -14,6 +14,7 @@ import {Moods} from '../models/moods';
 import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
 import {LoggingService} from './logging.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
 export class TrackService {
@@ -22,6 +23,7 @@ export class TrackService {
     public nextTracks: BehaviorSubject<Track[]>;
     public moods: Moods;
     private numberUpcomingSongs: number = Config.numberUpcomingSongs;
+    private updateTrackCacheSubscription: Subscription;
 
     // dataCache for artists and albums. Before requesting any data from server, check if it's still here. if not, store
     // it here to reduce waiting for backend
@@ -44,7 +46,7 @@ export class TrackService {
                 private feedbackService: FeedbackService,
                 private loggingService: LoggingService,
                 private translateService: TranslateService) {
-        this.init();
+
     }
 
     public init(): void {
@@ -63,14 +65,17 @@ export class TrackService {
         });
     }
 
-    private getTracksFromCache(count: number, withCurrent: boolean): Observable<Track[]> {
+    private getTracksFromCache(count: number, withCurrent: boolean, initialRadiostationStart: boolean): Observable<Track[]> {
         return Observable.create(observer => {
-            if (this.fetchedSongs.length - count < 5 && !this.isFetchingSongs) {
+            if (this.fetchedSongs.length - count < 10 && !this.isFetchingSongs) {
                 this.isFetchingSongs = true;
                 let countToFetch = count < Config.numberFetchedSongs ? Config.numberFetchedSongs : count;
                 let url = this.trackListUrl + '?count=' + countToFetch;
                 //inculde tracks that are in the current listening queue
-                if (withCurrent) {
+                if (initialRadiostationStart) {
+                    url += '&start=true';
+                }
+                if (!withCurrent) {
                     if (this.currentTrack.getValue()) {
                         url += '&upcoming=' + this.currentTrack.getValue().id;
                     }
@@ -91,10 +96,14 @@ export class TrackService {
                         this.isFetchingSongs = false;
                         observer.next(this.fetchedSongs.splice(0, count));
                         observer.complete();
+                    }, error => {
+                        observer.error(error);
                     });
                 }, error => {
                     if (error.status == 404) {
                         this.loggingService.log(this, 'Tried to fetch new songs, but there are no available!');
+                    } else if (error.status == 422) {
+                        this.loggingService.log(this, 'Tried to fetch new songs, but radiostation is not available!');
                     } else {
                         this.loggingService.error(this, 'Cant fetch new songs!', error);
                     }
@@ -114,9 +123,9 @@ export class TrackService {
     }
 
     //Refreshes current track and track preview according to current radiostation
-    public refreshCurrentAndUpcomingTracks(): void {
+    public refreshCurrentAndUpcomingTracks(initialRadiostationStart: boolean): void {
         this.fetchedSongs = [];
-        this.getNewSongs(this.numberUpcomingSongs + 1, true).subscribe((tracks: Track[]) => {
+        this.getNewSongs(this.numberUpcomingSongs + 1, true, initialRadiostationStart).subscribe((tracks: Track[]) => {
             this.currentTrack.next(tracks[0]);
             this.nextTracks.next(tracks.slice(1));
         }, error => {
@@ -127,21 +136,26 @@ export class TrackService {
     //Refreshes current Tracklist
     public refreshUpcomingTracks(): void {
         this.fetchedSongs = [];
-        this.getNewSongs(this.numberUpcomingSongs + 1, false).subscribe((tracks: Track[]) => {
-            this.nextTracks.next(tracks.slice(1));
+        this.getNewSongs(this.numberUpcomingSongs, false, false).subscribe((tracks: Track[]) => {
+            this.nextTracks.next(tracks);
         }, error => {
             this.loggingService.error(this, 'Error refreshing tracklist!', error);
         });
     }
 
 
-    public getNewSongs(count: number, withCurrent: boolean): Observable<Track[]> {
+    public getNewSongs(count: number, withCurrent: boolean, initialRadiostationStart: boolean): Observable<Track[]> {
         return Observable.create(observer => {
-            this.getTracksFromCache(count, withCurrent).subscribe((tracks: Track[]) => {
+            this.getTracksFromCache(count, withCurrent, initialRadiostationStart).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
                     observer.next(this.fillMusicData(tracks));
                     observer.complete();
+                } else {
+                    observer.next([]);
+                    observer.complete();
                 }
+            }, error => {
+                observer.error(error);
             });
         });
     }
@@ -180,10 +194,16 @@ export class TrackService {
                     rawTracks[i].artist = artists[i];
                     rawTracks[i].album = albums[i];
                     rawTracks[i].genres = genreFeedbacks[i];
+                    rawTracks[i].speedFeedback = this.feedbackService.getSpeedFeedback(rawTracks[i].fSpeed);
+                    rawTracks[i].moodFeedback = this.feedbackService.getMoodFeedback(rawTracks[i].fMood);
                 }
 
                 observer.next(rawTracks);
                 observer.complete();
+            }, error => {
+                    observer.error(error);
+                    observer.complete();
+                    this.loggingService.error(this, 'Failed to fill Meta-Data!', error);
             });
         });
     }
@@ -200,14 +220,8 @@ export class TrackService {
                     observer.next(entities);
                     observer.complete();
                 }, error => {
-                    if (error.status == 500 && error.statusText == 'OK') {
-                        this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in requestEntities!');
-                        observer.next(JSON.parse(error._body));
-                        observer.complete();
-                    } else {
-                        observer.error(error);
-                        observer.complete();
-                    }
+                    observer.error(error);
+                    observer.complete();
                 });
             } else {
                 observer.next([]);
@@ -225,6 +239,10 @@ export class TrackService {
             track.downloadSub = requestData[0].subscribe((data) => {
                 track.data = data;
                 track.readyToPlay.next(true);
+            }, error => {
+                track.readyToPlay.next(false);
+                track.readyToPlay.complete();
+                this.loggingService.error(this, 'Filed to load mp3 from server!', error);
             });
         }
         return tracks;
@@ -239,7 +257,7 @@ export class TrackService {
             tempTracks = tempTracks.slice(1);
             this.nextTracks.next(tempTracks);
             //Get new Track
-            this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true).subscribe((tracks: Track[]) => {
+            this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true, false).subscribe((tracks: Track[]) => {
                 for (let t of tracks) {
                     tempTracks.push(t);
                 }
@@ -276,7 +294,7 @@ export class TrackService {
         }
 
         //Get new Track
-        this.getNewSongs(removed, true).subscribe((tracks: Track[]) => {
+        this.getNewSongs(removed, true, false).subscribe((tracks: Track[]) => {
             newTracks.push(tracks[0]);
             this.nextTracks.next(newTracks);
         }, error => {
@@ -306,7 +324,7 @@ export class TrackService {
         //Get #removed + 1 new tracks, +1 because current track is skipped
         if (removed >= 0) {
 
-            this.getNewSongs(removed + 1, true).subscribe((tracks: Track[]) => {
+            this.getNewSongs(removed + 1, true, false).subscribe((tracks: Track[]) => {
                 let newTracks: Track[] = this.nextTracks.getValue();
                 newTracks.splice(0, removed);
                 this.currentTrack.next(newTracks[0]);
@@ -328,7 +346,13 @@ export class TrackService {
                 this.fillMetaData(rawTracks).subscribe((tracks: Track[]) => {
                     observer.next(tracks);
                     observer.complete();
+                }, error => {
+                    observer.error(error);
+                    this.loggingService.error(this, 'Failed to fillMetaData fpr loadTracksByIds!');
                 });
+            }, error => {
+                observer.error(error);
+                this.loggingService.error(this, 'Failed to call requestEntities in loadTracksByIds!');
             });
         });
     }
@@ -348,9 +372,18 @@ export class TrackService {
                 }
                 let requestedArtists: Artist[] = [];
                 for (let id of ids) {
-                    requestedArtists.push(this.artistCache.get(id));
+                    if (this.artistCache.get(id)) {
+                        requestedArtists.push(this.artistCache.get(id));
+                    } else {
+                        observer.error('Cache miss for artist with id ' + id + '! This should not happen!');
+                        this.loggingService.error(this, 'Cache miss for artist with id ' + id + '!');
+                    }
                 }
                 observer.next(requestedArtists);
+                observer.complete();
+            }, error => {
+                this.loggingService.error(this, 'Failed to load Artists from Cache!', error);
+                observer.error(error);
                 observer.complete();
             });
         });
@@ -371,11 +404,32 @@ export class TrackService {
                 }
                 let requestedAlbums: Album[] = [];
                 for (let id of ids) {
-                    requestedAlbums.push(this.albumCache.get(id));
+                    if (this.albumCache.get(id)) {
+                        requestedAlbums.push(this.albumCache.get(id));
+                    } else {
+                        observer.error('Cache miss for album with id ' + id + '! This should not happen!');
+                        this.loggingService.error(this, 'Cache miss for album with id ' + id + '!');
+                    }
                 }
                 observer.next(requestedAlbums);
                 observer.complete();
+            }, error => {
+                this.loggingService.error(this, 'Failed to load Albums from Cache!', error);
+                observer.error(error);
+                observer.complete();
             });
+        });
+    }
+
+    public updateTrackCache(): void {
+        if (this.updateTrackCacheSubscription) {
+            this.updateTrackCacheSubscription.unsubscribe();
+        }
+        this.fetchedSongs = [];
+        this.updateTrackCacheSubscription = this.getTracksFromCache(0, false, false).subscribe(() => {
+
+        }, error => {
+
         });
     }
 }

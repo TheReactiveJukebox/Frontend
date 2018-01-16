@@ -11,6 +11,7 @@ import {Radiostation} from '../models/radiostation';
 import {AuthHttp} from './auth/auth-http';
 import {TrackService} from './track.service';
 import {LoggingService} from './logging.service';
+import {Utils} from '../utils';
 
 
 @Injectable()
@@ -50,63 +51,46 @@ export class RadiostationService implements OnDestroy {
     //starts a new radiostation with given creation criteria
     public startNewRadiostation(radiostation: Radiostation): Observable<Radiostation> {
         return Observable.create((observer: Observer<any>) => {
+            radiostation.genres = this.toLowerCase(radiostation.genres);
             // set ids to null, to indicate server, that we want a new radiostation
             radiostation.userId = null;
             radiostation.id = null;
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                data.genres = this.toUpperCase(data.genres);
                 this.radiostationSubject.next(data);
-                this.trackService.refreshCurrentAndUpcomingTracks();
+                this.trackService.refreshCurrentAndUpcomingTracks(true);
                 observer.next(data);
                 observer.complete();
             }, (error: any) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in startNewRadiostation!');
-                    this.radiostationSubject.next(JSON.parse(error._body));
-                    this.trackService.refreshCurrentAndUpcomingTracks();
-                    observer.next(error._body);
-                    observer.complete();
-                } else {
-                    this.loggingService.error(this, 'Creating new Radiostation failed!', error);
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Creating new Radiostation failed!', error);
+                observer.error(error);
             });
         });
     }
 
     public updateRadiostation(radiostation: Radiostation): Observable<Radiostation> {
         return Observable.create((observer: Observer<any>) => {
+            radiostation.genres = this.toLowerCase(radiostation.genres);
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
+                data.genres = this.toUpperCase(data.genres);
                 this.radiostationSubject.next(data);
-                this.refreshTrackList();
+                this.trackService.refreshUpcomingTracks();
                 observer.next(data);
                 observer.complete();
             }, (error: any) => {
-                if (error.status == 500 && error.statusText == 'OK') {
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in updateRadiostation!!!');
-                    this.radiostationSubject.next(JSON.parse(error._body));
-                    this.refreshTrackList();
-                    observer.next(error._body);
-                    observer.complete();
-                } else {
-                    this.loggingService.error(this, 'Updating Radiostation failed!', error);
-                    observer.error(error);
-                }
+                this.loggingService.error(this, 'Updating Radiostation failed!', error);
+                observer.error(error);
             });
         });
     }
 
     public fetchRadiostation(): void {
         this.authHttp.get(this.radiostationApiUrl).subscribe((radiostation: Radiostation) => {
+            radiostation.genres = this.toUpperCase(radiostation.genres);
             this.radiostationSubject.next(radiostation);
+            this.trackService.refreshCurrentAndUpcomingTracks(false);
         }, error => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                try {
-                    this.radiostationSubject.next(JSON.parse(error._body));
-                    this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in fetchRadiostation!!!');
-                } catch (e) {
-                    this.loggingService.error(this, 'Tried to perform ungly 500-fix, but failed!', error);
-                }
-            } else if (error.status == 404) {
+            if (error.status == 404) {
                 this.loggingService.log(this, 'Fetched radiostation, but there is no one available!');
             } else {
                 this.loggingService.error(this, 'Error fetching radiostation!', error);
@@ -132,11 +116,14 @@ export class RadiostationService implements OnDestroy {
             increment = 10;
         }
         radiostation.minSpeed = radiostation.minSpeed + increment > Config.speedUpperLimit ?
-                Config.speedUpperLimit : radiostation.minSpeed + increment;
+            Config.speedUpperLimit : radiostation.minSpeed + increment;
 
         radiostation.maxSpeed = radiostation.maxSpeed + increment > Config.speedUpperLimit ?
             Config.speedUpperLimit : radiostation.maxSpeed + increment;
-        this.updateRadiostation(radiostation);
+
+        this.updateRadiostation(radiostation).subscribe(null, error => {
+            this.loggingService.error(this, 'Failed to call updateRadiostation!');
+        });
     }
 
     // TODO what should be done, if there is no current value?
@@ -146,11 +133,13 @@ export class RadiostationService implements OnDestroy {
             decrement = 10;
         }
         radiostation.minSpeed = radiostation.minSpeed - decrement < Config.speedLowerLimit ?
-                Config.speedLowerLimit : radiostation.minSpeed - decrement;
+            Config.speedLowerLimit : radiostation.minSpeed - decrement;
 
         radiostation.maxSpeed = radiostation.maxSpeed - decrement < Config.speedLowerLimit ?
             Config.speedLowerLimit : radiostation.maxSpeed - decrement;
-        this.updateRadiostation(radiostation);
+        this.updateRadiostation(radiostation).subscribe(null, error => {
+            this.loggingService.error(this, 'Failed to call updateRadiostation!');
+        });
     }
 
     public hasRadiostation(): boolean {
@@ -166,11 +155,25 @@ export class RadiostationService implements OnDestroy {
     }
 
     public getAlgorithms(): Observable<string[]> {
-        return this.algorithms.asObservable();
+        return this.algorithms;
     }
 
-    public refreshTrackList(): void {
-        this.trackService.refreshUpcomingTracks();
+    public toLowerCase(genres: string[]): string[] {
+        if (genres != null) {
+            return genres.map((value) => {
+                return value.toLowerCase();
+            });
+        }
+        return null;
+    }
+
+    public toUpperCase(genres: string[]): string[] {
+        if (genres != null) {
+            return genres.map((value) => {
+                return Utils.capitalize(value);
+            });
+        }
+        return null;
     }
 
 }

@@ -6,9 +6,7 @@ export class TrackFeedback {
     public userId: number = -1;
     public trackId: number = -1;
     public songFeedback: number = 0;
-    public speedFeedback: number = 0;
     public dynamicsFeedback: number = 0;
-    public moodFeedback: number = 0;
 
     constructor(data?: any) {
         if (data) {
@@ -16,9 +14,7 @@ export class TrackFeedback {
             this.userId = data.userId;
             this.trackId = data.trackId;
             this.songFeedback = data.songFeedback;
-            this.speedFeedback = data.speedFeedback;
             this.dynamicsFeedback = data.dynamicsFeedback;
-            this.moodFeedback = data.moodFeedback;
         }
     }
 }

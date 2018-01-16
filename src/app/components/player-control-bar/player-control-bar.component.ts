@@ -4,6 +4,7 @@ import {Track} from '../../models/track';
 import {FeedbackService} from '../../services/feedback.service';
 import {PlayerService} from '../../services/player.service';
 import {TrackService} from '../../services/track.service';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
     selector: 'player-control-bar',
@@ -20,6 +21,7 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
 
     constructor(public trackService: TrackService,
                 public playerService: PlayerService,
+                private loggingService: LoggingService,
                 public feedbackService: FeedbackService) {
         this.subscriptions = [];
     }
@@ -30,8 +32,10 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
         // gets destroyed.
         this.subscriptions.push(
             this.trackService.currentTrack.subscribe((currentTrack: Track) => {
-                this.currentTrack = currentTrack;
-                this.trackUpdated();
+                if (currentTrack != null) {
+                    this.currentTrack = currentTrack;
+                    this.trackUpdated();
+                }
             })
         );
     }
@@ -46,16 +50,9 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     private trackUpdated(): void {
-        if (this.currentTrack) {
-            this.artist = this.currentTrack.artist.name;
-            this.title = this.currentTrack.title;
-            this.duration = this.currentTrack.duration;
-        } else {
-            //this.show = false;
-            this.artist = '???';
-            this.title = '???';
-            this.duration = 213;
-        }
+        this.artist = this.currentTrack.artist.name;
+        this.title = this.currentTrack.title;
+        this.duration = this.currentTrack.duration;
     }
 
     public onProgressBarClick(event: MouseEvent): void {
@@ -67,7 +64,11 @@ export class PlayerControlBarComponent implements OnInit, OnDestroy {
     }
 
     public feedback(): void {
-        this.feedbackService.postTrackFeedback(this.currentTrack);
+        this.feedbackService.postTrackFeedback(this.currentTrack).subscribe(() => {
+            this.trackService.updateTrackCache();
+        }, error => {
+            this.loggingService.error(this, 'Failed to post trackFeedback!', error);
+        });
     }
 
 }

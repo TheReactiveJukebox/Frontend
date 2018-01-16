@@ -6,6 +6,7 @@ import {OpenSurveyComponent} from '../components/dialogs/open-survey/open-survey
 import {TrackService} from './track.service';
 import {Track} from '../models/track';
 import {AuthHttp} from './auth/auth-http';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class SurveyService {
@@ -24,6 +25,7 @@ export class SurveyService {
     constructor(private authService: AuthService,
                 private authHttp: AuthHttp,
                 private trackService: TrackService,
+                private loggingService: LoggingService,
                 private dialog: MdDialog) {
         this.trackService.currentTrack.asObservable().subscribe((track: Track) => {
             if (track != null) {
@@ -37,9 +39,9 @@ export class SurveyService {
 
     public openSurvey(): void {
         this.authHttp.get(this.studyApiUrl).subscribe(() => {
-           console.log('Successfully notified backend about redirection to survey!');
+           this.loggingService.log(this, 'Successfully notified backend about redirection to survey!');
         }, error => {
-            console.error('Failed to call api/study: ', error);
+            this.loggingService.error(this, 'Failed to call api/study: ', error);
         });
         window.open(this.surveyUrl + this.authService.getUsername());
     }
@@ -60,12 +62,7 @@ export class SurveyService {
     private showPopup(): void {
         if (!this.popupOpened) {
             this.popupOpened = true;
-            let dialogRef = this.dialog.open(OpenSurveyComponent);
-            dialogRef.afterClosed().subscribe(result => {
-                if (result && result == 'survey') {
-                    this.openSurvey();
-                }
-            });
+            this.dialog.open(OpenSurveyComponent);
         }
     }
 

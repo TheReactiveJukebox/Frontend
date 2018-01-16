@@ -67,12 +67,7 @@ export class HistoryService {
         this.authHttp.post(this.historyApiUrl, reqBody).subscribe((data: any) => {
             track.historyId = data.id;
         }, (error: any) => {
-            if (error.status == 500 && error.statusText == 'OK') {
-                this.loggingService.warn(this, 'UGLY CATCH OF 500 Error in writeToHistory!');
-                track.historyId = error._body;
-            } else {
-                this.loggingService.error(this, 'Writing "' + track.title + '" to history failed!', error);
-            }
+            this.loggingService.error(this, 'Writing "' + track.title + '" to history failed!', error);
         });
 
     }
