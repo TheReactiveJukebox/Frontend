@@ -61,6 +61,7 @@ export class LoggingService {
             header.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             let text = message + '\n';
             text += 'Username: ' + this.authService.getUsername() + '\n';
+            text += 'Browser: ' + window.navigator.userAgent + '\n';
             if (object) {
                 text += JSON.stringify(object, null, 2);
             }
