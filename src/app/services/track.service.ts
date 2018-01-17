@@ -88,6 +88,7 @@ export class TrackService {
                 }
 
                 this.authHttp.get(url).subscribe((tracks: Track[]) => {
+                    console.log('NEW FETCHED TRACKS: ', tracks);
                     for (let i = 0; i < tracks.length; i++) {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                     }
