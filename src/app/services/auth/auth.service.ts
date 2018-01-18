@@ -101,7 +101,7 @@ export class AuthService {
     }
 
     // logout. Notify the server and remove the cookie.
-    public logout(): Observable<any> {
+    public logout(): void {
         let basicOptions: RequestOptionsArgs = {
             url: Config.serverUrl + '/api/user/logout',
             method: RequestMethod.Post,
@@ -115,11 +115,12 @@ export class AuthService {
         this.loggedIn.next(false);
         this.token = null;
         this.cookieService.remove('rjb-sessionToken');
+        location.reload();
 
-        return this.http.request(req, reqOptions).
-            map((res: Response) => {
-                return res;
-            } );
+        this.http.request(req, reqOptions).subscribe(() => {
+        }, error => {
+            console.log('[AuthService] Tried to notify server about logout, but failed!', error);
+        });
     }
 
     // Register a new user
