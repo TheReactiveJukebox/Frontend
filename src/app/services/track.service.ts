@@ -88,6 +88,7 @@ export class TrackService {
                 }
 
                 this.authHttp.get(url).subscribe((tracks: Track[]) => {
+                    console.log('NEW FETCHED TRACKS: ', tracks);
                     for (let i = 0; i < tracks.length; i++) {
                         tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
                     }
@@ -241,11 +242,27 @@ export class TrackService {
                 track.readyToPlay.next(true);
             }, error => {
                 track.readyToPlay.next(false);
-                track.readyToPlay.complete();
+                //track.readyToPlay.complete();
+                this.secondChanceDownload(track);
                 this.loggingService.error(this, 'Filed to load mp3 from server!', error);
             });
         }
         return tracks;
+    }
+
+    // if download failed for the first time, try it again. If it fails a second time: give it up, throw that song away!
+    public secondChanceDownload(track: Track): void {
+        let requestData = this.authHttp.getTrack(track.file);
+        track.xhrRequest = requestData[1];
+        track.downloadSub = requestData[0].subscribe((data) => {
+            track.data = data;
+            track.readyToPlay.next(true);
+        }, error => {
+            track.brokenFile = true;
+            track.readyToPlay.next(false);
+            track.readyToPlay.complete();
+            this.loggingService.error(this, 'Filed to load mp3 from server for the second time!', error);
+        });
     }
 
     //Gets the next track from the preview and adds the next track to the preview list
@@ -255,6 +272,7 @@ export class TrackService {
             this.currentTrack.next(tempTracks[0]);
             let nextTrack: Track = tempTracks[0];
             tempTracks = tempTracks.slice(1);
+            tempTracks = this.removeBrokenTracks(tempTracks);
             this.nextTracks.next(tempTracks);
             //Get new Track
             this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true, false).subscribe((tracks: Track[]) => {
@@ -269,6 +287,16 @@ export class TrackService {
         } else {
             return null;
         }
+    }
+
+    private removeBrokenTracks(tracks: Track[]): Track[] {
+        let cleanTracks: Track[] = [];
+        for (let track of tracks) {
+            if (!track.brokenFile) {
+                cleanTracks.push(track);
+            }
+        }
+        return cleanTracks;
     }
 
     public hasNextTracks(): boolean {

@@ -29,8 +29,12 @@ export class AuthHttp {
         return [Observable.create((observer: Observer<any>) => {
             xhr.onreadystatechange = function(): void {
                 if (this.readyState == 4 && this.status == 200) {
-                    observer.next(window.URL.createObjectURL(this.response));
-                    observer.complete();
+                    if (this.response == null) {
+                       observer.error('XHR Request is ready and status 200, but response is still empty! Awesome, Firefox!');
+                    } else {
+                        observer.next(window.URL.createObjectURL(this.response));
+                        observer.complete();
+                    }
                 }
             };
             xhr.open('GET', url);
