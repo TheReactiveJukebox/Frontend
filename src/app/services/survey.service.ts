@@ -43,7 +43,7 @@ export class SurveyService {
         }, error => {
             this.loggingService.error(this, 'Failed to call api/study: ', error);
         });
-        window.open(this.surveyUrl + this.authService.getUsername());
+        window.open(this.surveyUrl + this.authService.getUser().id);
     }
 
     public canOpenSurvey(): boolean {
