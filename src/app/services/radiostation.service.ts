@@ -58,9 +58,13 @@ export class RadiostationService implements OnDestroy {
             this.authHttp.post(this.radiostationApiUrl, radiostation).subscribe((data: Radiostation) => {
                 data.genres = this.toUpperCase(data.genres);
                 this.radiostationSubject.next(data);
-                this.trackService.refreshCurrentAndUpcomingTracks(true);
-                observer.next(data);
-                observer.complete();
+                this.trackService.refreshCurrentAndUpcomingTracks(true).subscribe(() => {
+                    observer.next(data);
+                    observer.complete();
+                }, (error: any) => {
+                    this.loggingService.error(this, 'Fetching new Songs failed!!', error);
+                    observer.error(error);
+                });
             }, (error: any) => {
                 this.loggingService.error(this, 'Creating new Radiostation failed!', error);
                 observer.error(error);

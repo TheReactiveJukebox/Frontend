@@ -15,6 +15,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
 import {LoggingService} from './logging.service';
 import {Subscription} from 'rxjs/Subscription';
+import {Radiostation} from '../models/radiostation';
+import {Observer} from 'rxjs/Observer';
 
 @Injectable()
 export class TrackService {
@@ -57,11 +59,11 @@ export class TrackService {
         this.albumCache = new Map<number, Album>();
 
         this.currentTrack.subscribe((track: Track) => {
-           if (this.currTrack && this.currTrack.downloadSub) {
-               this.currTrack.downloadSub.unsubscribe();
-               this.currTrack.xhrRequest.abort();
-           }
-           this.currTrack = track;
+            if (this.currTrack && this.currTrack.downloadSub) {
+                this.currTrack.downloadSub.unsubscribe();
+                this.currTrack.xhrRequest.abort();
+            }
+            this.currTrack = track;
         });
     }
 
@@ -123,14 +125,20 @@ export class TrackService {
     }
 
     //Refreshes current track and track preview according to current radiostation
-    public refreshCurrentAndUpcomingTracks(initialRadiostationStart: boolean): void {
-        this.fetchedSongs = [];
-        this.getNewSongs(this.numberUpcomingSongs + 1, true, initialRadiostationStart).subscribe((tracks: Track[]) => {
-            this.currentTrack.next(tracks[0]);
-            this.nextTracks.next(tracks.slice(1));
-        }, error => {
-            this.loggingService.error(this, 'Error fetching new songs!', error);
+    public refreshCurrentAndUpcomingTracks(initialRadiostationStart: boolean): Observable<Boolean> {
+        return Observable.create((observer: Observer<any>) => {
+            this.fetchedSongs = [];
+            this.getNewSongs(this.numberUpcomingSongs + 1, true, initialRadiostationStart).subscribe((tracks: Track[]) => {
+                this.currentTrack.next(tracks[0]);
+                this.nextTracks.next(tracks.slice(1));
+                observer.next(true);
+                observer.complete();
+            }, error => {
+                this.loggingService.error(this, 'Error fetching new songs!', error);
+                observer.error(error);
+            });
         });
+
     }
 
     //Refreshes current Tracklist
@@ -201,9 +209,9 @@ export class TrackService {
                 observer.next(rawTracks);
                 observer.complete();
             }, error => {
-                    observer.error(error);
-                    observer.complete();
-                    this.loggingService.error(this, 'Failed to fill Meta-Data!', error);
+                observer.error(error);
+                observer.complete();
+                this.loggingService.error(this, 'Failed to fill Meta-Data!', error);
             });
         });
     }
@@ -342,7 +350,7 @@ export class TrackService {
 
     public loadTracksByIds(ids: number[]): Observable<Track[]> {
         return Observable.create(observer => {
-            this.requestEntities(this.trackUrl , ids).subscribe(rawTracks => {
+            this.requestEntities(this.trackUrl, ids).subscribe(rawTracks => {
                 this.fillMetaData(rawTracks).subscribe((tracks: Track[]) => {
                     observer.next(tracks);
                     observer.complete();
@@ -356,7 +364,7 @@ export class TrackService {
             });
         });
     }
-    
+
     public getArtistsByIdsFromCache(ids: number[]): Observable<Artist[]> {
         return Observable.create(observer => {
             let missingArtists: number[] = [];
