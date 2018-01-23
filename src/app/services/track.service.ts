@@ -15,7 +15,6 @@ import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
 import {LoggingService} from './logging.service';
 import {Subscription} from 'rxjs/Subscription';
-import {Radiostation} from '../models/radiostation';
 import {Observer} from 'rxjs/Observer';
 
 @Injectable()
