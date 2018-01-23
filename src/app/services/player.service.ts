@@ -91,6 +91,8 @@ export class PlayerService implements OnDestroy {
                         if (this.isPlaying) {
                             this.play();
                         }
+                    } else if (this.currentTrack.brokenFile) {
+                        this.trackService.nextSong();
                     }
                 });
             }
