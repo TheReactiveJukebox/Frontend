@@ -80,7 +80,7 @@ export class TrackService {
                 if (!ignoreUpcomingTracks) {
                     if (this.currentTrack.getValue()) {
                         url += '&upcoming=' + this.currentTrack.getValue().id;
-                        upcomingIDs.push(this.currentTrack.getValue().id)
+                        upcomingIDs.push(this.currentTrack.getValue().id);
                     }
                     for (let track of this.nextTracks.getValue()) {
                         url += '&upcoming=' + track.id;
