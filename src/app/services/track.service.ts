@@ -15,6 +15,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {GenreFeedback} from '../models/genre-feedback';
 import {LoggingService} from './logging.service';
 import {Subscription} from 'rxjs/Subscription';
+import {Observer} from 'rxjs/Observer';
 
 @Injectable()
 export class TrackService {
@@ -57,15 +58,15 @@ export class TrackService {
         this.albumCache = new Map<number, Album>();
 
         this.currentTrack.subscribe((track: Track) => {
-           if (this.currTrack && this.currTrack.downloadSub) {
-               this.currTrack.downloadSub.unsubscribe();
-               this.currTrack.xhrRequest.abort();
-           }
-           this.currTrack = track;
+            if (this.currTrack && this.currTrack.downloadSub) {
+                this.currTrack.downloadSub.unsubscribe();
+                this.currTrack.xhrRequest.abort();
+            }
+            this.currTrack = track;
         });
     }
 
-    private getTracksFromCache(count: number, withCurrent: boolean, initialRadiostationStart: boolean): Observable<Track[]> {
+    private getTracksFromCache(count: number, ignoreUpcomingTracks: boolean, initialRadiostationStart: boolean): Observable<Track[]> {
         return Observable.create(observer => {
             if (this.fetchedSongs.length - count < 10 && !this.isFetchingSongs) {
                 this.isFetchingSongs = true;
@@ -75,7 +76,7 @@ export class TrackService {
                 if (initialRadiostationStart) {
                     url += '&start=true';
                 }
-                if (!withCurrent) {
+                if (!ignoreUpcomingTracks) {
                     if (this.currentTrack.getValue()) {
                         url += '&upcoming=' + this.currentTrack.getValue().id;
                     }
@@ -124,20 +125,26 @@ export class TrackService {
     }
 
     //Refreshes current track and track preview according to current radiostation
-    public refreshCurrentAndUpcomingTracks(initialRadiostationStart: boolean): void {
-        this.fetchedSongs = [];
-        this.getNewSongs(this.numberUpcomingSongs + 1, true, initialRadiostationStart).subscribe((tracks: Track[]) => {
-            this.currentTrack.next(tracks[0]);
-            this.nextTracks.next(tracks.slice(1));
-        }, error => {
-            this.loggingService.error(this, 'Error fetching new songs!', error);
+    public refreshCurrentAndUpcomingTracks(initialRadiostationStart: boolean): Observable<Boolean> {
+        return Observable.create((observer: Observer<any>) => {
+            this.fetchedSongs = [];
+            this.getNewSongs(this.numberUpcomingSongs + 1, true, initialRadiostationStart).subscribe((tracks: Track[]) => {
+                this.currentTrack.next(tracks[0]);
+                this.nextTracks.next(tracks.slice(1));
+                observer.next(true);
+                observer.complete();
+            }, error => {
+                this.loggingService.error(this, 'Error fetching new songs!', error);
+                observer.error(error);
+            });
         });
+
     }
 
     //Refreshes current Tracklist
     public refreshUpcomingTracks(): void {
         this.fetchedSongs = [];
-        this.getNewSongs(this.numberUpcomingSongs, false, false).subscribe((tracks: Track[]) => {
+        this.getNewSongs(this.numberUpcomingSongs, true, false).subscribe((tracks: Track[]) => {
             this.nextTracks.next(tracks);
         }, error => {
             this.loggingService.error(this, 'Error refreshing tracklist!', error);
@@ -145,9 +152,9 @@ export class TrackService {
     }
 
 
-    public getNewSongs(count: number, withCurrent: boolean, initialRadiostationStart: boolean): Observable<Track[]> {
+    public getNewSongs(count: number, ignoreUpcomingTracks: boolean, initialRadiostationStart: boolean): Observable<Track[]> {
         return Observable.create(observer => {
-            this.getTracksFromCache(count, withCurrent, initialRadiostationStart).subscribe((tracks: Track[]) => {
+            this.getTracksFromCache(count, ignoreUpcomingTracks, initialRadiostationStart).subscribe((tracks: Track[]) => {
                 if (tracks.length > 0) {
                     observer.next(this.fillMusicData(tracks));
                     observer.complete();
@@ -202,9 +209,9 @@ export class TrackService {
                 observer.next(rawTracks);
                 observer.complete();
             }, error => {
-                    observer.error(error);
-                    observer.complete();
-                    this.loggingService.error(this, 'Failed to fill Meta-Data!', error);
+                observer.error(error);
+                observer.complete();
+                this.loggingService.error(this, 'Failed to fill Meta-Data!', error);
             });
         });
     }
@@ -275,7 +282,7 @@ export class TrackService {
             tempTracks = this.removeBrokenTracks(tempTracks);
             this.nextTracks.next(tempTracks);
             //Get new Track
-            this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, true, false).subscribe((tracks: Track[]) => {
+            this.getNewSongs(this.numberUpcomingSongs - this.nextTracks.getValue().length, false, false).subscribe((tracks: Track[]) => {
                 for (let t of tracks) {
                     tempTracks.push(t);
                 }
@@ -322,7 +329,7 @@ export class TrackService {
         }
 
         //Get new Track
-        this.getNewSongs(removed, true, false).subscribe((tracks: Track[]) => {
+        this.getNewSongs(removed, false, false).subscribe((tracks: Track[]) => {
             newTracks.push(tracks[0]);
             this.nextTracks.next(newTracks);
         }, error => {
@@ -370,7 +377,7 @@ export class TrackService {
 
     public loadTracksByIds(ids: number[]): Observable<Track[]> {
         return Observable.create(observer => {
-            this.requestEntities(this.trackUrl , ids).subscribe(rawTracks => {
+            this.requestEntities(this.trackUrl, ids).subscribe(rawTracks => {
                 this.fillMetaData(rawTracks).subscribe((tracks: Track[]) => {
                     observer.next(tracks);
                     observer.complete();
@@ -384,7 +391,7 @@ export class TrackService {
             });
         });
     }
-    
+
     public getArtistsByIdsFromCache(ids: number[]): Observable<Artist[]> {
         return Observable.create(observer => {
             let missingArtists: number[] = [];
