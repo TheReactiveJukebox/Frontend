@@ -46,7 +46,6 @@ export class PlayerComponent implements OnInit {
                 }
             }
         });
-
     }
 
     public ngOnInit(): void {
@@ -69,7 +68,7 @@ export class PlayerComponent implements OnInit {
     }
 
     public studyStart(): void {
-        if (this.hasRadio) {;
+        if (this.hasRadio) {
             this.switchToPlayer();
         } else {
             this.switchToCreate();
