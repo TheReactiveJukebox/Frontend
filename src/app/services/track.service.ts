@@ -76,22 +76,35 @@ export class TrackService {
                 if (initialRadiostationStart) {
                     url += '&start=true';
                 }
+                let upcomingIDs = [];
                 if (!ignoreUpcomingTracks) {
                     if (this.currentTrack.getValue()) {
                         url += '&upcoming=' + this.currentTrack.getValue().id;
+                        upcomingIDs.push(this.currentTrack.getValue().id);
                     }
                     for (let track of this.nextTracks.getValue()) {
                         url += '&upcoming=' + track.id;
+                        upcomingIDs.push(track.id);
                     }
                 }
                 for (let track of this.fetchedSongs) {
                     url += '&upcoming=' + track.id;
+                    upcomingIDs.push(track.id);
                 }
 
                 this.authHttp.get(url).subscribe((tracks: Track[]) => {
                     console.log('NEW FETCHED TRACKS: ', tracks);
-                    for (let i = 0; i < tracks.length; i++) {
-                        tracks[i].file = Config.serverUrl + '/music/' + tracks[i].file;
+                    let duplicateSongs = [];
+                    for (let track of tracks) {
+                        if (upcomingIDs.some((element, index, array) => {return element == track.id; })) {
+                            duplicateSongs.push(track);
+                            console.log('ALARM! TRACK IST DOPPELT!!!! ', track);
+                        }
+                        track.file = Config.serverUrl + '/music/' + track.file;
+                    }
+                    for (let track of duplicateSongs) {
+                        let pos = tracks.indexOf(track);
+                        tracks.splice(pos, 1);
                     }
                     this.fillMetaData(tracks).subscribe((filledTracks: Track[]) => {
                         this.fetchedSongs = this.fetchedSongs.concat(filledTracks);
