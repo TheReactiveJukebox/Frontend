@@ -21,6 +21,7 @@ export class PlayerComponent implements OnInit {
     private tabs: MdTabGroup;
 
     public showPlayerBar: boolean = false;
+    public hasRadio: boolean = false;
 
     public study: boolean = Config.study;
 
@@ -38,11 +39,13 @@ export class PlayerComponent implements OnInit {
             }
         });
         this.radiostationService.getRadiostationSubject().subscribe((radio: Radiostation) => {
-            if (radio != null && !this.study) {
-                this.switchToPlayer();
+            if (radio != null) {
+                this.hasRadio = true;
+                if (!this.study) {
+                    this.switchToPlayer();
+                }
             }
         });
-
     }
 
     public ngOnInit(): void {
@@ -62,6 +65,14 @@ export class PlayerComponent implements OnInit {
 
     public switchToCreate(): void {
         this.tabs.selectedIndex = 0;
+    }
+
+    public studyStart(): void {
+        if (this.hasRadio) {
+            this.switchToPlayer();
+        } else {
+            this.switchToCreate();
+        }
     }
 
     public getOffsetHeight(): number {
